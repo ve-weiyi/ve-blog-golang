@@ -16,15 +16,8 @@ func NewApiService(svcCtx *svctx.ServiceContext) *ApiService {
 	}
 }
 
-// 分页获取api路由列表
-func (s *ApiService) FindApiList(reqCtx *request.Context, in *dto.ApiQuery) (out *dto.PageResp, err error) {
-	// todo
-
-	return
-}
-
 // 创建api路由
-func (s *ApiService) AddApi(reqCtx *request.Context, in *dto.ApiNewReq) (out *dto.ApiBackDTO, err error) {
+func (s *ApiService) AddApi(reqCtx *request.Context, in *dto.ApiNewReq) (out *dto.ApiBackVO, err error) {
 	// todo
 
 	return
@@ -51,6 +44,13 @@ func (s *ApiService) DeleteApi(reqCtx *request.Context, in *dto.IdReq) (out *dto
 	return
 }
 
+// 分页获取api路由列表
+func (s *ApiService) FindApiList(reqCtx *request.Context, in *dto.ApiQuery) (out *dto.PageResp, err error) {
+	// todo
+
+	return
+}
+
 // 同步api列表
 func (s *ApiService) SyncApiList(reqCtx *request.Context, in *dto.SyncApiReq) (out *dto.BatchResp, err error) {
 	// todo
@@ -59,7 +59,7 @@ func (s *ApiService) SyncApiList(reqCtx *request.Context, in *dto.SyncApiReq) (o
 }
 
 // 更新api路由
-func (s *ApiService) UpdateApi(reqCtx *request.Context, in *dto.ApiNewReq) (out *dto.ApiBackDTO, err error) {
+func (s *ApiService) UpdateApi(reqCtx *request.Context, in *dto.ApiNewReq) (out *dto.ApiBackVO, err error) {
 	// todo
 
 	return

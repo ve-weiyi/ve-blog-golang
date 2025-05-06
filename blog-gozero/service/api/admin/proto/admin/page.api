@@ -14,7 +14,7 @@ type (
     }
 
 
-    PageBackDTO {
+    PageBackVO {
         Id int64 `json:"id,optional"`                      // 页面id
         PageName string `json:"page_name"`                 // 页面名
         PageLabel string `json:"page_label"`               // 页面标签
@@ -27,12 +27,12 @@ type (
 
     PageQueryReq {
         PageQuery
-        PageName string `json:"page_name,optional"`                         // 页面名
+        PageName string `json:"page_name,optional"`         // 页面名
     }
 )
 
 @server(
-    prefix: /admin_api/v1
+    prefix: /admin-api/v1
     group: page
     middleware: JwtToken,Permission,OperationLog
 )
@@ -44,11 +44,11 @@ service admin-api {
 
     @doc "创建页面"
     @handler AddPage
-    post /page/add_page (PageNewReq) returns (PageBackDTO)
+    post /page/add_page (PageNewReq) returns (PageBackVO)
 
     @doc "更新页面"
     @handler UpdatePage
-    put /page/update_page (PageNewReq) returns (PageBackDTO)
+    put /page/update_page (PageNewReq) returns (PageBackVO)
 
     @doc "删除页面"
     @handler DeletePage

@@ -16,15 +16,8 @@ func NewTagService(svcCtx *svctx.ServiceContext) *TagService {
 	}
 }
 
-// 分页获取标签列表
-func (s *TagService) FindTagList(reqCtx *request.Context, in *dto.TagQuery) (out *dto.PageResp, err error) {
-	// todo
-
-	return
-}
-
 // 创建标签
-func (s *TagService) AddTag(reqCtx *request.Context, in *dto.TagNewReq) (out *dto.TagBackDTO, err error) {
+func (s *TagService) AddTag(reqCtx *request.Context, in *dto.TagNewReq) (out *dto.TagBackVO, err error) {
 	// todo
 
 	return
@@ -44,8 +37,15 @@ func (s *TagService) DeleteTag(reqCtx *request.Context, in *dto.IdReq) (out *dto
 	return
 }
 
+// 分页获取标签列表
+func (s *TagService) FindTagList(reqCtx *request.Context, in *dto.TagQuery) (out *dto.PageResp, err error) {
+	// todo
+
+	return
+}
+
 // 更新标签
-func (s *TagService) UpdateTag(reqCtx *request.Context, in *dto.TagNewReq) (out *dto.TagBackDTO, err error) {
+func (s *TagService) UpdateTag(reqCtx *request.Context, in *dto.TagNewReq) (out *dto.TagBackVO, err error) {
 	// todo
 
 	return

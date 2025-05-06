@@ -3,11 +3,12 @@ package file
 import (
 	"context"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/resourcerpc"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type FindFileListLogic struct {
@@ -39,9 +40,20 @@ func (l *FindFileListLogic) FindFileList(req *types.FileQuery) (resp *types.Page
 		return nil, err
 	}
 
-	var list []*types.FileBackDTO
+	var uids []string
 	for _, v := range out.List {
-		m := ConvertFileUploadTypes(v)
+		uids = append(uids, v.UserId)
+	}
+
+	// 获取用户信息
+	usm, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, uids)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*types.FileBackVO
+	for _, v := range out.List {
+		m := ConvertFileUploadTypes(v, usm)
 		list = append(list, m)
 	}
 
@@ -53,8 +65,8 @@ func (l *FindFileListLogic) FindFileList(req *types.FileQuery) (resp *types.Page
 	return resp, nil
 }
 
-func ConvertFileUploadTypes(in *resourcerpc.FileUploadDetails) (out *types.FileBackDTO) {
-	out = &types.FileBackDTO{
+func ConvertFileUploadTypes(in *resourcerpc.FileUploadDetails, usm map[string]*types.UserInfoVO) (out *types.FileBackVO) {
+	out = &types.FileBackVO{
 		Id:        in.Id,
 		UserId:    in.UserId,
 		FilePath:  in.FilePath,
@@ -65,6 +77,14 @@ func ConvertFileUploadTypes(in *resourcerpc.FileUploadDetails) (out *types.FileB
 		FileUrl:   in.FileUrl,
 		CreatedAt: in.CreatedAt,
 		UpdatedAt: in.UpdatedAt,
+	}
+
+	// 用户信息
+	if in.UserId != "" {
+		user, ok := usm[in.UserId]
+		if ok && user != nil {
+			out.Creator = user
+		}
 	}
 
 	return

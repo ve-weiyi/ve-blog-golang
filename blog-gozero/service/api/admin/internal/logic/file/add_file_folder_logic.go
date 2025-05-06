@@ -4,6 +4,8 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
+
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
@@ -28,7 +30,7 @@ func NewAddFileFolderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Add
 	}
 }
 
-func (l *AddFileFolderLogic) AddFileFolder(req *types.FileFolderNewReq) (resp *types.FileBackDTO, err error) {
+func (l *AddFileFolderLogic) AddFileFolder(req *types.FileFolderNewReq) (resp *types.FileBackVO, err error) {
 	in := &resourcerpc.FileUploadNewReq{
 		Id:       0,
 		UserId:   cast.ToString(l.ctx.Value(restx.HeaderUid)),
@@ -45,6 +47,12 @@ func (l *AddFileFolderLogic) AddFileFolder(req *types.FileFolderNewReq) (resp *t
 		return nil, err
 	}
 
-	resp = ConvertFileUploadTypes(out)
+	// 获取用户信息
+	usm, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, []string{out.UserId})
+	if err != nil {
+		return nil, err
+	}
+
+	resp = ConvertFileUploadTypes(out, usm)
 	return resp, nil
 }

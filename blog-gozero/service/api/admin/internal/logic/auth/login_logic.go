@@ -5,8 +5,9 @@ import (
 	"time"
 
 	"github.com/spf13/cast"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/zeromicro/go-zero/core/logx"
+
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
@@ -44,6 +45,12 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 		return
 	}
 
+	// 登录日志
+	_, err = l.svcCtx.SyslogRpc.AddLoginLog(l.ctx, &syslogrpc.LoginLogNewReq{
+		UserId:    out.UserId,
+		LoginType: out.LoginType,
+	})
+
 	resp = &types.LoginResp{
 		Token: tk,
 	}
@@ -63,7 +70,7 @@ func createToken(ctx context.Context, svcCtx *svc.ServiceContext, login *account
 
 	token = &types.Token{
 		UserId:      uid,
-		TokenType:   constant.TokenTypeBearer,
+		TokenType:   svcCtx.TokenHolder.TokenType(),
 		AccessToken: accessToken,
 		ExpiresIn:   time.Now().Add(expires).Unix(),
 	}

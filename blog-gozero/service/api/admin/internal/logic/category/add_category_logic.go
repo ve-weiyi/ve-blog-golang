@@ -25,7 +25,7 @@ func NewAddCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCa
 	}
 }
 
-func (l *AddCategoryLogic) AddCategory(req *types.CategoryNewReq) (resp *types.CategoryBackDTO, err error) {
+func (l *AddCategoryLogic) AddCategory(req *types.CategoryNewReq) (resp *types.CategoryBackVO, err error) {
 	in := ConvertCategoryPb(req)
 	out, err := l.svcCtx.ArticleRpc.AddCategory(l.ctx, in)
 	if err != nil {
@@ -45,8 +45,8 @@ func ConvertCategoryPb(in *types.CategoryNewReq) (out *articlerpc.CategoryNewReq
 	return
 }
 
-func ConvertCategoryTypes(in *articlerpc.CategoryDetails) (out *types.CategoryBackDTO) {
-	out = &types.CategoryBackDTO{
+func ConvertCategoryTypes(in *articlerpc.CategoryDetails) (out *types.CategoryBackVO) {
+	out = &types.CategoryBackVO{
 		Id:           in.Id,
 		CategoryName: in.CategoryName,
 		ArticleCount: in.ArticleCount,

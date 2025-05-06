@@ -16,15 +16,8 @@ func NewOperationLogService(svcCtx *svctx.ServiceContext) *OperationLogService {
 	}
 }
 
-// 批量删除操作记录
-func (s *OperationLogService) BatchDeleteOperationLog(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
-	// todo
-
-	return
-}
-
 // 删除操作记录
-func (s *OperationLogService) DeleteOperationLog(reqCtx *request.Context, in *dto.IdReq) (out *dto.BatchResp, err error) {
+func (s *OperationLogService) DeletesOperationLog(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return

@@ -1,7 +1,9 @@
 package constant
 
 const (
-	ResetPwd  = "reset_pwd"
-	Register  = "register"
-	BindEmail = "bind_email"
+	CodeTypeRegister   = "register"
+	CodeTypeResetPwd   = "reset_password"
+	CodeTypeBindEmail  = "bind_email"
+	CodeTypeBindPhone  = "bind_phone"
+	CodeTypePhoneLogin = "phone_login"
 )

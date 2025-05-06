@@ -212,7 +212,7 @@ func (m *defaultTTagModel) FindCount(ctx context.Context, conditions string, arg
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&TTag{}).Count(&count).Error
+	err = db.Count(&count).Error
 	if err != nil {
 		return 0, err
 	}

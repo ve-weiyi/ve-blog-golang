@@ -1,10 +1,11 @@
-go 1.23
+go 1.23.3
 
 use (
-	./blog-gin
-	./blog-gozero
-	./kit
-	./tools
+	blog-gin
+	blog-gozero
+	kit
+	stompws
+	tools
 )
 
 // go work init

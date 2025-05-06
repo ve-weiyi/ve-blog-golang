@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
@@ -33,7 +34,7 @@ func NewMultiUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *M
 	}
 }
 
-func (l *MultiUploadFileLogic) MultiUploadFile(req *types.MultiUploadFileReq, r *http.Request) (resp []*types.FileBackDTO, err error) {
+func (l *MultiUploadFileLogic) MultiUploadFile(req *types.MultiUploadFileReq, r *http.Request) (resp []*types.FileBackVO, err error) {
 	// 获取文件切片
 	files := r.MultipartForm.File["files"]
 	for _, h := range files {

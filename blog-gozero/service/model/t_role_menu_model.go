@@ -209,7 +209,7 @@ func (m *defaultTRoleMenuModel) FindCount(ctx context.Context, conditions string
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&TRoleMenu{}).Count(&count).Error
+	err = db.Count(&count).Error
 	if err != nil {
 		return 0, err
 	}

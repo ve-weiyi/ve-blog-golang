@@ -19,12 +19,12 @@ func NewArticleRouter(svcCtx *svctx.ServiceContext) *ArticleRouter {
 
 func (s *ArticleRouter) Register(r *gin.RouterGroup) {
 	// Article
-	// [SignToken JwtToken Operation]
+	// [JwtToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/admin-api/v1")
 		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group.Use(s.svcCtx.MiddlewarePermission)
+		group.Use(s.svcCtx.MiddlewareOperationLog)
 
 		handler := controller.NewArticleController(s.svcCtx)
 		// 添加文章

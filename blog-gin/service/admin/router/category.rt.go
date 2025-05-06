@@ -19,22 +19,12 @@ func NewCategoryRouter(svcCtx *svctx.ServiceContext) *CategoryRouter {
 
 func (s *CategoryRouter) Register(r *gin.RouterGroup) {
 	// Category
-	// [SignToken]
+	// [JwtToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
-
-		handler := controller.NewCategoryController(s.svcCtx)
-		// 分页获取文章分类列表
-		group.POST("/category/find_category_list", handler.FindCategoryList)
-	}
-	// Category
-	// [SignToken JwtToken Operation]
-	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/admin-api/v1")
 		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group.Use(s.svcCtx.MiddlewarePermission)
+		group.Use(s.svcCtx.MiddlewareOperationLog)
 
 		handler := controller.NewCategoryController(s.svcCtx)
 		// 创建文章分类
@@ -43,6 +33,8 @@ func (s *CategoryRouter) Register(r *gin.RouterGroup) {
 		group.DELETE("/category/batch_delete_category", handler.BatchDeleteCategory)
 		// 删除文章分类
 		group.DELETE("/category/delete_category", handler.DeleteCategory)
+		// 分页获取文章分类列表
+		group.POST("/category/find_category_list", handler.FindCategoryList)
 		// 更新文章分类
 		group.PUT("/category/update_category", handler.UpdateCategory)
 	}

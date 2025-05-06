@@ -37,10 +37,11 @@ const (
 	MessageRpc_UpdateRemarkReview_FullMethodName     = "/messagerpc.MessageRpc/UpdateRemarkReview"
 	MessageRpc_AddComment_FullMethodName             = "/messagerpc.MessageRpc/AddComment"
 	MessageRpc_DeleteComment_FullMethodName          = "/messagerpc.MessageRpc/DeleteComment"
+	MessageRpc_UpdateComment_FullMethodName          = "/messagerpc.MessageRpc/UpdateComment"
 	MessageRpc_GetComment_FullMethodName             = "/messagerpc.MessageRpc/GetComment"
 	MessageRpc_FindCommentList_FullMethodName        = "/messagerpc.MessageRpc/FindCommentList"
 	MessageRpc_FindCommentReplyList_FullMethodName   = "/messagerpc.MessageRpc/FindCommentReplyList"
-	MessageRpc_FindTopicCommentCounts_FullMethodName = "/messagerpc.MessageRpc/FindTopicCommentCounts"
+	MessageRpc_FindCommentReplyCounts_FullMethodName = "/messagerpc.MessageRpc/FindCommentReplyCounts"
 	MessageRpc_UpdateCommentReview_FullMethodName    = "/messagerpc.MessageRpc/UpdateCommentReview"
 	MessageRpc_UpdateCommentContent_FullMethodName   = "/messagerpc.MessageRpc/UpdateCommentContent"
 	MessageRpc_LikeComment_FullMethodName            = "/messagerpc.MessageRpc/LikeComment"
@@ -79,6 +80,8 @@ type MessageRpcClient interface {
 	AddComment(ctx context.Context, in *CommentNewReq, opts ...grpc.CallOption) (*CommentDetails, error)
 	// 删除评论
 	DeleteComment(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 更新评论
+	UpdateComment(ctx context.Context, in *UpdateCommentReq, opts ...grpc.CallOption) (*CommentDetails, error)
 	// 查询评论
 	GetComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*CommentDetails, error)
 	// 查询评论列表
@@ -86,7 +89,7 @@ type MessageRpcClient interface {
 	// 查询评论回复列表
 	FindCommentReplyList(ctx context.Context, in *FindCommentReplyListReq, opts ...grpc.CallOption) (*FindCommentReplyListResp, error)
 	// 查询评论回复数量
-	FindTopicCommentCounts(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*FindTopicCommentCountsResp, error)
+	FindCommentReplyCounts(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*FindCommentReplyCountsResp, error)
 	// 更新评论审核状态
 	UpdateCommentReview(ctx context.Context, in *UpdateCommentReviewReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 更新评论
@@ -231,6 +234,15 @@ func (c *messageRpcClient) DeleteComment(ctx context.Context, in *IdsReq, opts .
 	return out, nil
 }
 
+func (c *messageRpcClient) UpdateComment(ctx context.Context, in *UpdateCommentReq, opts ...grpc.CallOption) (*CommentDetails, error) {
+	out := new(CommentDetails)
+	err := c.cc.Invoke(ctx, MessageRpc_UpdateComment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *messageRpcClient) GetComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*CommentDetails, error) {
 	out := new(CommentDetails)
 	err := c.cc.Invoke(ctx, MessageRpc_GetComment_FullMethodName, in, out, opts...)
@@ -258,9 +270,9 @@ func (c *messageRpcClient) FindCommentReplyList(ctx context.Context, in *FindCom
 	return out, nil
 }
 
-func (c *messageRpcClient) FindTopicCommentCounts(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*FindTopicCommentCountsResp, error) {
-	out := new(FindTopicCommentCountsResp)
-	err := c.cc.Invoke(ctx, MessageRpc_FindTopicCommentCounts_FullMethodName, in, out, opts...)
+func (c *messageRpcClient) FindCommentReplyCounts(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*FindCommentReplyCountsResp, error) {
+	out := new(FindCommentReplyCountsResp)
+	err := c.cc.Invoke(ctx, MessageRpc_FindCommentReplyCounts_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -335,6 +347,8 @@ type MessageRpcServer interface {
 	AddComment(context.Context, *CommentNewReq) (*CommentDetails, error)
 	// 删除评论
 	DeleteComment(context.Context, *IdsReq) (*BatchResp, error)
+	// 更新评论
+	UpdateComment(context.Context, *UpdateCommentReq) (*CommentDetails, error)
 	// 查询评论
 	GetComment(context.Context, *IdReq) (*CommentDetails, error)
 	// 查询评论列表
@@ -342,7 +356,7 @@ type MessageRpcServer interface {
 	// 查询评论回复列表
 	FindCommentReplyList(context.Context, *FindCommentReplyListReq) (*FindCommentReplyListResp, error)
 	// 查询评论回复数量
-	FindTopicCommentCounts(context.Context, *IdsReq) (*FindTopicCommentCountsResp, error)
+	FindCommentReplyCounts(context.Context, *IdsReq) (*FindCommentReplyCountsResp, error)
 	// 更新评论审核状态
 	UpdateCommentReview(context.Context, *UpdateCommentReviewReq) (*BatchResp, error)
 	// 更新评论
@@ -400,6 +414,9 @@ func (UnimplementedMessageRpcServer) AddComment(context.Context, *CommentNewReq)
 func (UnimplementedMessageRpcServer) DeleteComment(context.Context, *IdsReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteComment not implemented")
 }
+func (UnimplementedMessageRpcServer) UpdateComment(context.Context, *UpdateCommentReq) (*CommentDetails, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateComment not implemented")
+}
 func (UnimplementedMessageRpcServer) GetComment(context.Context, *IdReq) (*CommentDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetComment not implemented")
 }
@@ -409,8 +426,8 @@ func (UnimplementedMessageRpcServer) FindCommentList(context.Context, *FindComme
 func (UnimplementedMessageRpcServer) FindCommentReplyList(context.Context, *FindCommentReplyListReq) (*FindCommentReplyListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindCommentReplyList not implemented")
 }
-func (UnimplementedMessageRpcServer) FindTopicCommentCounts(context.Context, *IdsReq) (*FindTopicCommentCountsResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindTopicCommentCounts not implemented")
+func (UnimplementedMessageRpcServer) FindCommentReplyCounts(context.Context, *IdsReq) (*FindCommentReplyCountsResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindCommentReplyCounts not implemented")
 }
 func (UnimplementedMessageRpcServer) UpdateCommentReview(context.Context, *UpdateCommentReviewReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateCommentReview not implemented")
@@ -689,6 +706,24 @@ func _MessageRpc_DeleteComment_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MessageRpc_UpdateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCommentReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageRpcServer).UpdateComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageRpc_UpdateComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageRpcServer).UpdateComment(ctx, req.(*UpdateCommentReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _MessageRpc_GetComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(IdReq)
 	if err := dec(in); err != nil {
@@ -743,20 +778,20 @@ func _MessageRpc_FindCommentReplyList_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _MessageRpc_FindTopicCommentCounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _MessageRpc_FindCommentReplyCounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(IdsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MessageRpcServer).FindTopicCommentCounts(ctx, in)
+		return srv.(MessageRpcServer).FindCommentReplyCounts(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: MessageRpc_FindTopicCommentCounts_FullMethodName,
+		FullMethod: MessageRpc_FindCommentReplyCounts_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MessageRpcServer).FindTopicCommentCounts(ctx, req.(*IdsReq))
+		return srv.(MessageRpcServer).FindCommentReplyCounts(ctx, req.(*IdsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -897,6 +932,10 @@ var MessageRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _MessageRpc_DeleteComment_Handler,
 		},
 		{
+			MethodName: "UpdateComment",
+			Handler:    _MessageRpc_UpdateComment_Handler,
+		},
+		{
 			MethodName: "GetComment",
 			Handler:    _MessageRpc_GetComment_Handler,
 		},
@@ -909,8 +948,8 @@ var MessageRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _MessageRpc_FindCommentReplyList_Handler,
 		},
 		{
-			MethodName: "FindTopicCommentCounts",
-			Handler:    _MessageRpc_FindTopicCommentCounts_Handler,
+			MethodName: "FindCommentReplyCounts",
+			Handler:    _MessageRpc_FindCommentReplyCounts_Handler,
 		},
 		{
 			MethodName: "UpdateCommentReview",

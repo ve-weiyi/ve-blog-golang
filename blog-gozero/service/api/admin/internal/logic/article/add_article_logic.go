@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
@@ -28,7 +29,7 @@ func NewAddArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddArt
 	}
 }
 
-func (l *AddArticleLogic) AddArticle(req *types.ArticleNewReq) (resp *types.ArticleBackDTO, err error) {
+func (l *AddArticleLogic) AddArticle(req *types.ArticleNewReq) (resp *types.ArticleBackVO, err error) {
 	in := ConvertArticlePb(req)
 	in.UserId = cast.ToString(l.ctx.Value(restx.HeaderUid))
 	out, err := l.svcCtx.ArticleRpc.AddArticle(l.ctx, in)
@@ -36,7 +37,7 @@ func (l *AddArticleLogic) AddArticle(req *types.ArticleNewReq) (resp *types.Arti
 		return nil, err
 	}
 
-	return &types.ArticleBackDTO{
+	return &types.ArticleBackVO{
 		Id: out.Id,
 	}, nil
 }
@@ -50,6 +51,7 @@ func ConvertArticlePb(in *types.ArticleNewReq) (out *articlerpc.ArticleNewReq) {
 		ArticleContent: in.ArticleContent,
 		ArticleType:    in.ArticleType,
 		OriginalUrl:    in.OriginalUrl,
+		IsTop:          in.IsTop,
 		Status:         in.Status,
 		CategoryName:   in.CategoryName,
 		TagNameList:    in.TagNameList,
@@ -58,8 +60,8 @@ func ConvertArticlePb(in *types.ArticleNewReq) (out *articlerpc.ArticleNewReq) {
 	return
 }
 
-func ConvertArticleTypes(in *articlerpc.ArticleDetails) (out *types.ArticleBackDTO) {
-	out = &types.ArticleBackDTO{
+func ConvertArticleTypes(in *articlerpc.ArticleDetails) (out *types.ArticleBackVO) {
+	out = &types.ArticleBackVO{
 		Id:             in.Id,
 		ArticleCover:   in.ArticleCover,
 		ArticleTitle:   in.ArticleTitle,

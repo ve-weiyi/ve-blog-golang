@@ -5,7 +5,7 @@ import "base.api"
 type (
     UpdateAccountStatusReq {
         UserId string `json:"user_id"`
-        Status int64 `json:"status"`               // 状态: -1删除 0正常 1禁用
+        Status int64 `json:"status"`      // 状态: -1删除 0正常 1禁用
     }
 
     UpdateAccountPasswordReq {
@@ -18,33 +18,38 @@ type (
         RoleIds []int64 `json:"role_ids"`
     }
 
-    AccountLoginHistory {
-        Id int64 `json:"id,optional"`
-        Username string `json:"username"`            // 用户名
-        Nickname string `json:"nickname"`            // 用户昵称
-        Avatar string `json:"avatar"`                // 用户头像
-        LoginType string `json:"login_type"`         // 登录类型
-        Agent string `json:"agent"`                  // 代理
-        IpAddress string `json:"ip_address"`         // ip host
-        IpSource string `json:"ip_source"`           // ip 源
-        LoginAt int64 `json:"login_at"`              // 登录时间
-        LogoutAt int64 `json:"logout_out"`           // 登出时间
-    }
-
-    AccountArea {
-        Name string `json:"name"`
-        Value int64 `json:"value"`
-    }
-
     AccountQuery {
         PageQuery
         Username string `json:"username,optional"`
         Nickname string `json:"nickname,optional"`
     }
+
+    UserRoleLabel {
+        RoleId int64 `json:"role_id"`
+        RoleKey string `json:"role_key"`
+        RoleLabel string `json:"role_label"`
+    }
+
+    UserInfoDetail {
+        UserId string `json:"user_id"`               // 用户id
+        Username string `json:"username"`            // 用户名
+        Nickname string `json:"nickname"`            // 用户昵称
+        Avatar string `json:"avatar"`                // 用户头像
+        Email string `json:"email"`                  // 用户邮箱
+        Phone string `json:"phone"`                  // 用户手机号
+        Status int64 `json:"status"`                 // 状态
+        LoginType string `json:"login_type"`         // 登录方式
+        IpAddress string `json:"ip_address"`         // ip host
+        IpSource string `json:"ip_source"`           // ip 源
+        CreatedAt int64 `json:"created_at"`
+        UpdatedAt int64 `json:"updated_at"`
+        UserInfoExt
+        RoleLabels []*UserRoleLabel `json:"roles"`
+    }
 )
 
 @server(
-    prefix: /admin_api/v1
+    prefix: /admin-api/v1
     group: account
     middleware: JwtToken,Permission,OperationLog
 )
@@ -57,14 +62,6 @@ service admin-api {
     @doc "查询在线用户列表"
     @handler FindAccountOnlineList
     post /account/find_account_online_list (AccountQuery) returns (PageResp)
-
-    @doc "查询用户登录历史"
-    @handler FindAccountLoginHistoryList
-    post /account/find_account_login_history_list (AccountQuery) returns (PageResp)
-
-    @doc "获取用户分布地区"
-    @handler FindAccountAreaAnalysis
-    post /account/find_account_area_analysis (AccountQuery) returns (PageResp)
 
 
     @doc "修改用户状态"

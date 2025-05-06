@@ -1,8 +1,8 @@
 package {{.Package}}
 
 import (
-	"github.com/ve-weiyi/ve-blog-golang/server/common/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/common/response"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gin/common/request"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gin/common/response"
 	{{- range .Imports}}
     {{.}}
     {{- end}}

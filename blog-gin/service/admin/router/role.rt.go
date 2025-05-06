@@ -19,12 +19,12 @@ func NewRoleRouter(svcCtx *svctx.ServiceContext) *RoleRouter {
 
 func (s *RoleRouter) Register(r *gin.RouterGroup) {
 	// Role
-	// [SignToken JwtToken Operation]
+	// [JwtToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/admin-api/v1")
 		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group.Use(s.svcCtx.MiddlewarePermission)
+		group.Use(s.svcCtx.MiddlewareOperationLog)
 
 		handler := controller.NewRoleController(s.svcCtx)
 		// 创建角色

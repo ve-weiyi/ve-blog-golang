@@ -19,22 +19,12 @@ func NewTagRouter(svcCtx *svctx.ServiceContext) *TagRouter {
 
 func (s *TagRouter) Register(r *gin.RouterGroup) {
 	// Tag
-	// [SignToken]
+	// [JwtToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
-
-		handler := controller.NewTagController(s.svcCtx)
-		// 分页获取标签列表
-		group.POST("/tag/find_tag_list", handler.FindTagList)
-	}
-	// Tag
-	// [SignToken JwtToken Operation]
-	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/admin-api/v1")
 		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group.Use(s.svcCtx.MiddlewarePermission)
+		group.Use(s.svcCtx.MiddlewareOperationLog)
 
 		handler := controller.NewTagController(s.svcCtx)
 		// 创建标签
@@ -43,6 +33,8 @@ func (s *TagRouter) Register(r *gin.RouterGroup) {
 		group.DELETE("/tag/batch_delete_tag", handler.BatchDeleteTag)
 		// 删除标签
 		group.DELETE("/tag/delete_tag", handler.DeleteTag)
+		// 分页获取标签列表
+		group.POST("/tag/find_tag_list", handler.FindTagList)
 		// 更新标签
 		group.PUT("/tag/update_tag", handler.UpdateTag)
 	}

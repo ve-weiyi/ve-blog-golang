@@ -23,32 +23,29 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	WebsiteRpc_GetTouristInfo_FullMethodName    = "/websiterpc.WebsiteRpc/GetTouristInfo"
-	WebsiteRpc_AddVisit_FullMethodName          = "/websiterpc.WebsiteRpc/AddVisit"
-	WebsiteRpc_GetUserTotalVisit_FullMethodName = "/websiterpc.WebsiteRpc/GetUserTotalVisit"
-	WebsiteRpc_GetUserDailyVisit_FullMethodName = "/websiterpc.WebsiteRpc/GetUserDailyVisit"
-	WebsiteRpc_AddPage_FullMethodName           = "/websiterpc.WebsiteRpc/AddPage"
-	WebsiteRpc_UpdatePage_FullMethodName        = "/websiterpc.WebsiteRpc/UpdatePage"
-	WebsiteRpc_DeletePage_FullMethodName        = "/websiterpc.WebsiteRpc/DeletePage"
-	WebsiteRpc_FindPageList_FullMethodName      = "/websiterpc.WebsiteRpc/FindPageList"
-	WebsiteRpc_AddFriend_FullMethodName         = "/websiterpc.WebsiteRpc/AddFriend"
-	WebsiteRpc_UpdateFriend_FullMethodName      = "/websiterpc.WebsiteRpc/UpdateFriend"
-	WebsiteRpc_DeleteFriend_FullMethodName      = "/websiterpc.WebsiteRpc/DeleteFriend"
-	WebsiteRpc_FindFriendList_FullMethodName    = "/websiterpc.WebsiteRpc/FindFriendList"
+	WebsiteRpc_AnalysisVisit_FullMethodName  = "/websiterpc.WebsiteRpc/AnalysisVisit"
+	WebsiteRpc_AddVisit_FullMethodName       = "/websiterpc.WebsiteRpc/AddVisit"
+	WebsiteRpc_FindVisitTrend_FullMethodName = "/websiterpc.WebsiteRpc/FindVisitTrend"
+	WebsiteRpc_AddPage_FullMethodName        = "/websiterpc.WebsiteRpc/AddPage"
+	WebsiteRpc_UpdatePage_FullMethodName     = "/websiterpc.WebsiteRpc/UpdatePage"
+	WebsiteRpc_DeletePage_FullMethodName     = "/websiterpc.WebsiteRpc/DeletePage"
+	WebsiteRpc_FindPageList_FullMethodName   = "/websiterpc.WebsiteRpc/FindPageList"
+	WebsiteRpc_AddFriend_FullMethodName      = "/websiterpc.WebsiteRpc/AddFriend"
+	WebsiteRpc_UpdateFriend_FullMethodName   = "/websiterpc.WebsiteRpc/UpdateFriend"
+	WebsiteRpc_DeleteFriend_FullMethodName   = "/websiterpc.WebsiteRpc/DeleteFriend"
+	WebsiteRpc_FindFriendList_FullMethodName = "/websiterpc.WebsiteRpc/FindFriendList"
 )
 
 // WebsiteRpcClient is the client API for WebsiteRpc service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WebsiteRpcClient interface {
-	// 获取游客身份
-	GetTouristInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error)
+	// 用户日浏览量分析
+	AnalysisVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error)
 	// 添加用户访问记录
 	AddVisit(ctx context.Context, in *AddVisitReq, opts ...grpc.CallOption) (*AddVisitResp, error)
-	// 用户总流量数
-	GetUserTotalVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*CountResp, error)
-	// 用户日浏览量分析
-	GetUserDailyVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserDailyVisitRsp, error)
+	// 查询用户访问趋势
+	FindVisitTrend(ctx context.Context, in *FindVisitTrendReq, opts ...grpc.CallOption) (*FindVisitTrendResp, error)
 	// 创建页面
 	AddPage(ctx context.Context, in *PageNewReq, opts ...grpc.CallOption) (*PageDetails, error)
 	// 更新页面
@@ -75,9 +72,9 @@ func NewWebsiteRpcClient(cc grpc.ClientConnInterface) WebsiteRpcClient {
 	return &websiteRpcClient{cc}
 }
 
-func (c *websiteRpcClient) GetTouristInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error) {
-	out := new(GetTouristInfoResp)
-	err := c.cc.Invoke(ctx, WebsiteRpc_GetTouristInfo_FullMethodName, in, out, opts...)
+func (c *websiteRpcClient) AnalysisVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error) {
+	out := new(AnalysisVisitResp)
+	err := c.cc.Invoke(ctx, WebsiteRpc_AnalysisVisit_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -93,18 +90,9 @@ func (c *websiteRpcClient) AddVisit(ctx context.Context, in *AddVisitReq, opts .
 	return out, nil
 }
 
-func (c *websiteRpcClient) GetUserTotalVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*CountResp, error) {
-	out := new(CountResp)
-	err := c.cc.Invoke(ctx, WebsiteRpc_GetUserTotalVisit_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *websiteRpcClient) GetUserDailyVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserDailyVisitRsp, error) {
-	out := new(UserDailyVisitRsp)
-	err := c.cc.Invoke(ctx, WebsiteRpc_GetUserDailyVisit_FullMethodName, in, out, opts...)
+func (c *websiteRpcClient) FindVisitTrend(ctx context.Context, in *FindVisitTrendReq, opts ...grpc.CallOption) (*FindVisitTrendResp, error) {
+	out := new(FindVisitTrendResp)
+	err := c.cc.Invoke(ctx, WebsiteRpc_FindVisitTrend_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -187,14 +175,12 @@ func (c *websiteRpcClient) FindFriendList(ctx context.Context, in *FindFriendLis
 // All implementations must embed UnimplementedWebsiteRpcServer
 // for forward compatibility
 type WebsiteRpcServer interface {
-	// 获取游客身份
-	GetTouristInfo(context.Context, *EmptyReq) (*GetTouristInfoResp, error)
+	// 用户日浏览量分析
+	AnalysisVisit(context.Context, *EmptyReq) (*AnalysisVisitResp, error)
 	// 添加用户访问记录
 	AddVisit(context.Context, *AddVisitReq) (*AddVisitResp, error)
-	// 用户总流量数
-	GetUserTotalVisit(context.Context, *EmptyReq) (*CountResp, error)
-	// 用户日浏览量分析
-	GetUserDailyVisit(context.Context, *EmptyReq) (*UserDailyVisitRsp, error)
+	// 查询用户访问趋势
+	FindVisitTrend(context.Context, *FindVisitTrendReq) (*FindVisitTrendResp, error)
 	// 创建页面
 	AddPage(context.Context, *PageNewReq) (*PageDetails, error)
 	// 更新页面
@@ -218,17 +204,14 @@ type WebsiteRpcServer interface {
 type UnimplementedWebsiteRpcServer struct {
 }
 
-func (UnimplementedWebsiteRpcServer) GetTouristInfo(context.Context, *EmptyReq) (*GetTouristInfoResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTouristInfo not implemented")
+func (UnimplementedWebsiteRpcServer) AnalysisVisit(context.Context, *EmptyReq) (*AnalysisVisitResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AnalysisVisit not implemented")
 }
 func (UnimplementedWebsiteRpcServer) AddVisit(context.Context, *AddVisitReq) (*AddVisitResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddVisit not implemented")
 }
-func (UnimplementedWebsiteRpcServer) GetUserTotalVisit(context.Context, *EmptyReq) (*CountResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserTotalVisit not implemented")
-}
-func (UnimplementedWebsiteRpcServer) GetUserDailyVisit(context.Context, *EmptyReq) (*UserDailyVisitRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserDailyVisit not implemented")
+func (UnimplementedWebsiteRpcServer) FindVisitTrend(context.Context, *FindVisitTrendReq) (*FindVisitTrendResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindVisitTrend not implemented")
 }
 func (UnimplementedWebsiteRpcServer) AddPage(context.Context, *PageNewReq) (*PageDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddPage not implemented")
@@ -267,20 +250,20 @@ func RegisterWebsiteRpcServer(s grpc.ServiceRegistrar, srv WebsiteRpcServer) {
 	s.RegisterService(&WebsiteRpc_ServiceDesc, srv)
 }
 
-func _WebsiteRpc_GetTouristInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _WebsiteRpc_AnalysisVisit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(EmptyReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WebsiteRpcServer).GetTouristInfo(ctx, in)
+		return srv.(WebsiteRpcServer).AnalysisVisit(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WebsiteRpc_GetTouristInfo_FullMethodName,
+		FullMethod: WebsiteRpc_AnalysisVisit_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WebsiteRpcServer).GetTouristInfo(ctx, req.(*EmptyReq))
+		return srv.(WebsiteRpcServer).AnalysisVisit(ctx, req.(*EmptyReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -303,38 +286,20 @@ func _WebsiteRpc_AddVisit_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WebsiteRpc_GetUserTotalVisit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyReq)
+func _WebsiteRpc_FindVisitTrend_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindVisitTrendReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WebsiteRpcServer).GetUserTotalVisit(ctx, in)
+		return srv.(WebsiteRpcServer).FindVisitTrend(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WebsiteRpc_GetUserTotalVisit_FullMethodName,
+		FullMethod: WebsiteRpc_FindVisitTrend_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WebsiteRpcServer).GetUserTotalVisit(ctx, req.(*EmptyReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _WebsiteRpc_GetUserDailyVisit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WebsiteRpcServer).GetUserDailyVisit(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: WebsiteRpc_GetUserDailyVisit_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WebsiteRpcServer).GetUserDailyVisit(ctx, req.(*EmptyReq))
+		return srv.(WebsiteRpcServer).FindVisitTrend(ctx, req.(*FindVisitTrendReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -491,20 +456,16 @@ var WebsiteRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*WebsiteRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetTouristInfo",
-			Handler:    _WebsiteRpc_GetTouristInfo_Handler,
+			MethodName: "AnalysisVisit",
+			Handler:    _WebsiteRpc_AnalysisVisit_Handler,
 		},
 		{
 			MethodName: "AddVisit",
 			Handler:    _WebsiteRpc_AddVisit_Handler,
 		},
 		{
-			MethodName: "GetUserTotalVisit",
-			Handler:    _WebsiteRpc_GetUserTotalVisit_Handler,
-		},
-		{
-			MethodName: "GetUserDailyVisit",
-			Handler:    _WebsiteRpc_GetUserDailyVisit_Handler,
+			MethodName: "FindVisitTrend",
+			Handler:    _WebsiteRpc_FindVisitTrend_Handler,
 		},
 		{
 			MethodName: "AddPage",

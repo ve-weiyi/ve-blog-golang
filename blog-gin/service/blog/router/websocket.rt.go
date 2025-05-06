@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/service/blog/controller"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
@@ -21,10 +20,10 @@ func (s *WebsocketRouter) Register(r *gin.RouterGroup) {
 	// Websocket
 	// []
 	{
-		group := r.Group("/api/v1")
+		group := r.Group("/blog-api/v1")
 
 		handler := controller.NewWebsocketController(s.svcCtx)
 		// WebSocket消息
-		group.GET("/websocket", handler.WebSocket)
+		group.GET("/websocket", handler.Websocket)
 	}
 }

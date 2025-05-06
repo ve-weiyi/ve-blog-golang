@@ -19,14 +19,16 @@ func NewUserRouter(svcCtx *svctx.ServiceContext) *UserRouter {
 
 func (s *UserRouter) Register(r *gin.RouterGroup) {
 	// User
-	// [SignToken JwtToken Operation]
+	// [JwtToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/admin-api/v1")
 		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group.Use(s.svcCtx.MiddlewarePermission)
+		group.Use(s.svcCtx.MiddlewareOperationLog)
 
 		handler := controller.NewUserController(s.svcCtx)
+		// 删除用户绑定第三方平台账号
+		group.POST("/user/delete_user_bind_third_party", handler.DeleteUserBindThirdParty)
 		// 获取用户接口权限
 		group.GET("/user/get_user_apis", handler.GetUserApis)
 		// 获取用户信息
@@ -37,7 +39,17 @@ func (s *UserRouter) Register(r *gin.RouterGroup) {
 		group.GET("/user/get_user_menus", handler.GetUserMenus)
 		// 获取用户角色
 		group.GET("/user/get_user_roles", handler.GetUserRoles)
+		// 修改用户头像
+		group.POST("/user/update_user_avatar", handler.UpdateUserAvatar)
+		// 修改用户绑定邮箱
+		group.POST("/user/update_user_bind_email", handler.UpdateUserBindEmail)
+		// 修改用户绑定手机号
+		group.POST("/user/update_user_bind_phone", handler.UpdateUserBindPhone)
+		// 修改用户绑定第三方平台账号
+		group.POST("/user/update_user_bind_third_party", handler.UpdateUserBindThirdParty)
 		// 修改用户信息
 		group.POST("/user/update_user_info", handler.UpdateUserInfo)
+		// 修改用户密码
+		group.POST("/user/update_user_password", handler.UpdateUserPassword)
 	}
 }

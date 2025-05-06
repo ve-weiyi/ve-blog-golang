@@ -38,13 +38,40 @@ func ConvertApiTs(sp *aspec.ApiSpec) map[string][]TsApiGroup {
 				resp = convertx.ConvertGoTypeToTsType(r.ResponseType.Name())
 			}
 
+			// 路径参数
+			var pathFields []string
+			if r.PathType != nil {
+				for _, vv := range r.PathType {
+					pathFields = append(pathFields, jsonconv.Case2Snake(vv.Name))
+				}
+			}
+
+			// 查询参数
+			var queryFields []string
+			if r.QueryType != nil {
+				for _, vv := range r.QueryType {
+					queryFields = append(queryFields, jsonconv.Case2Snake(vv.Name))
+				}
+			}
+
+			// 表单参数
+			var formFields []string
+			if r.FormType != nil {
+				for _, vv := range r.FormType {
+					formFields = append(formFields, jsonconv.Case2Snake(vv.Name))
+				}
+			}
+
 			rt := TsApiRoute{
-				Summery:  doc,
-				Handler:  jsonconv.FirstLower(r.Handler),
-				Path:     r.Path,
-				Method:   strings.ToUpper(r.Method),
-				Request:  req,
-				Response: resp,
+				Summery:     doc,
+				Handler:     jsonconv.FirstLower(r.Handler),
+				Path:        r.Path,
+				Method:      strings.ToUpper(r.Method),
+				Request:     req,
+				Response:    resp,
+				PathFields:  pathFields,
+				QueryFields: queryFields,
+				FormFields:  formFields,
 			}
 
 			routes = append(routes, rt)

@@ -4,14 +4,13 @@ import (
 	"context"
 	"time"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/messagerpc"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/websiterpc"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type GetAdminHomeInfoLogic struct {
@@ -30,15 +29,8 @@ func NewGetAdminHomeInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *types.AdminHomeInfo, err error) {
-
-	// 查询用户总浏览量
-	view, err := l.svcCtx.WebsiteRpc.GetUserTotalVisit(l.ctx, &websiterpc.EmptyReq{})
-	if err != nil {
-		return nil, err
-	}
-
 	// 查询用户数量
-	users, err := l.svcCtx.AccountRpc.AnalysisUser(l.ctx, &accountrpc.EmptyReq{})
+	users, err := l.svcCtx.AccountRpc.AnalysisUser(l.ctx, &accountrpc.AnalysisUserReq{})
 	if err != nil {
 		return nil, err
 	}
@@ -55,9 +47,9 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 		return nil, err
 	}
 
-	ars := make([]*types.ArticleViewDTO, 0)
+	ars := make([]*types.ArticleViewVO, 0)
 	for _, v := range articles.ArticleRankList {
-		m := &types.ArticleViewDTO{
+		m := &types.ArticleViewVO{
 			Id:           v.Id,
 			ArticleTitle: v.ArticleTitle,
 			ViewCount:    v.ViewCount,
@@ -66,9 +58,9 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 		ars = append(ars, m)
 	}
 
-	tvs := make([]*types.TagDTO, 0)
+	tvs := make([]*types.TagVO, 0)
 	for _, v := range articles.TagList {
-		m := &types.TagDTO{
+		m := &types.TagVO{
 			Id:           v.Id,
 			TagName:      v.TagName,
 			ArticleCount: v.ArticleCount,
@@ -77,9 +69,9 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 		tvs = append(tvs, m)
 	}
 
-	cvs := make([]*types.CategoryDTO, 0)
+	cvs := make([]*types.CategoryVO, 0)
 	for _, v := range articles.CategoryList {
-		m := &types.CategoryDTO{
+		m := &types.CategoryVO{
 			Id:           v.Id,
 			CategoryName: v.CategoryName,
 			ArticleCount: v.ArticleCount,
@@ -103,9 +95,9 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 		}
 	}
 
-	ass := make([]*types.ArticleStatisticsDTO, 0)
+	ass := make([]*types.ArticleStatisticsVO, 0)
 	for k, v := range asm {
-		m := &types.ArticleStatisticsDTO{
+		m := &types.ArticleStatisticsVO{
 			Date:  k,
 			Count: v,
 		}
@@ -113,23 +105,7 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 		ass = append(ass, m)
 	}
 
-	// 查询用户浏览量
-	daily, err := l.svcCtx.WebsiteRpc.GetUserDailyVisit(l.ctx, &websiterpc.EmptyReq{})
-	if err != nil {
-		return nil, err
-	}
-	uvs := make([]*types.UserVisitDTO, 0)
-	for _, v := range daily.List {
-		m := &types.UserVisitDTO{
-			Date:  v.Date,
-			Count: v.ViewCount,
-		}
-
-		uvs = append(uvs, m)
-	}
-
 	resp = &types.AdminHomeInfo{
-		ViewCount:         view.Count,
 		UserCount:         users.UserCount,
 		ArticleCount:      articles.ArticleCount,
 		RemarkCount:       messages.RemarkCount,
@@ -137,7 +113,6 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 		TagList:           tvs,
 		ArticleViewRanks:  ars,
 		ArticleStatistics: ass,
-		UserVisitDaliy:    uvs,
 	}
 
 	return

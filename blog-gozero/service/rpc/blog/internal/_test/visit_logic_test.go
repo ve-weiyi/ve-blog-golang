@@ -24,20 +24,20 @@ func TestAddVisit(t *testing.T) {
 	md.Set(restx.HeaderUserAgent, "")
 	ctx = metadata.NewIncomingContext(ctx, md)
 
-	in := &websiterpc.EmptyReq{}
+	in := &websiterpc.AddVisitReq{}
 
-	out, err := websiterpclogic.NewReportLogic(ctx, tsc).Report(in)
+	out, err := websiterpclogic.NewAddVisitLogic(ctx, tsc).AddVisit(in)
 	assert.Equal(t, nil, err)
 	log.Println(out)
 }
 
-func TestGetTotalVisit(t *testing.T) {
+func TestAnalysisVisit(t *testing.T) {
 	tsc := svc.NewTestServiceContext()
 	ctx := tracex.NewRandomTraceContext()
 
 	in := &websiterpc.EmptyReq{}
 
-	out, err := websiterpclogic.NewGetUserTotalVisitLogic(ctx, tsc).GetUserTotalVisit(in)
+	out, err := websiterpclogic.NewAnalysisVisitLogic(ctx, tsc).AnalysisVisit(in)
 	assert.Equal(t, nil, err)
 
 	log.Println(out)

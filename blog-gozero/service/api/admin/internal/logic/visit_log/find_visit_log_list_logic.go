@@ -3,9 +3,9 @@ package visit_log
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -28,10 +28,12 @@ func NewFindVisitLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 func (l *FindVisitLogListLogic) FindVisitLogList(req *types.VisitLogQuery) (resp *types.PageResp, err error) {
 	in := &syslogrpc.FindVisitLogListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
-		Sorts:    req.Sorts,
-		Keywords: req.Keywords,
+		Page:       req.Page,
+		PageSize:   req.PageSize,
+		Sorts:      req.Sorts,
+		UserId:     req.UserId,
+		TerminalId: req.TerminalId,
+		PageName:   req.PageName,
 	}
 
 	out, err := l.svcCtx.SyslogRpc.FindVisitLogList(l.ctx, in)
@@ -45,19 +47,12 @@ func (l *FindVisitLogListLogic) FindVisitLogList(req *types.VisitLogQuery) (resp
 	}
 
 	// 查询用户信息
-	users, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, &accountrpc.FindUserListReq{
-		UserIds: uids,
-	})
+	usm, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, uids)
 	if err != nil {
 		return nil, err
 	}
 
-	usm := make(map[string]*accountrpc.User)
-	for _, v := range users.List {
-		usm[v.UserId] = v
-	}
-
-	var list []*types.VisitLogBackDTO
+	var list []*types.VisitLogBackVO
 	for _, v := range out.List {
 		m := ConvertVisitLogTypes(v, usm)
 		list = append(list, m)
@@ -71,28 +66,26 @@ func (l *FindVisitLogListLogic) FindVisitLogList(req *types.VisitLogQuery) (resp
 	return resp, nil
 }
 
-func ConvertVisitLogTypes(in *syslogrpc.VisitLogDetails, usm map[string]*accountrpc.User) (out *types.VisitLogBackDTO) {
+func ConvertVisitLogTypes(in *syslogrpc.VisitLogDetails, usm map[string]*types.UserInfoVO) (out *types.VisitLogBackVO) {
 
-	out = &types.VisitLogBackDTO{
-		Id:        in.Id,
-		UserId:    in.UserId,
-		Nickname:  "",
-		Avatar:    "",
-		IpAddress: in.IpAddress,
-		IpSource:  in.IpSource,
-		Os:        in.Os,
-		Browser:   in.Browser,
-		Page:      in.Page,
-		CreatedAt: in.CreatedAt,
-		UpdatedAt: in.UpdatedAt,
+	out = &types.VisitLogBackVO{
+		Id:         in.Id,
+		UserId:     in.UserId,
+		TerminalId: in.TerminalId,
+		PageName:   in.PageName,
+		IpAddress:  in.IpAddress,
+		IpSource:   in.IpSource,
+		Os:         in.Os,
+		Browser:    in.Browser,
+		CreatedAt:  in.CreatedAt,
+		UpdatedAt:  in.UpdatedAt,
 	}
 
 	// 用户信息
 	if in.UserId != "" {
 		user, ok := usm[in.UserId]
 		if ok && user != nil {
-			out.Nickname = user.Nickname
-			out.Avatar = user.Avatar
+			out.User = user
 		}
 	}
 

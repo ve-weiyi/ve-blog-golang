@@ -4,45 +4,76 @@ import "base.api"
 
 type (
     AdminHomeInfo {
-        ViewCount int64 `json:"view_count"`                                                                                 // 访问量
-        UserCount int64 `json:"user_count"`                                                                                 // 用户量
-        ArticleCount int64 `json:"article_count"`                                                                           // 文章量
-        RemarkCount int64 `json:"remark_count"`                                                                             // 留言量
+        UserCount int64 `json:"user_count"`                                    // 用户量
+        ArticleCount int64 `json:"article_count"`                              // 文章量
+        RemarkCount int64 `json:"remark_count"`                                // 留言量
 
-        CategoryList []*CategoryDTO `json:"category_list"`                                                                  // 分类列表
-        TagList []*TagDTO `json:"tag_list"`                                                                                 // 标签列表
+        CategoryList []*CategoryVO `json:"category_list"`                      // 分类列表
+        TagList []*TagVO `json:"tag_list"`                                     // 标签列表
 
-        ArticleViewRanks []*ArticleViewDTO `json:"article_view_ranks"`                                                      // 文章浏览量排行
-        ArticleStatistics []*ArticleStatisticsDTO `json:"article_statistics"`                                               // 文章提交统计
-        UserVisitDaliy []*UserVisitDTO `json:"user_visit_daliy"`                                                            // 用户每日访问量
+        ArticleViewRanks []*ArticleViewVO `json:"article_view_ranks"`          // 文章浏览量排行
+        ArticleStatistics []*ArticleStatisticsVO `json:"article_statistics"`   // 文章提交统计
     }
 
-    CategoryDTO {
+    CategoryVO {
         Id int64 `json:"id,optional"`
-        CategoryName string `json:"category_name"`          // 分类名
-        ArticleCount int64 `json:"article_count"`           // 文章数量
+        CategoryName string `json:"category_name"`     // 分类名
+        ArticleCount int64 `json:"article_count"`      // 文章数量
     }
 
-    TagDTO {
-        Id int64 `json:"id,optional"`                       // 标签ID
-        TagName string `json:"tag_name"`                    // 标签名
-        ArticleCount int64 `json:"article_count"`           // 文章数量
+    TagVO {
+        Id int64 `json:"id,optional"`                   // 标签ID
+        TagName string `json:"tag_name"`                // 标签名
+        ArticleCount int64 `json:"article_count"`       // 文章数量
     }
 
-    ArticleViewDTO {
-        Id int64 `json:"id,optional"`                        // 文章ID
-        ArticleTitle string `json:"article_title"`           // 文章标题
-        ViewCount int64 `json:"view_count"`                  // 浏览量
+    ArticleViewVO {
+        Id int64 `json:"id,optional"`                    // 文章ID
+        ArticleTitle string `json:"article_title"`       // 文章标题
+        ViewCount int64 `json:"view_count"`              // 浏览量
     }
 
-    ArticleStatisticsDTO {
+    ArticleStatisticsVO {
         Date string `json:"date"`    // 日期
         Count int64 `json:"count"`   // 数量
     }
 
-    UserVisitDTO {
-        Date string `json:"date"`    // 日期
-        Count int64 `json:"count"`   // 数量
+    GetVisitStatsResp {
+        TodayUvCount int64 `json:"today_uv_count"`     // 今日访客数(UV)
+        TotalUvCount int64 `json:"total_uv_count"`     // 总访客数
+        UvGrowthRate float64 `json:"uv_growth_rate"`   // 访客数同比增长率（相对于昨天同一时间段的增长率）
+        TodayPvCount int64 `json:"today_pv_count"`     // 今日浏览量(PV)
+        TotalPvCount int64 `json:"total_pv_count"`     // 总浏览量
+        PvGrowthRate float64 `json:"pv_growth_rate"`   // 同比增长率（相对于昨天同一时间段的增长率）
+    }
+
+    GetVisitTrendReq {
+        StartDate string `json:"start_date"`      // 开始日期
+        EndDate string `json:"end_date,optional"` // 结束日期
+    }
+
+    GetVisitTrendResp {
+        VisitTrend []VisitTrendVO `json:"visit_trend"`  // 访客数和浏览量趋势
+    }
+
+    VisitTrendVO {
+        Date string `json:"date"`           // 日期
+        UvCount int64 `json:"uv_count"`     // 访客数
+        PvCount int64 `json:"pv_count"`     // 浏览量
+    }
+
+    GetUserAreaStatsReq {
+        UserType int64 `json:"user_type,optional"` // 用户类型: 0注册用户 1游客
+    }
+
+    GetUserAreaStatsResp {
+        UserAreas []*UserAreaVO `json:"user_areas"`       // 用户分布地区
+        TouristAreas []*UserAreaVO `json:"tourist_areas"` // 游客分布地区
+    }
+
+    UserAreaVO {
+        Name string `json:"name"`
+        Value int64 `json:"value"`
     }
 
     WebsiteConfig {
@@ -86,7 +117,7 @@ type Server {
 
 
 @server(
-    prefix: /admin_api/v1
+    prefix: /admin-api/v1
     group: website
     middleware: JwtToken,Permission,OperationLog
 )
@@ -94,6 +125,19 @@ service admin-api {
     @doc "获取后台首页信息"
     @handler GetAdminHomeInfo
     get /admin (EmptyReq) returns (AdminHomeInfo)
+
+    @doc "获取访客数据分析"
+    @handler GetVisitStats
+    get /admin/get_visit_stats (EmptyReq) returns (GetVisitStatsResp)
+
+    @doc "获取访客数据趋势"
+    @handler GetVisitTrend
+    post /admin/get_visit_trend (GetVisitTrendReq) returns (GetVisitTrendResp)
+
+    @doc "获取用户分布地区"
+    @handler GetUserAreaStats
+    post /account/get_user_area_stats (GetUserAreaStatsReq) returns (GetUserAreaStatsResp)
+
 
     @doc "获取服务器信息"
     @handler GetSystemState

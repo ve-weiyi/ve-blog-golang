@@ -52,18 +52,25 @@ EmailConf:
     - 791422171@qq.com
   is_ssl: true
 
-OauthConf:
-  qq:
-    client_id: "xxx"
-    client_secret: xxx
-    redirect_uri: xxx
+ThirdPartyConf:
+  blog-web:
+    github:
+      client_id: "Ov23li75b3rd6pQWF0Mf"
+      client_secret: "9181955a31adcef7db53e96d3e1cf5d96070b3ff"
+      redirect_uri: http://127.0.0.1:9420/oauth/login/github
 
-  weibo:
-    client_id: "xxx"
-    client_secret: xxx
-    redirect_uri: xxx
+    gitee:
+      client_id: "52e312db47f1a03d01434618ae797f9ee3292850193ab7109916fd6b62c0f1eb"
+      client_secret: "9ebaf44964c4a385e05478b8b7882b833d3b4950a55e8a86a96901ca018f846d"
+      redirect_uri: http://127.0.0.1:9420/oauth/login/gitee
 
-  feishu:
-    client_id: "xxx"
-    client_secret: xxx
-    redirect_uri: xxx
+  admin-web:
+    github:
+      client_id: "Ov23li2CTGk4hHq93ZYz"
+      client_secret: "73804611edc3f1f86ead487a189dd43b1fffaf76"
+      redirect_uri: http://127.0.0.1:9421/oauth/login/github
+
+    gitee:
+      client_id: "3836732746457306df93147721a0a38686536845d87e8807c7f63feca0770206"
+      client_secret: "f61a0edadc75b8b3e7a0850509add17b04eb52f7195c8b35c5617f952f9d4777"
+      redirect_uri: http://127.0.0.1:9421/oauth/login/gitee
