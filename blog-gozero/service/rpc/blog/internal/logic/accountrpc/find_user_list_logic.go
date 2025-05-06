@@ -98,19 +98,19 @@ func convertUserQuery(in *accountrpc.FindUserListReq) (page int, size int, sorts
 func convertUserOut(in *model.TUser) (out *accountrpc.User) {
 
 	out = &accountrpc.User{
-		UserId:    in.UserId,
-		Username:  in.Username,
-		Nickname:  in.Nickname,
-		Avatar:    in.Avatar,
-		Email:     in.Email,
-		Phone:     in.Phone,
-		Info:      in.Info,
-		Status:    in.Status,
-		LoginType: in.LoginType,
-		IpAddress: in.IpAddress,
-		IpSource:  in.IpSource,
-		CreatedAt: in.CreatedAt.Unix(),
-		UpdatedAt: in.UpdatedAt.Unix(),
+		UserId:       in.UserId,
+		Username:     in.Username,
+		Nickname:     in.Nickname,
+		Avatar:       in.Avatar,
+		Email:        in.Email,
+		Phone:        in.Phone,
+		Info:         in.Info,
+		Status:       in.Status,
+		RegisterType: in.RegisterType,
+		IpAddress:    in.IpAddress,
+		IpSource:     in.IpSource,
+		CreatedAt:    in.CreatedAt.Unix(),
+		UpdatedAt:    in.UpdatedAt.Unix(),
 	}
 
 	return out

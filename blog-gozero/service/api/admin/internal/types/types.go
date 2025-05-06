@@ -9,8 +9,12 @@ type AboutMe struct {
 
 type AccountQuery struct {
 	PageQuery
-	Username string `json:"username,optional"`
-	Nickname string `json:"nickname,optional"`
+	Username string   `json:"username,optional"`
+	Nickname string   `json:"nickname,optional"`
+	Email    string   `json:"email,optional"`
+	Phone    string   `json:"phone,optional"`
+	Status   int64    `json:"status,optional"`   // 状态: -1删除 0正常 1禁用
+	UserIds  []string `json:"user_ids,optional"` // 用户ID
 }
 
 type AdminHomeInfo struct {
@@ -777,18 +781,18 @@ type UserAreaVO struct {
 }
 
 type UserInfoDetail struct {
-	UserId    string `json:"user_id"`    // 用户id
-	Username  string `json:"username"`   // 用户名
-	Nickname  string `json:"nickname"`   // 用户昵称
-	Avatar    string `json:"avatar"`     // 用户头像
-	Email     string `json:"email"`      // 用户邮箱
-	Phone     string `json:"phone"`      // 用户手机号
-	Status    int64  `json:"status"`     // 状态
-	LoginType string `json:"login_type"` // 登录方式
-	IpAddress string `json:"ip_address"` // ip host
-	IpSource  string `json:"ip_source"`  // ip 源
-	CreatedAt int64  `json:"created_at"`
-	UpdatedAt int64  `json:"updated_at"`
+	UserId       string `json:"user_id"`       // 用户id
+	Username     string `json:"username"`      // 用户名
+	Nickname     string `json:"nickname"`      // 用户昵称
+	Avatar       string `json:"avatar"`        // 用户头像
+	Email        string `json:"email"`         // 用户邮箱
+	Phone        string `json:"phone"`         // 用户手机号
+	Status       int64  `json:"status"`        // 状态
+	RegisterType string `json:"register_type"` // 注册方式
+	IpAddress    string `json:"ip_address"`    // ip host
+	IpSource     string `json:"ip_source"`     // ip 源
+	CreatedAt    int64  `json:"created_at"`
+	UpdatedAt    int64  `json:"updated_at"`
 	UserInfoExt
 	RoleLabels []*UserRoleLabel `json:"roles"`
 }
@@ -800,13 +804,14 @@ type UserInfoExt struct {
 }
 
 type UserInfoResp struct {
-	UserId    string `json:"user_id"`    // 用户id
-	Username  string `json:"username"`   // 用户名
-	Nickname  string `json:"nickname"`   // 用户昵称
-	Avatar    string `json:"avatar"`     // 用户头像
-	Email     string `json:"email"`      // 用户邮箱
-	Phone     string `json:"phone"`      // 用户手机号
-	CreatedAt int64  `json:"created_at"` // 创建时间
+	UserId       string `json:"user_id"`       // 用户id
+	Username     string `json:"username"`      // 用户名
+	Nickname     string `json:"nickname"`      // 用户昵称
+	Avatar       string `json:"avatar"`        // 用户头像
+	Email        string `json:"email"`         // 用户邮箱
+	Phone        string `json:"phone"`         // 用户手机号
+	CreatedAt    int64  `json:"created_at"`    // 创建时间
+	RegisterType string `json:"register_type"` // 注册方式
 	UserInfoExt
 	ThirdParty []*UserThirdPartyInfo `json:"third_party"`
 	Roles      []string              `json:"roles"`

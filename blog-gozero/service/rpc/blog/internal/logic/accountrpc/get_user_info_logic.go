@@ -79,20 +79,20 @@ func convertUserInfoOut(in *model.TUser, roles []*model.TRole) (out *accountrpc.
 	}
 
 	out = &accountrpc.UserInfoResp{
-		UserId:    in.UserId,
-		Username:  in.Username,
-		Nickname:  in.Nickname,
-		Avatar:    in.Avatar,
-		Email:     in.Email,
-		Phone:     in.Phone,
-		Info:      in.Info,
-		Status:    in.Status,
-		LoginType: in.LoginType,
-		IpAddress: in.IpAddress,
-		IpSource:  in.IpSource,
-		CreatedAt: in.CreatedAt.Unix(),
-		UpdatedAt: in.UpdatedAt.Unix(),
-		Roles:     list,
+		UserId:       in.UserId,
+		Username:     in.Username,
+		Nickname:     in.Nickname,
+		Avatar:       in.Avatar,
+		Email:        in.Email,
+		Phone:        in.Phone,
+		Info:         in.Info,
+		Status:       in.Status,
+		RegisterType: in.RegisterType,
+		IpAddress:    in.IpAddress,
+		IpSource:     in.IpSource,
+		CreatedAt:    in.CreatedAt.Unix(),
+		UpdatedAt:    in.UpdatedAt.Unix(),
+		Roles:        list,
 	}
 
 	return out
