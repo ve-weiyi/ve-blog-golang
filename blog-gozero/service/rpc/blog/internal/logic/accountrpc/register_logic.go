@@ -84,18 +84,18 @@ func (l *RegisterLogic) register(tx *gorm.DB, in *accountrpc.RegisterReq) (out *
 
 	// 邮箱注册
 	user := &model.TUser{
-		UserId:    uuid.NewString(),
-		Username:  in.Username,
-		Password:  crypto.BcryptHash(in.Password),
-		Nickname:  in.Username,
-		Avatar:    "https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG",
-		Email:     in.Username,
-		Phone:     "",
-		Info:      "",
-		Status:    constant.UserStatusNormal,
-		LoginType: constant.LoginTypeEmail,
-		IpAddress: ip,
-		IpSource:  is,
+		UserId:       uuid.NewString(),
+		Username:     in.Username,
+		Password:     crypto.BcryptHash(in.Password),
+		Nickname:     in.Email,
+		Avatar:       "https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG",
+		Email:        in.Email,
+		Phone:        "",
+		Info:         "",
+		Status:       constant.UserStatusNormal,
+		RegisterType: constant.LoginTypeEmail,
+		IpAddress:    ip,
+		IpSource:     is,
 	}
 
 	return onRegister(l.ctx, l.svcCtx, tx, user)

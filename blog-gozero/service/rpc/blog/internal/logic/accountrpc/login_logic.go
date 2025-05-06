@@ -68,15 +68,16 @@ func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser,
 	}
 
 	resp = &accountrpc.LoginResp{
-		UserId:    user.UserId,
-		Username:  user.Username,
-		Nickname:  user.Nickname,
-		Avatar:    user.Avatar,
-		Email:     user.Email,
-		Phone:     user.Phone,
-		Info:      user.Info,
-		LoginType: user.LoginType,
-		Roles:     roles,
+		UserId:       user.UserId,
+		Username:     user.Username,
+		Nickname:     user.Nickname,
+		Avatar:       user.Avatar,
+		Email:        user.Email,
+		Phone:        user.Phone,
+		Info:         user.Info,
+		RegisterType: user.RegisterType,
+		LoginType:    loginType,
+		Roles:        roles,
 	}
 
 	err = svcCtx.OnlineUserService.Login(ctx, user.UserId)
