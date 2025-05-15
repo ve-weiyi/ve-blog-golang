@@ -51,8 +51,10 @@ type (
 )
 
 @server(
+    tags : "角色管理"
     prefix: /admin-api/v1
     group: role
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 

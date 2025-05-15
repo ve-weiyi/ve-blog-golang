@@ -32,8 +32,10 @@ type (
     }
 )
 @server(
+    tags : "说说管理"
     prefix: /admin-api/v1
     group: talk
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 
