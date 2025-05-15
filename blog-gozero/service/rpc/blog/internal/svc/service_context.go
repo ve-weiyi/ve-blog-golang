@@ -30,7 +30,7 @@ type ServiceContext struct {
 	Gorm          *gorm.DB
 	Redis         *redis.Client
 	LocalCache    *collection.Cache
-	EmailDeliver  *mail.MqEmailDeliver
+	EmailDeliver  mail.IEmailDeliver
 	CaptchaHolder *captcha.CaptchaHolder
 
 	OnlineUserService *online.OnlineUserService
@@ -220,16 +220,20 @@ func ConnectRedis(c config.RedisConf) (*redis.Client, error) {
 	return client, nil
 }
 
-func InitEmailDeliver(c config.Config) (*mail.MqEmailDeliver, error) {
-	e := c.EmailConf
-	emailSender := mail.NewEmailDeliver(
-		mail.WithHost(e.Host),
-		mail.WithPort(e.Port),
-		mail.WithUsername(e.Username),
-		mail.WithPassword(e.Password),
-		mail.WithNickname(e.Nickname),
-		mail.WithDeliver(e.Deliver),
-	)
+func InitEmailDeliver(c config.Config) (mail.IEmailDeliver, error) {
+	e := &mail.EmailConfig{
+		Host:     c.EmailConf.Host,
+		Port:     c.EmailConf.Port,
+		Username: c.EmailConf.Username,
+		Password: c.EmailConf.Password,
+		Nickname: c.EmailConf.Nickname,
+		BCC:      c.EmailConf.BCC,
+	}
+
+	// 如果不使用Rabbitmq
+	if c.RabbitMQConf.Host == "" {
+		return mail.NewEmailDeliver(e), nil
+	}
 
 	r := c.RabbitMQConf
 	url := fmt.Sprintf("amqp://%s:%s@%s:%s/", r.Username, r.Password, r.Host, r.Port)
@@ -254,6 +258,7 @@ func InitEmailDeliver(c config.Config) (*mail.MqEmailDeliver, error) {
 		RoutingKey: "",
 	}
 
+	// 注册队列、交换机、绑定关系
 	err = conn.Declare(queue, exchange, binding)
 	if err != nil {
 		log.Fatal(err)
@@ -261,18 +266,19 @@ func InitEmailDeliver(c config.Config) (*mail.MqEmailDeliver, error) {
 
 	// pub/sub模式 消息发布者只需要声明交换机
 	pb := rabbitmqx.NewRabbitmqProducer(conn,
-		rabbitmqx.WithPublisherExchange(exchange.Name),
+		rabbitmqx.WithPublisherExchange(constant.EmailExchange),
 		rabbitmqx.WithPublisherMandatory(true),
 	)
 
 	// pub/sub模式 消息订阅者需要声明交换机和队列
 	sb := rabbitmqx.NewRabbitmqConsumer(
 		conn,
-		rabbitmqx.WithConsumerQueue(queue.Name),
+		rabbitmqx.WithConsumerQueue(constant.EmailQueue),
 		rabbitmqx.WithConsumerAutoAck(true),
 	)
 
-	deliver := mail.NewMqEmailDeliver(emailSender, pb, sb)
+	// 使用消息队列投递邮件
+	deliver := mail.NewMqEmailDeliver(e, pb, sb)
 	// 订阅消息
 	go deliver.SubscribeEmail()
 

@@ -62,8 +62,10 @@ type (
 )
 
 @server(
+    tags : "文章管理"
     prefix: /admin-api/v1
     group: article
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 

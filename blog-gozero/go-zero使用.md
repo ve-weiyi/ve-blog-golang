@@ -24,6 +24,16 @@ go install github.com/zeromicro/go-zero/tools/goctl@latest
 goctl --version
 ```
 
+### 1. 模板管理
+
+```bash
+# 初始化代码模板
+goctl template init
+```
+
+- 模板位置：`~/.goctl/${goctl版本号}`
+- 可编辑 `~/.goctl/${goctl版本号}/api/handler.tpl` 自定义生成代码
+
 ### 2. Protoc 安装
 
 推荐使用 Goctl 一键安装：
@@ -58,7 +68,7 @@ go install google.golang.org/grpc/cmd/protoc@latest
 protoc-gen-go-grpc --version
 ```
 
-## 项目创建
+## Goctl 工具使用
 
 ### 1. 创建新项目
 
@@ -71,18 +81,6 @@ goctl api new blog --style go_zero
 # 创建 RPC 服务（使用下划线命名风格）
 goctl rpc new blog --style go_zero
 ```
-
-## Goctl 工具使用
-
-### 1. 模板管理
-
-```bash
-# 初始化代码模板
-goctl template init
-```
-
-- 模板位置：`~/.goctl/${goctl版本号}`
-- 可编辑 `~/.goctl/${goctl版本号}/api/handler.tpl` 自定义生成代码
 
 ### 2. API 相关命令
 

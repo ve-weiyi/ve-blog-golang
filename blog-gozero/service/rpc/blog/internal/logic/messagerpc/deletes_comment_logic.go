@@ -4,20 +4,19 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/messagerpc"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type DeleteCommentLogic struct {
+type DeletesCommentLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewDeleteCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteCommentLogic {
-	return &DeleteCommentLogic{
+func NewDeletesCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeletesCommentLogic {
+	return &DeletesCommentLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -25,7 +24,7 @@ func NewDeleteCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 }
 
 // 删除评论
-func (l *DeleteCommentLogic) DeleteComment(in *messagerpc.IdsReq) (*messagerpc.BatchResp, error) {
+func (l *DeletesCommentLogic) DeletesComment(in *messagerpc.IdsReq) (*messagerpc.BatchResp, error) {
 	rows, err := l.svcCtx.TCommentModel.Deletes(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err

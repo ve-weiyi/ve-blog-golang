@@ -2,13 +2,13 @@ package messagerpclogic
 
 import (
 	"context"
-
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/messagerpc"
-
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
+	"time"
 
 	"github.com/zeromicro/go-zero/core/logx"
+
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/messagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 )
 
 type AddChatLogic struct {
@@ -26,8 +26,21 @@ func NewAddChatLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddChatLo
 }
 
 // 创建聊天记录
-func (l *AddChatLogic) AddChat(in *messagerpc.ChatNewReq) (*messagerpc.ChatDetails, error) {
-	entity := convertChatIn(in)
+func (l *AddChatLogic) AddChat(in *messagerpc.AddChatReq) (*messagerpc.ChatDetails, error) {
+	entity := &model.TChat{
+		Id:         0,
+		UserId:     in.UserId,
+		TerminalId: in.TerminalId,
+		Nickname:   in.Nickname,
+		Avatar:     in.Avatar,
+		IpAddress:  in.IpAddress,
+		IpSource:   in.IpSource,
+		Type:       in.Type,
+		Content:    in.Content,
+		Status:     in.Status,
+		CreatedAt:  time.UnixMilli(in.CreatedAt),
+		UpdatedAt:  time.UnixMilli(in.UpdatedAt),
+	}
 
 	_, err := l.svcCtx.TChatModel.Insert(l.ctx, entity)
 	if err != nil {
@@ -37,21 +50,6 @@ func (l *AddChatLogic) AddChat(in *messagerpc.ChatNewReq) (*messagerpc.ChatDetai
 	return convertChatOut(entity), nil
 }
 
-func convertChatIn(in *messagerpc.ChatNewReq) (out *model.TChat) {
-	out = &model.TChat{
-		Id:         0,
-		UserId:     in.UserId,
-		TerminalId: in.TerminalId,
-		IpAddress:  in.IpAddress,
-		IpSource:   in.IpSource,
-		Type:       in.Type,
-		Content:    in.Content,
-		Status:     0,
-	}
-
-	return out
-}
-
 func convertChatOut(in *model.TChat) (out *messagerpc.ChatDetails) {
 	out = &messagerpc.ChatDetails{
 		Id:         in.Id,
@@ -59,6 +57,8 @@ func convertChatOut(in *model.TChat) (out *messagerpc.ChatDetails) {
 		TerminalId: in.TerminalId,
 		IpAddress:  in.IpAddress,
 		IpSource:   in.IpSource,
+		Nickname:   in.Nickname,
+		Avatar:     in.Avatar,
 		Type:       in.Type,
 		Content:    in.Content,
 		Status:     in.Status,
