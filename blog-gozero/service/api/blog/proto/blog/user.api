@@ -68,8 +68,10 @@ type (
 )
 
 @server(
+    tags : "用户"
     prefix: /blog-api/v1
     group: user
+    authType: apiKey
     middleware: TimeToken,SignToken
 )
 

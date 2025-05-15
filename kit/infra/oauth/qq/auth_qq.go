@@ -11,23 +11,26 @@ import (
 
 // QQ授权登录
 type AuthQq struct {
-	Config *oauth.AuthConfig
-	oauth.AuthOauthURL
+	Config *oauth.OauthConfig
+
+	Name string // 第三方名称
+
+	AuthorizeUrl    string // 授权登录URL
+	AccessTokenUrl  string // 获得访问令牌URL
+	RefreshTokenUrl string // 刷新令牌URL
+	OpenidUrl       string // 获取用户OPENID
+	UserInfoUrl     string // 获取用户信息URL
 }
 
-func NewAuthQq(conf *oauth.AuthConfig) *AuthQq {
-	auth := oauth.AuthOauthURL{}
-
-	auth.Name = "qq"
-	auth.AuthorizeUrl = "https://graph.qq.com/oauth2.0/authorize"
-	auth.AccessTokenUrl = "https://graph.qq.com/oauth2.0/token"
-	auth.RefreshTokenUrl = "https://graph.qq.com/oauth2.0/token"
-	auth.OpenidUrl = "https://graph.qq.com/oauth2.0/me"
-	auth.UserInfoUrl = "https://graph.qq.com/user/get_user_info"
-
+func NewAuthQq(conf *oauth.OauthConfig) *AuthQq {
 	return &AuthQq{
-		Config:       conf,
-		AuthOauthURL: auth,
+		Config:          conf,
+		Name:            "qq",
+		AuthorizeUrl:    "https://graph.qq.com/oauth2.0/authorize",
+		AccessTokenUrl:  "https://graph.qq.com/oauth2.0/token",
+		RefreshTokenUrl: "https://graph.qq.com/oauth2.0/token",
+		OpenidUrl:       "https://graph.qq.com/oauth2.0/me",
+		UserInfoUrl:     "https://graph.qq.com/user/get_user_info",
 	}
 }
 

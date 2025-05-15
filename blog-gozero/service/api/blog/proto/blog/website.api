@@ -60,8 +60,10 @@ type (
     }
 )
 @server(
+    tags : "网站"
     prefix: /blog-api/v1
     group: website
+    authType: apiKey
     middleware: TimeToken
 )
 service blog-api {

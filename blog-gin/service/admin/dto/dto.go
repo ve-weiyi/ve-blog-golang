@@ -792,7 +792,7 @@ type UserInfoDetail struct {
 
 type UserInfoExt struct {
 	Gender  int64  `json:"gender,optional"`  // 性别 0未知 1男 2女
-	Intro   string `json:"intro",optional`   // 简介
+	Intro   string `json:"intro,optional"`   // 简介
 	Website string `json:"website,optional"` // 网站
 }
 

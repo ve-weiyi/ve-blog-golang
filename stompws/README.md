@@ -1,7 +1,12 @@
-STOMP 的核心概念
-概念 说明
-CONNECT 客户端连接到 STOMP 服务器（类似 HTTP 的握手）。
-SUBSCRIBE 客户端订阅某个消息目的地（如 /topic/chat），接收该目的地的消息。
-SEND 客户端向指定目的地（如 /app/chat）发送消息。
-UNSUBSCRIBE 取消订阅，不再接收某目的地的消息。
-DISCONNECT 关闭连接。
+# STOMP WebSocket 客户端使用说明
+
+自己研究一周的时间stomp协议，并且想使用websocket作为传输层。
+起初想自己封装一个stompws库，从frame解析、topic定义、消息处理等方面都想自己来实现。
+但是多次调整后，项目框架上还是不够完善。
+最后放弃了已有的设计，改为使用比较成熟的stomp库。
+
+## 基于 github.com/go-stomp/stomp/v3 的修改
+
+勉强可以完成聊天室功能。
+在本版本中，客户端聊天信息依赖服务端发送（例如nickname、avatar、ip_address...），客户端可以伪造身份，具有一些安全隐患。
+如果要优化，服务器可以考虑拦截客户端发送的帧，客户端值需要发送消息内容，服务器补充其他信息，然后转发给其他客户端。

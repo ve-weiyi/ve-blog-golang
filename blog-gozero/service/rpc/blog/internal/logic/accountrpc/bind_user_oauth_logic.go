@@ -34,12 +34,12 @@ func (l *BindUserOauthLogic) BindUserOauth(in *accountrpc.BindUserOauthReq) (*ac
 		return nil, err
 	}
 
-	appName, err := rpcutils.GetAppNameFromCtx(l.ctx)
+	app, err := rpcutils.GetAppNameFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	auth, err := GetPlatformOauth(l.ctx, l.svcCtx, appName, in.Platform)
+	auth, err := GetPlatformOauth(l.ctx, l.svcCtx, app, in.Platform)
 	if err != nil {
 		return nil, err
 	}

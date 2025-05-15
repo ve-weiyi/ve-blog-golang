@@ -134,8 +134,10 @@ type (
 )
 
 @server(
+    tags : "用户管理"
     prefix: /admin-api/v1
     group: user
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 

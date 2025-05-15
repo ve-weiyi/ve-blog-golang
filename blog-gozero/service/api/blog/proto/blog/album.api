@@ -27,8 +27,10 @@ type (
 )
 
 @server(
+    tags : "相册"
     prefix: /blog-api/v1
     group: album
+    authType: apiKey
     middleware: TimeToken
 )
 
