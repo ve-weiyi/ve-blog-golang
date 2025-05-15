@@ -61,7 +61,7 @@ func GetPlatformOauth(ctx context.Context, svcCtx *svc.ServiceContext, app strin
 		return nil, fmt.Errorf("platform %s is undefined", platform)
 	}
 
-	conf := &oauth.AuthConfig{
+	conf := &oauth.OauthConfig{
 		ClientId:     v.ClientId,
 		ClientSecret: v.ClientSecret,
 		RedirectUri:  v.RedirectUri,

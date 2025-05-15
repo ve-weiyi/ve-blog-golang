@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gorilla/websocket"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -44,60 +43,79 @@ func (l *WebsocketLogic) Websocket(w http.ResponseWriter, r *http.Request) error
 	//	return err
 	//}
 
-	// 创建客户端
-	client := l.NewClient(w, r)
-
-	// 注册
-	err := l.RegisterHandler(client)
-	if err != nil {
-		return err
-	}
-
-	// 关闭连接（前端关闭）
-	client.WsConn.SetCloseHandler(func(code int, text string) error {
-		l.Info("关闭连接", code, text)
-		l.svcCtx.WebsocketManager.PushMessage(client.ClientId, text)
-
-		return l.UnregisterHandler(client)
-	})
-
-	// 监听消息
-	go client.ReadMessage(func(msg []byte) (err error) {
-		return l.ReceiveHandler(client, msg)
-	})
-	return nil
-}
-
-func (l *WebsocketLogic) NewClient(w http.ResponseWriter, r *http.Request) *ws.Client {
-	upgrader := &websocket.Upgrader{
-		ReadBufferSize:  1024,
-		WriteBufferSize: 1024,
-		CheckOrigin: func(r *http.Request) bool {
-			return true
-		},
-	}
-
-	wsConn, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		panic("http转换升级为websocket失败：")
-	}
-
+	uid := cast.ToString(l.ctx.Value(restx.HeaderUid))
+	tid := cast.ToString(l.ctx.Value(restx.HeaderTerminal))
 	ip := restx.GetRemoteIP(r)
 	is, _ := ipx.GetIpSourceByBaidu(ip)
 
-	client := &ws.Client{
-		ClientId:    r.RemoteAddr,
-		UserId:      cast.ToString(l.ctx.Value(restx.HeaderUid)),
-		DeviceId:    cast.ToString(l.ctx.Value(restx.HeaderTerminal)),
-		IpAddress:   ip,
-		IpSource:    is,
-		ConnectTime: time.Now().Unix(),
-		ActiveTime:  time.Now().Unix(),
-		WsConn:      wsConn,
+	client, err := ws.Upgrade(w, r, map[string]string{
+		restx.HeaderUid:      uid,
+		restx.HeaderTerminal: tid,
+		"IP":                 ip,
+		"IS":                 is,
+	})
+
+	if err != nil {
+		l.Errorf("websocket连接失败：%+v", err)
+		return err
 	}
 
-	l.Infof("新的客户端连接：%+v", client)
-	return client
+	client.SetHandleConnect(func() error {
+		l.Infof("websocket连接成功：%+v", client.ClientID)
+		event := &types.OnlineCountResp{
+			Msg:   fmt.Sprintf("当前在线人数：%d", l.svcCtx.Hub.Metrics.Connections),
+			Count: int(l.svcCtx.Hub.Metrics.Connections),
+		}
+
+		reply := &types.ReplyMsg{
+			Type:      constant.OnlineCount,
+			Data:      jsonconv.AnyToJsonNE(event),
+			Timestamp: time.Now().Unix(),
+		}
+
+		// 发送在线人数
+		l.svcCtx.Hub.Broadcast([]byte(jsonconv.AnyToJsonNE(reply)))
+
+		info := types.ClientInfoResp{
+			ClientId:  r.RemoteAddr,
+			UserId:    client.Claims[restx.HeaderUid],
+			DeviceId:  client.Claims[restx.HeaderTerminal],
+			Nickname:  "",
+			IpAddress: client.Claims["IP"],
+			IpSource:  client.Claims["IS"],
+		}
+
+		reply = &types.ReplyMsg{
+			Type:      constant.ClientInfo,
+			Data:      jsonconv.AnyToJsonNE(info),
+			Timestamp: time.Now().Unix(),
+		}
+
+		// 发送用户信息
+		return l.svcCtx.Hub.Broadcast([]byte(jsonconv.AnyToJsonNE(reply)))
+	})
+
+	client.SetHandleDisconnect(func() error {
+		l.Infof("websocket连接断开：%+v", client.ClientID)
+		event := &types.OnlineCountResp{
+			Msg:   fmt.Sprintf("当前在线人数：%d", l.svcCtx.Hub.Metrics.Connections),
+			Count: int(l.svcCtx.Hub.Metrics.Connections),
+		}
+
+		reply := &types.ReplyMsg{
+			Type:      constant.OnlineCount,
+			Data:      jsonconv.AnyToJsonNE(event),
+			Timestamp: time.Now().Unix(),
+		}
+
+		return l.svcCtx.Hub.Broadcast([]byte(jsonconv.AnyToJsonNE(reply)))
+	})
+
+	client.SetHandleMessage(func(message []byte) error {
+		return l.ReceiveHandler(client, message)
+	})
+
+	return client.Connect(l.svcCtx.Hub)
 }
 
 func (l *WebsocketLogic) checkSign() (err error) {
@@ -113,20 +131,6 @@ func (l *WebsocketLogic) checkSign() (err error) {
 	}
 
 	return nil
-}
-
-func (l *WebsocketLogic) RegisterHandler(client *ws.Client) (err error) {
-	l.svcCtx.WebsocketManager.RegisterClient(client)
-
-	l.onClientInfoEvent(client)
-
-	return l.onOnlineCountEvent(client)
-}
-
-func (l *WebsocketLogic) UnregisterHandler(client *ws.Client) (err error) {
-	l.svcCtx.WebsocketManager.UnRegisterClient(client)
-
-	return l.onOnlineCountEvent(client)
 }
 
 func (l *WebsocketLogic) ReceiveHandler(client *ws.Client, msg []byte) (err error) {
@@ -175,48 +179,6 @@ func (l *WebsocketLogic) ReceiveHandler(client *ws.Client, msg []byte) (err erro
 	return nil
 }
 
-func (l *WebsocketLogic) onClientInfoEvent(client *ws.Client) (err error) {
-	info := types.ClientInfoResp{
-		ClientId:  client.ClientId,
-		UserId:    client.UserId,
-		DeviceId:  client.DeviceId,
-		Nickname:  "",
-		IpAddress: client.IpAddress,
-		IpSource:  client.IpSource,
-	}
-
-	reply := &types.ReplyMsg{
-		Type:      constant.ClientInfo,
-		Data:      jsonconv.AnyToJsonNE(info),
-		Timestamp: time.Now().Unix(),
-	}
-
-	err = l.svcCtx.WebsocketManager.PushMessage(client.ClientId, reply)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (l *WebsocketLogic) onOnlineCountEvent(client *ws.Client) (err error) {
-	event := &types.OnlineCountResp{
-		Msg:   fmt.Sprintf("当前在线人数：%d", l.svcCtx.WebsocketManager.GetOnlineCount()),
-		Count: l.svcCtx.WebsocketManager.GetOnlineCount(),
-	}
-
-	reply := &types.ReplyMsg{
-		Type:      constant.OnlineCount,
-		Data:      jsonconv.AnyToJsonNE(event),
-		Timestamp: time.Now().Unix(),
-	}
-
-	err = l.svcCtx.WebsocketManager.PushBroadcast(reply)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func (l *WebsocketLogic) onHistoryRecordEvent(client *ws.Client) (err error) {
 
 	in := &messagerpc.FindChatListReq{
@@ -242,7 +204,7 @@ func (l *WebsocketLogic) onHistoryRecordEvent(client *ws.Client) (err error) {
 		Timestamp: time.Now().Unix(),
 	}
 
-	err = l.svcCtx.WebsocketManager.PushMessage(client.ClientId, reply)
+	err = l.svcCtx.Hub.Broadcast([]byte(jsonconv.AnyToJsonNE(reply)))
 	if err != nil {
 		return err
 	}
@@ -256,7 +218,7 @@ func (l *WebsocketLogic) onHeartBeatEvent(client *ws.Client, msg types.ReceiveMs
 		Timestamp: time.Now().Unix(),
 	}
 
-	err = l.svcCtx.WebsocketManager.PushMessage(client.ClientId, reply)
+	err = l.svcCtx.Hub.Broadcast([]byte(jsonconv.AnyToJsonNE(reply)))
 	if err != nil {
 		return err
 	}
@@ -271,10 +233,10 @@ func (l *WebsocketLogic) onSendMessageEvent(client *ws.Client, msg types.Receive
 	}
 
 	in := &messagerpc.ChatNewReq{
-		UserId:     client.UserId,
-		TerminalId: client.ClientId,
-		IpAddress:  client.IpAddress,
-		IpSource:   client.IpSource,
+		UserId:     client.Claims[restx.HeaderUid],
+		TerminalId: client.Claims[restx.HeaderTerminal],
+		IpAddress:  client.Claims["IP"],
+		IpSource:   client.Claims["IS"],
 		Type:       chat.Type,
 		Content:    chat.Content,
 	}
@@ -290,7 +252,7 @@ func (l *WebsocketLogic) onSendMessageEvent(client *ws.Client, msg types.Receive
 		Timestamp: time.Now().Unix(),
 	}
 
-	err = l.svcCtx.WebsocketManager.PushBroadcast(reply)
+	err = l.svcCtx.Hub.Broadcast([]byte(jsonconv.AnyToJsonNE(reply)))
 	if err != nil {
 		return err
 	}
@@ -324,7 +286,7 @@ func (l *WebsocketLogic) onRecallMessageEvent(client *ws.Client, msg types.Recei
 		Timestamp: time.Now().Unix(),
 	}
 
-	err = l.svcCtx.WebsocketManager.PushBroadcast(reply)
+	err = l.svcCtx.Hub.Broadcast([]byte(jsonconv.AnyToJsonNE(reply)))
 	if err != nil {
 		return err
 	}

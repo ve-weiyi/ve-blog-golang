@@ -49,7 +49,7 @@ type EmailConf struct {
 	Username string   `json:"username"` // 发件人
 	Password string   `json:"password"` // 密钥
 	Nickname string   `json:"nickname"` // 发件人昵称
-	Deliver  []string `json:"deliver"`  // 抄送邮箱:多个以英文逗号分隔
+	BCC      []string `json:"bcc"`      // 密送邮箱:多个以英文逗号分隔
 }
 
 type ThirdPartyInfo struct {

@@ -41,10 +41,10 @@ type ServiceContext struct {
 	ConfigRpc     configrpc.ConfigRpc
 	SyslogRpc     syslogrpc.SyslogRpc
 
-	Redis            *redis.Redis
-	Uploader         oss.OSS
-	TokenHolder      tokenx.TokenHolder
-	WebsocketManager ws.ClientManager
+	Redis       *redis.Redis
+	Uploader    oss.OSS
+	TokenHolder tokenx.TokenHolder
+	Hub         *ws.Hub
 
 	TimeToken rest.Middleware
 	SignToken rest.Middleware
@@ -61,6 +61,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 
 	uploader := oss.NewQiniu(c.UploadConfig)
+
+	h := ws.NewHub()
+	go h.Run()
 
 	th := tokenx.NewSignTokenHolder(c.Name, c.Name, rds)
 
@@ -93,10 +96,10 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ConfigRpc:     configRpc,
 		SyslogRpc:     syslogRpc,
 
-		Redis:            rds,
-		Uploader:         uploader,
-		TokenHolder:      th,
-		WebsocketManager: ws.NewDefaultClientManager(),
+		Redis:       rds,
+		Uploader:    uploader,
+		TokenHolder: th,
+		Hub:         h,
 
 		TimeToken: middlewarex.NewTimeTokenMiddleware().Handle,
 		SignToken: middlewarex.NewSignTokenMiddleware(th).Handle,
