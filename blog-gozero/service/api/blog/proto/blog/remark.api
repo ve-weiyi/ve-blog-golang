@@ -26,8 +26,10 @@ type (
 )
 
 @server(
+    tags : "留言"
     prefix: /blog-api/v1
     group: remark
+    authType: apiKey
     middleware: TimeToken,VisitLog
 )
 
@@ -39,8 +41,10 @@ service blog-api {
 
 
 @server(
+    tags : "留言"
     prefix: /blog-api/v1
     group: remark
+    authType: apiKey
     middleware: TimeToken
 )
 

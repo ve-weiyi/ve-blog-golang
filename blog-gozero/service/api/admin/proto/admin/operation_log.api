@@ -27,8 +27,10 @@ type (
 )
 
 @server(
+    tags : "操作日志"
     prefix: /admin-api/v1
     group: operation_log
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 

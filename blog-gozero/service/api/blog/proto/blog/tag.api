@@ -18,8 +18,10 @@ type (
 )
 
 @server(
+    tags : "标签"
     prefix: /blog-api/v1
     group: tag
+    authType: apiKey
     middleware: TimeToken,VisitLog
 )
 
