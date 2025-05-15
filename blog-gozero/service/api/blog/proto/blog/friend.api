@@ -19,9 +19,11 @@ type (
 )
 
 @server(
+    tags : "友链"
     prefix: /blog-api/v1
     group: friend
-    middleware: TimeToken,VisitLog
+    authType: apiKey
+    middleware: TimeToken
 )
 
 service blog-api {

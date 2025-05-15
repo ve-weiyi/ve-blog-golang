@@ -12,3 +12,10 @@ const (
 	HeartBeat                // 心跳消息
 	ClientInfo               // 客户端信息
 )
+
+const (
+	ChatStatusNormal = 0 // 正常
+	ChatStatusEdit   = 1 // 编辑
+	ChatStatusRecall = 2 // 撤回
+	ChatStatusDelete = 3 // 删除
+)

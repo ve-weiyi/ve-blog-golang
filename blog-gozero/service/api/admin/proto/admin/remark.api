@@ -29,8 +29,10 @@ type (
 )
 
 @server(
+    tags : "留言管理"
     prefix: /admin-api/v1
     group: remark
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 

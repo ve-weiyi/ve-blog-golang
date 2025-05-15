@@ -117,8 +117,10 @@ type Server {
 
 
 @server(
+    tags : "网站管理"
     prefix: /admin-api/v1
     group: website
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 service admin-api {

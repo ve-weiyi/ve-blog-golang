@@ -44,12 +44,12 @@ type RabbitMQConf struct {
 
 // 邮件配置
 type EmailConf struct {
-	Host     string   `json:"host"`               // 服务器地址
-	Port     int      `json:"port"`               // 端口
-	Username string   `json:"username"`           // 发件人
-	Password string   `json:"password"`           // 密钥
-	Nickname string   `json:"nickname"`           // 发件人昵称
-	Deliver  []string `json:"deliver,default=[]"` // 抄送邮箱:多个以英文逗号分隔
+	Host     string   `json:"host"`     // 服务器地址
+	Port     int      `json:"port"`     // 端口
+	Username string   `json:"username"` // 发件人
+	Password string   `json:"password"` // 密钥
+	Nickname string   `json:"nickname"` // 发件人昵称
+	BCC      []string `json:"bcc"`      // 密送邮箱:多个以英文逗号分隔
 }
 
 type ThirdPartyInfo struct {

@@ -18,9 +18,11 @@ type (
 )
 
 @server(
+    tags : "分类"
     prefix: /blog-api/v1
     group: category
-    middleware: TimeToken,VisitLog
+    authType: apiKey
+    middleware: TimeToken
 )
 
 service blog-api {

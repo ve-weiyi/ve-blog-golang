@@ -32,8 +32,10 @@ type (
 
 
 @server(
+    tags : "照片管理"
     prefix: /admin-api/v1
     group: photo
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 

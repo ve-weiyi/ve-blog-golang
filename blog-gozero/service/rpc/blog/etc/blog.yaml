@@ -48,8 +48,8 @@ EmailConf:
   password: xxx
   # 发送者昵称
   nickname: 与梦
-  # 抄送邮箱,逗号隔开
-  deliver:
+  # 密送邮箱,逗号隔开
+  bcc:
     - 791422171@qq.com
   is_ssl: true
 

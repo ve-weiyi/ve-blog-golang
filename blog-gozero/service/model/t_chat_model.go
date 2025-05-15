@@ -40,6 +40,8 @@ type (
 		Id         int64     `json:"id" gorm:"column:id"`                   // 主键
 		UserId     string    `json:"user_id" gorm:"column:user_id"`         // 用户id
 		TerminalId string    `json:"terminal_id" gorm:"column:terminal_id"` // 设备id
+		Nickname   string    `json:"nickname" gorm:"column:nickname"`       // 昵称
+		Avatar     string    `json:"avatar" gorm:"column:avatar"`           // 头像
 		IpAddress  string    `json:"ip_address" gorm:"column:ip_address"`   // 用户ip 127.0.0.1
 		IpSource   string    `json:"ip_source" gorm:"column:ip_source"`     // 用户地址 广东省深圳市
 		Type       string    `json:"type" gorm:"column:type"`               // 类型:chatgpt chatroom

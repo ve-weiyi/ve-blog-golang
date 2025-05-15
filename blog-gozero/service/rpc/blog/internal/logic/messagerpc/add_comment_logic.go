@@ -7,6 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/messagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,19 +29,22 @@ func NewAddCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCom
 // 创建评论
 func (l *AddCommentLogic) AddComment(in *messagerpc.CommentNewReq) (*messagerpc.CommentDetails, error) {
 	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
+	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)
+	is, _ := ipx.GetIpSourceByBaidu(ip)
 
 	entity := &model.TComment{
+		Id:             0,
+		UserId:         uid,
 		TopicId:        in.TopicId,
 		ParentId:       in.ParentId,
 		ReplyMsgId:     in.ReplyMsgId,
-		UserId:         uid,
 		ReplyUserId:    in.ReplyUserId,
 		CommentContent: in.CommentContent,
+		IpAddress:      ip,
+		IpSource:       is,
 		Type:           in.Type,
 		Status:         in.Status,
 		IsReview:       l.svcCtx.Config.DefaultCommentReviewStatus,
-		// CreatedAt:      time.Unix(in.CreatedAt, 0),
-		// UpdatedAt:      time.Unix(in.UpdatedAt, 0),
 	}
 
 	_, err := l.svcCtx.TCommentModel.Insert(l.ctx, entity)

@@ -29,26 +29,45 @@ message UserIdReq {
   string user_id = 1;
 }
 /************** blog 聊天记录 **************/
-message ChatNewReq {
-  string user_id = 2;// 用户id
-  string terminal_id = 3;// 设备id
-  string ip_address = 4;// ip地址
-  string ip_source = 5;// ip来源
-  string type = 6;// 类型
-  string content = 7;// 聊天内容
-}
-
 message ChatDetails {
   int64 id = 1;// 主键
   string user_id = 2;// 用户id
   string terminal_id = 3;// 设备id
   string ip_address = 4;// ip地址
   string ip_source = 5;// ip来源
+  string nickname = 6 ;// 昵称
+  string avatar = 7;// 头像
+  string type = 8;// 类型
+  string content = 9;// 聊天内容
+  int64 status = 10;// 状态:0正常 1编辑 2撤回 3删除
+  int64 created_at = 12;// 创建时间
+  int64 updated_at = 13;// 更新时间
+}
+
+message AddChatReq {
+  string user_id = 2;// 用户id
+  string terminal_id = 3;// 设备id
+  string ip_address = 4;// ip地址
+  string ip_source = 5;// ip来源
+  string nickname = 6 ;// 昵称
+  string avatar = 7;// 头像
+  string type = 8;// 类型
+  string content = 9;// 聊天内容
+  int64 status = 10;// 状态:0正常 1编辑 2撤回 3删除
+  int64 created_at = 12;// 创建时间
+  int64 updated_at = 13;// 更新时间
+}
+
+message UpdateChatReq{
+  int64 id = 1; // 主键
   string type = 6;// 类型
   string content = 7;// 聊天内容
   int64 status = 8;// 状态:0正常 1编辑 2撤回 3删除
-  int64 created_at = 12;// 创建时间
-  int64 updated_at = 13;// 更新时间
+}
+
+message UpdateChatStatusReq{
+  int64 id = 1; // 主键
+  int64 status = 8;// 状态:0正常 1编辑 2撤回 3删除
 }
 
 message FindChatListReq {
@@ -139,17 +158,7 @@ message CommentDetails {
   int64 like_count = 13;// 点赞数
   string ip_address = 14;// ip地址 127.0.0.1
   string ip_source = 15;// ip来源
-  //  CommentUserInfo user = 14;
-  //  CommentUserInfo reply_user = 15;
 }
-
-//message CommentUserInfo {
-//  string user_id = 1; // 用户id
-//  string username = 2;// 用户名
-//  string nickname = 3;// 用户昵称
-//  string avatar = 4;// 用户头像
-//  string info = 5;// 用户信息
-//}
 
 message UpdateCommentReviewReq{
   repeated int64 ids = 1;// 主键
@@ -220,9 +229,11 @@ service MessageRpc {
   rpc AnalysisMessage(EmptyReq) returns(AnalysisMessageResp);
 
   // 创建聊天记录
-  rpc AddChat(ChatNewReq) returns(ChatDetails);
+  rpc AddChat(AddChatReq) returns(ChatDetails);
   // 更新聊天记录
-  rpc UpdateChat(ChatNewReq) returns(ChatDetails);
+  rpc UpdateChat(UpdateChatReq) returns(ChatDetails);
+  // 更新聊天记录状态
+  rpc UpdateChatStatus(UpdateChatStatusReq) returns(ChatDetails);
   // 删除聊天记录
   rpc DeletesChat(IdsReq) returns(BatchResp);
   // 查询聊天记录
@@ -247,7 +258,7 @@ service MessageRpc {
   // 创建评论
   rpc AddComment(CommentNewReq) returns(CommentDetails);
   // 删除评论
-  rpc DeleteComment(IdsReq) returns(BatchResp);
+  rpc DeletesComment(IdsReq) returns(BatchResp);
   // 更新评论
   rpc UpdateComment(UpdateCommentReq) returns(CommentDetails);
   // 查询评论

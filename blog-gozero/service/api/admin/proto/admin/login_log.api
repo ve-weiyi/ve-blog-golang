@@ -24,8 +24,10 @@ type (
 )
 
 @server(
+    tags : "登录日志"
     prefix: /admin-api/v1
     group: login_log
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 

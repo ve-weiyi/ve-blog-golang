@@ -50,8 +50,10 @@ type (
 )
 
 @server(
+    tags : "文件管理"
     prefix: /admin-api/v1
     group: file
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
     maxBytes:   10485760
 )
