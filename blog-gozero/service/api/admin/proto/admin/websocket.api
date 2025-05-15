@@ -1,0 +1,19 @@
+syntax = "v1"
+
+type (
+    OnlineCountResp {
+        Msg string `json:"msg"`   // 消息
+        Count int `json:"count"`  // 在线人数
+    }
+)
+
+@server(
+    prefix: /admin-api/v1
+    group: websocket
+)
+
+service admin-api {
+    @doc "WebSocket消息"
+    @handler Websocket
+    get /websocket
+}

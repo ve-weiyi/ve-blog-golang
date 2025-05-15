@@ -21,9 +21,10 @@ import "admin/file.api"
 import "admin/login_log.api"
 import "admin/operation_log.api"
 import "admin/visit_log.api"
+import "admin/websocket.api"
 
 type (
-    PingReq{
+    PingReq {
     }
 	PingResp {
         Env string `json:"env"`
@@ -43,4 +44,3 @@ service admin-api {
 	@handler Ping
 	get /ping (PingReq) returns (PingResp)
 }
-
