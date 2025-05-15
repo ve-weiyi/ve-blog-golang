@@ -30,7 +30,7 @@ func (l *DeleteCommentLogic) DeleteComment(req *types.IdReq) (resp *types.BatchR
 		Ids: []int64{req.Id},
 	}
 
-	out, err := l.svcCtx.MessageRpc.DeleteComment(l.ctx, in)
+	out, err := l.svcCtx.MessageRpc.DeletesComment(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

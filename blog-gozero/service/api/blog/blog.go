@@ -9,6 +9,7 @@ import (
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/common/stomp"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/middlewarex"
@@ -68,7 +69,7 @@ func main() {
 	defer server.Stop()
 
 	ctx := svc.NewServiceContext(c)
-
+	stomp.Init(ctx)
 	swagger.RegisterHttpSwagHandler(server, "/blog-api/v1/swagger/", []byte(docs.Docs))
 
 	server.Use(middlewarex.NewCtxMetaMiddleware().Handle)

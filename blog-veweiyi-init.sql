@@ -11,7 +11,7 @@
  Target Server Version : 80034 (8.0.34)
  File Encoding         : 65001
 
- Date: 06/05/2025 11:33:41
+ Date: 06/05/2025 15:48:00
 */
 
 SET NAMES utf8mb4;
@@ -1632,21 +1632,21 @@ COMMIT;
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user`
 (
-    `id`         int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `user_id`    varchar(64)   NOT NULL COMMENT '用户id',
-    `username`   varchar(64)   NOT NULL DEFAULT '' COMMENT '用户名',
-    `password`   varchar(128)  NOT NULL DEFAULT '' COMMENT '用户密码',
-    `nickname`   varchar(64)   NOT NULL DEFAULT '' COMMENT '用户昵称',
-    `avatar`     varchar(255)  NOT NULL DEFAULT '' COMMENT '用户头像',
-    `email`      varchar(64)   NOT NULL DEFAULT '' COMMENT '邮箱',
-    `phone`      varchar(64)   NOT NULL DEFAULT '' COMMENT '手机号',
-    `info`       varchar(1024) NOT NULL DEFAULT '' COMMENT '用户信息',
-    `status`     tinyint       NOT NULL DEFAULT '0' COMMENT '状态: -1删除 0正常 1禁用',
-    `login_type` varchar(64)   NOT NULL DEFAULT '' COMMENT '注册方式',
-    `ip_address` varchar(255)  NOT NULL DEFAULT '' COMMENT '注册ip',
-    `ip_source`  varchar(255)  NOT NULL DEFAULT '' COMMENT '注册ip 源',
-    `created_at` datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updated_at` datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `id`            int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `user_id`       varchar(64)   NOT NULL COMMENT '用户id',
+    `username`      varchar(64)   NOT NULL DEFAULT '' COMMENT '用户名',
+    `password`      varchar(128)  NOT NULL DEFAULT '' COMMENT '用户密码',
+    `nickname`      varchar(64)   NOT NULL DEFAULT '' COMMENT '用户昵称',
+    `avatar`        varchar(255)  NOT NULL DEFAULT '' COMMENT '用户头像',
+    `email`         varchar(64)   NOT NULL DEFAULT '' COMMENT '邮箱',
+    `phone`         varchar(64)   NOT NULL DEFAULT '' COMMENT '手机号',
+    `info`          varchar(1024) NOT NULL DEFAULT '' COMMENT '用户信息',
+    `status`        tinyint       NOT NULL DEFAULT '0' COMMENT '状态: -1删除 0正常 1禁用',
+    `register_type` varchar(64)   NOT NULL DEFAULT '' COMMENT '注册方式',
+    `ip_address`    varchar(255)  NOT NULL DEFAULT '' COMMENT '注册ip',
+    `ip_source`     varchar(255)  NOT NULL DEFAULT '' COMMENT '注册ip 源',
+    `created_at`    datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at`    datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE KEY `uk_uid` (`user_id`) USING BTREE,
     UNIQUE KEY `uk_username` (`username`) USING BTREE
@@ -1657,43 +1657,43 @@ CREATE TABLE `t_user`
 -- ----------------------------
 BEGIN;
 INSERT INTO `t_user` (`id`, `user_id`, `username`, `password`, `nickname`, `avatar`, `email`, `phone`, `info`, `status`,
-                      `login_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`)
+                      `register_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`)
 VALUES (1, 'root', 'root', '$2a$10$2FQhHyejaB998v1GBVUQYu8MiLPdrgnDP1ozltfa1.LsWD6.P.A/.', '超级管理员',
         'https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG', 'root@qq.com', '',
         '{\"gender\":0,\"intro\":\"hello!\",\"website\":\"https://blog.veweiyi.cn\"}', 0, 'email', '127.0.0.1',
         '广西壮族自治区梧州市 移动', '2024-07-10 16:24:50', '2025-05-06 00:35:54');
 INSERT INTO `t_user` (`id`, `user_id`, `username`, `password`, `nickname`, `avatar`, `email`, `phone`, `info`, `status`,
-                      `login_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`)
+                      `register_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`)
 VALUES (2, 'admin', 'admin', '$2a$10$M8EFxmvlxYa9FO2LQOTZtenZ/mZOe89.g3cN0u40LMUGo9yLy9RKa', '管理员',
         'https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG', 'admin@qq.com', '',
         '{\"gender\":1,\"intro\":\"hello!\",\"website\":\"https://blog.veweiyi.cn\"}', 0, 'email', '127.0.0.1',
         '广西壮族自治区梧州市 移动', '2024-07-10 16:24:50', '2025-05-03 16:19:13');
 INSERT INTO `t_user` (`id`, `user_id`, `username`, `password`, `nickname`, `avatar`, `email`, `phone`, `info`, `status`,
-                      `login_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`)
+                      `register_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`)
 VALUES (3, 'test', 'test', '$2a$10$eocUk6R87VPE06/iUWFuw.8LOvlRqEl0D7pAS5G2F2H8N44fMgT/a', '测试用户',
         'https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG', 'test@qq.com', '',
         '{\"gender\":0,\"intro\":\"hello!\",\"website\":\"https://blog.veweiyi.cn\"}', 0, 'email', '127.0.0.1',
         '广西壮族自治区梧州市 移动', '2024-07-10 16:24:50', '2025-05-03 16:19:07');
 INSERT INTO `t_user` (`id`, `user_id`, `username`, `password`, `nickname`, `avatar`, `email`, `phone`, `info`, `status`,
-                      `login_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`)
+                      `register_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`)
 VALUES (4, 'veweiyi', 'veweiyi', '$2a$10$3L1.S0Ja3Oc7QEy1vznuRuYb3yj8WnTUjo2pQZkWvjAreF5ggVq3S', '与梦',
         'https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG', '791422171@qq.com', '',
         '{\"gender\":0,\"intro\":\"hello!\",\"website\":\"https://blog.veweiyi.cn\"}', 0, 'email', '127.0.0.1',
         '广西壮族自治区梧州市 移动', '2024-07-10 16:24:50', '2025-05-05 03:39:58');
 INSERT INTO `t_user` (`id`, `user_id`, `username`, `password`, `nickname`, `avatar`, `email`, `phone`, `info`, `status`,
-                      `login_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`)
+                      `register_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`)
 VALUES (5, '95a64673-4bd5-4a4b-83d1-3095f4a0e1c0', '95a64673-4bd5-4a4b-83d1-3095f4a0e1c0',
         '$2a$10$pVvAu.0QFv.dF.bvpEr6mO9gzptzHjesFpD93uNfp/nGJVaiQE8NO', 've-weiyi',
         'https://gitee.com/assets/no_portrait.png', '', '', '', 0, 'gitee', '127.0.0.1:55220', '本机地址',
         '2025-05-05 06:17:24', '2025-05-05 06:17:24');
 INSERT INTO `t_user` (`id`, `user_id`, `username`, `password`, `nickname`, `avatar`, `email`, `phone`, `info`, `status`,
-                      `login_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`)
+                      `register_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`)
 VALUES (6, '582d1d06-e496-4d87-888f-9910c09a9149', '582d1d06-e496-4d87-888f-9910c09a9149',
         '$2a$10$5IK16qTT3LQH7DyfHsfBvO7t26afrdjn/yPmWPl8SdFaQnbcH7dFK', 've-weiyi',
         'https://avatars.githubusercontent.com/u/67481255?v=4', '', '', '', 0, 'github', '127.0.0.1:55844', '本机地址',
         '2025-05-05 06:18:49', '2025-05-05 06:18:49');
 INSERT INTO `t_user` (`id`, `user_id`, `username`, `password`, `nickname`, `avatar`, `email`, `phone`, `info`, `status`,
-                      `login_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`)
+                      `register_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`)
 VALUES (7, '4bd72658-757d-418c-ad0a-55371db6cb16', '919390162@qq.com',
         '$2a$10$Ra1K3zunhmnbLaHuNGEAI.OPZkOP1K6KdFQTUzPfCd1E1LjzrJ8YK', '919390162@qq.com',
         'https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG', '919390162@qq.com', '', '', 0,
@@ -1707,13 +1707,13 @@ DROP TABLE IF EXISTS `t_user_oauth`;
 CREATE TABLE `t_user_oauth`
 (
     `id`         int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `user_id`    varchar(64)                                                   NOT NULL DEFAULT '' COMMENT '用户id',
-    `platform`   varchar(64)                                                   NOT NULL DEFAULT '' COMMENT '平台:手机号、邮箱、微信、飞书',
-    `open_id`    varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '第三方平台id，标识唯一用户',
-    `nickname`   varchar(128)                                                  NOT NULL DEFAULT '' COMMENT '第三方平台昵称',
-    `avatar`     varchar(256)                                                  NOT NULL DEFAULT '' COMMENT '第三方平台头像',
-    `created_at` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updated_at` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `user_id`    varchar(64)  NOT NULL DEFAULT '' COMMENT '用户id',
+    `platform`   varchar(64)  NOT NULL DEFAULT '' COMMENT '平台:手机号、邮箱、微信、飞书',
+    `open_id`    varchar(128) NOT NULL DEFAULT '' COMMENT '第三方平台id，标识唯一用户',
+    `nickname`   varchar(128) NOT NULL DEFAULT '' COMMENT '第三方平台昵称',
+    `avatar`     varchar(256) NOT NULL DEFAULT '' COMMENT '第三方平台头像',
+    `created_at` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE KEY `uk_uid_plat` (`user_id`,`platform`) USING BTREE,
     UNIQUE KEY `uk_oid_plat` (`open_id`,`platform`) USING BTREE
@@ -2007,16 +2007,16 @@ COMMIT;
 DROP TABLE IF EXISTS `t_visit_log`;
 CREATE TABLE `t_visit_log`
 (
-    `id`          int                                                          NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `user_id`     varchar(64)                                                  NOT NULL DEFAULT '' COMMENT '用户id',
-    `terminal_id` varchar(64)                                                  NOT NULL DEFAULT '' COMMENT '设备id',
-    `page_name`   varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '访问页面',
-    `ip_address`  varchar(255)                                                 NOT NULL DEFAULT '' COMMENT '操作ip',
-    `ip_source`   varchar(255)                                                 NOT NULL DEFAULT '' COMMENT '操作地址',
-    `os`          varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '操作系统',
-    `browser`     varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '浏览器',
-    `created_at`  datetime                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updated_at`  datetime                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `id`          int          NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `user_id`     varchar(64)  NOT NULL DEFAULT '' COMMENT '用户id',
+    `terminal_id` varchar(64)  NOT NULL DEFAULT '' COMMENT '设备id',
+    `page_name`   varchar(64)  NOT NULL DEFAULT '' COMMENT '访问页面',
+    `ip_address`  varchar(255) NOT NULL DEFAULT '' COMMENT '操作ip',
+    `ip_source`   varchar(255) NOT NULL DEFAULT '' COMMENT '操作地址',
+    `os`          varchar(64)  NOT NULL DEFAULT '' COMMENT '操作系统',
+    `browser`     varchar(64)  NOT NULL DEFAULT '' COMMENT '浏览器',
+    `created_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
     KEY           `idx_uid` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
@@ -2085,14 +2085,14 @@ COMMIT;
 DROP TABLE IF EXISTS `t_visitor`;
 CREATE TABLE `t_visitor`
 (
-    `id`          int                                                          NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `terminal_id` varchar(64)                                                  NOT NULL DEFAULT '' COMMENT '设备id',
-    `os`          varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '操作系统',
-    `browser`     varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '浏览器',
-    `ip_address`  varchar(255)                                                 NOT NULL DEFAULT '' COMMENT '操作ip',
-    `ip_source`   varchar(255)                                                 NOT NULL DEFAULT '' COMMENT '操作地址',
-    `created_at`  datetime                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updated_at`  datetime                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `id`          int          NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `terminal_id` varchar(64)  NOT NULL DEFAULT '' COMMENT '设备id',
+    `os`          varchar(50)  NOT NULL DEFAULT '' COMMENT '操作系统',
+    `browser`     varchar(50)  NOT NULL DEFAULT '' COMMENT '浏览器',
+    `ip_address`  varchar(255) NOT NULL DEFAULT '' COMMENT '操作ip',
+    `ip_source`   varchar(255) NOT NULL DEFAULT '' COMMENT '操作地址',
+    `created_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE KEY `uk_tid` (`terminal_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;

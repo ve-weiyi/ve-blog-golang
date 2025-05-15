@@ -28,8 +28,10 @@ type (
 )
 
 @server(
+    tags : "文件"
     prefix: /blog-api/v1
     group: file
+    authType: apiKey
     middleware: TimeToken
 )
 

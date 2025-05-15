@@ -23,8 +23,10 @@ type (
 )
 
 @server(
+    tags : "分类管理"
     prefix: /admin-api/v1
     group: category
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 

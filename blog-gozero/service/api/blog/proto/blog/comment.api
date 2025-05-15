@@ -61,8 +61,10 @@ type (
 )
 
 @server(
+    tags : "评论"
     prefix: /blog-api/v1
     group: comment
+    authType: apiKey
     middleware: TimeToken
 )
 
@@ -81,8 +83,10 @@ service blog-api {
 }
 
 @server(
+    tags : "评论"
     prefix: /blog-api/v1
     group: comment
+    authType: apiKey
     middleware: TimeToken,SignToken
 )
 

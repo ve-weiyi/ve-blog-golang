@@ -23,8 +23,10 @@ type (
 )
 
 @server(
+    tags : "说说"
     prefix: /blog-api/v1
     group: talk
+    authType: apiKey
     middleware: TimeToken
 )
 

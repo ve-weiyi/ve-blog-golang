@@ -19,6 +19,6 @@
 #  fi
 #done
 
-goctl rpc protoc ./account.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-rm -f ../etc/account.yaml
-rm ../account.go
+goctl rpc protoc ./message.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
+rm -f ../etc/message.yaml
+rm ../message.go

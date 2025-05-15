@@ -4,6 +4,7 @@ use (
 	blog-gin
 	blog-gozero
 	kit
+	stompws
 	tools
 )
 

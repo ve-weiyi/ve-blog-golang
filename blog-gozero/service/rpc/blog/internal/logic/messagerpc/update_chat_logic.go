@@ -25,10 +25,17 @@ func NewUpdateChatLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 // 更新聊天记录
-func (l *UpdateChatLogic) UpdateChat(in *messagerpc.ChatNewReq) (*messagerpc.ChatDetails, error) {
-	entity := convertChatIn(in)
+func (l *UpdateChatLogic) UpdateChat(in *messagerpc.UpdateChatReq) (*messagerpc.ChatDetails, error) {
+	entity, err := l.svcCtx.TChatModel.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	_, err := l.svcCtx.TChatModel.Save(l.ctx, entity)
+	entity.Type = in.Type
+	entity.Content = in.Content
+	entity.Status = in.Status
+
+	_, err = l.svcCtx.TChatModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
