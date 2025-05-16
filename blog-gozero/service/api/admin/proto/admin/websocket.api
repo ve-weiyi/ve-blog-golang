@@ -12,7 +12,6 @@ type (
     prefix: /admin-api/v1
     group: websocket
     authType: apiKey
-    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {

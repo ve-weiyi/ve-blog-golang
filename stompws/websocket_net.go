@@ -43,9 +43,12 @@ func (c *WebSocketConn) Read(b []byte) (int, error) {
 		return n, io.ErrShortBuffer
 	}
 
-	fmt.Println("<-------------------")
-	fmt.Println(string(message))
-	fmt.Println("<-------------------")
+	// stomp心跳帧，不需要打印
+	if string(message) != "\n" {
+		fmt.Println("<---------start----------")
+		fmt.Println(string(message))
+		fmt.Println("<----------end-----------")
+	}
 	return n, nil
 }
 
@@ -58,9 +61,12 @@ func (c *WebSocketConn) Write(b []byte) (int, error) {
 		return 0, err
 	}
 
-	fmt.Println("------------------->")
-	fmt.Println(string(b))
-	fmt.Println("------------------->")
+	// stomp心跳帧，不需要打印
+	if string(b) != "\n" {
+		fmt.Println("----------start--------->")
+		fmt.Println(string(b))
+		fmt.Println("-----------end---------->")
+	}
 	return len(b), nil
 }
 

@@ -62,9 +62,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 	uploader := oss.NewQiniu(c.UploadConfig)
 
-	h := ws.NewHub()
-	go h.Run()
-
 	th := tokenx.NewSignTokenHolder(c.Name, c.Name, rds)
 
 	doc, err := loads.Analyzed(json.RawMessage(docs.Docs), "")
@@ -99,7 +96,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Redis:       rds,
 		Uploader:    uploader,
 		TokenHolder: th,
-		Hub:         h,
 
 		TimeToken: middlewarex.NewTimeTokenMiddleware().Handle,
 		SignToken: middlewarex.NewSignTokenMiddleware(th).Handle,

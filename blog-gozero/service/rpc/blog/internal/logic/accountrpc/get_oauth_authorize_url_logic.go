@@ -33,12 +33,12 @@ func NewGetOauthAuthorizeUrlLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 // 获取授权地址
 func (l *GetOauthAuthorizeUrlLogic) GetOauthAuthorizeUrl(in *accountrpc.GetOauthAuthorizeUrlReq) (*accountrpc.GetOauthAuthorizeUrlResp, error) {
-	appName, err := rpcutils.GetAppNameFromCtx(l.ctx)
+	app, err := rpcutils.GetAppNameFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	auth, err := GetPlatformOauth(l.ctx, l.svcCtx, appName, in.Platform)
+	auth, err := GetPlatformOauth(l.ctx, l.svcCtx, app, in.Platform)
 	if err != nil {
 		return nil, err
 	}

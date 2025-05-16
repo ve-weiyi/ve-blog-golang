@@ -79,25 +79,22 @@ type CategoryQueryReq struct {
 	CategoryName string `json:"category_name,optional"` // 分类名
 }
 
-type ChatRecordResp struct {
-	Id          int64  `json:"id"`           // 主键
-	UserId      string `json:"user_id"`      // 用户id
-	DeviceId    string `json:"device_id"`    // 设备id
-	Nickname    string `json:"nickname"`     // 昵称
-	Avatar      string `json:"avatar"`       // 头像
-	ChatContent string `json:"chat_content"` // 消息内容
-	IpAddress   string `json:"ip_address"`   // ip地址
-	IpSource    string `json:"ip_source"`    // ip来源
-	Type        string `json:"type"`         // 类型
-	CreatedAt   int64  `json:"created_at"`   // 创建时间
-	UpdatedAt   int64  `json:"updated_at"`   // 更新时间
+type ChatMessageEvent struct {
+	Id         int64  `json:"id"`          // 主键
+	UserId     string `json:"user_id"`     // 用户id
+	TerminalId string `json:"terminal_id"` // 设备id
+	Nickname   string `json:"nickname"`    // 昵称
+	Avatar     string `json:"avatar"`      // 头像
+	IpAddress  string `json:"ip_address"`  // ip地址
+	IpSource   string `json:"ip_source"`   // ip来源
+	Type       string `json:"type"`        // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
+	Content    string `json:"content"`     // 消息内容
+	Status     int64  `json:"status"`      // 消息状态 0-正常 1-已编辑 2-已撤回 3-已删除
+	CreatedAt  int64  `json:"created_at"`  // 创建时间
+	UpdatedAt  int64  `json:"updated_at"`  // 更新时间
 }
 
-type ClientInfoResp struct {
-	ClientId  string `json:"client_id"`  // 客户端id
-	UserId    string `json:"user_id"`    // 用户id
-	DeviceId  string `json:"device_id"`  // 设备id
-	Nickname  string `json:"nickname"`   // 昵称
+type ClientInfoEvent struct {
 	IpAddress string `json:"ip_address"` // ip地址
 	IpSource  string `json:"ip_source"`  // ip来源
 }
@@ -239,6 +236,10 @@ type GetTouristInfoResp struct {
 	TouristId string `json:"tourist_id"` // 游客id
 }
 
+type HistoryMessageEvent struct {
+	List []*ChatMessageEvent `json:"list"` // 消息列表
+}
+
 type IdReq struct {
 	Id int64 `json:"id"`
 }
@@ -258,14 +259,21 @@ type LoginResp struct {
 	Token *Token `json:"token"`
 }
 
+type MessageEvent struct {
+	Type      int64  `json:"type"`      // 消息类型
+	Data      string `json:"data"`      // 消息内容
+	Timestamp int64  `json:"timestamp"` // 消息时间戳
+}
+
 type MultiUploadFileReq struct {
 	Files    []interface{} `form:"files,optional"`     // 文件列表
 	FilePath string        `form:"file_path,optional"` // 文件路径
 }
 
-type OnlineCountResp struct {
-	Msg   string `json:"msg"`   // 消息
-	Count int    `json:"count"` // 在线人数
+type OnlineEvent struct {
+	Count    int64  `json:"count"`
+	IsOnline bool   `json:"is_online"`
+	Msg      string `json:"msg"` // 消息内容
 }
 
 type Page struct {
@@ -329,18 +337,8 @@ type PingResp struct {
 	RpcStatus   []string `json:"rpc_status"`
 }
 
-type RecallMessageReq struct {
+type RecallMessageEvent struct {
 	Id int64 `json:"id"` // 消息id
-}
-
-type RecallMessageResp struct {
-	Id int64 `json:"id"` // 消息id
-}
-
-type ReceiveMsg struct {
-	Type      int    `json:"type"`      // 类型
-	Data      string `json:"data"`      // 数据
-	Timestamp int64  `json:"timestamp"` //时间戳
 }
 
 type RegisterReq struct {
@@ -372,12 +370,6 @@ type RemarkQueryReq struct {
 	PageQuery
 }
 
-type ReplyMsg struct {
-	Type      int    `json:"type"`      // 类型
-	Data      string `json:"data"`      // 数据
-	Timestamp int64  `json:"timestamp"` //时间戳
-}
-
 type ResetPasswordReq struct {
 	Password        string `json:"password"`
 	ConfirmPassword string `json:"confirm_password"` // 确认密码
@@ -393,23 +385,21 @@ type Response struct {
 }
 
 type RestHeader struct {
-	HeaderCountry    string `header:"Country,optional"`
-	HeaderLanguage   string `header:"Language,optional"`
-	HeaderTimezone   string `header:"Timezone,optional"`
-	HeaderAppName    string `header:"App-name,optional"`
-	HeaderXUserId    string `header:"X-User-Id,optional"`
-	HeaderXAuthToken string `header:"X-Auth-Token,optional"`
-	HeaderTerminalId string `header:"X-Terminal-Id,optional"`
+	HeaderCountry       string `header:"Country,optional"`
+	HeaderLanguage      string `header:"Language,optional"`
+	HeaderTimezone      string `header:"Timezone,optional"`
+	HeaderAppName       string `header:"App-name,optional"`
+	HeaderTimestamp     string `header:"Timestamp,optional"`
+	HeaderTerminalId    string `header:"Terminal-Id,optional"`
+	HeaderXTsToken      string `header:"X-Ts-Token,optional"`
+	HeaderUid           string `header:"Uid,optional"`
+	HeaderToken         string `header:"Token,optional"`
+	HeaderAuthorization string `header:"Authorization,optional"`
 }
 
 type SendEmailVerifyCodeReq struct {
 	Email string `json:"email"` // 邮箱
 	Type  string `json:"type"`  // 类型 register,reset_password,bind_email,bind_phone
-}
-
-type SendMessageReq struct {
-	Type    string `json:"type"`    // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
-	Content string `json:"content"` // 消息内容
 }
 
 type SendPhoneVerifyCodeReq struct {

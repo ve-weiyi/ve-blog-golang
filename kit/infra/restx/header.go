@@ -44,9 +44,9 @@ const (
 	HeaderTimezone = "timezone"
 
 	// 游客认证信息 token = md5(terminal,timestamp)
-	HeaderTimestamp = "timestamp"
-	HeaderTerminal  = "terminal"
-	HeaderXToken    = "x-token"
+	HeaderTimestamp  = "timestamp"
+	HeaderTerminalId = "terminal-id"
+	HeaderXTsToken   = "x-ts-token"
 
 	// 用户认证信息
 	HeaderUid   = "uid"
@@ -74,8 +74,8 @@ var HeaderFields = []string{
 	HeaderLanguage,
 	HeaderTimestamp,
 
-	HeaderTerminal,
-	HeaderXToken,
+	HeaderTerminalId,
+	HeaderXTsToken,
 	HeaderUid,
 	HeaderToken,
 	HeaderAuthorization,
@@ -119,8 +119,8 @@ type RestHeader struct {
 	HeaderLanguage      string `json:"language" header:"language,optional"`
 	HeaderTimezone      string `json:"timezone" header:"timezone,optional"`
 	HeaderTimestamp     string `json:"timestamp" header:"timestamp,optional"`
-	HeaderTerminal      string `json:"terminal" header:"terminal,optional"`
-	HeaderXToken        string `json:"x-token" header:"x-token,optional"`
+	HeaderTerminalId    string `json:"terminal-id" header:"terminal-id,optional"`
+	HeaderXTsToken      string `json:"x-ts-token" header:"x-ts-token,optional"`
 	HeaderUid           string `json:"uid" header:"uid,optional"`
 	HeaderToken         string `json:"token" header:"token,optional"`
 	HeaderAuthorization string `json:"authorization" header:"authorization,optional"`
@@ -133,8 +133,8 @@ func ParseRestHeader(r *http.Request) *RestHeader {
 	header.HeaderLanguage = r.Header.Get(HeaderLanguage)
 	header.HeaderTimezone = r.Header.Get(HeaderTimezone)
 	header.HeaderTimestamp = r.Header.Get(HeaderTimestamp)
-	header.HeaderTerminal = r.Header.Get(HeaderTerminal)
-	header.HeaderXToken = r.Header.Get(HeaderXToken)
+	header.HeaderTerminalId = r.Header.Get(HeaderTerminalId)
+	header.HeaderXTsToken = r.Header.Get(HeaderXTsToken)
 	header.HeaderUid = r.Header.Get(HeaderUid)
 	header.HeaderToken = r.Header.Get(HeaderToken)
 	header.HeaderAuthorization = r.Header.Get(HeaderAuthorization)

@@ -987,17 +987,14 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
-			[]rest.Route{
-				{
-					// WebSocket消息
-					Method:  http.MethodGet,
-					Path:    "/websocket",
-					Handler: websocket.WebsocketHandler(serverCtx),
-				},
-			}...,
-		),
+		[]rest.Route{
+			{
+				// WebSocket消息
+				Method:  http.MethodGet,
+				Path:    "/websocket",
+				Handler: websocket.WebsocketHandler(serverCtx),
+			},
+		},
 		rest.WithPrefix("/admin-api/v1"),
 	)
 }

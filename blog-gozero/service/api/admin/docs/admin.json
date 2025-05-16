@@ -11295,6 +11295,9 @@
         "HeaderAppName": {
           "type": "string"
         },
+        "HeaderAuthorization": {
+          "type": "string"
+        },
         "HeaderCountry": {
           "type": "string"
         },
@@ -11304,13 +11307,19 @@
         "HeaderTerminalId": {
           "type": "string"
         },
+        "HeaderTimestamp": {
+          "type": "string"
+        },
         "HeaderTimezone": {
           "type": "string"
         },
-        "HeaderXAuthToken": {
+        "HeaderToken": {
           "type": "string"
         },
-        "HeaderXUserId": {
+        "HeaderUid": {
+          "type": "string"
+        },
+        "HeaderXTsToken": {
           "type": "string"
         }
       }
@@ -13540,10 +13549,10 @@
       "name": "Authorization",
       "in": "header"
     },
-    "Terminal": {
+    "TerminalId": {
       "description": "终端id，用于标识用户使用设备",
       "type": "apiKey",
-      "name": "Terminal",
+      "name": "Terminal-Id",
       "in": "header"
     },
     "Timestamp": {
@@ -13558,14 +13567,14 @@
       "name": "Uid",
       "in": "header"
     },
-    "XToken": {
-      "description": "x-token，使用时间戳和终端id生成",
+    "XTsToken": {
+      "description": "游客token，使用时间戳和终端id生成",
       "type": "apiKey",
-      "name": "X-Token",
+      "name": "X-Ts-Token",
       "in": "header"
     }
   },
-  "x-date": "2025-05-16 10:45:13",
+  "x-date": "2025-05-18 01:49:50",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

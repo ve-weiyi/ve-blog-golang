@@ -131,7 +131,7 @@ func (m *OperationLogMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc 
 
 		op := &syslogrpc.OperationLogNewReq{
 			UserId:         r.Header.Get(restx.HeaderUid),
-			TerminalId:     r.Header.Get(restx.HeaderTerminal),
+			TerminalId:     r.Header.Get(restx.HeaderTerminalId),
 			IpAddress:      ip,
 			IpSource:       is,
 			OptModule:      module,

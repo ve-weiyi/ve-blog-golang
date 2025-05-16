@@ -44,8 +44,8 @@ info(
 	securityDefinitionsFromJson: `{
 	  "AppName": {"type": "apiKey", "name": "App-Name", "in": "header", "description": "应用名称，用于标识调用方"},
 	  "Timestamp": {"type": "apiKey", "name": "Timestamp", "in": "header", "description": "时间戳，用于校验请求是否过期"},
-	  "Terminal": {"type": "apiKey", "name": "Terminal", "in": "header", "description": "终端id，用于标识用户使用设备"},
-	  "XToken": {"type": "apiKey", "name": "X-Token", "in": "header", "description": "x-token，使用时间戳和终端id生成"},
+	  "TerminalId": {"type": "apiKey", "name": "Terminal-Id", "in": "header", "description": "终端id，用于标识用户使用设备"},
+	  "XTsToken": {"type": "apiKey", "name": "X-Ts-Token", "in": "header", "description": "游客token，使用时间戳和终端id生成"},
 	  "Uid": {"type": "apiKey", "name": "Uid", "in": "header", "description": "用户id，用于标识用户"},
 	  "Authorization": {"type": "apiKey", "name": "Authorization", "in": "header", "description": "授权token，用户登录凭证"}
 	}`
