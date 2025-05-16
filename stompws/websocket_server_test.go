@@ -20,7 +20,6 @@ func TestWebSocketServer(t *testing.T) {
 	stompServer := NewWebsocketServer(
 		Config{
 			Authenticator: nil,
-			QueueStorage:  nil,
 			HeartBeatTime: 5 * time.Millisecond,
 			Log:           l,
 		},

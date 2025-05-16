@@ -569,13 +569,16 @@ type Response struct {
 }
 
 type RestHeader struct {
-	HeaderCountry    string `header:"Country,optional"`
-	HeaderLanguage   string `header:"Language,optional"`
-	HeaderTimezone   string `header:"Timezone,optional"`
-	HeaderAppName    string `header:"App-name,optional"`
-	HeaderXUserId    string `header:"X-User-Id,optional"`
-	HeaderXAuthToken string `header:"X-Auth-Token,optional"`
-	HeaderTerminalId string `header:"X-Terminal-Id,optional"`
+	HeaderCountry       string `header:"Country,optional"`
+	HeaderLanguage      string `header:"Language,optional"`
+	HeaderTimezone      string `header:"Timezone,optional"`
+	HeaderAppName       string `header:"App-name,optional"`
+	HeaderTimestamp     string `header:"Timestamp,optional"`
+	HeaderTerminalId    string `header:"Terminal-Id,optional"`
+	HeaderXTsToken      string `header:"X-Ts-Token,optional"`
+	HeaderUid           string `header:"Uid,optional"`
+	HeaderToken         string `header:"Token,optional"`
+	HeaderAuthorization string `header:"Authorization,optional"`
 }
 
 type RoleBackVO struct {

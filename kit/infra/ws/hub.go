@@ -4,6 +4,10 @@
 
 package ws
 
+import (
+	"log"
+)
+
 // Metrics 用于收集broker指标
 type Metrics struct {
 	Connections      int64
@@ -44,6 +48,12 @@ func NewHub() *Hub {
 }
 
 func (h *Hub) Run() {
+	defer func() {
+		if err := recover(); err != nil {
+			log.Println("Hub Run error:", err)
+		}
+	}()
+
 	for {
 		select {
 		case client := <-h.register:
@@ -52,7 +62,6 @@ func (h *Hub) Run() {
 		case client := <-h.unregister:
 			if _, ok := h.clients[client]; ok {
 				delete(h.clients, client)
-				close(client.send)
 			}
 			h.Metrics.Connections--
 		case bMsg := <-h.broadcast:
@@ -63,11 +72,15 @@ func (h *Hub) Run() {
 }
 
 func (h *Hub) Broadcast(msg []byte) error {
+	defer func() {
+		if err := recover(); err != nil {
+			log.Println("Broadcast error:", err)
+		}
+	}()
 	for client := range h.clients {
 		select {
 		case client.send <- msg:
 		default:
-			close(client.send)
 			delete(h.clients, client)
 		}
 	}

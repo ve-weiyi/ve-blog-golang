@@ -53,23 +53,23 @@ func convertChatQuery(in *messagerpc.FindChatListReq) (page int, size int, sorts
 		if conditions != "" {
 			conditions += " and "
 		}
-		conditions = "created_at >= ?"
-		params = append(params, time.Unix(in.After, 0))
+		conditions += "created_at >= ?"
+		params = append(params, time.UnixMilli(in.After))
 	}
 
 	if in.Before != 0 {
 		if conditions != "" {
 			conditions += " and "
 		}
-		conditions = "created_at <= ?"
-		params = append(params, time.Unix(in.Before, 0))
+		conditions += "created_at <= ?"
+		params = append(params, time.UnixMilli(in.Before))
 	}
 
 	if in.UserId != "" {
 		if conditions != "" {
 			conditions += " and "
 		}
-		conditions = "user_id = ?"
+		conditions += "user_id = ?"
 		params = append(params, in.UserId)
 	}
 
@@ -77,7 +77,7 @@ func convertChatQuery(in *messagerpc.FindChatListReq) (page int, size int, sorts
 		if conditions != "" {
 			conditions += " and "
 		}
-		conditions = "type = ?"
+		conditions += "type = ?"
 		params = append(params, in.Type)
 	}
 
@@ -85,7 +85,7 @@ func convertChatQuery(in *messagerpc.FindChatListReq) (page int, size int, sorts
 		if conditions != "" {
 			conditions += " and "
 		}
-		conditions = "status = ?"
+		conditions += "status = ?"
 		params = append(params, in.Status)
 	}
 

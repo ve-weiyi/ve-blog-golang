@@ -3,12 +3,9 @@ package auth
 import (
 	"context"
 
-	"github.com/spf13/cast"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,18 +26,12 @@ func NewGetTouristInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetTouristInfoLogic) GetTouristInfo(req *types.EmptyReq) (resp *types.GetTouristInfoResp, err error) {
-	terminal := cast.ToString(l.ctx.Value(restx.HeaderTerminal))
-
-	if terminal == "" {
-		tourist, err := l.svcCtx.AccountRpc.GetTouristInfo(l.ctx, &accountrpc.EmptyReq{})
-		if err != nil {
-			return nil, err
-		}
-
-		terminal = tourist.TouristId
+	tourist, err := l.svcCtx.AccountRpc.GetTouristInfo(l.ctx, &accountrpc.EmptyReq{})
+	if err != nil {
+		return nil, err
 	}
 
 	return &types.GetTouristInfoResp{
-		TouristId: terminal,
+		TouristId: tourist.TouristId,
 	}, nil
 }

@@ -9,7 +9,8 @@
 ```
 .
 ├── .goctl/          # goctl 工具模板配置
-├── internal/        # 公共代码模块
+├── common/          # 公共代码模块
+├── global/          # 全局变量
 └── service/         # 服务代码
     ├── api/         # API 服务
     │   ├── admin/   # 管理后台服务

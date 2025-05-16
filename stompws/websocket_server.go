@@ -6,16 +6,13 @@ package stompws
 import (
 	"net/http"
 	"strings"
-	"time"
 
 	"github.com/go-stomp/stomp/v3/frame"
-	"github.com/go-stomp/stomp/v3/server"
 	"github.com/gorilla/websocket"
 
-	"github.com/go-stomp/stomp/v3"
-	"github.com/go-stomp/stomp/v3/server/client"
-	"github.com/go-stomp/stomp/v3/server/queue"
-	"github.com/go-stomp/stomp/v3/server/topic"
+	"github.com/ve-weiyi/ve-blog-golang/stompws/server/client"
+	"github.com/ve-weiyi/ve-blog-golang/stompws/server/queue"
+	"github.com/ve-weiyi/ve-blog-golang/stompws/server/topic"
 )
 
 // A Server defines parameters for running a STOMP server.
@@ -53,10 +50,8 @@ func (s *StompWebsocketServer) Run() {
 			} else {
 				t := s.tm.Find(r.Sub.Destination())
 				t.Subscribe(r.Sub)
-				s.Log.Infof("stomp: SubscribeOp to %s", r.Sub.Destination())
 				for _, h := range s.hm.Find(r.Sub.Destination()) {
-					s.Log.Infof("stomp: OnTopicSubscribe to %s", r.Sub.Destination())
-					h.OnTopicSubscribe(r.Sub)
+					h.OnTopicSubscribe(t, r.Sub)
 				}
 			}
 
@@ -70,7 +65,7 @@ func (s *StompWebsocketServer) Run() {
 				t := s.tm.Find(r.Sub.Destination())
 				t.Unsubscribe(r.Sub)
 				for _, h := range s.hm.Find(r.Sub.Destination()) {
-					h.OnTopicUnsubscribe(r.Sub)
+					h.OnTopicUnsubscribe(t, r.Sub)
 				}
 			}
 
@@ -86,10 +81,10 @@ func (s *StompWebsocketServer) Run() {
 				q := s.qm.Find(destination)
 				q.Enqueue(r.Frame)
 			} else {
-				find := s.tm.Find(destination)
-				find.Enqueue(r.Frame)
+				t := s.tm.Find(destination)
+				t.Enqueue(r.Frame)
 				for _, h := range s.hm.Find(destination) {
-					h.OnTopicPublish(r.Sub, r.Frame)
+					h.OnTopicPublish(t, r.Frame)
 				}
 			}
 
@@ -110,10 +105,6 @@ func (s *StompWebsocketServer) Run() {
 	}
 }
 
-func (s *StompWebsocketServer) RegisterTopicHooks(topic string, hooks ...TopicHook) {
-	s.hm.RegisterHooks(topic, hooks...)
-}
-
 func (s *StompWebsocketServer) HandleWebSocket(w http.ResponseWriter, r *http.Request) error {
 	var upgrader = websocket.Upgrader{
 		ReadBufferSize:  1024,
@@ -126,39 +117,16 @@ func (s *StompWebsocketServer) HandleWebSocket(w http.ResponseWriter, r *http.Re
 
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		return nil
+		return err
 	}
 
-	wsConn := &WebSocketConn{Conn: conn}
+	wsConn := NewWebSocketConn(conn)
 	_ = client.NewConn(s, wsConn, s.ch)
 	return nil
 }
 
-type Config struct {
-	Authenticator server.Authenticator // Authenticates login/passcodes. If nil no authentication is performed
-	QueueStorage  server.QueueStorage  // Implementation of queue storage. If nil, in-memory queues are used.
-	HeartBeatTime time.Duration        // Preferred value for heart-beat read/write timeout, if zero, then DefaultHeartBeat.
-	Log           stomp.Logger
-}
-
-func (c *Config) HeartBeat() time.Duration {
-	if c.HeartBeatTime == time.Duration(0) {
-		return 10 * time.Second
-	}
-	return c.HeartBeatTime
-}
-
-func (c *Config) Authenticate(login, passcode string) bool {
-	if c.Authenticator != nil {
-		return c.Authenticator.Authenticate(login, passcode)
-	}
-
-	// no authentication defined
-	return true
-}
-
-func (c *Config) Logger() stomp.Logger {
-	return c.Log
+func (s *StompWebsocketServer) RegisterTopicHooks(topic string, hooks ...TopicHook) {
+	s.hm.RegisterHooks(topic, hooks...)
 }
 
 const QueuePrefix = "/queue"

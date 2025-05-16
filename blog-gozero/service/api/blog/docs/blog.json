@@ -3966,18 +3966,19 @@
         }
       }
     },
-    "ChatRecordResp": {
+    "ChatMessageEvent": {
       "type": "object",
       "required": [
         "id",
         "user_id",
-        "device_id",
+        "terminal_id",
         "nickname",
         "avatar",
-        "chat_content",
         "ip_address",
         "ip_source",
         "type",
+        "content",
+        "status",
         "created_at",
         "updated_at"
       ],
@@ -3986,17 +3987,13 @@
           "description": "头像",
           "type": "string"
         },
-        "chat_content": {
+        "content": {
           "description": "消息内容",
           "type": "string"
         },
         "created_at": {
           "description": "创建时间",
           "type": "integer"
-        },
-        "device_id": {
-          "description": "设备id",
-          "type": "string"
         },
         "id": {
           "description": "主键",
@@ -4014,8 +4011,16 @@
           "description": "昵称",
           "type": "string"
         },
+        "status": {
+          "description": "消息状态 0-正常 1-已编辑 2-已撤回 3-已删除",
+          "type": "integer"
+        },
+        "terminal_id": {
+          "description": "设备id",
+          "type": "string"
+        },
         "type": {
-          "description": "类型",
+          "description": "消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息",
           "type": "string"
         },
         "updated_at": {
@@ -4028,39 +4033,19 @@
         }
       }
     },
-    "ClientInfoResp": {
+    "ClientInfoEvent": {
       "type": "object",
       "required": [
-        "client_id",
-        "user_id",
-        "device_id",
-        "nickname",
         "ip_address",
         "ip_source"
       ],
       "properties": {
-        "client_id": {
-          "description": "客户端id",
-          "type": "string"
-        },
-        "device_id": {
-          "description": "设备id",
-          "type": "string"
-        },
         "ip_address": {
           "description": "ip地址",
           "type": "string"
         },
         "ip_source": {
           "description": "ip来源",
-          "type": "string"
-        },
-        "nickname": {
-          "description": "昵称",
-          "type": "string"
-        },
-        "user_id": {
-          "description": "用户id",
           "type": "string"
         }
       }
@@ -4932,6 +4917,86 @@
         }
       }
     },
+    "HistoryMessageEvent": {
+      "type": "object",
+      "required": [
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "description": "消息列表",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "user_id",
+              "terminal_id",
+              "nickname",
+              "avatar",
+              "ip_address",
+              "ip_source",
+              "type",
+              "content",
+              "status",
+              "created_at",
+              "updated_at"
+            ],
+            "properties": {
+              "avatar": {
+                "description": "头像",
+                "type": "string"
+              },
+              "content": {
+                "description": "消息内容",
+                "type": "string"
+              },
+              "created_at": {
+                "description": "创建时间",
+                "type": "integer"
+              },
+              "id": {
+                "description": "主键",
+                "type": "integer"
+              },
+              "ip_address": {
+                "description": "ip地址",
+                "type": "string"
+              },
+              "ip_source": {
+                "description": "ip来源",
+                "type": "string"
+              },
+              "nickname": {
+                "description": "昵称",
+                "type": "string"
+              },
+              "status": {
+                "description": "消息状态 0-正常 1-已编辑 2-已撤回 3-已删除",
+                "type": "integer"
+              },
+              "terminal_id": {
+                "description": "设备id",
+                "type": "string"
+              },
+              "type": {
+                "description": "消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息",
+                "type": "string"
+              },
+              "updated_at": {
+                "description": "更新时间",
+                "type": "integer"
+              },
+              "user_id": {
+                "description": "用户id",
+                "type": "string"
+              }
+            }
+          },
+          "$ref": "#/definitions/ChatMessageEvent"
+        }
+      }
+    },
     "IdReq": {
       "type": "object",
       "required": [
@@ -5031,6 +5096,28 @@
         }
       }
     },
+    "MessageEvent": {
+      "type": "object",
+      "required": [
+        "type",
+        "data",
+        "timestamp"
+      ],
+      "properties": {
+        "data": {
+          "description": "消息内容",
+          "type": "string"
+        },
+        "timestamp": {
+          "description": "消息时间戳",
+          "type": "integer"
+        },
+        "type": {
+          "description": "消息类型",
+          "type": "integer"
+        }
+      }
+    },
     "MultiUploadFileReq": {
       "type": "object",
       "properties": {
@@ -5044,19 +5131,22 @@
         }
       }
     },
-    "OnlineCountResp": {
+    "OnlineEvent": {
       "type": "object",
       "required": [
-        "msg",
-        "count"
+        "count",
+        "is_online",
+        "msg"
       ],
       "properties": {
         "count": {
-          "description": "在线人数",
           "type": "integer"
         },
+        "is_online": {
+          "type": "boolean"
+        },
         "msg": {
-          "description": "消息",
+          "description": "消息内容",
           "type": "string"
         }
       }
@@ -5271,7 +5361,7 @@
         }
       }
     },
-    "RecallMessageReq": {
+    "RecallMessageEvent": {
       "type": "object",
       "required": [
         "id"
@@ -5279,40 +5369,6 @@
       "properties": {
         "id": {
           "description": "消息id",
-          "type": "integer"
-        }
-      }
-    },
-    "RecallMessageResp": {
-      "type": "object",
-      "required": [
-        "id"
-      ],
-      "properties": {
-        "id": {
-          "description": "消息id",
-          "type": "integer"
-        }
-      }
-    },
-    "ReceiveMsg": {
-      "type": "object",
-      "required": [
-        "type",
-        "data",
-        "timestamp"
-      ],
-      "properties": {
-        "data": {
-          "description": "数据",
-          "type": "string"
-        },
-        "timestamp": {
-          "description": "时间戳",
-          "type": "integer"
-        },
-        "type": {
-          "description": "类型",
           "type": "integer"
         }
       }
@@ -5465,28 +5521,6 @@
         }
       }
     },
-    "ReplyMsg": {
-      "type": "object",
-      "required": [
-        "type",
-        "data",
-        "timestamp"
-      ],
-      "properties": {
-        "data": {
-          "description": "数据",
-          "type": "string"
-        },
-        "timestamp": {
-          "description": "时间戳",
-          "type": "integer"
-        },
-        "type": {
-          "description": "类型",
-          "type": "integer"
-        }
-      }
-    },
     "ResetPasswordReq": {
       "type": "object",
       "required": [
@@ -5539,6 +5573,9 @@
         "HeaderAppName": {
           "type": "string"
         },
+        "HeaderAuthorization": {
+          "type": "string"
+        },
         "HeaderCountry": {
           "type": "string"
         },
@@ -5548,13 +5585,19 @@
         "HeaderTerminalId": {
           "type": "string"
         },
+        "HeaderTimestamp": {
+          "type": "string"
+        },
         "HeaderTimezone": {
           "type": "string"
         },
-        "HeaderXAuthToken": {
+        "HeaderToken": {
           "type": "string"
         },
-        "HeaderXUserId": {
+        "HeaderUid": {
+          "type": "string"
+        },
+        "HeaderXTsToken": {
           "type": "string"
         }
       }
@@ -5572,23 +5615,6 @@
         },
         "type": {
           "description": "类型 register,reset_password,bind_email,bind_phone",
-          "type": "string"
-        }
-      }
-    },
-    "SendMessageReq": {
-      "type": "object",
-      "required": [
-        "type",
-        "content"
-      ],
-      "properties": {
-        "content": {
-          "description": "消息内容",
-          "type": "string"
-        },
-        "type": {
-          "description": "消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息",
           "type": "string"
         }
       }
@@ -6335,10 +6361,10 @@
       "name": "App-Name",
       "in": "header"
     },
-    "Terminal": {
+    "TerminalId": {
       "description": "终端id，用于标识用户使用设备",
       "type": "apiKey",
-      "name": "Terminal",
+      "name": "Terminal-Id",
       "in": "header"
     },
     "Timestamp": {
@@ -6359,14 +6385,14 @@
       "name": "Uid",
       "in": "header"
     },
-    "XToken": {
-      "description": "x-token，使用时间戳和终端id生成",
+    "XTsToken": {
+      "description": "游客token，使用时间戳和终端id生成",
       "type": "apiKey",
-      "name": "X-Token",
+      "name": "X-Ts-Token",
       "in": "header"
     }
   },
-  "x-date": "2025-05-16 10:45:10",
+  "x-date": "2025-05-18 01:49:48",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

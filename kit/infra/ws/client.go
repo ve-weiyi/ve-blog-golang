@@ -42,7 +42,7 @@ type Client struct {
 	handleMessage    func(message []byte) error
 }
 
-func Upgrade(w http.ResponseWriter, r *http.Request, claims map[string]string) (*Client, error) {
+func Upgrade(w http.ResponseWriter, r *http.Request) (*Client, error) {
 	var upgrader = websocket.Upgrader{
 		ReadBufferSize:  1024,
 		WriteBufferSize: 1024,
@@ -59,10 +59,9 @@ func Upgrade(w http.ResponseWriter, r *http.Request, claims map[string]string) (
 
 	client := &Client{
 		conn:        conn,
-		send:        make(chan []byte, 256),
+		send:        make(chan []byte, maxMessageSize),
 		ClientID:    r.RemoteAddr,
 		ConnectedAt: time.Now(),
-		Claims:      claims,
 		handleConnect: func() error {
 			return nil
 		},
@@ -95,13 +94,14 @@ func (c *Client) Connect(h *Hub) error {
 
 	go c.readPump()
 	go c.writePump()
-	return nil
+	return c.handleConnect()
 }
 
 func (c *Client) Disconnect() error {
 	c.Hub.unregister <- c
 	close(c.send)
-	return c.conn.Close()
+	c.conn.Close()
+	return c.handleDisconnect()
 }
 
 func (c *Client) readPump() {
@@ -137,7 +137,6 @@ func (c *Client) writePump() {
 	ticker := time.NewTicker(pingPeriod)
 	defer func() {
 		ticker.Stop()
-		c.Disconnect()
 	}()
 	for {
 		select {

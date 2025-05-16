@@ -3,7 +3,6 @@ package svc
 import (
 	"encoding/json"
 	"fmt"
-	"time"
 
 	"github.com/go-openapi/loads"
 	"github.com/zeromicro/go-zero/core/stores/redis"
@@ -14,7 +13,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/permissionx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/tokenx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/docs"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/chatroom"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
@@ -26,11 +24,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/websiterpc"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
-	"github.com/ve-weiyi/ve-blog-golang/stompws"
-	"github.com/ve-weiyi/ve-blog-golang/stompws/logws"
 )
 
 type ServiceContext struct {
@@ -51,8 +45,6 @@ type ServiceContext struct {
 	Uploader         oss.OSS
 	TokenHolder      tokenx.TokenHolder
 	PermissionHolder permissionx.PermissionHolder
-	Hub              *ws.Hub
-	StompServer      *stompws.StompWebsocketServer
 
 	TimeToken    rest.Middleware
 	JwtToken     rest.Middleware
@@ -72,21 +64,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	uploader := oss.NewQiniu(c.UploadConfig)
 
 	th := tokenx.NewJwtTokenHolder(c.Name, c.Name, rds)
-
-	h := ws.NewHub()
-	go h.Run()
-
-	stompServer := stompws.NewWebsocketServer(
-		stompws.Config{
-			Authenticator: nil,
-			QueueStorage:  nil,
-			HeartBeatTime: 5 * time.Millisecond,
-			Log:           logws.NewZapLogger(glog.Default().Logger()),
-		},
-	)
-
-	chatroom.Init(stompServer)
-	go stompServer.Run()
 
 	doc, err := loads.Analyzed(json.RawMessage(docs.Docs), "")
 	if err != nil {
@@ -127,8 +104,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Uploader:         uploader,
 		TokenHolder:      th,
 		PermissionHolder: ph,
-		Hub:              h,
-		StompServer:      stompServer,
 		TimeToken:        middlewarex.NewTimeTokenMiddleware().Handle,
 		JwtToken:         middlewarex.NewJwtTokenMiddleware(th).Handle,
 		Permission:       middlewarex.NewMiddleware().Handle, // 不使用接口权限控制

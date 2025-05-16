@@ -49,7 +49,7 @@ type (
 		Phone        string    `json:"phone" gorm:"column:phone"`                 // 手机号
 		Info         string    `json:"info" gorm:"column:info"`                   // 用户信息
 		Status       int64     `json:"status" gorm:"column:status"`               // 状态: -1删除 0正常 1禁用
-		RegisterType string    `json:"register_type" gorm:"column:register_type"` // 注册类型
+		RegisterType string    `json:"register_type" gorm:"column:register_type"` // 注册方式
 		IpAddress    string    `json:"ip_address" gorm:"column:ip_address"`       // 注册ip
 		IpSource     string    `json:"ip_source" gorm:"column:ip_source"`         // 注册ip 源
 		CreatedAt    time.Time `json:"created_at" gorm:"column:created_at"`       // 创建时间

@@ -8,9 +8,8 @@ git fetch upstream
 1. init 为项目添加submodule
 
 ```shell
-cd  submodule
 git submodule init
-git submodule add https://github.com/ve-weiyi/go-sdk.git  submodule/go-sdk
+git submodule add https://github.com/ve-weiyi/stomp.git  submodule/stomp
 ```
 
 2. submodule update 克隆项目后拉取submodule
