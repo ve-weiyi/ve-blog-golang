@@ -58,7 +58,7 @@ func GetPlatformOauth(ctx context.Context, svcCtx *svc.ServiceContext, app strin
 	// 获取第三方登录配置
 	v, ok := appPlatformConf[platform]
 	if !ok {
-		return nil, fmt.Errorf("platform %s is undefined", platform)
+		return nil, fmt.Errorf("platform %s is not support", platform)
 	}
 
 	conf := &oauth.OauthConfig{
