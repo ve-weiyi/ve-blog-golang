@@ -22,6 +22,10 @@ type (
         PageQuery
         Username string `json:"username,optional"`
         Nickname string `json:"nickname,optional"`
+        Email string `json:"email,optional"`
+        Phone string `json:"phone,optional"`
+        Status int64 `json:"status,optional"`       // 状态: -1删除 0正常 1禁用
+        UserIds []string `json:"user_ids,optional"` // 用户ID
     }
 
     UserRoleLabel {
@@ -38,7 +42,7 @@ type (
         Email string `json:"email"`                  // 用户邮箱
         Phone string `json:"phone"`                  // 用户手机号
         Status int64 `json:"status"`                 // 状态
-        LoginType string `json:"login_type"`         // 登录方式
+        RegisterType string `json:"register_type"`   // 注册方式
         IpAddress string `json:"ip_address"`         // ip host
         IpSource string `json:"ip_source"`           // ip 源
         CreatedAt int64 `json:"created_at"`
@@ -49,8 +53,10 @@ type (
 )
 
 @server(
+    tags : "用户管理"
     prefix: /admin-api/v1
     group: account
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 

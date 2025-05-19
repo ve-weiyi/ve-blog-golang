@@ -35,6 +35,7 @@ type (
         Email string `json:"email"`                  // 用户邮箱
         Phone string `json:"phone"`                  // 用户手机号
         CreatedAt int64 `json:"created_at"`          // 创建时间
+        RegisterType string `json:"register_type"`   // 注册方式
         UserInfoExt
         ThirdParty []*UserThirdPartyInfo `json:"third_party"`
         Roles []string `json:"roles"`
@@ -133,8 +134,10 @@ type (
 )
 
 @server(
+    tags : "用户管理"
     prefix: /admin-api/v1
     group: user
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 

@@ -8,7 +8,7 @@ import (
 )
 
 func TestFeishu(t *testing.T) {
-	conf := &oauth.AuthConfig{
+	conf := &oauth.OauthConfig{
 		ClientId:     "cli_a5082b89657c900c",
 		ClientSecret: "QJiJDotAX6mNLbBIhEQIocpbWza6el4J",
 		RedirectUri:  "https://ankersolix-professional-ci.anker.com/login",

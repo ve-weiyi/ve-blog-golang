@@ -28,8 +28,10 @@ type (
 )
 
 @server(
+    tags : "友链管理"
     prefix: /admin-api/v1
     group: friend
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 

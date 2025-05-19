@@ -57,8 +57,10 @@ type (
 )
 
 @server(
+    tags : "文章"
     prefix: /blog-api/v1
     group: article
+    authType: apiKey
     middleware: TimeToken
 )
 
@@ -89,8 +91,10 @@ service blog-api {
 }
 
 @server(
+    tags : "文章"
     prefix: /blog-api/v1
     group: article
+    authType: apiKey
     middleware: TimeToken,SignToken
 )
 

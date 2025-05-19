@@ -24,18 +24,18 @@ func NewTimeTokenMiddleware() *TimeTokenMiddleware {
 func (m *TimeTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		logx.Infof("TimeTokenMiddleware Handle")
-		tk := r.Header.Get(restx.HeaderXToken)
-		tm := r.Header.Get(restx.HeaderTerminal)
+		tk := r.Header.Get(restx.HeaderXTsToken)
+		tm := r.Header.Get(restx.HeaderTerminalId)
 		ts := r.Header.Get(restx.HeaderTimestamp)
 
 		// 请求头缺少参数
 		if tk == "" {
-			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "request header field 'x-auth-token' is missing"))
+			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "request header field 'x-ts-token' is missing"))
 			return
 		}
 
 		if tm == "" {
-			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "request header field 'terminal' is missing"))
+			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "request header field 'terminal-id' is missing"))
 			return
 		}
 

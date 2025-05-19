@@ -19,8 +19,10 @@ type (
 )
 
 @server(
+    tags : "页面"
     prefix: /blog-api/v1
     group: page
+    authType: apiKey
     middleware: TimeToken
 )
 

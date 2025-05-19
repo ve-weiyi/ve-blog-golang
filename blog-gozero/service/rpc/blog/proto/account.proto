@@ -42,8 +42,8 @@ message LoginResp {
   string email = 5;// 用户邮箱
   string phone = 6;// 用户手机号
   string info = 7;// 用户信息
-
-  string login_type = 9;
+  string register_type = 9; // 注册类型
+  string login_type = 10;
   repeated UserRoleLabel roles = 16;
 }
 
@@ -130,7 +130,7 @@ message User {
   string phone = 6;// 用户手机号
   string info = 7;// 用户信息
   int64 status = 8;
-  string login_type = 9;
+  string register_type = 9;
   string ip_address = 10;// ip host
   string ip_source = 11;// ip 源
   int64 created_at = 12;
@@ -146,7 +146,7 @@ message UserInfoResp {
   string phone = 6;// 用户手机号
   string info = 7;// 用户信息
   int64 status = 8;
-  string login_type = 9;
+  string register_type = 9;
   string ip_address = 10;// ip host
   string ip_source = 11;// ip 源
   int64 created_at = 12;

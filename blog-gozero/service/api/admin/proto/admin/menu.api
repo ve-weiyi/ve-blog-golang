@@ -57,8 +57,10 @@ type (
 )
 
 @server(
+    tags : "菜单管理"
     prefix: /admin-api/v1
     group: menu
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 

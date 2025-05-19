@@ -34,8 +34,10 @@ type (
 )
 
 @server(
+    tags : "评论管理"
     prefix: /admin-api/v1
     group: comment
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 

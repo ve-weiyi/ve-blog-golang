@@ -94,6 +94,7 @@ type (
 
 
 @server(
+    tags : "认证"
     prefix: /blog-api/v1
     group: auth
 )
@@ -105,8 +106,10 @@ service blog-api {
 }
 
 @server(
+    tags : "认证"
     prefix: /blog-api/v1
     group: auth
+    authType: apiKey
     middleware: TimeToken
 )
 
@@ -155,8 +158,10 @@ service blog-api {
 }
 
 @server(
+    tags : "认证"
     prefix: /blog-api/v1
     group: auth
+    authType: apiKey
     middleware: TimeToken,SignToken
 )
 

@@ -37,12 +37,12 @@ func NewThirdLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ThirdL
 
 // 第三方登录
 func (l *ThirdLoginLogic) ThirdLogin(in *accountrpc.ThirdLoginReq) (*accountrpc.LoginResp, error) {
-	appName, err := rpcutils.GetAppNameFromCtx(l.ctx)
+	app, err := rpcutils.GetAppNameFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	auth, err := GetPlatformOauth(l.ctx, l.svcCtx, appName, in.Platform)
+	auth, err := GetPlatformOauth(l.ctx, l.svcCtx, app, in.Platform)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func (l *ThirdLoginLogic) ThirdLogin(in *accountrpc.ThirdLoginReq) (*accountrpc.
 		return nil, bizerr.NewBizError(bizerr.CodeUserNotExist, err.Error())
 	}
 
-	return onLogin(l.ctx, l.svcCtx, user, constant.LoginTypeOauth)
+	return onLogin(l.ctx, l.svcCtx, user, userOauth.Platform)
 }
 
 func (l *ThirdLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oauth.UserResult) (out *model.TUserOauth, err error) {
@@ -90,18 +90,18 @@ func (l *ThirdLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 
 	// 用户账号
 	user := &model.TUser{
-		UserId:    uid,
-		Username:  username,
-		Password:  crypto.BcryptHash(info.EnName),
-		Nickname:  info.NickName,
-		Avatar:    info.Avatar,
-		Email:     info.Email,
-		Phone:     info.Mobile,
-		Info:      "",
-		Status:    constant.UserStatusNormal,
-		LoginType: platform,
-		IpAddress: ip,
-		IpSource:  is,
+		UserId:       uid,
+		Username:     username,
+		Password:     crypto.BcryptHash(info.EnName),
+		Nickname:     info.NickName,
+		Avatar:       info.Avatar,
+		Email:        info.Email,
+		Phone:        info.Mobile,
+		Info:         "",
+		Status:       constant.UserStatusNormal,
+		RegisterType: platform,
+		IpAddress:    ip,
+		IpSource:     is,
 	}
 
 	/** 创建用户 **/

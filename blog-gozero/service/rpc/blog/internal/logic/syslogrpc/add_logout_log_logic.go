@@ -28,8 +28,11 @@ func NewAddLogoutLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddL
 
 // 更新登录记录
 func (l *AddLogoutLogLogic) AddLogoutLog(in *syslogrpc.AddLogoutLogReq) (*syslogrpc.AddLogoutLogResp, error) {
-	appname, _ := rpcutils.GetAppNameFromCtx(l.ctx)
-	exists, _, err := l.svcCtx.TLoginLogModel.FindListAndTotal(l.ctx, 1, 1, "id desc", "user_id = ? and app_name = ?", in.UserId, appname)
+	app, err := rpcutils.GetAppNameFromCtx(l.ctx)
+	if err != nil {
+		return nil, err
+	}
+	exists, _, err := l.svcCtx.TLoginLogModel.FindListAndTotal(l.ctx, 1, 1, "id desc", "user_id = ? and app_name = ?", in.UserId, app)
 	if err != nil {
 		return nil, err
 	}

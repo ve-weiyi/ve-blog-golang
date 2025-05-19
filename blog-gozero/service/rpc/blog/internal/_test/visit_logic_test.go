@@ -20,7 +20,7 @@ func TestAddVisit(t *testing.T) {
 
 	md := metadata.MD{}
 	md.Set(restx.HeaderUid, "1")
-	md.Set(restx.HeaderTerminal, "terminal")
+	md.Set(restx.HeaderTerminalId, "terminal")
 	md.Set(restx.HeaderUserAgent, "")
 	ctx = metadata.NewIncomingContext(ctx, md)
 

@@ -39,8 +39,10 @@ type (
 )
 
 @server(
+    tags : "接口管理"
     prefix: /admin-api/v1
     group: api
+    authType: apiKey
     middleware: JwtToken,Permission,OperationLog
 )
 

@@ -4,7 +4,8 @@ Mode: dev
 Timeout: 5000
 Health: true
 # 服务注册，直连模式不需要
-# 检查服务是否注册 etcdctl get --prefix blog.rpc
+# 注意把防火墙 2379、2380口打开
+# 检查服务是否注册 etcdctl get --prefix 'blog' --user=root:etcd7914
 #Etcd:
 #  Hosts:
 #   - "localhost:2379"
@@ -47,8 +48,8 @@ EmailConf:
   password: xxx
   # 发送者昵称
   nickname: 与梦
-  # 抄送邮箱,逗号隔开
-  deliver:
+  # 密送邮箱,逗号隔开
+  bcc:
     - 791422171@qq.com
   is_ssl: true
 

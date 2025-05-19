@@ -74,7 +74,6 @@ func (l *SendEmailVerifyCodeLogic) SendEmailVerifyCode(in *accountrpc.SendEmailV
 		To:      []string{in.Email},
 		Subject: emailSubject[in.Type],
 		Content: content,
-		CC:      false,
 	}
 	// 发送邮件
 	err = l.svcCtx.EmailDeliver.DeliveryEmail(msg)

@@ -10,6 +10,9 @@ import (
 )
 
 func GetUserInfos(ctx context.Context, svcCtx *svc.ServiceContext, uids []string) (map[string]*types.UserInfoVO, error) {
+	if len(uids) == 0 {
+		return nil, nil
+	}
 	users, err := svcCtx.AccountRpc.FindUserList(ctx, &accountrpc.FindUserListReq{
 		UserIds: uids,
 	})

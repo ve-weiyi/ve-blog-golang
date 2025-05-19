@@ -33,12 +33,12 @@ func NewGetOauthAuthorizeUrlLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 // 获取授权地址
 func (l *GetOauthAuthorizeUrlLogic) GetOauthAuthorizeUrl(in *accountrpc.GetOauthAuthorizeUrlReq) (*accountrpc.GetOauthAuthorizeUrlResp, error) {
-	appName, err := rpcutils.GetAppNameFromCtx(l.ctx)
+	app, err := rpcutils.GetAppNameFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	auth, err := GetPlatformOauth(l.ctx, l.svcCtx, appName, in.Platform)
+	auth, err := GetPlatformOauth(l.ctx, l.svcCtx, app, in.Platform)
 	if err != nil {
 		return nil, err
 	}
@@ -58,10 +58,10 @@ func GetPlatformOauth(ctx context.Context, svcCtx *svc.ServiceContext, app strin
 	// 获取第三方登录配置
 	v, ok := appPlatformConf[platform]
 	if !ok {
-		return nil, fmt.Errorf("platform %s is undefined", platform)
+		return nil, fmt.Errorf("platform %s is not support", platform)
 	}
 
-	conf := &oauth.AuthConfig{
+	conf := &oauth.OauthConfig{
 		ClientId:     v.ClientId,
 		ClientSecret: v.ClientSecret,
 		RedirectUri:  v.RedirectUri,
