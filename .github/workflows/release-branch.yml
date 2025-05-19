@@ -19,7 +19,6 @@ jobs:
       BUILD_CONTEXT: blog-gozero
       BUILD_DOCKERFILE: blog-gozero/Dockerfile-blog-rpc
       IMAGE_NAME: blog-rpc
-      EXPOSE_PORT: 9999
 
     steps:
       - name: Checkout code
@@ -68,7 +67,6 @@ jobs:
       BUILD_CONTEXT: blog-gozero
       BUILD_DOCKERFILE: blog-gozero/Dockerfile-blog-api
       IMAGE_NAME: blog-api
-      EXPOSE_PORT: 9090
 
     steps:
       - name: Checkout code
@@ -117,7 +115,6 @@ jobs:
       BUILD_CONTEXT: blog-gozero
       BUILD_DOCKERFILE: blog-gozero/Dockerfile-admin-api
       IMAGE_NAME: admin-api
-      EXPOSE_PORT: 9091
 
     steps:
       - name: Checkout code
