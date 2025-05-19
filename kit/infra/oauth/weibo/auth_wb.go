@@ -77,7 +77,7 @@ func (a *AuthWb) GetAuthUserInfo(code string) (resp *oauth.UserResult, err error
 func (a *AuthWb) GetAccessToken(code string) (resp *TokenResult, err error) {
 
 	body, err := httpx.NewClient(
-		"GET",
+		"POST",
 		a.AccessTokenUrl,
 		httpx.WithParams(map[string]string{
 			"client_id":     a.Config.ClientId,

@@ -9,9 +9,9 @@ import (
 
 func TestQQ(t *testing.T) {
 	conf := &oauth.OauthConfig{
-		ClientId:     "xxx",
-		ClientSecret: "xxx",
-		RedirectUri:  "https://veweiyi.cn/blog/oauth/login/qq",
+		ClientId:     "2658270041",
+		ClientSecret: "29a13e1454d7bff1c2a255185454bb86",
+		RedirectUri:  "https://blog.veweiyi.cn/oauth/login/qq",
 	}
 
 	auth := NewAuthQq(conf)
