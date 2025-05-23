@@ -57,6 +57,8 @@ func convertChatOut(in *model.TChat) (out *messagerpc.ChatDetails) {
 		TerminalId: in.TerminalId,
 		IpAddress:  in.IpAddress,
 		IpSource:   in.IpSource,
+		Nickname:   in.Nickname,
+		Avatar:     in.Avatar,
 		Type:       in.Type,
 		Content:    in.Content,
 		Status:     in.Status,
