@@ -7,6 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/messagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -51,6 +52,13 @@ func (l *FindRemarkListLogic) FindRemarkList(req *types.RemarkQueryReq) (resp *t
 	list := make([]*types.Remark, 0)
 	for _, v := range out.List {
 		list = append(list, ConvertRemarkTypes(v, usm))
+	}
+
+	_, err = l.svcCtx.SyslogRpc.AddVisitLog(l.ctx, &syslogrpc.VisitLogNewReq{
+		PageName: "留言",
+	})
+	if err != nil {
+		return nil, err
 	}
 
 	resp = &types.PageResp{}

@@ -8,6 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 )
 
 type GetArticleDetailsLogic struct {
@@ -69,5 +70,12 @@ func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *type
 		resp.NewestArticleList = append(resp.NewestArticleList, ConvertArticlePreviewTypes(v))
 	}
 
-	return
+	_, err = l.svcCtx.SyslogRpc.AddVisitLog(l.ctx, &syslogrpc.VisitLogNewReq{
+		PageName: "文章详情",
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }

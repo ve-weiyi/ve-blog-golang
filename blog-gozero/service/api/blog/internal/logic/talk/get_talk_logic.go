@@ -9,6 +9,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/messagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/talkrpc"
 )
 
@@ -47,6 +48,13 @@ func (l *GetTalkLogic) GetTalk(req *types.IdReq) (resp *types.Talk, err error) {
 	// 查询评论量
 	counts, err := l.svcCtx.MessageRpc.FindCommentReplyCounts(l.ctx, &messagerpc.IdsReq{
 		Ids: []int64{out.Id},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = l.svcCtx.SyslogRpc.AddVisitLog(l.ctx, &syslogrpc.VisitLogNewReq{
+		PageName: "说说",
 	})
 	if err != nil {
 		return nil, err
