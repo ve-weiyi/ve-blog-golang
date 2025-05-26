@@ -229,7 +229,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken, serverCtx.VisitLog},
+			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
 				{
 					// 分页获取文章分类列表
@@ -319,7 +319,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken, serverCtx.VisitLog},
+			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
 				{
 					// 分页获取友链列表
@@ -349,7 +349,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken, serverCtx.VisitLog},
+			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
 				{
 					// 分页获取留言列表
@@ -379,7 +379,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken, serverCtx.VisitLog},
+			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
 				{
 					// 分页获取标签列表

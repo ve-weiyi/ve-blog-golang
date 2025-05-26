@@ -2,7 +2,6 @@ package restx
 
 import (
 	"net/http"
-	"strings"
 )
 
 /**
@@ -87,30 +86,6 @@ const (
 	HeaderRPCRemoteAgent = "rpc-remote-agent"
 	HeaderRPCRemoteIP    = "rpc-remote-ip"
 )
-
-func GetRemoteIP(r *http.Request) string {
-	// 从 X-Forwarded-For 头部获取
-	xff := r.Header.Get(HeaderXForwardedFor)
-	if xff != "" {
-		// X-Forwarded-For 可能包含多个逗号分隔的 IP 地址
-		ips := strings.Split(xff, ",")
-		return strings.TrimSpace(ips[0]) // 取第一个 IP
-	}
-
-	// 如果没有 X-Forwarded-For，则尝试从 X-Real-IP 获取
-	xRealIP := r.Header.Get(HeaderXRealIP)
-	if xRealIP != "" {
-		return xRealIP
-	}
-
-	// 如果都没有，使用 RemoteAddr，但需要去掉端口
-	//hostPort := strings.Split(r.RemoteAddr, ":")
-	//if len(hostPort) == 2 {
-	//	return hostPort[0]
-	//}
-
-	return r.RemoteAddr
-}
 
 // RestHeader restful请求头部(Representational State Transfer 表述性状态转移)
 type RestHeader struct {

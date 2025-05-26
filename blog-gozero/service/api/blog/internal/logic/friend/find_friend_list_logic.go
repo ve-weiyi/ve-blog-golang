@@ -5,6 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/websiterpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -39,6 +40,13 @@ func (l *FindFriendListLogic) FindFriendList(req *types.FriendQueryReq) (resp *t
 	list := make([]*types.Friend, 0)
 	for _, v := range out.List {
 		list = append(list, ConvertFriendTypes(v))
+	}
+
+	_, err = l.svcCtx.SyslogRpc.AddVisitLog(l.ctx, &syslogrpc.VisitLogNewReq{
+		PageName: "友链",
+	})
+	if err != nil {
+		return nil, err
 	}
 
 	resp = &types.PageResp{}

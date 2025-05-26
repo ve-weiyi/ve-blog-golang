@@ -22,7 +22,7 @@ type (
     prefix: /blog-api/v1
     group: category
     authType: apiKey
-    middleware: TimeToken,VisitLog
+    middleware: TimeToken
 )
 
 service blog-api {

@@ -8,6 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/photorpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 )
 
 type FindAlbumListLogic struct {
@@ -40,6 +41,13 @@ func (l *FindAlbumListLogic) FindAlbumList(req *types.AlbumQueryReq) (resp *type
 	for _, v := range out.List {
 		m := ConvertAlbumTypes(v)
 		list = append(list, m)
+	}
+
+	_, err = l.svcCtx.SyslogRpc.AddVisitLog(l.ctx, &syslogrpc.VisitLogNewReq{
+		PageName: "相册",
+	})
+	if err != nil {
+		return nil, err
 	}
 
 	resp = &types.PageResp{}

@@ -30,7 +30,7 @@ type (
     prefix: /blog-api/v1
     group: remark
     authType: apiKey
-    middleware: TimeToken,VisitLog
+    middleware: TimeToken
 )
 
 service blog-api {
