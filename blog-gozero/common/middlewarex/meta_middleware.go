@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/rest/httpx"
 	"google.golang.org/grpc/metadata"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
@@ -49,7 +50,7 @@ func (m *CtxMetaMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		//ctx = context.WithValue(ctx, headerconst.HeaderReferer, r.Referer())
 
 		md.Set(restx.HeaderRPCRemoteAgent, r.UserAgent())
-		md.Set(restx.HeaderRPCRemoteIP, restx.GetRemoteIP(r))
+		md.Set(restx.HeaderRPCRemoteIP, httpx.GetRemoteAddr(r))
 		//md.Set(headerconst.HeaderReferer, r.Referer())
 
 		ctx = metadata.NewOutgoingContext(ctx, md)
