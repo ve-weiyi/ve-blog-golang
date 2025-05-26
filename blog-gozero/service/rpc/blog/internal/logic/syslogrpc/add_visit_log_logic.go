@@ -30,22 +30,10 @@ func NewAddVisitLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddVi
 
 // 创建访问记录
 func (l *AddVisitLogLogic) AddVisitLog(in *syslogrpc.VisitLogNewReq) (*syslogrpc.EmptyResp, error) {
-	uid, err := rpcutils.GetUserIdFromCtx(l.ctx)
-	if err != nil {
-		return nil, err
-	}
-	tid, err := rpcutils.GetTerminalIdFromCtx(l.ctx)
-	if err != nil {
-		return nil, err
-	}
-	ip, err := rpcutils.GetRemoteIPFromCtx(l.ctx)
-	if err != nil {
-		return nil, err
-	}
-	ua, err := rpcutils.GetRemoteAgentFromCtx(l.ctx)
-	if err != nil {
-		return nil, err
-	}
+	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
+	tid, _ := rpcutils.GetTerminalIdFromCtx(l.ctx)
+	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)
+	ua, _ := rpcutils.GetRemoteAgentFromCtx(l.ctx)
 
 	// 分割字符串，提取 IP 部分
 	is, _ := ipx.GetIpSourceByBaidu(ip)
@@ -63,7 +51,7 @@ func (l *AddVisitLogLogic) AddVisitLog(in *syslogrpc.VisitLogNewReq) (*syslogrpc
 		Browser:    browser,
 	}
 
-	_, err = l.svcCtx.TVisitLogModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.TVisitLogModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
