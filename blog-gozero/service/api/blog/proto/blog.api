@@ -31,7 +31,7 @@ info(
 	host: "blog.veweiyi.com" // API服务主机地址(不带协议头)
 	basePath: "" // API基础路径，所有接口都会添加此前缀
 	wrapCodeMsg:                 true
-	useDefinitions:              true
+	useDefinitions:              false
 	bizCodeEnumDescription: "1001-未登录<br>1002-无权限操作"
 	securityDefinitionsFromJson: `{
 	  "AppName": {"type": "apiKey", "name": "App-Name", "in": "header", "description": "应用名称，用于标识调用方"},
