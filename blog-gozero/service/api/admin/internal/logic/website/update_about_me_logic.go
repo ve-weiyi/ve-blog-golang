@@ -27,7 +27,7 @@ func NewUpdateAboutMeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 	}
 }
 
-func (l *UpdateAboutMeLogic) UpdateAboutMe(req *types.AboutMe) (resp *types.EmptyResp, err error) {
+func (l *UpdateAboutMeLogic) UpdateAboutMe(req *types.AboutMeVO) (resp *types.EmptyResp, err error) {
 	in := &configrpc.SaveConfigReq{
 		ConfigKey:   constant.ConfigKeyAboutMe,
 		ConfigValue: jsonconv.AnyToJsonNE(req),
