@@ -13,9 +13,7 @@ type (
         OriginalUrl string `json:"original_url"`                      // 原文链接
         IsTop int64 `json:"is_top"`                                   // 是否置顶
         Status int64 `json:"status"`                                  // 状态值 1 公开 2 私密 3 草稿 4 已删除
-                                                                      //        CategoryId int64 `json:"category_id"`           // 文章分类
         CategoryName string `json:"category_name,optional"`           // 文章分类名
-                                                                      //        TagIds []int64 `json:"tag_ids"`             // 文章标签
         TagNameList []string `json:"tag_name_list,optional"`          // 文章标签列表
     }
 

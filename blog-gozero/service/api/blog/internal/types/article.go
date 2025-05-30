@@ -14,6 +14,7 @@ type ArticleClassifyQueryReq struct {
 
 type ArticleDetails struct {
 	ArticleHome
+	Author               *UserInfoVO       `json:"author"`                 // 作者
 	LastArticle          *ArticlePreview   `json:"last_article"`           // 上一篇文章
 	NextArticle          *ArticlePreview   `json:"next_article"`           // 下一篇文章
 	RecommendArticleList []*ArticlePreview `json:"recommend_article_list"` // 推荐文章列表

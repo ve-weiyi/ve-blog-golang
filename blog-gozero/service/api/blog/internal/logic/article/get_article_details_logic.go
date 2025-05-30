@@ -5,6 +5,7 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
@@ -48,13 +49,21 @@ func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *type
 		return nil, err
 	}
 
+	infos, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, []string{out.UserId})
+	if err != nil {
+		return nil, err
+	}
+
 	resp = &types.ArticleDetails{
 		ArticleHome:          types.ArticleHome{},
+		Author:               nil,
 		LastArticle:          nil,
 		NextArticle:          nil,
 		RecommendArticleList: nil,
 		NewestArticleList:    nil,
 	}
+
+	resp.Author = infos[out.UserId]
 
 	resp.ArticleHome = *ConvertArticleHomeTypes(out)
 

@@ -15,7 +15,7 @@
 
 <div align="center">
   <a target="_blank" href="https://blog.veweiyi.cn">🖥️ 前台在线预览</a> |
-  <a target="_blank" href="https://blog.veweiyi.cn/blog-api/v1/swagger/index.html">📑 前台接口文档</a> |
+  <a target="_blank" href="https://blog.veweiyi.cn/blog-api/v1/swagger/index.html">📑 前台接口文档</a>
 </div>
 
 <div align="center">

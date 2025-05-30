@@ -942,14 +942,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 获取关于我的信息
 					Method:  http.MethodGet,
-					Path:    "/admin/about_me",
+					Path:    "/admin/get_about_me",
 					Handler: website.GetAboutMeHandler(serverCtx),
-				},
-				{
-					// 更新关于我的信息
-					Method:  http.MethodPut,
-					Path:    "/admin/about_me",
-					Handler: website.UpdateAboutMeHandler(serverCtx),
 				},
 				{
 					// 获取访客数据分析
@@ -974,6 +968,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/admin/system_state",
 					Handler: website.GetSystemStateHandler(serverCtx),
+				},
+				{
+					// 更新关于我的信息
+					Method:  http.MethodPut,
+					Path:    "/admin/update_about_me",
+					Handler: website.UpdateAboutMeHandler(serverCtx),
 				},
 				{
 					// 更新网站配置
