@@ -164,10 +164,29 @@ type RestHeader struct {
 	HeaderAuthorization string `header:"Authorization,optional"`
 }
 
+type RewardQrCode struct {
+	AlipayQrCode string `json:"alipay_qr_code"` // 支付宝二维码
+	WeixinQrCode string `json:"weixin_qr_code"` // 微信二维码
+}
+
+type SocialAccountInfo struct {
+	Name     string `json:"name"`     // 名称-微信
+	Platform string `json:"platform"` // 平台-wechat
+	LinkUrl  string `json:"link_url"` // 链接地址
+	Enabled  bool   `json:"enabled"`  // 是否启用
+}
+
 type TagVO struct {
 	Id           int64  `json:"id,optional"`   // 标签ID
 	TagName      string `json:"tag_name"`      // 标签名
 	ArticleCount int64  `json:"article_count"` // 文章数量
+}
+
+type ThirdPlatformInfo struct {
+	Name         string `json:"name"`          // 名称-微信
+	Platform     string `json:"platform"`      // 平台-wechat
+	AuthorizeUrl string `json:"authorize_url"` // 授权地址
+	Enabled      bool   `json:"enabled"`       // 是否启用
 }
 
 type Token struct {
@@ -301,4 +320,23 @@ type VisitTrendVO struct {
 	Date    string `json:"date"`     // 日期
 	UvCount int64  `json:"uv_count"` // 访客数
 	PvCount int64  `json:"pv_count"` // 浏览量
+}
+
+type WebsiteFeature struct {
+	IsChatRoom      int64 `json:"is_chat_room"`      // 是否开启聊天室
+	IsCommentReview int64 `json:"is_comment_review"` // 是否开启评论审核
+	IsEmailNotice   int64 `json:"is_email_notice"`   // 是否开启邮件通知
+	IsMessageReview int64 `json:"is_message_review"` // 是否开启留言审核
+	IsMusicPlayer   int64 `json:"is_music_player"`   // 是否开启音乐播放器
+	IsReward        int64 `json:"is_reward"`         // 是否开启打赏
+}
+
+type WebsiteInfo struct {
+	WebsiteAuthor     string `json:"website_author"`      // 网站作者
+	WebsiteAvatar     string `json:"website_avatar"`      // 网站头像
+	WebsiteCreateTime string `json:"website_create_time"` // 网站创建时间
+	WebsiteIntro      string `json:"website_intro"`       // 网站介绍
+	WebsiteName       string `json:"website_name"`        // 网站名称
+	WebsiteNotice     string `json:"website_notice"`      // 网站公告
+	WebsiteRecordNo   string `json:"website_record_no"`   // 网站备案号
 }

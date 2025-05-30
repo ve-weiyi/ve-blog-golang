@@ -27,7 +27,7 @@ func NewGetWebsiteConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *GetWebsiteConfigLogic) GetWebsiteConfig(req *types.EmptyReq) (resp *types.WebsiteConfig, err error) {
+func (l *GetWebsiteConfigLogic) GetWebsiteConfig(req *types.EmptyReq) (resp *types.WebsiteConfigVO, err error) {
 	in := &configrpc.FindConfigReq{
 		ConfigKey: constant.ConfigKeyWebsite,
 	}
@@ -37,7 +37,10 @@ func (l *GetWebsiteConfigLogic) GetWebsiteConfig(req *types.EmptyReq) (resp *typ
 		return nil, err
 	}
 
-	resp = &types.WebsiteConfig{}
-	jsonconv.JsonToAny(out.ConfigValue, &resp)
+	resp = &types.WebsiteConfigVO{}
+	err = jsonconv.JsonToAny(out.ConfigValue, &resp)
+	if err != nil {
+		return nil, err
+	}
 	return resp, nil
 }

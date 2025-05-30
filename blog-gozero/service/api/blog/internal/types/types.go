@@ -188,12 +188,31 @@ type RestHeader struct {
 	HeaderAuthorization string `header:"Authorization,optional"`
 }
 
+type RewardQrCode struct {
+	AlipayQrCode string `json:"alipay_qr_code"` // 支付宝二维码
+	WeixinQrCode string `json:"weixin_qr_code"` // 微信二维码
+}
+
+type SocialAccountInfo struct {
+	Name     string `json:"name"`     // 名称-微信
+	Platform string `json:"platform"` // 平台-wechat
+	LinkUrl  string `json:"link_url"` // 链接地址
+	Enabled  bool   `json:"enabled"`  // 是否启用
+}
+
 type Tag struct {
 	Id           int64  `json:"id"`            // 标签ID
 	TagName      string `json:"tag_name"`      // 标签名
 	ArticleCount int64  `json:"article_count"` // 文章数量
 	CreatedAt    int64  `json:"created_at"`    // 创建时间
 	UpdatedAt    int64  `json:"updated_at"`    // 更新时间
+}
+
+type ThirdPlatformInfo struct {
+	Name         string `json:"name"`          // 名称-微信
+	Platform     string `json:"platform"`      // 平台-wechat
+	AuthorizeUrl string `json:"authorize_url"` // 授权地址
+	Enabled      bool   `json:"enabled"`       // 是否启用
 }
 
 type Token struct {
@@ -229,28 +248,32 @@ type UserThirdPartyInfo struct {
 }
 
 type WebsiteConfigVO struct {
-	AdminUrl          string   `json:"admin_url"`           // 后台地址
-	AlipayQrCode      string   `json:"alipay_qr_code"`      // 支付宝二维码
-	Gitee             string   `json:"gitee"`               // Gitee
-	Github            string   `json:"github"`              // Github
-	IsChatRoom        int64    `json:"is_chat_room"`        // 是否开启聊天室
-	IsCommentReview   int64    `json:"is_comment_review"`   // 是否开启评论审核
-	IsEmailNotice     int64    `json:"is_email_notice"`     // 是否开启邮件通知
-	IsMessageReview   int64    `json:"is_message_review"`   // 是否开启留言审核
-	IsMusicPlayer     int64    `json:"is_music_player"`     // 是否开启音乐播放器
-	IsReward          int64    `json:"is_reward"`           // 是否开启打赏
-	Qq                string   `json:"qq"`                  // QQ
-	SocialLoginList   []string `json:"social_login_list"`   // 社交登录列表
-	SocialUrlList     []string `json:"social_url_list"`     // 社交地址列表
-	TouristAvatar     string   `json:"tourist_avatar"`      // 游客头像
-	UserAvatar        string   `json:"user_avatar"`         // 用户头像
-	WebsiteAuthor     string   `json:"website_author"`      // 网站作者
-	WebsiteAvatar     string   `json:"website_avatar"`      // 网站头像
-	WebsiteCreateTime string   `json:"website_create_time"` // 网站创建时间
-	WebsiteIntro      string   `json:"website_intro"`       // 网站介绍
-	WebsiteName       string   `json:"website_name"`        // 网站名称
-	WebsiteNotice     string   `json:"website_notice"`      // 网站公告
-	WebsiteRecordNo   string   `json:"website_record_no"`   // 网站备案号
-	WebsocketUrl      string   `json:"websocket_url"`       // websocket地址
-	WeixinQrCode      string   `json:"weixin_qr_code"`      // 微信二维码
+	AdminUrl        string               `json:"admin_url"`         // 后台地址
+	WebsocketUrl    string               `json:"websocket_url"`     // websocket地址
+	TouristAvatar   string               `json:"tourist_avatar"`    // 游客头像
+	UserAvatar      string               `json:"user_avatar"`       // 用户头像
+	WebsiteFeature  *WebsiteFeature      `json:"website_feature"`   // 网站功能
+	WebsiteInfo     *WebsiteInfo         `json:"website_info"`      // 网站信息
+	RewardQrCode    *RewardQrCode        `json:"reward_qr_code"`    // 打赏二维码
+	SocialLoginList []*ThirdPlatformInfo `json:"social_login_list"` // 用户第三方登录列表
+	SocialUrlList   []*SocialAccountInfo `json:"social_url_list"`   // 作者社交地址列表
+}
+
+type WebsiteFeature struct {
+	IsChatRoom      int64 `json:"is_chat_room"`      // 是否开启聊天室
+	IsCommentReview int64 `json:"is_comment_review"` // 是否开启评论审核
+	IsEmailNotice   int64 `json:"is_email_notice"`   // 是否开启邮件通知
+	IsMessageReview int64 `json:"is_message_review"` // 是否开启留言审核
+	IsMusicPlayer   int64 `json:"is_music_player"`   // 是否开启音乐播放器
+	IsReward        int64 `json:"is_reward"`         // 是否开启打赏
+}
+
+type WebsiteInfo struct {
+	WebsiteAuthor     string `json:"website_author"`      // 网站作者
+	WebsiteAvatar     string `json:"website_avatar"`      // 网站头像
+	WebsiteCreateTime string `json:"website_create_time"` // 网站创建时间
+	WebsiteIntro      string `json:"website_intro"`       // 网站介绍
+	WebsiteName       string `json:"website_name"`        // 网站名称
+	WebsiteNotice     string `json:"website_notice"`      // 网站公告
+	WebsiteRecordNo   string `json:"website_record_no"`   // 网站备案号
 }

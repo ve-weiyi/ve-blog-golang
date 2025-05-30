@@ -27,7 +27,7 @@ func NewGetAboutMeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetAbo
 	}
 }
 
-func (l *GetAboutMeLogic) GetAboutMe(req *types.EmptyReq) (resp *types.AboutMe, err error) {
+func (l *GetAboutMeLogic) GetAboutMe(req *types.EmptyReq) (resp *types.AboutMeVO, err error) {
 	in := &configrpc.FindConfigReq{
 		ConfigKey: constant.ConfigKeyAboutMe,
 	}
@@ -37,7 +37,10 @@ func (l *GetAboutMeLogic) GetAboutMe(req *types.EmptyReq) (resp *types.AboutMe, 
 		return nil, err
 	}
 
-	resp = &types.AboutMe{}
-	jsonconv.JsonToAny(out.ConfigValue, &resp)
+	resp = &types.AboutMeVO{}
+	err = jsonconv.JsonToAny(out.ConfigValue, &resp)
+	if err != nil {
+		return nil, err
+	}
 	return resp, nil
 }
