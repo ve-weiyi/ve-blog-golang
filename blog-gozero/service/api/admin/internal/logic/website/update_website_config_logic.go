@@ -27,7 +27,7 @@ func NewUpdateWebsiteConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext
 	}
 }
 
-func (l *UpdateWebsiteConfigLogic) UpdateWebsiteConfig(req *types.WebsiteConfig) (resp *types.EmptyResp, err error) {
+func (l *UpdateWebsiteConfigLogic) UpdateWebsiteConfig(req *types.WebsiteConfigVO) (resp *types.EmptyResp, err error) {
 	in := &configrpc.SaveConfigReq{
 		ConfigKey:   constant.ConfigKeyWebsite,
 		ConfigValue: jsonconv.AnyToJsonNE(req),

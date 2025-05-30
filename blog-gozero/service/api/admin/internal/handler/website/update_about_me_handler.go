@@ -14,7 +14,7 @@ import (
 // 更新关于我的信息
 func UpdateAboutMeHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.AboutMe
+		var req types.AboutMeVO
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
