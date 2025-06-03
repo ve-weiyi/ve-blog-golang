@@ -18,7 +18,6 @@ jobs:
       BUILD_CONTEXT: blog-gozero
       BUILD_DOCKERFILE: blog-gozero/Dockerfile-blog-rpc
       IMAGE_NAME: blog-rpc
-      EXPOSE_PORT: 9999
 
     steps:
       - name: Checkout code
@@ -51,54 +50,20 @@ jobs:
       - name: Build and tag Docker image
         run: |
           docker build -t ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} -f ${{ env.BUILD_DOCKERFILE }} ${{ env.BUILD_CONTEXT }} 
+          docker tag ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
 
       - name: Push Docker image
         run: |
           docker push ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-
-      - name: Deploy to server via SSH
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            echo "=== 部署参数 ==="
-            echo "IMAGE_TAG: ${{ env.IMAGE_NAME }}"
-            echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
-            echo "NACOS_IP: ${{ vars.NACOS_IP }}"
-            
-            # 拉取新镜像
-            docker pull ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-            
-            # 先停止并移除旧容器
-            docker stop ${{ env.IMAGE_NAME }} || true && docker rm -f ${{ env.IMAGE_NAME }} || true
-            
-            # 运行新容器
-            docker run -d \
-            --name ${{ env.IMAGE_NAME }} \
-            --restart always \
-            -p ${{ env.EXPOSE_PORT }}:${{ env.EXPOSE_PORT }} \
-            -v /data/runtime:/app/runtime \
-            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-              ./blog \
-              -nacos-ip "${{ vars.NACOS_IP }}" \
-              -nacos-port "${{ vars.NACOS_PORT }}" \
-              -nacos-username "${{ vars.NACOS_USERNAME }}" \
-              -nacos-password "${{ vars.NACOS_PASSWORD }}" \
-              -nacos-namespace "${{ vars.NACOS_NAMESPACE }}" \
-              -nacos-group "${{ vars.NACOS_GROUP }}" \
-              -nacos-data-id "${{ env.IMAGE_NAME }}"
+          docker push ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
 
   build-blog-api:
-    needs: build-blog-rpc
     runs-on: ubuntu-latest
     # 设置环境变量
     env:
       BUILD_CONTEXT: blog-gozero
       BUILD_DOCKERFILE: blog-gozero/Dockerfile-blog-api
       IMAGE_NAME: blog-api
-      EXPOSE_PORT: 9090
 
     steps:
       - name: Checkout code
@@ -114,96 +79,8 @@ jobs:
       - name: Extract branch name and commit hash
         id: vars
         run: |
-          # 提取分支名称（移除 refs/heads/ 前缀）
-          BRANCH_NAME=${GITHUB_REF#refs/heads/}
-          BRANCH_NAME=${BRANCH_NAME//\//-}  # 替换斜杠为短横线（防止 feature/xxx 在镜像名中报错）
-          # 提取前 7 位 commit hash
-          SHORT_SHA=${GITHUB_SHA::7}
-          IMAGE_TAG=${BRANCH_NAME}-${SHORT_SHA}
-          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and tag Docker image
-        run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} -f ${{ env.BUILD_DOCKERFILE }} ${{ env.BUILD_CONTEXT }} 
-
-      - name: Push Docker image
-        run: |
-          docker push ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-
-      - name: Deploy to server via SSH
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            echo "=== 部署参数 ==="
-            echo "IMAGE_TAG: ${{ env.IMAGE_NAME }}"
-            echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
-            echo "NACOS_IP: ${{ vars.NACOS_IP }}"
-            
-            # 拉取新镜像
-            docker pull ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-            
-            # 先停止并移除旧容器
-            docker stop ${{ env.IMAGE_NAME }} || true && docker rm -f ${{ env.IMAGE_NAME }} || true
-            
-            # 运行新容器
-            docker run -d \
-            --name ${{ env.IMAGE_NAME }} \
-            --restart always \
-            -p ${{ env.EXPOSE_PORT }}:${{ env.EXPOSE_PORT }} \
-            -v /data/runtime:/app/runtime \
-            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-              ./blog \
-              -nacos-ip "${{ vars.NACOS_IP }}" \
-              -nacos-port "${{ vars.NACOS_PORT }}" \
-              -nacos-username "${{ vars.NACOS_USERNAME }}" \
-              -nacos-password "${{ vars.NACOS_PASSWORD }}" \
-              -nacos-namespace "${{ vars.NACOS_NAMESPACE }}" \
-              -nacos-group "${{ vars.NACOS_GROUP }}" \
-              -nacos-data-id "${{ env.IMAGE_NAME }}"
-
-  build-admin-api:
-    needs: build-blog-rpc
-    runs-on: ubuntu-latest
-    # 设置环境变量
-    env:
-      BUILD_CONTEXT: blog-gozero
-      BUILD_DOCKERFILE: blog-gozero/Dockerfile-admin-api
-      IMAGE_NAME: admin-api
-      EXPOSE_PORT: 9091
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # 获取完整的 Git 历史记录以提取 hash
-
-      - name: List files in current directory
-        run: |
-          echo "Contents of current directory:"
-          ls -al  # 列出所有文件（包括隐藏文件）
-
-      - name: Extract branch name and commit hash
-        id: vars
-        run: |
-          # 提取分支名称（移除 refs/heads/ 前缀）
-          BRANCH_NAME=${GITHUB_REF#refs/heads/}
-          BRANCH_NAME=${BRANCH_NAME//\//-}  # 替换斜杠为短横线（防止 feature/xxx 在镜像名中报错）
-          # 提取前 7 位 commit hash
-          SHORT_SHA=${GITHUB_SHA::7}
-          IMAGE_TAG=${BRANCH_NAME}-${SHORT_SHA}
+          # 提取 tag 名称（移除 refs/tags/ 前缀）
+          IMAGE_TAG=${GITHUB_REF#refs/tags/}
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
@@ -226,6 +103,155 @@ jobs:
           docker push ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           docker push ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
 
+  build-admin-api:
+    runs-on: ubuntu-latest
+    # 设置环境变量
+    env:
+      BUILD_CONTEXT: blog-gozero
+      BUILD_DOCKERFILE: blog-gozero/Dockerfile-admin-api
+      IMAGE_NAME: admin-api
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 获取完整的 Git 历史记录以提取 hash
+
+      - name: List files in current directory
+        run: |
+          echo "Contents of current directory:"
+          ls -al  # 列出所有文件（包括隐藏文件）
+
+      - name: Extract branch name and commit hash
+        id: vars
+        run: |
+          # 提取 tag 名称（移除 refs/tags/ 前缀）
+          IMAGE_TAG=${GITHUB_REF#refs/tags/}
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and tag Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} -f ${{ env.BUILD_DOCKERFILE }} ${{ env.BUILD_CONTEXT }} 
+          docker tag ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker push ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
+
+
+  deploy-blog-rpc:
+    needs: build-blog-rpc
+    runs-on: ubuntu-latest
+    # 设置环境变量
+    env:
+      BUILD_CONTEXT: blog-gozero
+      BUILD_DOCKERFILE: blog-gozero/Dockerfile-blog-rpc
+      IMAGE_NAME: blog-rpc
+      IMAGE_TAG: latest
+      EXPOSE_PORT: 9999
+    steps:
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            echo "=== 部署参数 ==="
+            echo "IMAGE_TAG: ${{ env.IMAGE_NAME }}"
+            echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
+            echo "NACOS_IP: ${{ vars.NACOS_IP }}"
+            
+            # 拉取新镜像
+            docker pull ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            
+            # 先停止并移除旧容器
+            docker stop ${{ env.IMAGE_NAME }} || true && docker rm -f ${{ env.IMAGE_NAME }} || true
+            
+            # 运行新容器
+            docker run -d \
+            --name ${{ env.IMAGE_NAME }} \
+            --restart always \
+            -p ${{ env.EXPOSE_PORT }}:${{ env.EXPOSE_PORT }} \
+            -v /data/runtime:/app/runtime \
+            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+              ./blog \
+              -nacos-ip "${{ vars.NACOS_IP }}" \
+              -nacos-port "${{ vars.NACOS_PORT }}" \
+              -nacos-username "${{ vars.NACOS_USERNAME }}" \
+              -nacos-password "${{ vars.NACOS_PASSWORD }}" \
+              -nacos-namespace "${{ vars.NACOS_NAMESPACE }}" \
+              -nacos-group "${{ vars.NACOS_GROUP }}" \
+              -nacos-data-id "${{ env.IMAGE_NAME }}"
+
+  deploy-blog-api:
+    needs: build-blog-api
+    runs-on: ubuntu-latest
+    # 设置环境变量
+    env:
+      BUILD_CONTEXT: blog-gozero
+      BUILD_DOCKERFILE: blog-gozero/Dockerfile-blog-api
+      IMAGE_NAME: blog-api
+      IMAGE_TAG: latest
+      EXPOSE_PORT: 9090
+    steps:
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            echo "=== 部署参数 ==="
+            echo "IMAGE_TAG: ${{ env.IMAGE_NAME }}"
+            echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
+            echo "NACOS_IP: ${{ vars.NACOS_IP }}"
+            
+            # 拉取新镜像
+            docker pull ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            
+            # 先停止并移除旧容器
+            docker stop ${{ env.IMAGE_NAME }} || true && docker rm -f ${{ env.IMAGE_NAME }} || true
+            
+            # 运行新容器
+            docker run -d \
+            --name ${{ env.IMAGE_NAME }} \
+            --restart always \
+            -p ${{ env.EXPOSE_PORT }}:${{ env.EXPOSE_PORT }} \
+            -v /data/runtime:/app/runtime \
+            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+              ./blog \
+              -nacos-ip "${{ vars.NACOS_IP }}" \
+              -nacos-port "${{ vars.NACOS_PORT }}" \
+              -nacos-username "${{ vars.NACOS_USERNAME }}" \
+              -nacos-password "${{ vars.NACOS_PASSWORD }}" \
+              -nacos-namespace "${{ vars.NACOS_NAMESPACE }}" \
+              -nacos-group "${{ vars.NACOS_GROUP }}" \
+              -nacos-data-id "${{ env.IMAGE_NAME }}"
+
+
+  deploy-admin-api:
+    needs: build-admin-api
+    runs-on: ubuntu-latest
+    # 设置环境变量
+    env:
+      BUILD_CONTEXT: blog-gozero
+      BUILD_DOCKERFILE: blog-gozero/Dockerfile-admin-api
+      IMAGE_NAME: admin-api
+      IMAGE_TAG: latest
+      EXPOSE_PORT: 9091
+    steps:
       - name: Deploy to server via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:

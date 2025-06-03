@@ -5,9 +5,11 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 )
 
 type GetArticleDetailsLogic struct {
@@ -47,13 +49,21 @@ func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *type
 		return nil, err
 	}
 
+	infos, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, []string{out.UserId})
+	if err != nil {
+		return nil, err
+	}
+
 	resp = &types.ArticleDetails{
 		ArticleHome:          types.ArticleHome{},
+		Author:               nil,
 		LastArticle:          nil,
 		NextArticle:          nil,
 		RecommendArticleList: nil,
 		NewestArticleList:    nil,
 	}
+
+	resp.Author = infos[out.UserId]
 
 	resp.ArticleHome = *ConvertArticleHomeTypes(out)
 
@@ -69,5 +79,12 @@ func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *type
 		resp.NewestArticleList = append(resp.NewestArticleList, ConvertArticlePreviewTypes(v))
 	}
 
-	return
+	_, err = l.svcCtx.SyslogRpc.AddVisitLog(l.ctx, &syslogrpc.VisitLogNewReq{
+		PageName: "文章详情",
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }

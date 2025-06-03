@@ -13,7 +13,7 @@ require (
 	github.com/swaggo/swag v1.16.4
 	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20250506033759-a51bb74d9393
 	github.com/zeromicro/go-zero v1.8.3
-	github.com/zeromicro/go-zero/tools/goctl v1.8.4-alpha
+	github.com/zeromicro/go-zero/tools/goctl v1.8.4-beta
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gen v0.3.27
 	gorm.io/gorm v1.26.1

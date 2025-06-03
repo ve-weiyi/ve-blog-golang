@@ -51,7 +51,10 @@ func (s *StompWebsocketServer) Run() {
 				t := s.tm.Find(r.Sub.Destination())
 				t.Subscribe(r.Sub)
 				for _, h := range s.hm.Find(r.Sub.Destination()) {
-					h.OnTopicSubscribe(t, r.Sub)
+					err := h.OnTopicSubscribe(t, r.Sub)
+					if err != nil {
+						s.Log.Errorf("stomp: error in topic hook: %v", err)
+					}
 				}
 			}
 
@@ -65,7 +68,10 @@ func (s *StompWebsocketServer) Run() {
 				t := s.tm.Find(r.Sub.Destination())
 				t.Unsubscribe(r.Sub)
 				for _, h := range s.hm.Find(r.Sub.Destination()) {
-					h.OnTopicUnsubscribe(t, r.Sub)
+					err := h.OnTopicUnsubscribe(t, r.Sub)
+					if err != nil {
+						s.Log.Errorf("stomp: error in topic hook: %v", err)
+					}
 				}
 			}
 
@@ -84,7 +90,10 @@ func (s *StompWebsocketServer) Run() {
 				t := s.tm.Find(destination)
 				t.Enqueue(r.Frame)
 				for _, h := range s.hm.Find(destination) {
-					h.OnTopicPublish(t, r.Frame)
+					err := h.OnTopicPublish(t, r.Frame)
+					if err != nil {
+						s.Log.Errorf("stomp: error in topic hook: %v", err)
+					}
 				}
 			}
 

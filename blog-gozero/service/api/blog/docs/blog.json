@@ -47,6 +47,7 @@
           "相册"
         ],
         "summary": "获取相册列表",
+        "operationId": "albumFindAlbumList",
         "parameters": [
           {
             "name": "body",
@@ -83,7 +84,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -116,6 +129,7 @@
           "相册"
         ],
         "summary": "获取相册下的照片列表",
+        "operationId": "albumFindPhotoList",
         "parameters": [
           {
             "name": "body",
@@ -147,7 +161,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -180,6 +206,7 @@
           "相册"
         ],
         "summary": "获取相册",
+        "operationId": "albumGetAlbum",
         "parameters": [
           {
             "name": "body",
@@ -210,7 +237,25 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/Album"
+                  "type": "object",
+                  "properties": {
+                    "album_cover": {
+                      "description": "相册封面",
+                      "type": "string"
+                    },
+                    "album_desc": {
+                      "description": "相册描述",
+                      "type": "string"
+                    },
+                    "album_name": {
+                      "description": "相册名",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "主键",
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -243,6 +288,7 @@
           "文章"
         ],
         "summary": "文章归档(时间轴)",
+        "operationId": "articleFindArticleArchives",
         "parameters": [
           {
             "name": "body",
@@ -279,7 +325,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -312,6 +370,7 @@
           "文章"
         ],
         "summary": "通过分类获取文章列表",
+        "operationId": "articleFindArticleClassifyCategory",
         "parameters": [
           {
             "name": "body",
@@ -352,7 +411,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -385,6 +456,7 @@
           "文章"
         ],
         "summary": "通过标签获取文章列表",
+        "operationId": "articleFindArticleClassifyTag",
         "parameters": [
           {
             "name": "body",
@@ -425,7 +497,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -458,6 +542,7 @@
           "文章"
         ],
         "summary": "获取文章详情",
+        "operationId": "articleGetArticleDetails",
         "parameters": [
           {
             "name": "body",
@@ -488,7 +573,226 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/ArticleDetails"
+                  "type": "object",
+                  "properties": {
+                    "article_content": {
+                      "description": "内容",
+                      "type": "string"
+                    },
+                    "article_cover": {
+                      "description": "文章缩略图",
+                      "type": "string"
+                    },
+                    "article_title": {
+                      "description": "标题",
+                      "type": "string"
+                    },
+                    "article_type": {
+                      "description": "文章类型",
+                      "type": "integer"
+                    },
+                    "category_name": {
+                      "description": "文章分类名",
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "description": "发表时间",
+                      "type": "integer"
+                    },
+                    "id": {
+                      "description": "文章ID",
+                      "type": "integer"
+                    },
+                    "is_top": {
+                      "description": "是否置顶",
+                      "type": "integer"
+                    },
+                    "last_article": {
+                      "description": "上一篇文章",
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "article_cover",
+                        "article_title",
+                        "like_count",
+                        "views_count",
+                        "created_at"
+                      ],
+                      "properties": {
+                        "article_cover": {
+                          "description": "文章缩略图",
+                          "type": "string"
+                        },
+                        "article_title": {
+                          "description": "标题",
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "description": "创建时间",
+                          "type": "integer"
+                        },
+                        "id": {
+                          "description": "文章ID",
+                          "type": "integer"
+                        },
+                        "like_count": {
+                          "description": "点赞量",
+                          "type": "integer"
+                        },
+                        "views_count": {
+                          "description": "浏览量",
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "like_count": {
+                      "description": "点赞量",
+                      "type": "integer"
+                    },
+                    "newest_article_list": {
+                      "description": "最新文章列表",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "article_cover",
+                          "article_title",
+                          "like_count",
+                          "views_count",
+                          "created_at"
+                        ],
+                        "properties": {
+                          "article_cover": {
+                            "description": "文章缩略图",
+                            "type": "string"
+                          },
+                          "article_title": {
+                            "description": "标题",
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "description": "创建时间",
+                            "type": "integer"
+                          },
+                          "id": {
+                            "description": "文章ID",
+                            "type": "integer"
+                          },
+                          "like_count": {
+                            "description": "点赞量",
+                            "type": "integer"
+                          },
+                          "views_count": {
+                            "description": "浏览量",
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "next_article": {
+                      "description": "下一篇文章",
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "article_cover",
+                        "article_title",
+                        "like_count",
+                        "views_count",
+                        "created_at"
+                      ],
+                      "properties": {
+                        "article_cover": {
+                          "description": "文章缩略图",
+                          "type": "string"
+                        },
+                        "article_title": {
+                          "description": "标题",
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "description": "创建时间",
+                          "type": "integer"
+                        },
+                        "id": {
+                          "description": "文章ID",
+                          "type": "integer"
+                        },
+                        "like_count": {
+                          "description": "点赞量",
+                          "type": "integer"
+                        },
+                        "views_count": {
+                          "description": "浏览量",
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "original_url": {
+                      "description": "原文链接",
+                      "type": "string"
+                    },
+                    "recommend_article_list": {
+                      "description": "推荐文章列表",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "article_cover",
+                          "article_title",
+                          "like_count",
+                          "views_count",
+                          "created_at"
+                        ],
+                        "properties": {
+                          "article_cover": {
+                            "description": "文章缩略图",
+                            "type": "string"
+                          },
+                          "article_title": {
+                            "description": "标题",
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "description": "创建时间",
+                            "type": "integer"
+                          },
+                          "id": {
+                            "description": "文章ID",
+                            "type": "integer"
+                          },
+                          "like_count": {
+                            "description": "点赞量",
+                            "type": "integer"
+                          },
+                          "views_count": {
+                            "description": "浏览量",
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "status": {
+                      "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
+                      "type": "integer"
+                    },
+                    "tag_name_list": {
+                      "description": "文章标签列表",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "updated_at": {
+                      "description": "更新时间",
+                      "type": "integer"
+                    },
+                    "views_count": {
+                      "description": "浏览量",
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -521,6 +825,7 @@
           "文章"
         ],
         "summary": "获取首页文章列表",
+        "operationId": "articleFindArticleHomeList",
         "parameters": [
           {
             "name": "body",
@@ -561,7 +866,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -594,6 +911,7 @@
           "文章"
         ],
         "summary": "获取首页推荐文章列表",
+        "operationId": "articleFindArticleRecommend",
         "responses": {
           "200": {
             "description": "",
@@ -606,7 +924,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -639,6 +969,7 @@
           "文章"
         ],
         "summary": "点赞文章",
+        "operationId": "articleLikeArticle",
         "parameters": [
           {
             "name": "body",
@@ -669,7 +1000,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -699,6 +1030,7 @@
           "网站"
         ],
         "summary": "获取博客前台首页信息",
+        "operationId": "websiteGetBlogHomeInfo",
         "responses": {
           "200": {
             "description": "",
@@ -711,7 +1043,198 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/GetBlogHomeInfoResp"
+                  "type": "object",
+                  "properties": {
+                    "article_count": {
+                      "description": "文章数量",
+                      "type": "integer"
+                    },
+                    "category_count": {
+                      "description": "分类数量",
+                      "type": "integer"
+                    },
+                    "page_list": {
+                      "description": "页面列表",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "page_name",
+                          "page_label",
+                          "page_cover"
+                        ],
+                        "properties": {
+                          "id": {
+                            "description": "页面ID",
+                            "type": "integer"
+                          },
+                          "is_carousel": {
+                            "description": "是否轮播",
+                            "type": "integer"
+                          },
+                          "page_cover": {
+                            "description": "页面封面",
+                            "type": "string"
+                          },
+                          "page_label": {
+                            "description": "页面标签",
+                            "type": "string"
+                          },
+                          "page_name": {
+                            "description": "页面名称",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "tag_count": {
+                      "description": "标签数量",
+                      "type": "integer"
+                    },
+                    "total_page_view_count": {
+                      "description": "总浏览量",
+                      "type": "integer"
+                    },
+                    "total_user_view_count": {
+                      "description": "总服务量",
+                      "type": "integer"
+                    },
+                    "website_config": {
+                      "description": "网站配置",
+                      "type": "object",
+                      "required": [
+                        "admin_url",
+                        "alipay_qr_code",
+                        "gitee",
+                        "github",
+                        "is_chat_room",
+                        "is_comment_review",
+                        "is_email_notice",
+                        "is_message_review",
+                        "is_music_player",
+                        "is_reward",
+                        "qq",
+                        "social_login_list",
+                        "social_url_list",
+                        "tourist_avatar",
+                        "user_avatar",
+                        "website_author",
+                        "website_avatar",
+                        "website_create_time",
+                        "website_intro",
+                        "website_name",
+                        "website_notice",
+                        "website_record_no",
+                        "websocket_url",
+                        "weixin_qr_code"
+                      ],
+                      "properties": {
+                        "admin_url": {
+                          "description": "后台地址",
+                          "type": "string"
+                        },
+                        "alipay_qr_code": {
+                          "description": "支付宝二维码",
+                          "type": "string"
+                        },
+                        "gitee": {
+                          "description": "Gitee",
+                          "type": "string"
+                        },
+                        "github": {
+                          "description": "Github",
+                          "type": "string"
+                        },
+                        "is_chat_room": {
+                          "description": "是否开启聊天室",
+                          "type": "integer"
+                        },
+                        "is_comment_review": {
+                          "description": "是否开启评论审核",
+                          "type": "integer"
+                        },
+                        "is_email_notice": {
+                          "description": "是否开启邮件通知",
+                          "type": "integer"
+                        },
+                        "is_message_review": {
+                          "description": "是否开启留言审核",
+                          "type": "integer"
+                        },
+                        "is_music_player": {
+                          "description": "是否开启音乐播放器",
+                          "type": "integer"
+                        },
+                        "is_reward": {
+                          "description": "是否开启打赏",
+                          "type": "integer"
+                        },
+                        "qq": {
+                          "description": "QQ",
+                          "type": "string"
+                        },
+                        "social_login_list": {
+                          "description": "社交登录列表",
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "social_url_list": {
+                          "description": "社交地址列表",
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "tourist_avatar": {
+                          "description": "游客头像",
+                          "type": "string"
+                        },
+                        "user_avatar": {
+                          "description": "用户头像",
+                          "type": "string"
+                        },
+                        "website_author": {
+                          "description": "网站作者",
+                          "type": "string"
+                        },
+                        "website_avatar": {
+                          "description": "网站头像",
+                          "type": "string"
+                        },
+                        "website_create_time": {
+                          "description": "网站创建时间",
+                          "type": "string"
+                        },
+                        "website_intro": {
+                          "description": "网站介绍",
+                          "type": "string"
+                        },
+                        "website_name": {
+                          "description": "网站名称",
+                          "type": "string"
+                        },
+                        "website_notice": {
+                          "description": "网站公告",
+                          "type": "string"
+                        },
+                        "website_record_no": {
+                          "description": "网站备案号",
+                          "type": "string"
+                        },
+                        "websocket_url": {
+                          "description": "websocket地址",
+                          "type": "string"
+                        },
+                        "weixin_qr_code": {
+                          "description": "微信二维码",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -741,6 +1264,7 @@
           "网站"
         ],
         "summary": "获取关于我的信息",
+        "operationId": "websiteGetAboutMe",
         "responses": {
           "200": {
             "description": "",
@@ -753,7 +1277,12 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/GetAboutMeResp"
+                  "type": "object",
+                  "properties": {
+                    "content": {
+                      "type": "string"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -786,6 +1315,7 @@
           "分类"
         ],
         "summary": "分页获取文章分类列表",
+        "operationId": "categoryFindCategoryList",
         "parameters": [
           {
             "name": "body",
@@ -826,7 +1356,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -859,6 +1401,7 @@
           "评论"
         ],
         "summary": "创建评论",
+        "operationId": "commentAddComment",
         "parameters": [
           {
             "name": "body",
@@ -915,7 +1458,260 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/Comment"
+                  "type": "object",
+                  "properties": {
+                    "comment_content": {
+                      "description": "评论内容",
+                      "type": "string"
+                    },
+                    "comment_reply_list": {
+                      "description": "评论回复列表",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "topic_id",
+                          "parent_id",
+                          "reply_msg_id",
+                          "user_id",
+                          "reply_user_id",
+                          "comment_content",
+                          "type",
+                          "created_at",
+                          "like_count",
+                          "user",
+                          "reply_user"
+                        ],
+                        "properties": {
+                          "comment_content": {
+                            "description": "评论内容",
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "description": "评论时间",
+                            "type": "integer"
+                          },
+                          "id": {
+                            "description": "评论id",
+                            "type": "integer"
+                          },
+                          "like_count": {
+                            "description": "点赞数",
+                            "type": "integer"
+                          },
+                          "parent_id": {
+                            "description": "父评论id",
+                            "type": "integer"
+                          },
+                          "reply_msg_id": {
+                            "description": "会话id",
+                            "type": "integer"
+                          },
+                          "reply_user": {
+                            "description": "被回复评论用户",
+                            "type": "object",
+                            "required": [
+                              "user_id",
+                              "username",
+                              "avatar",
+                              "nickname"
+                            ],
+                            "properties": {
+                              "avatar": {
+                                "type": "string"
+                              },
+                              "gender": {
+                                "description": "性别 0未知 1男 2女",
+                                "type": "integer"
+                              },
+                              "intro": {
+                                "description": "简介",
+                                "type": "string"
+                              },
+                              "nickname": {
+                                "type": "string"
+                              },
+                              "user_id": {
+                                "type": "string"
+                              },
+                              "username": {
+                                "type": "string"
+                              },
+                              "website": {
+                                "description": "网站",
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "reply_user_id": {
+                            "description": "被回复用户id",
+                            "type": "string"
+                          },
+                          "topic_id": {
+                            "description": "主题id",
+                            "type": "integer"
+                          },
+                          "type": {
+                            "description": "评论类型 1.文章 2.友链 3.说说",
+                            "type": "integer"
+                          },
+                          "user": {
+                            "description": "用户信息",
+                            "type": "object",
+                            "required": [
+                              "user_id",
+                              "username",
+                              "avatar",
+                              "nickname"
+                            ],
+                            "properties": {
+                              "avatar": {
+                                "type": "string"
+                              },
+                              "gender": {
+                                "description": "性别 0未知 1男 2女",
+                                "type": "integer"
+                              },
+                              "intro": {
+                                "description": "简介",
+                                "type": "string"
+                              },
+                              "nickname": {
+                                "type": "string"
+                              },
+                              "user_id": {
+                                "type": "string"
+                              },
+                              "username": {
+                                "type": "string"
+                              },
+                              "website": {
+                                "description": "网站",
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "user_id": {
+                            "description": "用户id",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "created_at": {
+                      "description": "评论时间",
+                      "type": "integer"
+                    },
+                    "id": {
+                      "description": "评论id",
+                      "type": "integer"
+                    },
+                    "like_count": {
+                      "description": "点赞数",
+                      "type": "integer"
+                    },
+                    "parent_id": {
+                      "description": "父评论id",
+                      "type": "integer"
+                    },
+                    "reply_count": {
+                      "description": "回复量",
+                      "type": "integer"
+                    },
+                    "reply_msg_id": {
+                      "description": "会话id",
+                      "type": "integer"
+                    },
+                    "reply_user": {
+                      "description": "被回复评论用户",
+                      "type": "object",
+                      "required": [
+                        "user_id",
+                        "username",
+                        "avatar",
+                        "nickname"
+                      ],
+                      "properties": {
+                        "avatar": {
+                          "type": "string"
+                        },
+                        "gender": {
+                          "description": "性别 0未知 1男 2女",
+                          "type": "integer"
+                        },
+                        "intro": {
+                          "description": "简介",
+                          "type": "string"
+                        },
+                        "nickname": {
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "website": {
+                          "description": "网站",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "reply_user_id": {
+                      "description": "被回复用户id",
+                      "type": "string"
+                    },
+                    "topic_id": {
+                      "description": "主题id",
+                      "type": "integer"
+                    },
+                    "type": {
+                      "description": "评论类型 1.文章 2.友链 3.说说",
+                      "type": "integer"
+                    },
+                    "user": {
+                      "description": "评论用户",
+                      "type": "object",
+                      "required": [
+                        "user_id",
+                        "username",
+                        "avatar",
+                        "nickname"
+                      ],
+                      "properties": {
+                        "avatar": {
+                          "type": "string"
+                        },
+                        "gender": {
+                          "description": "性别 0未知 1男 2女",
+                          "type": "integer"
+                        },
+                        "intro": {
+                          "description": "简介",
+                          "type": "string"
+                        },
+                        "nickname": {
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "website": {
+                          "description": "网站",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "user_id": {
+                      "description": "用户id",
+                      "type": "string"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -948,6 +1744,7 @@
           "评论"
         ],
         "summary": "查询评论列表",
+        "operationId": "commentFindCommentList",
         "parameters": [
           {
             "name": "body",
@@ -996,7 +1793,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -1029,6 +1838,7 @@
           "评论"
         ],
         "summary": "查询最新评论回复列表",
+        "operationId": "commentFindCommentRecentList",
         "parameters": [
           {
             "name": "body",
@@ -1077,7 +1887,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -1110,6 +1932,7 @@
           "评论"
         ],
         "summary": "查询评论回复列表",
+        "operationId": "commentFindCommentReplyList",
         "parameters": [
           {
             "name": "body",
@@ -1158,7 +1981,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -1191,6 +2026,7 @@
           "评论"
         ],
         "summary": "点赞评论",
+        "operationId": "commentLikeComment",
         "parameters": [
           {
             "name": "body",
@@ -1221,7 +2057,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -1254,6 +2090,7 @@
           "评论"
         ],
         "summary": "更新评论",
+        "operationId": "commentUpdateComment",
         "parameters": [
           {
             "name": "body",
@@ -1298,7 +2135,260 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/Comment"
+                  "type": "object",
+                  "properties": {
+                    "comment_content": {
+                      "description": "评论内容",
+                      "type": "string"
+                    },
+                    "comment_reply_list": {
+                      "description": "评论回复列表",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "topic_id",
+                          "parent_id",
+                          "reply_msg_id",
+                          "user_id",
+                          "reply_user_id",
+                          "comment_content",
+                          "type",
+                          "created_at",
+                          "like_count",
+                          "user",
+                          "reply_user"
+                        ],
+                        "properties": {
+                          "comment_content": {
+                            "description": "评论内容",
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "description": "评论时间",
+                            "type": "integer"
+                          },
+                          "id": {
+                            "description": "评论id",
+                            "type": "integer"
+                          },
+                          "like_count": {
+                            "description": "点赞数",
+                            "type": "integer"
+                          },
+                          "parent_id": {
+                            "description": "父评论id",
+                            "type": "integer"
+                          },
+                          "reply_msg_id": {
+                            "description": "会话id",
+                            "type": "integer"
+                          },
+                          "reply_user": {
+                            "description": "被回复评论用户",
+                            "type": "object",
+                            "required": [
+                              "user_id",
+                              "username",
+                              "avatar",
+                              "nickname"
+                            ],
+                            "properties": {
+                              "avatar": {
+                                "type": "string"
+                              },
+                              "gender": {
+                                "description": "性别 0未知 1男 2女",
+                                "type": "integer"
+                              },
+                              "intro": {
+                                "description": "简介",
+                                "type": "string"
+                              },
+                              "nickname": {
+                                "type": "string"
+                              },
+                              "user_id": {
+                                "type": "string"
+                              },
+                              "username": {
+                                "type": "string"
+                              },
+                              "website": {
+                                "description": "网站",
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "reply_user_id": {
+                            "description": "被回复用户id",
+                            "type": "string"
+                          },
+                          "topic_id": {
+                            "description": "主题id",
+                            "type": "integer"
+                          },
+                          "type": {
+                            "description": "评论类型 1.文章 2.友链 3.说说",
+                            "type": "integer"
+                          },
+                          "user": {
+                            "description": "用户信息",
+                            "type": "object",
+                            "required": [
+                              "user_id",
+                              "username",
+                              "avatar",
+                              "nickname"
+                            ],
+                            "properties": {
+                              "avatar": {
+                                "type": "string"
+                              },
+                              "gender": {
+                                "description": "性别 0未知 1男 2女",
+                                "type": "integer"
+                              },
+                              "intro": {
+                                "description": "简介",
+                                "type": "string"
+                              },
+                              "nickname": {
+                                "type": "string"
+                              },
+                              "user_id": {
+                                "type": "string"
+                              },
+                              "username": {
+                                "type": "string"
+                              },
+                              "website": {
+                                "description": "网站",
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "user_id": {
+                            "description": "用户id",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "created_at": {
+                      "description": "评论时间",
+                      "type": "integer"
+                    },
+                    "id": {
+                      "description": "评论id",
+                      "type": "integer"
+                    },
+                    "like_count": {
+                      "description": "点赞数",
+                      "type": "integer"
+                    },
+                    "parent_id": {
+                      "description": "父评论id",
+                      "type": "integer"
+                    },
+                    "reply_count": {
+                      "description": "回复量",
+                      "type": "integer"
+                    },
+                    "reply_msg_id": {
+                      "description": "会话id",
+                      "type": "integer"
+                    },
+                    "reply_user": {
+                      "description": "被回复评论用户",
+                      "type": "object",
+                      "required": [
+                        "user_id",
+                        "username",
+                        "avatar",
+                        "nickname"
+                      ],
+                      "properties": {
+                        "avatar": {
+                          "type": "string"
+                        },
+                        "gender": {
+                          "description": "性别 0未知 1男 2女",
+                          "type": "integer"
+                        },
+                        "intro": {
+                          "description": "简介",
+                          "type": "string"
+                        },
+                        "nickname": {
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "website": {
+                          "description": "网站",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "reply_user_id": {
+                      "description": "被回复用户id",
+                      "type": "string"
+                    },
+                    "topic_id": {
+                      "description": "主题id",
+                      "type": "integer"
+                    },
+                    "type": {
+                      "description": "评论类型 1.文章 2.友链 3.说说",
+                      "type": "integer"
+                    },
+                    "user": {
+                      "description": "评论用户",
+                      "type": "object",
+                      "required": [
+                        "user_id",
+                        "username",
+                        "avatar",
+                        "nickname"
+                      ],
+                      "properties": {
+                        "avatar": {
+                          "type": "string"
+                        },
+                        "gender": {
+                          "description": "性别 0未知 1男 2女",
+                          "type": "integer"
+                        },
+                        "intro": {
+                          "description": "简介",
+                          "type": "string"
+                        },
+                        "nickname": {
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "website": {
+                          "description": "网站",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "user_id": {
+                      "description": "用户id",
+                      "type": "string"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -1331,6 +2421,7 @@
           "认证"
         ],
         "summary": "邮箱登录",
+        "operationId": "authEmailLogin",
         "parameters": [
           {
             "name": "body",
@@ -1375,7 +2466,51 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/LoginResp"
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "object",
+                      "required": [
+                        "user_id",
+                        "token_type",
+                        "access_token",
+                        "expires_in",
+                        "refresh_token",
+                        "refresh_expires_in",
+                        "scope"
+                      ],
+                      "properties": {
+                        "access_token": {
+                          "description": "访问token,过期时间较短。2h",
+                          "type": "string"
+                        },
+                        "expires_in": {
+                          "description": "访问token过期时间",
+                          "type": "integer"
+                        },
+                        "refresh_expires_in": {
+                          "description": "刷新token过期时间",
+                          "type": "integer"
+                        },
+                        "refresh_token": {
+                          "description": "刷新token,过期时间较长。30d",
+                          "type": "string"
+                        },
+                        "scope": {
+                          "description": "作用域",
+                          "type": "string"
+                        },
+                        "token_type": {
+                          "description": "token类型,Bearer",
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "description": "用户id",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -1408,6 +2543,7 @@
           "文件"
         ],
         "summary": "上传文件列表",
+        "operationId": "fileMultiUploadFile",
         "parameters": [
           {
             "type": "array",
@@ -1436,7 +2572,49 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/FileBackVO"
+                  "type": "object",
+                  "properties": {
+                    "created_at": {
+                      "description": "创建时间",
+                      "type": "integer"
+                    },
+                    "file_md5": {
+                      "description": "文件md5值",
+                      "type": "string"
+                    },
+                    "file_name": {
+                      "description": "文件名称",
+                      "type": "string"
+                    },
+                    "file_path": {
+                      "description": "文件路径",
+                      "type": "string"
+                    },
+                    "file_size": {
+                      "description": "文件大小",
+                      "type": "integer"
+                    },
+                    "file_type": {
+                      "description": "文件类型",
+                      "type": "string"
+                    },
+                    "file_url": {
+                      "description": "上传路径",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "文件目录ID",
+                      "type": "integer"
+                    },
+                    "updated_at": {
+                      "description": "更新时间",
+                      "type": "integer"
+                    },
+                    "user_id": {
+                      "description": "用户id",
+                      "type": "string"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -1469,6 +2647,7 @@
           "文件"
         ],
         "summary": "上传文件",
+        "operationId": "fileUploadFile",
         "parameters": [
           {
             "description": "文件",
@@ -1496,7 +2675,49 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/FileBackVO"
+                  "type": "object",
+                  "properties": {
+                    "created_at": {
+                      "description": "创建时间",
+                      "type": "integer"
+                    },
+                    "file_md5": {
+                      "description": "文件md5值",
+                      "type": "string"
+                    },
+                    "file_name": {
+                      "description": "文件名称",
+                      "type": "string"
+                    },
+                    "file_path": {
+                      "description": "文件路径",
+                      "type": "string"
+                    },
+                    "file_size": {
+                      "description": "文件大小",
+                      "type": "integer"
+                    },
+                    "file_type": {
+                      "description": "文件类型",
+                      "type": "string"
+                    },
+                    "file_url": {
+                      "description": "上传路径",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "文件目录ID",
+                      "type": "integer"
+                    },
+                    "updated_at": {
+                      "description": "更新时间",
+                      "type": "integer"
+                    },
+                    "user_id": {
+                      "description": "用户id",
+                      "type": "string"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -1529,6 +2750,7 @@
           "友链"
         ],
         "summary": "分页获取友链列表",
+        "operationId": "friendFindFriendList",
         "parameters": [
           {
             "name": "body",
@@ -1565,7 +2787,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -1598,6 +2832,7 @@
           "认证"
         ],
         "summary": "获取验证码",
+        "operationId": "authGetCaptchaCode",
         "parameters": [
           {
             "name": "body",
@@ -1630,7 +2865,21 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/GetCaptchaCodeResp"
+                  "type": "object",
+                  "properties": {
+                    "captcha_base64": {
+                      "description": "验证码base64",
+                      "type": "string"
+                    },
+                    "captcha_code": {
+                      "description": "验证码",
+                      "type": "string"
+                    },
+                    "captcha_key": {
+                      "description": "验证码key",
+                      "type": "string"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -1663,6 +2912,7 @@
           "认证"
         ],
         "summary": "第三方登录授权地址",
+        "operationId": "authGetOauthAuthorizeUrl",
         "parameters": [
           {
             "name": "body",
@@ -1698,7 +2948,13 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/GetOauthAuthorizeUrlResp"
+                  "type": "object",
+                  "properties": {
+                    "authorize_url": {
+                      "description": "授权地址",
+                      "type": "string"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -1723,6 +2979,7 @@
           "认证"
         ],
         "summary": "获取游客身份信息",
+        "operationId": "authGetTouristInfo",
         "responses": {
           "200": {
             "description": "",
@@ -1735,7 +2992,13 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/GetTouristInfoResp"
+                  "type": "object",
+                  "properties": {
+                    "tourist_id": {
+                      "description": "游客id",
+                      "type": "string"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -1768,6 +3031,7 @@
           "认证"
         ],
         "summary": "登录",
+        "operationId": "authLogin",
         "parameters": [
           {
             "name": "body",
@@ -1810,7 +3074,51 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/LoginResp"
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "object",
+                      "required": [
+                        "user_id",
+                        "token_type",
+                        "access_token",
+                        "expires_in",
+                        "refresh_token",
+                        "refresh_expires_in",
+                        "scope"
+                      ],
+                      "properties": {
+                        "access_token": {
+                          "description": "访问token,过期时间较短。2h",
+                          "type": "string"
+                        },
+                        "expires_in": {
+                          "description": "访问token过期时间",
+                          "type": "integer"
+                        },
+                        "refresh_expires_in": {
+                          "description": "刷新token过期时间",
+                          "type": "integer"
+                        },
+                        "refresh_token": {
+                          "description": "刷新token,过期时间较长。30d",
+                          "type": "string"
+                        },
+                        "scope": {
+                          "description": "作用域",
+                          "type": "string"
+                        },
+                        "token_type": {
+                          "description": "token类型,Bearer",
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "description": "用户id",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -1843,6 +3151,7 @@
           "认证"
         ],
         "summary": "注销",
+        "operationId": "authLogoff",
         "responses": {
           "200": {
             "description": "",
@@ -1855,7 +3164,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -1888,6 +3197,7 @@
           "认证"
         ],
         "summary": "登出",
+        "operationId": "authLogout",
         "responses": {
           "200": {
             "description": "",
@@ -1900,7 +3210,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -1933,6 +3243,7 @@
           "页面"
         ],
         "summary": "分页获取页面列表",
+        "operationId": "pageFindPageList",
         "parameters": [
           {
             "name": "body",
@@ -1969,7 +3280,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -2002,6 +3325,7 @@
           "认证"
         ],
         "summary": "手机登录",
+        "operationId": "authPhoneLogin",
         "parameters": [
           {
             "name": "body",
@@ -2038,7 +3362,51 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/LoginResp"
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "object",
+                      "required": [
+                        "user_id",
+                        "token_type",
+                        "access_token",
+                        "expires_in",
+                        "refresh_token",
+                        "refresh_expires_in",
+                        "scope"
+                      ],
+                      "properties": {
+                        "access_token": {
+                          "description": "访问token,过期时间较短。2h",
+                          "type": "string"
+                        },
+                        "expires_in": {
+                          "description": "访问token过期时间",
+                          "type": "integer"
+                        },
+                        "refresh_expires_in": {
+                          "description": "刷新token过期时间",
+                          "type": "integer"
+                        },
+                        "refresh_token": {
+                          "description": "刷新token,过期时间较长。30d",
+                          "type": "string"
+                        },
+                        "scope": {
+                          "description": "作用域",
+                          "type": "string"
+                        },
+                        "token_type": {
+                          "description": "token类型,Bearer",
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "description": "用户id",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -2060,6 +3428,7 @@
           "https"
         ],
         "summary": "ping",
+        "operationId": "ping",
         "responses": {
           "200": {
             "description": "",
@@ -2072,7 +3441,30 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PingResp"
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "env": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "rpc_status": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "runtime": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -2105,6 +3497,7 @@
           "认证"
         ],
         "summary": "注册",
+        "operationId": "authRegister",
         "parameters": [
           {
             "name": "body",
@@ -2154,7 +3547,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -2187,6 +3580,7 @@
           "留言"
         ],
         "summary": "创建留言",
+        "operationId": "remarkAddRemark",
         "parameters": [
           {
             "name": "body",
@@ -2218,7 +3612,81 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/Remark"
+                  "type": "object",
+                  "properties": {
+                    "created_at": {
+                      "description": "发布时间",
+                      "type": "integer"
+                    },
+                    "id": {
+                      "description": "主键id",
+                      "type": "integer"
+                    },
+                    "ip_address": {
+                      "description": "用户ip",
+                      "type": "string"
+                    },
+                    "ip_source": {
+                      "description": "用户地址",
+                      "type": "string"
+                    },
+                    "is_review": {
+                      "description": "是否审核",
+                      "type": "integer"
+                    },
+                    "message_content": {
+                      "description": "留言内容",
+                      "type": "string"
+                    },
+                    "terminal_id": {
+                      "description": "终端id",
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "description": "更新时间",
+                      "type": "integer"
+                    },
+                    "user": {
+                      "description": "用户信息",
+                      "type": "object",
+                      "required": [
+                        "user_id",
+                        "username",
+                        "avatar",
+                        "nickname"
+                      ],
+                      "properties": {
+                        "avatar": {
+                          "type": "string"
+                        },
+                        "gender": {
+                          "description": "性别 0未知 1男 2女",
+                          "type": "integer"
+                        },
+                        "intro": {
+                          "description": "简介",
+                          "type": "string"
+                        },
+                        "nickname": {
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "website": {
+                          "description": "网站",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "user_id": {
+                      "description": "用户id",
+                      "type": "string"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -2251,6 +3719,7 @@
           "留言"
         ],
         "summary": "分页获取留言列表",
+        "operationId": "remarkFindRemarkList",
         "parameters": [
           {
             "name": "body",
@@ -2287,7 +3756,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -2320,6 +3801,7 @@
           "认证"
         ],
         "summary": "重置密码",
+        "operationId": "authResetPassword",
         "parameters": [
           {
             "name": "body",
@@ -2364,7 +3846,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -2397,6 +3879,7 @@
           "认证"
         ],
         "summary": "发送邮件验证码",
+        "operationId": "authSendEmailVerifyCode",
         "parameters": [
           {
             "name": "body",
@@ -2433,7 +3916,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -2466,6 +3949,7 @@
           "认证"
         ],
         "summary": "发送手机验证码",
+        "operationId": "authSendPhoneVerifyCode",
         "parameters": [
           {
             "name": "body",
@@ -2502,7 +3986,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -2535,6 +4019,7 @@
           "标签"
         ],
         "summary": "分页获取标签列表",
+        "operationId": "tagFindTagList",
         "parameters": [
           {
             "name": "body",
@@ -2575,7 +4060,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -2608,6 +4105,7 @@
           "说说"
         ],
         "summary": "分页获取说说列表",
+        "operationId": "talkFindTalkList",
         "parameters": [
           {
             "name": "body",
@@ -2644,7 +4142,19 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -2677,6 +4187,7 @@
           "说说"
         ],
         "summary": "查询说说",
+        "operationId": "talkGetTalk",
         "parameters": [
           {
             "name": "body",
@@ -2707,7 +4218,88 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/Talk"
+                  "type": "object",
+                  "properties": {
+                    "comment_count": {
+                      "description": "评论量",
+                      "type": "integer"
+                    },
+                    "content": {
+                      "description": "评论内容",
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "description": "创建时间",
+                      "type": "integer"
+                    },
+                    "id": {
+                      "description": "说说ID",
+                      "type": "integer"
+                    },
+                    "img_list": {
+                      "description": "图片URL列表",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "is_top": {
+                      "description": "是否置顶",
+                      "type": "integer"
+                    },
+                    "like_count": {
+                      "description": "点赞量",
+                      "type": "integer"
+                    },
+                    "status": {
+                      "description": "状态 1.公开 2.私密",
+                      "type": "integer"
+                    },
+                    "updated_at": {
+                      "description": "更新时间",
+                      "type": "integer"
+                    },
+                    "user": {
+                      "description": "用户信息",
+                      "type": "object",
+                      "required": [
+                        "user_id",
+                        "username",
+                        "avatar",
+                        "nickname"
+                      ],
+                      "properties": {
+                        "avatar": {
+                          "type": "string"
+                        },
+                        "gender": {
+                          "description": "性别 0未知 1男 2女",
+                          "type": "integer"
+                        },
+                        "intro": {
+                          "description": "简介",
+                          "type": "string"
+                        },
+                        "nickname": {
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "website": {
+                          "description": "网站",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "user_id": {
+                      "description": "用户ID",
+                      "type": "string"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -2740,13 +4332,22 @@
           "说说"
         ],
         "summary": "点赞说说",
+        "operationId": "talkLikeTalk",
         "parameters": [
           {
             "name": "body",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/IdReq"
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "type": "integer"
+                }
+              }
             }
           }
         ],
@@ -2762,7 +4363,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -2795,6 +4396,7 @@
           "认证"
         ],
         "summary": "第三方登录",
+        "operationId": "authThirdLogin",
         "parameters": [
           {
             "name": "body",
@@ -2830,7 +4432,51 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/LoginResp"
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "object",
+                      "required": [
+                        "user_id",
+                        "token_type",
+                        "access_token",
+                        "expires_in",
+                        "refresh_token",
+                        "refresh_expires_in",
+                        "scope"
+                      ],
+                      "properties": {
+                        "access_token": {
+                          "description": "访问token,过期时间较短。2h",
+                          "type": "string"
+                        },
+                        "expires_in": {
+                          "description": "访问token过期时间",
+                          "type": "integer"
+                        },
+                        "refresh_expires_in": {
+                          "description": "刷新token过期时间",
+                          "type": "integer"
+                        },
+                        "refresh_token": {
+                          "description": "刷新token,过期时间较长。30d",
+                          "type": "string"
+                        },
+                        "scope": {
+                          "description": "作用域",
+                          "type": "string"
+                        },
+                        "token_type": {
+                          "description": "token类型,Bearer",
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "description": "用户id",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -2863,6 +4509,7 @@
           "用户"
         ],
         "summary": "删除用户绑定第三方平台账号",
+        "operationId": "userDeleteUserBindThirdParty",
         "parameters": [
           {
             "name": "body",
@@ -2894,7 +4541,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -2924,6 +4571,7 @@
           "用户"
         ],
         "summary": "获取用户信息",
+        "operationId": "userGetUserInfo",
         "responses": {
           "200": {
             "description": "",
@@ -2936,7 +4584,88 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/UserInfoResp"
+                  "type": "object",
+                  "properties": {
+                    "avatar": {
+                      "description": "用户头像",
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "description": "创建时间",
+                      "type": "integer"
+                    },
+                    "email": {
+                      "description": "用户邮箱",
+                      "type": "string"
+                    },
+                    "gender": {
+                      "description": "性别 0未知 1男 2女",
+                      "type": "integer"
+                    },
+                    "intro": {
+                      "description": "简介",
+                      "type": "string"
+                    },
+                    "nickname": {
+                      "description": "用户昵称",
+                      "type": "string"
+                    },
+                    "phone": {
+                      "description": "用户手机号",
+                      "type": "string"
+                    },
+                    "register_type": {
+                      "description": "注册方式",
+                      "type": "string"
+                    },
+                    "third_party": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "platform",
+                          "open_id",
+                          "nickname",
+                          "avatar",
+                          "created_at"
+                        ],
+                        "properties": {
+                          "avatar": {
+                            "description": "头像",
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "description": "创建时间",
+                            "type": "integer"
+                          },
+                          "nickname": {
+                            "description": "昵称",
+                            "type": "string"
+                          },
+                          "open_id": {
+                            "description": "平台用户id",
+                            "type": "string"
+                          },
+                          "platform": {
+                            "description": "平台",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "user_id": {
+                      "description": "用户id",
+                      "type": "string"
+                    },
+                    "username": {
+                      "description": "用户名",
+                      "type": "string"
+                    },
+                    "website": {
+                      "description": "网站",
+                      "type": "string"
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -2966,6 +4695,7 @@
           "用户"
         ],
         "summary": "获取用户点赞列表",
+        "operationId": "userGetUserLike",
         "responses": {
           "200": {
             "description": "",
@@ -2978,7 +4708,27 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/UserLikeResp"
+                  "type": "object",
+                  "properties": {
+                    "article_like_set": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "comment_like_set": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "talk_like_set": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    }
+                  }
                 },
                 "msg": {
                   "description": "business message",
@@ -3011,6 +4761,7 @@
           "用户"
         ],
         "summary": "修改用户头像",
+        "operationId": "userUpdateUserAvatar",
         "parameters": [
           {
             "name": "body",
@@ -3042,7 +4793,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -3075,6 +4826,7 @@
           "用户"
         ],
         "summary": "修改用户绑定邮箱",
+        "operationId": "userUpdateUserBindEmail",
         "parameters": [
           {
             "name": "body",
@@ -3111,7 +4863,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -3144,6 +4896,7 @@
           "用户"
         ],
         "summary": "修改用户绑定手机号",
+        "operationId": "userUpdateUserBindPhone",
         "parameters": [
           {
             "name": "body",
@@ -3180,7 +4933,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -3213,6 +4966,7 @@
           "用户"
         ],
         "summary": "修改用户绑定第三方平台账号",
+        "operationId": "userUpdateUserBindThirdParty",
         "parameters": [
           {
             "name": "body",
@@ -3253,7 +5007,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -3286,6 +5040,7 @@
           "用户"
         ],
         "summary": "修改用户信息",
+        "operationId": "userUpdateUserInfo",
         "parameters": [
           {
             "name": "body",
@@ -3329,7 +5084,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -3362,6 +5117,7 @@
           "用户"
         ],
         "summary": "修改用户密码",
+        "operationId": "userUpdateUserPassword",
         "parameters": [
           {
             "name": "body",
@@ -3403,7 +5159,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/EmptyResp"
+                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -3428,2928 +5184,12 @@
           "WebSocket"
         ],
         "summary": "WebSocket消息",
+        "operationId": "websocketWebsocket",
         "responses": {
           "200": {
             "description": "",
             "schema": {}
           }
-        }
-      }
-    }
-  },
-  "definitions": {
-    "Album": {
-      "type": "object",
-      "required": [
-        "id",
-        "album_name",
-        "album_desc",
-        "album_cover"
-      ],
-      "properties": {
-        "album_cover": {
-          "description": "相册封面",
-          "type": "string"
-        },
-        "album_desc": {
-          "description": "相册描述",
-          "type": "string"
-        },
-        "album_name": {
-          "description": "相册名",
-          "type": "string"
-        },
-        "id": {
-          "description": "主键",
-          "type": "integer"
-        }
-      }
-    },
-    "AlbumQueryReq": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer"
-        },
-        "page_size": {
-          "type": "integer"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "ArticleArchivesQueryReq": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer"
-        },
-        "page_size": {
-          "type": "integer"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "ArticleClassifyQueryReq": {
-      "type": "object",
-      "properties": {
-        "classify_name": {
-          "description": "分类名",
-          "type": "string"
-        },
-        "page": {
-          "type": "integer"
-        },
-        "page_size": {
-          "type": "integer"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "ArticleDetails": {
-      "type": "object",
-      "required": [
-        "id",
-        "article_cover",
-        "article_title",
-        "article_content",
-        "article_type",
-        "original_url",
-        "is_top",
-        "status",
-        "created_at",
-        "updated_at",
-        "category_name",
-        "tag_name_list",
-        "like_count",
-        "views_count",
-        "last_article",
-        "next_article",
-        "recommend_article_list",
-        "newest_article_list"
-      ],
-      "properties": {
-        "article_content": {
-          "description": "内容",
-          "type": "string"
-        },
-        "article_cover": {
-          "description": "文章缩略图",
-          "type": "string"
-        },
-        "article_title": {
-          "description": "标题",
-          "type": "string"
-        },
-        "article_type": {
-          "description": "文章类型",
-          "type": "integer"
-        },
-        "category_name": {
-          "description": "文章分类名",
-          "type": "string"
-        },
-        "created_at": {
-          "description": "发表时间",
-          "type": "integer"
-        },
-        "id": {
-          "description": "文章ID",
-          "type": "integer"
-        },
-        "is_top": {
-          "description": "是否置顶",
-          "type": "integer"
-        },
-        "last_article": {
-          "description": "上一篇文章",
-          "type": "object",
-          "required": [
-            "id",
-            "article_cover",
-            "article_title",
-            "like_count",
-            "views_count",
-            "created_at"
-          ],
-          "properties": {
-            "article_cover": {
-              "description": "文章缩略图",
-              "type": "string"
-            },
-            "article_title": {
-              "description": "标题",
-              "type": "string"
-            },
-            "created_at": {
-              "description": "创建时间",
-              "type": "integer"
-            },
-            "id": {
-              "description": "文章ID",
-              "type": "integer"
-            },
-            "like_count": {
-              "description": "点赞量",
-              "type": "integer"
-            },
-            "views_count": {
-              "description": "浏览量",
-              "type": "integer"
-            }
-          },
-          "$ref": "#/definitions/ArticlePreview"
-        },
-        "like_count": {
-          "description": "点赞量",
-          "type": "integer"
-        },
-        "newest_article_list": {
-          "description": "最新文章列表",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": [
-              "id",
-              "article_cover",
-              "article_title",
-              "like_count",
-              "views_count",
-              "created_at"
-            ],
-            "properties": {
-              "article_cover": {
-                "description": "文章缩略图",
-                "type": "string"
-              },
-              "article_title": {
-                "description": "标题",
-                "type": "string"
-              },
-              "created_at": {
-                "description": "创建时间",
-                "type": "integer"
-              },
-              "id": {
-                "description": "文章ID",
-                "type": "integer"
-              },
-              "like_count": {
-                "description": "点赞量",
-                "type": "integer"
-              },
-              "views_count": {
-                "description": "浏览量",
-                "type": "integer"
-              }
-            }
-          },
-          "$ref": "#/definitions/ArticlePreview"
-        },
-        "next_article": {
-          "description": "下一篇文章",
-          "type": "object",
-          "required": [
-            "id",
-            "article_cover",
-            "article_title",
-            "like_count",
-            "views_count",
-            "created_at"
-          ],
-          "properties": {
-            "article_cover": {
-              "description": "文章缩略图",
-              "type": "string"
-            },
-            "article_title": {
-              "description": "标题",
-              "type": "string"
-            },
-            "created_at": {
-              "description": "创建时间",
-              "type": "integer"
-            },
-            "id": {
-              "description": "文章ID",
-              "type": "integer"
-            },
-            "like_count": {
-              "description": "点赞量",
-              "type": "integer"
-            },
-            "views_count": {
-              "description": "浏览量",
-              "type": "integer"
-            }
-          },
-          "$ref": "#/definitions/ArticlePreview"
-        },
-        "original_url": {
-          "description": "原文链接",
-          "type": "string"
-        },
-        "recommend_article_list": {
-          "description": "推荐文章列表",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": [
-              "id",
-              "article_cover",
-              "article_title",
-              "like_count",
-              "views_count",
-              "created_at"
-            ],
-            "properties": {
-              "article_cover": {
-                "description": "文章缩略图",
-                "type": "string"
-              },
-              "article_title": {
-                "description": "标题",
-                "type": "string"
-              },
-              "created_at": {
-                "description": "创建时间",
-                "type": "integer"
-              },
-              "id": {
-                "description": "文章ID",
-                "type": "integer"
-              },
-              "like_count": {
-                "description": "点赞量",
-                "type": "integer"
-              },
-              "views_count": {
-                "description": "浏览量",
-                "type": "integer"
-              }
-            }
-          },
-          "$ref": "#/definitions/ArticlePreview"
-        },
-        "status": {
-          "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
-          "type": "integer"
-        },
-        "tag_name_list": {
-          "description": "文章标签列表",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "updated_at": {
-          "description": "更新时间",
-          "type": "integer"
-        },
-        "views_count": {
-          "description": "浏览量",
-          "type": "integer"
-        }
-      }
-    },
-    "ArticleHome": {
-      "type": "object",
-      "required": [
-        "id",
-        "article_cover",
-        "article_title",
-        "article_content",
-        "article_type",
-        "original_url",
-        "is_top",
-        "status",
-        "created_at",
-        "updated_at",
-        "category_name",
-        "tag_name_list",
-        "like_count",
-        "views_count"
-      ],
-      "properties": {
-        "article_content": {
-          "description": "内容",
-          "type": "string"
-        },
-        "article_cover": {
-          "description": "文章缩略图",
-          "type": "string"
-        },
-        "article_title": {
-          "description": "标题",
-          "type": "string"
-        },
-        "article_type": {
-          "description": "文章类型",
-          "type": "integer"
-        },
-        "category_name": {
-          "description": "文章分类名",
-          "type": "string"
-        },
-        "created_at": {
-          "description": "发表时间",
-          "type": "integer"
-        },
-        "id": {
-          "description": "文章ID",
-          "type": "integer"
-        },
-        "is_top": {
-          "description": "是否置顶",
-          "type": "integer"
-        },
-        "like_count": {
-          "description": "点赞量",
-          "type": "integer"
-        },
-        "original_url": {
-          "description": "原文链接",
-          "type": "string"
-        },
-        "status": {
-          "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
-          "type": "integer"
-        },
-        "tag_name_list": {
-          "description": "文章标签列表",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "updated_at": {
-          "description": "更新时间",
-          "type": "integer"
-        },
-        "views_count": {
-          "description": "浏览量",
-          "type": "integer"
-        }
-      }
-    },
-    "ArticleHomeQueryReq": {
-      "type": "object",
-      "properties": {
-        "article_title": {
-          "description": "标题",
-          "type": "string"
-        },
-        "page": {
-          "type": "integer"
-        },
-        "page_size": {
-          "type": "integer"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "ArticlePreview": {
-      "type": "object",
-      "required": [
-        "id",
-        "article_cover",
-        "article_title",
-        "like_count",
-        "views_count",
-        "created_at"
-      ],
-      "properties": {
-        "article_cover": {
-          "description": "文章缩略图",
-          "type": "string"
-        },
-        "article_title": {
-          "description": "标题",
-          "type": "string"
-        },
-        "created_at": {
-          "description": "创建时间",
-          "type": "integer"
-        },
-        "id": {
-          "description": "文章ID",
-          "type": "integer"
-        },
-        "like_count": {
-          "description": "点赞量",
-          "type": "integer"
-        },
-        "views_count": {
-          "description": "浏览量",
-          "type": "integer"
-        }
-      }
-    },
-    "BatchResp": {
-      "type": "object",
-      "required": [
-        "success_count"
-      ],
-      "properties": {
-        "success_count": {
-          "type": "integer"
-        }
-      }
-    },
-    "Category": {
-      "type": "object",
-      "required": [
-        "id",
-        "category_name",
-        "article_count",
-        "created_at",
-        "updated_at"
-      ],
-      "properties": {
-        "article_count": {
-          "type": "integer"
-        },
-        "category_name": {
-          "description": "分类名",
-          "type": "string"
-        },
-        "created_at": {
-          "description": "创建时间",
-          "type": "integer"
-        },
-        "id": {
-          "type": "integer"
-        },
-        "updated_at": {
-          "description": "更新时间",
-          "type": "integer"
-        }
-      }
-    },
-    "CategoryQueryReq": {
-      "type": "object",
-      "properties": {
-        "category_name": {
-          "description": "分类名",
-          "type": "string"
-        },
-        "page": {
-          "type": "integer"
-        },
-        "page_size": {
-          "type": "integer"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "ChatMessageEvent": {
-      "type": "object",
-      "required": [
-        "id",
-        "user_id",
-        "terminal_id",
-        "nickname",
-        "avatar",
-        "ip_address",
-        "ip_source",
-        "type",
-        "content",
-        "status",
-        "created_at",
-        "updated_at"
-      ],
-      "properties": {
-        "avatar": {
-          "description": "头像",
-          "type": "string"
-        },
-        "content": {
-          "description": "消息内容",
-          "type": "string"
-        },
-        "created_at": {
-          "description": "创建时间",
-          "type": "integer"
-        },
-        "id": {
-          "description": "主键",
-          "type": "integer"
-        },
-        "ip_address": {
-          "description": "ip地址",
-          "type": "string"
-        },
-        "ip_source": {
-          "description": "ip来源",
-          "type": "string"
-        },
-        "nickname": {
-          "description": "昵称",
-          "type": "string"
-        },
-        "status": {
-          "description": "消息状态 0-正常 1-已编辑 2-已撤回 3-已删除",
-          "type": "integer"
-        },
-        "terminal_id": {
-          "description": "设备id",
-          "type": "string"
-        },
-        "type": {
-          "description": "消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息",
-          "type": "string"
-        },
-        "updated_at": {
-          "description": "更新时间",
-          "type": "integer"
-        },
-        "user_id": {
-          "description": "用户id",
-          "type": "string"
-        }
-      }
-    },
-    "ClientInfoEvent": {
-      "type": "object",
-      "required": [
-        "ip_address",
-        "ip_source"
-      ],
-      "properties": {
-        "ip_address": {
-          "description": "ip地址",
-          "type": "string"
-        },
-        "ip_source": {
-          "description": "ip来源",
-          "type": "string"
-        }
-      }
-    },
-    "Comment": {
-      "type": "object",
-      "required": [
-        "id",
-        "topic_id",
-        "parent_id",
-        "reply_msg_id",
-        "user_id",
-        "reply_user_id",
-        "comment_content",
-        "type",
-        "created_at",
-        "like_count",
-        "user",
-        "reply_user",
-        "reply_count",
-        "comment_reply_list"
-      ],
-      "properties": {
-        "comment_content": {
-          "description": "评论内容",
-          "type": "string"
-        },
-        "comment_reply_list": {
-          "description": "评论回复列表",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": [
-              "id",
-              "topic_id",
-              "parent_id",
-              "reply_msg_id",
-              "user_id",
-              "reply_user_id",
-              "comment_content",
-              "type",
-              "created_at",
-              "like_count",
-              "user",
-              "reply_user"
-            ],
-            "properties": {
-              "comment_content": {
-                "description": "评论内容",
-                "type": "string"
-              },
-              "created_at": {
-                "description": "评论时间",
-                "type": "integer"
-              },
-              "id": {
-                "description": "评论id",
-                "type": "integer"
-              },
-              "like_count": {
-                "description": "点赞数",
-                "type": "integer"
-              },
-              "parent_id": {
-                "description": "父评论id",
-                "type": "integer"
-              },
-              "reply_msg_id": {
-                "description": "会话id",
-                "type": "integer"
-              },
-              "reply_user": {
-                "description": "被回复评论用户",
-                "type": "object",
-                "$ref": "#/definitions/UserInfoVO"
-              },
-              "reply_user_id": {
-                "description": "被回复用户id",
-                "type": "string"
-              },
-              "topic_id": {
-                "description": "主题id",
-                "type": "integer"
-              },
-              "type": {
-                "description": "评论类型 1.文章 2.友链 3.说说",
-                "type": "integer"
-              },
-              "user": {
-                "description": "用户信息",
-                "type": "object",
-                "$ref": "#/definitions/UserInfoVO"
-              },
-              "user_id": {
-                "description": "用户id",
-                "type": "string"
-              }
-            }
-          },
-          "$ref": "#/definitions/CommentReply"
-        },
-        "created_at": {
-          "description": "评论时间",
-          "type": "integer"
-        },
-        "id": {
-          "description": "评论id",
-          "type": "integer"
-        },
-        "like_count": {
-          "description": "点赞数",
-          "type": "integer"
-        },
-        "parent_id": {
-          "description": "父评论id",
-          "type": "integer"
-        },
-        "reply_count": {
-          "description": "回复量",
-          "type": "integer"
-        },
-        "reply_msg_id": {
-          "description": "会话id",
-          "type": "integer"
-        },
-        "reply_user": {
-          "description": "被回复评论用户",
-          "type": "object",
-          "required": [
-            "user_id",
-            "username",
-            "avatar",
-            "nickname"
-          ],
-          "properties": {
-            "avatar": {
-              "type": "string"
-            },
-            "gender": {
-              "description": "性别 0未知 1男 2女",
-              "type": "integer"
-            },
-            "intro": {
-              "description": "简介",
-              "type": "string"
-            },
-            "nickname": {
-              "type": "string"
-            },
-            "user_id": {
-              "type": "string"
-            },
-            "username": {
-              "type": "string"
-            },
-            "website": {
-              "description": "网站",
-              "type": "string"
-            }
-          },
-          "$ref": "#/definitions/UserInfoVO"
-        },
-        "reply_user_id": {
-          "description": "被回复用户id",
-          "type": "string"
-        },
-        "topic_id": {
-          "description": "主题id",
-          "type": "integer"
-        },
-        "type": {
-          "description": "评论类型 1.文章 2.友链 3.说说",
-          "type": "integer"
-        },
-        "user": {
-          "description": "评论用户",
-          "type": "object",
-          "required": [
-            "user_id",
-            "username",
-            "avatar",
-            "nickname"
-          ],
-          "properties": {
-            "avatar": {
-              "type": "string"
-            },
-            "gender": {
-              "description": "性别 0未知 1男 2女",
-              "type": "integer"
-            },
-            "intro": {
-              "description": "简介",
-              "type": "string"
-            },
-            "nickname": {
-              "type": "string"
-            },
-            "user_id": {
-              "type": "string"
-            },
-            "username": {
-              "type": "string"
-            },
-            "website": {
-              "description": "网站",
-              "type": "string"
-            }
-          },
-          "$ref": "#/definitions/UserInfoVO"
-        },
-        "user_id": {
-          "description": "用户id",
-          "type": "string"
-        }
-      }
-    },
-    "CommentNewReq": {
-      "type": "object",
-      "required": [
-        "comment_content",
-        "type"
-      ],
-      "properties": {
-        "comment_content": {
-          "description": "评论内容",
-          "type": "string"
-        },
-        "parent_id": {
-          "description": "父评论id",
-          "type": "integer"
-        },
-        "reply_msg_id": {
-          "description": "会话id",
-          "type": "integer"
-        },
-        "reply_user_id": {
-          "description": "回复用户id",
-          "type": "string"
-        },
-        "status": {
-          "description": "状态 0.正常 1.已编辑 2.已删除",
-          "type": "integer"
-        },
-        "topic_id": {
-          "description": "主题id",
-          "type": "integer"
-        },
-        "type": {
-          "description": "评论类型 1.文章 2.友链 3.说说",
-          "type": "integer"
-        }
-      }
-    },
-    "CommentQueryReq": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer"
-        },
-        "page_size": {
-          "type": "integer"
-        },
-        "parent_id": {
-          "description": "父评论id",
-          "type": "integer"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "topic_id": {
-          "description": "主题id",
-          "type": "integer"
-        },
-        "type": {
-          "description": "评论类型 1.文章 2.友链 3.说说",
-          "type": "integer"
-        }
-      }
-    },
-    "CommentReply": {
-      "type": "object",
-      "required": [
-        "id",
-        "topic_id",
-        "parent_id",
-        "reply_msg_id",
-        "user_id",
-        "reply_user_id",
-        "comment_content",
-        "type",
-        "created_at",
-        "like_count",
-        "user",
-        "reply_user"
-      ],
-      "properties": {
-        "comment_content": {
-          "description": "评论内容",
-          "type": "string"
-        },
-        "created_at": {
-          "description": "评论时间",
-          "type": "integer"
-        },
-        "id": {
-          "description": "评论id",
-          "type": "integer"
-        },
-        "like_count": {
-          "description": "点赞数",
-          "type": "integer"
-        },
-        "parent_id": {
-          "description": "父评论id",
-          "type": "integer"
-        },
-        "reply_msg_id": {
-          "description": "会话id",
-          "type": "integer"
-        },
-        "reply_user": {
-          "description": "被回复评论用户",
-          "type": "object",
-          "required": [
-            "user_id",
-            "username",
-            "avatar",
-            "nickname"
-          ],
-          "properties": {
-            "avatar": {
-              "type": "string"
-            },
-            "gender": {
-              "description": "性别 0未知 1男 2女",
-              "type": "integer"
-            },
-            "intro": {
-              "description": "简介",
-              "type": "string"
-            },
-            "nickname": {
-              "type": "string"
-            },
-            "user_id": {
-              "type": "string"
-            },
-            "username": {
-              "type": "string"
-            },
-            "website": {
-              "description": "网站",
-              "type": "string"
-            }
-          },
-          "$ref": "#/definitions/UserInfoVO"
-        },
-        "reply_user_id": {
-          "description": "被回复用户id",
-          "type": "string"
-        },
-        "topic_id": {
-          "description": "主题id",
-          "type": "integer"
-        },
-        "type": {
-          "description": "评论类型 1.文章 2.友链 3.说说",
-          "type": "integer"
-        },
-        "user": {
-          "description": "用户信息",
-          "type": "object",
-          "required": [
-            "user_id",
-            "username",
-            "avatar",
-            "nickname"
-          ],
-          "properties": {
-            "avatar": {
-              "type": "string"
-            },
-            "gender": {
-              "description": "性别 0未知 1男 2女",
-              "type": "integer"
-            },
-            "intro": {
-              "description": "简介",
-              "type": "string"
-            },
-            "nickname": {
-              "type": "string"
-            },
-            "user_id": {
-              "type": "string"
-            },
-            "username": {
-              "type": "string"
-            },
-            "website": {
-              "description": "网站",
-              "type": "string"
-            }
-          },
-          "$ref": "#/definitions/UserInfoVO"
-        },
-        "user_id": {
-          "description": "用户id",
-          "type": "string"
-        }
-      }
-    },
-    "DeleteUserBindThirdPartyReq": {
-      "type": "object",
-      "required": [
-        "platform"
-      ],
-      "properties": {
-        "platform": {
-          "description": "平台",
-          "type": "string"
-        }
-      }
-    },
-    "EmailLoginReq": {
-      "type": "object",
-      "required": [
-        "email",
-        "password"
-      ],
-      "properties": {
-        "captcha_code": {
-          "description": "验证码",
-          "type": "string"
-        },
-        "captcha_key": {
-          "description": "验证码key",
-          "type": "string"
-        },
-        "email": {
-          "description": "邮箱",
-          "type": "string"
-        },
-        "password": {
-          "description": "密码",
-          "type": "string"
-        }
-      }
-    },
-    "EmptyReq": {
-      "type": "object"
-    },
-    "EmptyResp": {
-      "type": "object"
-    },
-    "FileBackVO": {
-      "type": "object",
-      "required": [
-        "user_id",
-        "file_path",
-        "file_name",
-        "file_type",
-        "file_size",
-        "file_md5",
-        "file_url",
-        "created_at",
-        "updated_at"
-      ],
-      "properties": {
-        "created_at": {
-          "description": "创建时间",
-          "type": "integer"
-        },
-        "file_md5": {
-          "description": "文件md5值",
-          "type": "string"
-        },
-        "file_name": {
-          "description": "文件名称",
-          "type": "string"
-        },
-        "file_path": {
-          "description": "文件路径",
-          "type": "string"
-        },
-        "file_size": {
-          "description": "文件大小",
-          "type": "integer"
-        },
-        "file_type": {
-          "description": "文件类型",
-          "type": "string"
-        },
-        "file_url": {
-          "description": "上传路径",
-          "type": "string"
-        },
-        "id": {
-          "description": "文件目录ID",
-          "type": "integer"
-        },
-        "updated_at": {
-          "description": "更新时间",
-          "type": "integer"
-        },
-        "user_id": {
-          "description": "用户id",
-          "type": "string"
-        }
-      }
-    },
-    "Friend": {
-      "type": "object",
-      "required": [
-        "id",
-        "link_name",
-        "link_avatar",
-        "link_address",
-        "link_intro",
-        "created_at",
-        "updated_at"
-      ],
-      "properties": {
-        "created_at": {
-          "description": "创建时间",
-          "type": "integer"
-        },
-        "id": {
-          "description": "id",
-          "type": "integer"
-        },
-        "link_address": {
-          "description": "链接地址",
-          "type": "string"
-        },
-        "link_avatar": {
-          "description": "链接头像",
-          "type": "string"
-        },
-        "link_intro": {
-          "description": "链接介绍",
-          "type": "string"
-        },
-        "link_name": {
-          "description": "链接名",
-          "type": "string"
-        },
-        "updated_at": {
-          "description": "更新时间",
-          "type": "integer"
-        }
-      }
-    },
-    "FriendQueryReq": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer"
-        },
-        "page_size": {
-          "type": "integer"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "GetAboutMeReq": {
-      "type": "object"
-    },
-    "GetAboutMeResp": {
-      "type": "object",
-      "required": [
-        "content"
-      ],
-      "properties": {
-        "content": {
-          "type": "string"
-        }
-      }
-    },
-    "GetBlogHomeInfoReq": {
-      "type": "object"
-    },
-    "GetBlogHomeInfoResp": {
-      "type": "object",
-      "required": [
-        "article_count",
-        "category_count",
-        "tag_count",
-        "total_user_view_count",
-        "total_page_view_count",
-        "website_config",
-        "page_list"
-      ],
-      "properties": {
-        "article_count": {
-          "description": "文章数量",
-          "type": "integer"
-        },
-        "category_count": {
-          "description": "分类数量",
-          "type": "integer"
-        },
-        "page_list": {
-          "description": "页面列表",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": [
-              "id",
-              "page_name",
-              "page_label",
-              "page_cover"
-            ],
-            "properties": {
-              "id": {
-                "description": "页面ID",
-                "type": "integer"
-              },
-              "is_carousel": {
-                "description": "是否轮播",
-                "type": "integer"
-              },
-              "page_cover": {
-                "description": "页面封面",
-                "type": "string"
-              },
-              "page_label": {
-                "description": "页面标签",
-                "type": "string"
-              },
-              "page_name": {
-                "description": "页面名称",
-                "type": "string"
-              }
-            }
-          },
-          "$ref": "#/definitions/PageVO"
-        },
-        "tag_count": {
-          "description": "标签数量",
-          "type": "integer"
-        },
-        "total_page_view_count": {
-          "description": "总浏览量",
-          "type": "integer"
-        },
-        "total_user_view_count": {
-          "description": "总服务量",
-          "type": "integer"
-        },
-        "website_config": {
-          "description": "网站配置",
-          "type": "object",
-          "required": [
-            "admin_url",
-            "alipay_qr_code",
-            "gitee",
-            "github",
-            "is_chat_room",
-            "is_comment_review",
-            "is_email_notice",
-            "is_message_review",
-            "is_music_player",
-            "is_reward",
-            "qq",
-            "social_login_list",
-            "social_url_list",
-            "tourist_avatar",
-            "user_avatar",
-            "website_author",
-            "website_avatar",
-            "website_create_time",
-            "website_intro",
-            "website_name",
-            "website_notice",
-            "website_record_no",
-            "websocket_url",
-            "weixin_qr_code"
-          ],
-          "properties": {
-            "admin_url": {
-              "description": "后台地址",
-              "type": "string"
-            },
-            "alipay_qr_code": {
-              "description": "支付宝二维码",
-              "type": "string"
-            },
-            "gitee": {
-              "description": "Gitee",
-              "type": "string"
-            },
-            "github": {
-              "description": "Github",
-              "type": "string"
-            },
-            "is_chat_room": {
-              "description": "是否开启聊天室",
-              "type": "integer"
-            },
-            "is_comment_review": {
-              "description": "是否开启评论审核",
-              "type": "integer"
-            },
-            "is_email_notice": {
-              "description": "是否开启邮件通知",
-              "type": "integer"
-            },
-            "is_message_review": {
-              "description": "是否开启留言审核",
-              "type": "integer"
-            },
-            "is_music_player": {
-              "description": "是否开启音乐播放器",
-              "type": "integer"
-            },
-            "is_reward": {
-              "description": "是否开启打赏",
-              "type": "integer"
-            },
-            "qq": {
-              "description": "QQ",
-              "type": "string"
-            },
-            "social_login_list": {
-              "description": "社交登录列表",
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "social_url_list": {
-              "description": "社交地址列表",
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "tourist_avatar": {
-              "description": "游客头像",
-              "type": "string"
-            },
-            "user_avatar": {
-              "description": "用户头像",
-              "type": "string"
-            },
-            "website_author": {
-              "description": "网站作者",
-              "type": "string"
-            },
-            "website_avatar": {
-              "description": "网站头像",
-              "type": "string"
-            },
-            "website_create_time": {
-              "description": "网站创建时间",
-              "type": "string"
-            },
-            "website_intro": {
-              "description": "网站介绍",
-              "type": "string"
-            },
-            "website_name": {
-              "description": "网站名称",
-              "type": "string"
-            },
-            "website_notice": {
-              "description": "网站公告",
-              "type": "string"
-            },
-            "website_record_no": {
-              "description": "网站备案号",
-              "type": "string"
-            },
-            "websocket_url": {
-              "description": "websocket地址",
-              "type": "string"
-            },
-            "weixin_qr_code": {
-              "description": "微信二维码",
-              "type": "string"
-            }
-          },
-          "$ref": "#/definitions/WebsiteConfigVO"
-        }
-      }
-    },
-    "GetCaptchaCodeReq": {
-      "type": "object",
-      "properties": {
-        "height": {
-          "description": "高度",
-          "type": "integer"
-        },
-        "width": {
-          "description": "宽度",
-          "type": "integer"
-        }
-      }
-    },
-    "GetCaptchaCodeResp": {
-      "type": "object",
-      "required": [
-        "captcha_key",
-        "captcha_base64",
-        "captcha_code"
-      ],
-      "properties": {
-        "captcha_base64": {
-          "description": "验证码base64",
-          "type": "string"
-        },
-        "captcha_code": {
-          "description": "验证码",
-          "type": "string"
-        },
-        "captcha_key": {
-          "description": "验证码key",
-          "type": "string"
-        }
-      }
-    },
-    "GetOauthAuthorizeUrlReq": {
-      "type": "object",
-      "required": [
-        "platform"
-      ],
-      "properties": {
-        "platform": {
-          "description": "平台",
-          "type": "string"
-        },
-        "state": {
-          "description": "状态",
-          "type": "string"
-        }
-      }
-    },
-    "GetOauthAuthorizeUrlResp": {
-      "type": "object",
-      "required": [
-        "authorize_url"
-      ],
-      "properties": {
-        "authorize_url": {
-          "description": "授权地址",
-          "type": "string"
-        }
-      }
-    },
-    "GetTouristInfoResp": {
-      "type": "object",
-      "required": [
-        "tourist_id"
-      ],
-      "properties": {
-        "tourist_id": {
-          "description": "游客id",
-          "type": "string"
-        }
-      }
-    },
-    "HistoryMessageEvent": {
-      "type": "object",
-      "required": [
-        "list"
-      ],
-      "properties": {
-        "list": {
-          "description": "消息列表",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": [
-              "id",
-              "user_id",
-              "terminal_id",
-              "nickname",
-              "avatar",
-              "ip_address",
-              "ip_source",
-              "type",
-              "content",
-              "status",
-              "created_at",
-              "updated_at"
-            ],
-            "properties": {
-              "avatar": {
-                "description": "头像",
-                "type": "string"
-              },
-              "content": {
-                "description": "消息内容",
-                "type": "string"
-              },
-              "created_at": {
-                "description": "创建时间",
-                "type": "integer"
-              },
-              "id": {
-                "description": "主键",
-                "type": "integer"
-              },
-              "ip_address": {
-                "description": "ip地址",
-                "type": "string"
-              },
-              "ip_source": {
-                "description": "ip来源",
-                "type": "string"
-              },
-              "nickname": {
-                "description": "昵称",
-                "type": "string"
-              },
-              "status": {
-                "description": "消息状态 0-正常 1-已编辑 2-已撤回 3-已删除",
-                "type": "integer"
-              },
-              "terminal_id": {
-                "description": "设备id",
-                "type": "string"
-              },
-              "type": {
-                "description": "消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息",
-                "type": "string"
-              },
-              "updated_at": {
-                "description": "更新时间",
-                "type": "integer"
-              },
-              "user_id": {
-                "description": "用户id",
-                "type": "string"
-              }
-            }
-          },
-          "$ref": "#/definitions/ChatMessageEvent"
-        }
-      }
-    },
-    "IdReq": {
-      "type": "object",
-      "required": [
-        "id"
-      ],
-      "properties": {
-        "id": {
-          "type": "integer"
-        }
-      }
-    },
-    "IdsReq": {
-      "type": "object",
-      "required": [
-        "ids"
-      ],
-      "properties": {
-        "ids": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          }
-        }
-      }
-    },
-    "LoginReq": {
-      "type": "object",
-      "required": [
-        "username",
-        "password"
-      ],
-      "properties": {
-        "captcha_code": {
-          "description": "验证码",
-          "type": "string"
-        },
-        "captcha_key": {
-          "description": "验证码key",
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        }
-      }
-    },
-    "LoginResp": {
-      "type": "object",
-      "required": [
-        "token"
-      ],
-      "properties": {
-        "token": {
-          "type": "object",
-          "required": [
-            "user_id",
-            "token_type",
-            "access_token",
-            "expires_in",
-            "refresh_token",
-            "refresh_expires_in",
-            "scope"
-          ],
-          "properties": {
-            "access_token": {
-              "description": "访问token,过期时间较短。2h",
-              "type": "string"
-            },
-            "expires_in": {
-              "description": "访问token过期时间",
-              "type": "integer"
-            },
-            "refresh_expires_in": {
-              "description": "刷新token过期时间",
-              "type": "integer"
-            },
-            "refresh_token": {
-              "description": "刷新token,过期时间较长。30d",
-              "type": "string"
-            },
-            "scope": {
-              "description": "作用域",
-              "type": "string"
-            },
-            "token_type": {
-              "description": "token类型,Bearer",
-              "type": "string"
-            },
-            "user_id": {
-              "description": "用户id",
-              "type": "string"
-            }
-          },
-          "$ref": "#/definitions/Token"
-        }
-      }
-    },
-    "MessageEvent": {
-      "type": "object",
-      "required": [
-        "type",
-        "data",
-        "timestamp"
-      ],
-      "properties": {
-        "data": {
-          "description": "消息内容",
-          "type": "string"
-        },
-        "timestamp": {
-          "description": "消息时间戳",
-          "type": "integer"
-        },
-        "type": {
-          "description": "消息类型",
-          "type": "integer"
-        }
-      }
-    },
-    "MultiUploadFileReq": {
-      "type": "object",
-      "properties": {
-        "FilePath": {
-          "description": "文件路径",
-          "type": "string"
-        },
-        "Files": {
-          "description": "文件列表",
-          "type": "array"
-        }
-      }
-    },
-    "OnlineEvent": {
-      "type": "object",
-      "required": [
-        "count",
-        "is_online",
-        "msg"
-      ],
-      "properties": {
-        "count": {
-          "type": "integer"
-        },
-        "is_online": {
-          "type": "boolean"
-        },
-        "msg": {
-          "description": "消息内容",
-          "type": "string"
-        }
-      }
-    },
-    "Page": {
-      "type": "object",
-      "required": [
-        "id",
-        "page_name",
-        "page_label",
-        "page_cover",
-        "created_at",
-        "updated_at"
-      ],
-      "properties": {
-        "created_at": {
-          "description": "创建时间",
-          "type": "integer"
-        },
-        "id": {
-          "description": "页面id",
-          "type": "integer"
-        },
-        "is_carousel": {
-          "description": "是否轮播",
-          "type": "integer"
-        },
-        "page_cover": {
-          "description": "页面封面",
-          "type": "string"
-        },
-        "page_label": {
-          "description": "页面标签",
-          "type": "string"
-        },
-        "page_name": {
-          "description": "页面名",
-          "type": "string"
-        },
-        "updated_at": {
-          "description": "更新时间",
-          "type": "integer"
-        }
-      }
-    },
-    "PageQuery": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer"
-        },
-        "page_size": {
-          "type": "integer"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "PageQueryReq": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer"
-        },
-        "page_size": {
-          "type": "integer"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "PageResp": {
-      "type": "object",
-      "required": [
-        "page",
-        "page_size",
-        "total",
-        "list"
-      ],
-      "properties": {
-        "list": {},
-        "page": {
-          "type": "integer"
-        },
-        "page_size": {
-          "type": "integer"
-        },
-        "total": {
-          "type": "integer"
-        }
-      }
-    },
-    "PageVO": {
-      "type": "object",
-      "required": [
-        "id",
-        "page_name",
-        "page_label",
-        "page_cover"
-      ],
-      "properties": {
-        "id": {
-          "description": "页面ID",
-          "type": "integer"
-        },
-        "is_carousel": {
-          "description": "是否轮播",
-          "type": "integer"
-        },
-        "page_cover": {
-          "description": "页面封面",
-          "type": "string"
-        },
-        "page_label": {
-          "description": "页面标签",
-          "type": "string"
-        },
-        "page_name": {
-          "description": "页面名称",
-          "type": "string"
-        }
-      }
-    },
-    "PhoneLoginReq": {
-      "type": "object",
-      "required": [
-        "phone",
-        "verify_code"
-      ],
-      "properties": {
-        "phone": {
-          "description": "手机号",
-          "type": "string"
-        },
-        "verify_code": {
-          "description": "验证码",
-          "type": "string"
-        }
-      }
-    },
-    "Photo": {
-      "type": "object",
-      "required": [
-        "id",
-        "photo_url"
-      ],
-      "properties": {
-        "id": {
-          "description": "主键",
-          "type": "integer"
-        },
-        "photo_url": {
-          "description": "照片地址",
-          "type": "string"
-        }
-      }
-    },
-    "PhotoQueryReq": {
-      "type": "object",
-      "required": [
-        "album_id"
-      ],
-      "properties": {
-        "album_id": {
-          "description": "相册ID",
-          "type": "integer"
-        }
-      }
-    },
-    "PingReq": {
-      "type": "object"
-    },
-    "PingResp": {
-      "type": "object",
-      "required": [
-        "env",
-        "name",
-        "version",
-        "runtime",
-        "description",
-        "rpc_status"
-      ],
-      "properties": {
-        "description": {
-          "type": "string"
-        },
-        "env": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "rpc_status": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "runtime": {
-          "type": "string"
-        },
-        "version": {
-          "type": "string"
-        }
-      }
-    },
-    "RecallMessageEvent": {
-      "type": "object",
-      "required": [
-        "id"
-      ],
-      "properties": {
-        "id": {
-          "description": "消息id",
-          "type": "integer"
-        }
-      }
-    },
-    "RegisterReq": {
-      "type": "object",
-      "required": [
-        "username",
-        "password",
-        "confirm_password",
-        "email",
-        "verify_code"
-      ],
-      "properties": {
-        "confirm_password": {
-          "description": "确认密码",
-          "type": "string"
-        },
-        "email": {
-          "description": "邮箱",
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "verify_code": {
-          "description": "验证码",
-          "type": "string"
-        }
-      }
-    },
-    "Remark": {
-      "type": "object",
-      "required": [
-        "user_id",
-        "terminal_id",
-        "message_content",
-        "ip_address",
-        "ip_source",
-        "is_review",
-        "created_at",
-        "updated_at",
-        "user"
-      ],
-      "properties": {
-        "created_at": {
-          "description": "发布时间",
-          "type": "integer"
-        },
-        "id": {
-          "description": "主键id",
-          "type": "integer"
-        },
-        "ip_address": {
-          "description": "用户ip",
-          "type": "string"
-        },
-        "ip_source": {
-          "description": "用户地址",
-          "type": "string"
-        },
-        "is_review": {
-          "description": "是否审核",
-          "type": "integer"
-        },
-        "message_content": {
-          "description": "留言内容",
-          "type": "string"
-        },
-        "terminal_id": {
-          "description": "终端id",
-          "type": "string"
-        },
-        "updated_at": {
-          "description": "更新时间",
-          "type": "integer"
-        },
-        "user": {
-          "description": "用户信息",
-          "type": "object",
-          "required": [
-            "user_id",
-            "username",
-            "avatar",
-            "nickname"
-          ],
-          "properties": {
-            "avatar": {
-              "type": "string"
-            },
-            "gender": {
-              "description": "性别 0未知 1男 2女",
-              "type": "integer"
-            },
-            "intro": {
-              "description": "简介",
-              "type": "string"
-            },
-            "nickname": {
-              "type": "string"
-            },
-            "user_id": {
-              "type": "string"
-            },
-            "username": {
-              "type": "string"
-            },
-            "website": {
-              "description": "网站",
-              "type": "string"
-            }
-          },
-          "$ref": "#/definitions/UserInfoVO"
-        },
-        "user_id": {
-          "description": "用户id",
-          "type": "string"
-        }
-      }
-    },
-    "RemarkNewReq": {
-      "type": "object",
-      "required": [
-        "message_content"
-      ],
-      "properties": {
-        "message_content": {
-          "description": "留言内容",
-          "type": "string"
-        }
-      }
-    },
-    "RemarkQueryReq": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer"
-        },
-        "page_size": {
-          "type": "integer"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "ResetPasswordReq": {
-      "type": "object",
-      "required": [
-        "password",
-        "confirm_password",
-        "email",
-        "verify_code"
-      ],
-      "properties": {
-        "confirm_password": {
-          "description": "确认密码",
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "verify_code": {
-          "description": "验证码",
-          "type": "string"
-        }
-      }
-    },
-    "Response": {
-      "type": "object",
-      "required": [
-        "code",
-        "msg",
-        "data",
-        "trace_id"
-      ],
-      "properties": {
-        "code": {
-          "type": "integer"
-        },
-        "data": {},
-        "msg": {
-          "type": "string"
-        },
-        "trace_id": {
-          "type": "string"
-        }
-      }
-    },
-    "RestHeader": {
-      "type": "object",
-      "properties": {
-        "HeaderAppName": {
-          "type": "string"
-        },
-        "HeaderAuthorization": {
-          "type": "string"
-        },
-        "HeaderCountry": {
-          "type": "string"
-        },
-        "HeaderLanguage": {
-          "type": "string"
-        },
-        "HeaderTerminalId": {
-          "type": "string"
-        },
-        "HeaderTimestamp": {
-          "type": "string"
-        },
-        "HeaderTimezone": {
-          "type": "string"
-        },
-        "HeaderToken": {
-          "type": "string"
-        },
-        "HeaderUid": {
-          "type": "string"
-        },
-        "HeaderXTsToken": {
-          "type": "string"
-        }
-      }
-    },
-    "SendEmailVerifyCodeReq": {
-      "type": "object",
-      "required": [
-        "email",
-        "type"
-      ],
-      "properties": {
-        "email": {
-          "description": "邮箱",
-          "type": "string"
-        },
-        "type": {
-          "description": "类型 register,reset_password,bind_email,bind_phone",
-          "type": "string"
-        }
-      }
-    },
-    "SendPhoneVerifyCodeReq": {
-      "type": "object",
-      "required": [
-        "phone",
-        "type"
-      ],
-      "properties": {
-        "phone": {
-          "description": "手机号",
-          "type": "string"
-        },
-        "type": {
-          "description": "类型 register,reset_password,bind_email,bind_phone",
-          "type": "string"
-        }
-      }
-    },
-    "Tag": {
-      "type": "object",
-      "required": [
-        "id",
-        "tag_name",
-        "article_count",
-        "created_at",
-        "updated_at"
-      ],
-      "properties": {
-        "article_count": {
-          "description": "文章数量",
-          "type": "integer"
-        },
-        "created_at": {
-          "description": "创建时间",
-          "type": "integer"
-        },
-        "id": {
-          "description": "标签ID",
-          "type": "integer"
-        },
-        "tag_name": {
-          "description": "标签名",
-          "type": "string"
-        },
-        "updated_at": {
-          "description": "更新时间",
-          "type": "integer"
-        }
-      }
-    },
-    "TagQueryReq": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer"
-        },
-        "page_size": {
-          "type": "integer"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "tag_name": {
-          "description": "标签名",
-          "type": "string"
-        }
-      }
-    },
-    "Talk": {
-      "type": "object",
-      "required": [
-        "id",
-        "user_id",
-        "content",
-        "img_list",
-        "is_top",
-        "status",
-        "like_count",
-        "comment_count",
-        "created_at",
-        "updated_at",
-        "user"
-      ],
-      "properties": {
-        "comment_count": {
-          "description": "评论量",
-          "type": "integer"
-        },
-        "content": {
-          "description": "评论内容",
-          "type": "string"
-        },
-        "created_at": {
-          "description": "创建时间",
-          "type": "integer"
-        },
-        "id": {
-          "description": "说说ID",
-          "type": "integer"
-        },
-        "img_list": {
-          "description": "图片URL列表",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "is_top": {
-          "description": "是否置顶",
-          "type": "integer"
-        },
-        "like_count": {
-          "description": "点赞量",
-          "type": "integer"
-        },
-        "status": {
-          "description": "状态 1.公开 2.私密",
-          "type": "integer"
-        },
-        "updated_at": {
-          "description": "更新时间",
-          "type": "integer"
-        },
-        "user": {
-          "description": "用户信息",
-          "type": "object",
-          "required": [
-            "user_id",
-            "username",
-            "avatar",
-            "nickname"
-          ],
-          "properties": {
-            "avatar": {
-              "type": "string"
-            },
-            "gender": {
-              "description": "性别 0未知 1男 2女",
-              "type": "integer"
-            },
-            "intro": {
-              "description": "简介",
-              "type": "string"
-            },
-            "nickname": {
-              "type": "string"
-            },
-            "user_id": {
-              "type": "string"
-            },
-            "username": {
-              "type": "string"
-            },
-            "website": {
-              "description": "网站",
-              "type": "string"
-            }
-          },
-          "$ref": "#/definitions/UserInfoVO"
-        },
-        "user_id": {
-          "description": "用户ID",
-          "type": "string"
-        }
-      }
-    },
-    "TalkQueryReq": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer"
-        },
-        "page_size": {
-          "type": "integer"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "ThirdLoginReq": {
-      "type": "object",
-      "required": [
-        "platform"
-      ],
-      "properties": {
-        "code": {
-          "description": "授权码",
-          "type": "string"
-        },
-        "platform": {
-          "description": "平台",
-          "type": "string"
-        }
-      }
-    },
-    "Token": {
-      "type": "object",
-      "required": [
-        "user_id",
-        "token_type",
-        "access_token",
-        "expires_in",
-        "refresh_token",
-        "refresh_expires_in",
-        "scope"
-      ],
-      "properties": {
-        "access_token": {
-          "description": "访问token,过期时间较短。2h",
-          "type": "string"
-        },
-        "expires_in": {
-          "description": "访问token过期时间",
-          "type": "integer"
-        },
-        "refresh_expires_in": {
-          "description": "刷新token过期时间",
-          "type": "integer"
-        },
-        "refresh_token": {
-          "description": "刷新token,过期时间较长。30d",
-          "type": "string"
-        },
-        "scope": {
-          "description": "作用域",
-          "type": "string"
-        },
-        "token_type": {
-          "description": "token类型,Bearer",
-          "type": "string"
-        },
-        "user_id": {
-          "description": "用户id",
-          "type": "string"
-        }
-      }
-    },
-    "UpdateCommentReq": {
-      "type": "object",
-      "required": [
-        "id",
-        "comment_content"
-      ],
-      "properties": {
-        "comment_content": {
-          "description": "评论内容",
-          "type": "string"
-        },
-        "id": {
-          "description": "主键",
-          "type": "integer"
-        },
-        "reply_user_id": {
-          "description": "回复用户id",
-          "type": "string"
-        },
-        "status": {
-          "description": "状态 0.正常 1.已编辑 2.已删除",
-          "type": "integer"
-        }
-      }
-    },
-    "UpdateUserAvatarReq": {
-      "type": "object",
-      "required": [
-        "avatar"
-      ],
-      "properties": {
-        "avatar": {
-          "description": "头像",
-          "type": "string"
-        }
-      }
-    },
-    "UpdateUserBindEmailReq": {
-      "type": "object",
-      "required": [
-        "email",
-        "verify_code"
-      ],
-      "properties": {
-        "email": {
-          "description": "邮箱",
-          "type": "string"
-        },
-        "verify_code": {
-          "description": "验证码",
-          "type": "string"
-        }
-      }
-    },
-    "UpdateUserBindPhoneReq": {
-      "type": "object",
-      "required": [
-        "phone",
-        "verify_code"
-      ],
-      "properties": {
-        "phone": {
-          "description": "手机号",
-          "type": "string"
-        },
-        "verify_code": {
-          "description": "验证码",
-          "type": "string"
-        }
-      }
-    },
-    "UpdateUserBindThirdPartyReq": {
-      "type": "object",
-      "required": [
-        "platform",
-        "code"
-      ],
-      "properties": {
-        "code": {
-          "description": "授权码",
-          "type": "string"
-        },
-        "platform": {
-          "description": "平台",
-          "type": "string"
-        },
-        "state": {
-          "description": "状态",
-          "type": "string"
-        }
-      }
-    },
-    "UpdateUserInfoReq": {
-      "type": "object",
-      "required": [
-        "nickname"
-      ],
-      "properties": {
-        "gender": {
-          "description": "性别 0未知 1男 2女",
-          "type": "integer"
-        },
-        "intro": {
-          "description": "简介",
-          "type": "string"
-        },
-        "nickname": {
-          "description": "昵称",
-          "type": "string"
-        },
-        "website": {
-          "description": "网站",
-          "type": "string"
-        }
-      }
-    },
-    "UpdateUserPasswordReq": {
-      "type": "object",
-      "required": [
-        "old_password",
-        "new_password",
-        "confirm_password"
-      ],
-      "properties": {
-        "confirm_password": {
-          "description": "确认密码",
-          "type": "string"
-        },
-        "new_password": {
-          "description": "新密码",
-          "type": "string"
-        },
-        "old_password": {
-          "description": "旧密码",
-          "type": "string"
-        }
-      }
-    },
-    "UploadFileReq": {
-      "type": "object",
-      "properties": {
-        "File": {
-          "description": "文件"
-        },
-        "FilePath": {
-          "description": "文件路径",
-          "type": "string"
-        }
-      }
-    },
-    "UserInfoExt": {
-      "type": "object",
-      "properties": {
-        "gender": {
-          "description": "性别 0未知 1男 2女",
-          "type": "integer"
-        },
-        "intro": {
-          "description": "简介",
-          "type": "string"
-        },
-        "website": {
-          "description": "网站",
-          "type": "string"
-        }
-      }
-    },
-    "UserInfoResp": {
-      "type": "object",
-      "required": [
-        "user_id",
-        "username",
-        "nickname",
-        "avatar",
-        "email",
-        "phone",
-        "register_type",
-        "created_at",
-        "third_party"
-      ],
-      "properties": {
-        "avatar": {
-          "description": "用户头像",
-          "type": "string"
-        },
-        "created_at": {
-          "description": "创建时间",
-          "type": "integer"
-        },
-        "email": {
-          "description": "用户邮箱",
-          "type": "string"
-        },
-        "gender": {
-          "description": "性别 0未知 1男 2女",
-          "type": "integer"
-        },
-        "intro": {
-          "description": "简介",
-          "type": "string"
-        },
-        "nickname": {
-          "description": "用户昵称",
-          "type": "string"
-        },
-        "phone": {
-          "description": "用户手机号",
-          "type": "string"
-        },
-        "register_type": {
-          "description": "注册方式",
-          "type": "string"
-        },
-        "third_party": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": [
-              "platform",
-              "open_id",
-              "nickname",
-              "avatar",
-              "created_at"
-            ],
-            "properties": {
-              "avatar": {
-                "description": "头像",
-                "type": "string"
-              },
-              "created_at": {
-                "description": "创建时间",
-                "type": "integer"
-              },
-              "nickname": {
-                "description": "昵称",
-                "type": "string"
-              },
-              "open_id": {
-                "description": "平台用户id",
-                "type": "string"
-              },
-              "platform": {
-                "description": "平台",
-                "type": "string"
-              }
-            }
-          },
-          "$ref": "#/definitions/UserThirdPartyInfo"
-        },
-        "user_id": {
-          "description": "用户id",
-          "type": "string"
-        },
-        "username": {
-          "description": "用户名",
-          "type": "string"
-        },
-        "website": {
-          "description": "网站",
-          "type": "string"
-        }
-      }
-    },
-    "UserInfoVO": {
-      "type": "object",
-      "required": [
-        "user_id",
-        "username",
-        "avatar",
-        "nickname"
-      ],
-      "properties": {
-        "avatar": {
-          "type": "string"
-        },
-        "gender": {
-          "description": "性别 0未知 1男 2女",
-          "type": "integer"
-        },
-        "intro": {
-          "description": "简介",
-          "type": "string"
-        },
-        "nickname": {
-          "type": "string"
-        },
-        "user_id": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "website": {
-          "description": "网站",
-          "type": "string"
-        }
-      }
-    },
-    "UserLikeResp": {
-      "type": "object",
-      "required": [
-        "article_like_set",
-        "comment_like_set",
-        "talk_like_set"
-      ],
-      "properties": {
-        "article_like_set": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          }
-        },
-        "comment_like_set": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          }
-        },
-        "talk_like_set": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          }
-        }
-      }
-    },
-    "UserThirdPartyInfo": {
-      "type": "object",
-      "required": [
-        "platform",
-        "open_id",
-        "nickname",
-        "avatar",
-        "created_at"
-      ],
-      "properties": {
-        "avatar": {
-          "description": "头像",
-          "type": "string"
-        },
-        "created_at": {
-          "description": "创建时间",
-          "type": "integer"
-        },
-        "nickname": {
-          "description": "昵称",
-          "type": "string"
-        },
-        "open_id": {
-          "description": "平台用户id",
-          "type": "string"
-        },
-        "platform": {
-          "description": "平台",
-          "type": "string"
-        }
-      }
-    },
-    "WebsiteConfigVO": {
-      "type": "object",
-      "required": [
-        "admin_url",
-        "alipay_qr_code",
-        "gitee",
-        "github",
-        "is_chat_room",
-        "is_comment_review",
-        "is_email_notice",
-        "is_message_review",
-        "is_music_player",
-        "is_reward",
-        "qq",
-        "social_login_list",
-        "social_url_list",
-        "tourist_avatar",
-        "user_avatar",
-        "website_author",
-        "website_avatar",
-        "website_create_time",
-        "website_intro",
-        "website_name",
-        "website_notice",
-        "website_record_no",
-        "websocket_url",
-        "weixin_qr_code"
-      ],
-      "properties": {
-        "admin_url": {
-          "description": "后台地址",
-          "type": "string"
-        },
-        "alipay_qr_code": {
-          "description": "支付宝二维码",
-          "type": "string"
-        },
-        "gitee": {
-          "description": "Gitee",
-          "type": "string"
-        },
-        "github": {
-          "description": "Github",
-          "type": "string"
-        },
-        "is_chat_room": {
-          "description": "是否开启聊天室",
-          "type": "integer"
-        },
-        "is_comment_review": {
-          "description": "是否开启评论审核",
-          "type": "integer"
-        },
-        "is_email_notice": {
-          "description": "是否开启邮件通知",
-          "type": "integer"
-        },
-        "is_message_review": {
-          "description": "是否开启留言审核",
-          "type": "integer"
-        },
-        "is_music_player": {
-          "description": "是否开启音乐播放器",
-          "type": "integer"
-        },
-        "is_reward": {
-          "description": "是否开启打赏",
-          "type": "integer"
-        },
-        "qq": {
-          "description": "QQ",
-          "type": "string"
-        },
-        "social_login_list": {
-          "description": "社交登录列表",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "social_url_list": {
-          "description": "社交地址列表",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "tourist_avatar": {
-          "description": "游客头像",
-          "type": "string"
-        },
-        "user_avatar": {
-          "description": "用户头像",
-          "type": "string"
-        },
-        "website_author": {
-          "description": "网站作者",
-          "type": "string"
-        },
-        "website_avatar": {
-          "description": "网站头像",
-          "type": "string"
-        },
-        "website_create_time": {
-          "description": "网站创建时间",
-          "type": "string"
-        },
-        "website_intro": {
-          "description": "网站介绍",
-          "type": "string"
-        },
-        "website_name": {
-          "description": "网站名称",
-          "type": "string"
-        },
-        "website_notice": {
-          "description": "网站公告",
-          "type": "string"
-        },
-        "website_record_no": {
-          "description": "网站备案号",
-          "type": "string"
-        },
-        "websocket_url": {
-          "description": "websocket地址",
-          "type": "string"
-        },
-        "weixin_qr_code": {
-          "description": "微信二维码",
-          "type": "string"
         }
       }
     }
@@ -6392,9 +5232,9 @@
       "in": "header"
     }
   },
-  "x-date": "2025-05-18 01:49:48",
+  "x-date": "2025-05-29 10:41:51",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",
-  "x-goctl-version": "1.8.4-alpha"
+  "x-goctl-version": "1.8.4-beta"
 }
