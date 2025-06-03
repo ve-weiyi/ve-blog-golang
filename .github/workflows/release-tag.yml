@@ -174,7 +174,7 @@ jobs:
             echo "NACOS_IP: ${{ vars.NACOS_IP }}"
             
             # 拉取新镜像
-            docker pull ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            docker pull ghcr.nju.edu.cn/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             
             # 先停止并移除旧容器
             docker stop ${{ env.IMAGE_NAME }} || true && docker rm -f ${{ env.IMAGE_NAME }} || true
@@ -185,7 +185,7 @@ jobs:
             --restart always \
             -p ${{ env.EXPOSE_PORT }}:${{ env.EXPOSE_PORT }} \
             -v /data/runtime:/app/runtime \
-            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+            ghcr.nju.edu.cn/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
               ./blog \
               -nacos-ip "${{ vars.NACOS_IP }}" \
               -nacos-port "${{ vars.NACOS_PORT }}" \
@@ -219,7 +219,7 @@ jobs:
             echo "NACOS_IP: ${{ vars.NACOS_IP }}"
             
             # 拉取新镜像
-            docker pull ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            docker pull ghcr.nju.edu.cn/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             
             # 先停止并移除旧容器
             docker stop ${{ env.IMAGE_NAME }} || true && docker rm -f ${{ env.IMAGE_NAME }} || true
@@ -230,7 +230,7 @@ jobs:
             --restart always \
             -p ${{ env.EXPOSE_PORT }}:${{ env.EXPOSE_PORT }} \
             -v /data/runtime:/app/runtime \
-            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+            ghcr.nju.edu.cn/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
               ./blog \
               -nacos-ip "${{ vars.NACOS_IP }}" \
               -nacos-port "${{ vars.NACOS_PORT }}" \
@@ -265,7 +265,7 @@ jobs:
             echo "NACOS_IP: ${{ vars.NACOS_IP }}"
             
             # 拉取新镜像
-            docker pull ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            docker pull ghcr.nju.edu.cn/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             
             # 先停止并移除旧容器
             docker stop ${{ env.IMAGE_NAME }} || true && docker rm -f ${{ env.IMAGE_NAME }} || true
@@ -276,7 +276,7 @@ jobs:
             --restart always \
             -p ${{ env.EXPOSE_PORT }}:${{ env.EXPOSE_PORT }} \
             -v /data/runtime:/app/runtime \
-            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+            ghcr.nju.edu.cn/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
               ./admin \
               -nacos-ip "${{ vars.NACOS_IP }}" \
               -nacos-port "${{ vars.NACOS_PORT }}" \
