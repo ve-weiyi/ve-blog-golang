@@ -2,7 +2,6 @@ package accountrpclogic
 
 import (
 	"context"
-	"encoding/base64"
 	"fmt"
 
 	"github.com/google/uuid"
@@ -15,6 +14,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/random"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 
@@ -81,17 +81,13 @@ func (l *ThirdLoginLogic) ThirdLogin(in *accountrpc.ThirdLoginReq) (*accountrpc.
 
 func (l *ThirdLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oauth.UserResult) (out *model.TUserOauth, err error) {
 	// 用户未注册,先注册用户
-	uid := uuid.NewString()
-	// 使用第三方注册时，username需要唯一, 用户不能使用username登录，所以使用uuid生成。
-	username := fmt.Sprintf("UID_%s", base64.StdEncoding.EncodeToString([]byte(uid)))
-
 	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)
 	is, _ := ipx.GetIpSourceByBaidu(ip)
 
 	// 用户账号
 	user := &model.TUser{
-		UserId:       uid,
-		Username:     username,
+		UserId:       uuid.NewString(),
+		Username:     generateUID(l.ctx, l.svcCtx, tx),
 		Password:     crypto.BcryptHash(info.EnName),
 		Nickname:     info.NickName,
 		Avatar:       info.Avatar,
@@ -126,4 +122,15 @@ func (l *ThirdLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 	}
 
 	return userOauth, nil
+}
+
+// 生成唯一UID
+func generateUID(ctx context.Context, svcCtx *svc.ServiceContext, tx *gorm.DB) string {
+	uid := random.GenerateQQNumber()
+	user, _ := svcCtx.TUserModel.FindOneByUsername(ctx, uid)
+	if user != nil {
+		return generateUID(ctx, svcCtx, tx) // 如果用户已存在，继续生成新的UID
+	}
+
+	return uid
 }
