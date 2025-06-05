@@ -49,6 +49,14 @@ func (l *GetTouristInfoLogic) GetTouristInfo(in *accountrpc.EmptyReq) (*accountr
 
 	terminalId := crypto.Md5v(ip+os+browser, "")
 
+	// 查找是否已经存在
+	vs, _ := l.svcCtx.TVisitorModel.FindOneByTerminalId(l.ctx, terminalId)
+	if vs != nil {
+		return &accountrpc.GetTouristInfoResp{
+			TouristId: vs.TerminalId,
+		}, nil
+	}
+
 	visitor := &model.TVisitor{
 		Id:         0,
 		TerminalId: terminalId,
