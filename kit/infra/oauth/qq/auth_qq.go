@@ -77,7 +77,7 @@ func (a *AuthQq) GetAuthUserInfo(code string) (resp *oauth.UserResult, err error
 		NickName: user.Nickname,
 		Name:     user.Nickname,
 		EnName:   user.Nickname,
-		Avatar:   user.FigureURLQQ,
+		Avatar:   user.FigureURLQQ1,
 		Email:    "",
 		Mobile:   "",
 	}
@@ -172,7 +172,7 @@ func (a *AuthQq) GetOpenid(accessToken string) (resp *OpenResult, err error) {
 func (a *AuthQq) GetUserInfo(accessToken string, openId string) (resp *UserResult, err error) {
 
 	body, err := httpx.NewClient(
-		"POST",
+		"GET",
 		a.UserInfoUrl,
 		httpx.WithParams(map[string]string{
 			"openid":             openId,
