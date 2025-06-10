@@ -26,10 +26,6 @@ const (
 	WebsiteRpc_AnalysisVisit_FullMethodName  = "/websiterpc.WebsiteRpc/AnalysisVisit"
 	WebsiteRpc_AddVisit_FullMethodName       = "/websiterpc.WebsiteRpc/AddVisit"
 	WebsiteRpc_FindVisitTrend_FullMethodName = "/websiterpc.WebsiteRpc/FindVisitTrend"
-	WebsiteRpc_AddPage_FullMethodName        = "/websiterpc.WebsiteRpc/AddPage"
-	WebsiteRpc_UpdatePage_FullMethodName     = "/websiterpc.WebsiteRpc/UpdatePage"
-	WebsiteRpc_DeletePage_FullMethodName     = "/websiterpc.WebsiteRpc/DeletePage"
-	WebsiteRpc_FindPageList_FullMethodName   = "/websiterpc.WebsiteRpc/FindPageList"
 	WebsiteRpc_AddFriend_FullMethodName      = "/websiterpc.WebsiteRpc/AddFriend"
 	WebsiteRpc_UpdateFriend_FullMethodName   = "/websiterpc.WebsiteRpc/UpdateFriend"
 	WebsiteRpc_DeleteFriend_FullMethodName   = "/websiterpc.WebsiteRpc/DeleteFriend"
@@ -46,14 +42,6 @@ type WebsiteRpcClient interface {
 	AddVisit(ctx context.Context, in *AddVisitReq, opts ...grpc.CallOption) (*AddVisitResp, error)
 	// 查询用户访问趋势
 	FindVisitTrend(ctx context.Context, in *FindVisitTrendReq, opts ...grpc.CallOption) (*FindVisitTrendResp, error)
-	// 创建页面
-	AddPage(ctx context.Context, in *PageNewReq, opts ...grpc.CallOption) (*PageDetails, error)
-	// 更新页面
-	UpdatePage(ctx context.Context, in *PageNewReq, opts ...grpc.CallOption) (*PageDetails, error)
-	// 删除页面
-	DeletePage(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
-	// 查询页面列表
-	FindPageList(ctx context.Context, in *FindPageListReq, opts ...grpc.CallOption) (*FindPageListResp, error)
 	// 创建友链
 	AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error)
 	// 更新友链
@@ -93,42 +81,6 @@ func (c *websiteRpcClient) AddVisit(ctx context.Context, in *AddVisitReq, opts .
 func (c *websiteRpcClient) FindVisitTrend(ctx context.Context, in *FindVisitTrendReq, opts ...grpc.CallOption) (*FindVisitTrendResp, error) {
 	out := new(FindVisitTrendResp)
 	err := c.cc.Invoke(ctx, WebsiteRpc_FindVisitTrend_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *websiteRpcClient) AddPage(ctx context.Context, in *PageNewReq, opts ...grpc.CallOption) (*PageDetails, error) {
-	out := new(PageDetails)
-	err := c.cc.Invoke(ctx, WebsiteRpc_AddPage_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *websiteRpcClient) UpdatePage(ctx context.Context, in *PageNewReq, opts ...grpc.CallOption) (*PageDetails, error) {
-	out := new(PageDetails)
-	err := c.cc.Invoke(ctx, WebsiteRpc_UpdatePage_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *websiteRpcClient) DeletePage(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
-	out := new(BatchResp)
-	err := c.cc.Invoke(ctx, WebsiteRpc_DeletePage_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *websiteRpcClient) FindPageList(ctx context.Context, in *FindPageListReq, opts ...grpc.CallOption) (*FindPageListResp, error) {
-	out := new(FindPageListResp)
-	err := c.cc.Invoke(ctx, WebsiteRpc_FindPageList_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -181,14 +133,6 @@ type WebsiteRpcServer interface {
 	AddVisit(context.Context, *AddVisitReq) (*AddVisitResp, error)
 	// 查询用户访问趋势
 	FindVisitTrend(context.Context, *FindVisitTrendReq) (*FindVisitTrendResp, error)
-	// 创建页面
-	AddPage(context.Context, *PageNewReq) (*PageDetails, error)
-	// 更新页面
-	UpdatePage(context.Context, *PageNewReq) (*PageDetails, error)
-	// 删除页面
-	DeletePage(context.Context, *IdsReq) (*BatchResp, error)
-	// 查询页面列表
-	FindPageList(context.Context, *FindPageListReq) (*FindPageListResp, error)
 	// 创建友链
 	AddFriend(context.Context, *FriendNewReq) (*FriendDetails, error)
 	// 更新友链
@@ -212,18 +156,6 @@ func (UnimplementedWebsiteRpcServer) AddVisit(context.Context, *AddVisitReq) (*A
 }
 func (UnimplementedWebsiteRpcServer) FindVisitTrend(context.Context, *FindVisitTrendReq) (*FindVisitTrendResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindVisitTrend not implemented")
-}
-func (UnimplementedWebsiteRpcServer) AddPage(context.Context, *PageNewReq) (*PageDetails, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddPage not implemented")
-}
-func (UnimplementedWebsiteRpcServer) UpdatePage(context.Context, *PageNewReq) (*PageDetails, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdatePage not implemented")
-}
-func (UnimplementedWebsiteRpcServer) DeletePage(context.Context, *IdsReq) (*BatchResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeletePage not implemented")
-}
-func (UnimplementedWebsiteRpcServer) FindPageList(context.Context, *FindPageListReq) (*FindPageListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindPageList not implemented")
 }
 func (UnimplementedWebsiteRpcServer) AddFriend(context.Context, *FriendNewReq) (*FriendDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddFriend not implemented")
@@ -300,78 +232,6 @@ func _WebsiteRpc_FindVisitTrend_Handler(srv interface{}, ctx context.Context, de
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(WebsiteRpcServer).FindVisitTrend(ctx, req.(*FindVisitTrendReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _WebsiteRpc_AddPage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PageNewReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WebsiteRpcServer).AddPage(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: WebsiteRpc_AddPage_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WebsiteRpcServer).AddPage(ctx, req.(*PageNewReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _WebsiteRpc_UpdatePage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PageNewReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WebsiteRpcServer).UpdatePage(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: WebsiteRpc_UpdatePage_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WebsiteRpcServer).UpdatePage(ctx, req.(*PageNewReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _WebsiteRpc_DeletePage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WebsiteRpcServer).DeletePage(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: WebsiteRpc_DeletePage_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WebsiteRpcServer).DeletePage(ctx, req.(*IdsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _WebsiteRpc_FindPageList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindPageListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WebsiteRpcServer).FindPageList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: WebsiteRpc_FindPageList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WebsiteRpcServer).FindPageList(ctx, req.(*FindPageListReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -466,22 +326,6 @@ var WebsiteRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindVisitTrend",
 			Handler:    _WebsiteRpc_FindVisitTrend_Handler,
-		},
-		{
-			MethodName: "AddPage",
-			Handler:    _WebsiteRpc_AddPage_Handler,
-		},
-		{
-			MethodName: "UpdatePage",
-			Handler:    _WebsiteRpc_UpdatePage_Handler,
-		},
-		{
-			MethodName: "DeletePage",
-			Handler:    _WebsiteRpc_DeletePage_Handler,
-		},
-		{
-			MethodName: "FindPageList",
-			Handler:    _WebsiteRpc_FindPageList_Handler,
 		},
 		{
 			MethodName: "AddFriend",
