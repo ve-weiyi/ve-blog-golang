@@ -3,11 +3,11 @@ package page
 import (
 	"context"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/websiterpc"
-
-	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/resourcerpc"
 )
 
 type FindPageListLogic struct {
@@ -26,11 +26,11 @@ func NewFindPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 }
 
 func (l *FindPageListLogic) FindPageList(req *types.PageQueryReq) (resp *types.PageResp, err error) {
-	in := &websiterpc.FindPageListReq{
+	in := &resourcerpc.FindPageListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 	}
-	out, err := l.svcCtx.WebsiteRpc.FindPageList(l.ctx, in)
+	out, err := l.svcCtx.ResourceRpc.FindPageList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func (l *FindPageListLogic) FindPageList(req *types.PageQueryReq) (resp *types.P
 	return resp, nil
 }
 
-func ConvertPageTypes(in *websiterpc.PageDetails) *types.Page {
+func ConvertPageTypes(in *resourcerpc.PageDetails) *types.Page {
 	return &types.Page{
 		Id:         in.Id,
 		PageName:   in.PageName,
