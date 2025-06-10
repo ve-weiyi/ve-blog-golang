@@ -35,7 +35,7 @@
           }
         ],
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
@@ -276,7 +276,7 @@
           }
         ],
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
@@ -590,6 +590,42 @@
                     "article_type": {
                       "description": "文章类型",
                       "type": "integer"
+                    },
+                    "author": {
+                      "description": "作者",
+                      "type": "object",
+                      "required": [
+                        "user_id",
+                        "username",
+                        "avatar",
+                        "nickname"
+                      ],
+                      "properties": {
+                        "avatar": {
+                          "type": "string"
+                        },
+                        "gender": {
+                          "description": "性别 0未知 1男 2女",
+                          "type": "integer"
+                        },
+                        "intro": {
+                          "description": "简介",
+                          "type": "string"
+                        },
+                        "nickname": {
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "website": {
+                          "description": "网站",
+                          "type": "string"
+                        }
+                      }
                     },
                     "category_name": {
                       "description": "文章分类名",
@@ -1105,87 +1141,98 @@
                       "type": "object",
                       "required": [
                         "admin_url",
-                        "alipay_qr_code",
-                        "gitee",
-                        "github",
-                        "is_chat_room",
-                        "is_comment_review",
-                        "is_email_notice",
-                        "is_message_review",
-                        "is_music_player",
-                        "is_reward",
-                        "qq",
-                        "social_login_list",
-                        "social_url_list",
+                        "websocket_url",
                         "tourist_avatar",
                         "user_avatar",
-                        "website_author",
-                        "website_avatar",
-                        "website_create_time",
-                        "website_intro",
-                        "website_name",
-                        "website_notice",
-                        "website_record_no",
-                        "websocket_url",
-                        "weixin_qr_code"
+                        "website_feature",
+                        "website_info",
+                        "reward_qr_code",
+                        "social_login_list",
+                        "social_url_list"
                       ],
                       "properties": {
                         "admin_url": {
                           "description": "后台地址",
                           "type": "string"
                         },
-                        "alipay_qr_code": {
-                          "description": "支付宝二维码",
-                          "type": "string"
-                        },
-                        "gitee": {
-                          "description": "Gitee",
-                          "type": "string"
-                        },
-                        "github": {
-                          "description": "Github",
-                          "type": "string"
-                        },
-                        "is_chat_room": {
-                          "description": "是否开启聊天室",
-                          "type": "integer"
-                        },
-                        "is_comment_review": {
-                          "description": "是否开启评论审核",
-                          "type": "integer"
-                        },
-                        "is_email_notice": {
-                          "description": "是否开启邮件通知",
-                          "type": "integer"
-                        },
-                        "is_message_review": {
-                          "description": "是否开启留言审核",
-                          "type": "integer"
-                        },
-                        "is_music_player": {
-                          "description": "是否开启音乐播放器",
-                          "type": "integer"
-                        },
-                        "is_reward": {
-                          "description": "是否开启打赏",
-                          "type": "integer"
-                        },
-                        "qq": {
-                          "description": "QQ",
-                          "type": "string"
+                        "reward_qr_code": {
+                          "description": "打赏二维码",
+                          "type": "object",
+                          "required": [
+                            "alipay_qr_code",
+                            "weixin_qr_code"
+                          ],
+                          "properties": {
+                            "alipay_qr_code": {
+                              "description": "支付宝二维码",
+                              "type": "string"
+                            },
+                            "weixin_qr_code": {
+                              "description": "微信二维码",
+                              "type": "string"
+                            }
+                          }
                         },
                         "social_login_list": {
-                          "description": "社交登录列表",
+                          "description": "用户第三方登录列表",
                           "type": "array",
                           "items": {
-                            "type": "string"
+                            "type": "object",
+                            "required": [
+                              "name",
+                              "platform",
+                              "authorize_url",
+                              "enabled"
+                            ],
+                            "properties": {
+                              "authorize_url": {
+                                "description": "授权地址",
+                                "type": "string"
+                              },
+                              "enabled": {
+                                "description": "是否启用",
+                                "type": "boolean"
+                              },
+                              "name": {
+                                "description": "名称-微信",
+                                "type": "string"
+                              },
+                              "platform": {
+                                "description": "平台-wechat",
+                                "type": "string"
+                              }
+                            }
                           }
                         },
                         "social_url_list": {
-                          "description": "社交地址列表",
+                          "description": "作者社交地址列表",
                           "type": "array",
                           "items": {
-                            "type": "string"
+                            "type": "object",
+                            "required": [
+                              "name",
+                              "platform",
+                              "link_url",
+                              "enabled"
+                            ],
+                            "properties": {
+                              "enabled": {
+                                "description": "是否启用",
+                                "type": "boolean"
+                              },
+                              "link_url": {
+                                "description": "链接地址",
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "名称-微信",
+                                "type": "string"
+                              },
+                              "platform": {
+                                "description": "平台-wechat",
+                                "type": "string"
+                              }
+                            }
                           }
                         },
                         "tourist_avatar": {
@@ -1196,40 +1243,89 @@
                           "description": "用户头像",
                           "type": "string"
                         },
-                        "website_author": {
-                          "description": "网站作者",
-                          "type": "string"
+                        "website_feature": {
+                          "description": "网站功能",
+                          "type": "object",
+                          "required": [
+                            "is_chat_room",
+                            "is_comment_review",
+                            "is_email_notice",
+                            "is_message_review",
+                            "is_music_player",
+                            "is_reward"
+                          ],
+                          "properties": {
+                            "is_chat_room": {
+                              "description": "是否开启聊天室",
+                              "type": "integer"
+                            },
+                            "is_comment_review": {
+                              "description": "是否开启评论审核",
+                              "type": "integer"
+                            },
+                            "is_email_notice": {
+                              "description": "是否开启邮件通知",
+                              "type": "integer"
+                            },
+                            "is_message_review": {
+                              "description": "是否开启留言审核",
+                              "type": "integer"
+                            },
+                            "is_music_player": {
+                              "description": "是否开启音乐播放器",
+                              "type": "integer"
+                            },
+                            "is_reward": {
+                              "description": "是否开启打赏",
+                              "type": "integer"
+                            }
+                          }
                         },
-                        "website_avatar": {
-                          "description": "网站头像",
-                          "type": "string"
-                        },
-                        "website_create_time": {
-                          "description": "网站创建时间",
-                          "type": "string"
-                        },
-                        "website_intro": {
-                          "description": "网站介绍",
-                          "type": "string"
-                        },
-                        "website_name": {
-                          "description": "网站名称",
-                          "type": "string"
-                        },
-                        "website_notice": {
-                          "description": "网站公告",
-                          "type": "string"
-                        },
-                        "website_record_no": {
-                          "description": "网站备案号",
-                          "type": "string"
+                        "website_info": {
+                          "description": "网站信息",
+                          "type": "object",
+                          "required": [
+                            "website_author",
+                            "website_avatar",
+                            "website_create_time",
+                            "website_intro",
+                            "website_name",
+                            "website_notice",
+                            "website_record_no"
+                          ],
+                          "properties": {
+                            "website_author": {
+                              "description": "网站作者",
+                              "type": "string"
+                            },
+                            "website_avatar": {
+                              "description": "网站头像",
+                              "type": "string"
+                            },
+                            "website_create_time": {
+                              "description": "网站创建时间",
+                              "type": "string"
+                            },
+                            "website_intro": {
+                              "description": "网站介绍",
+                              "type": "string"
+                            },
+                            "website_name": {
+                              "description": "网站名称",
+                              "type": "string"
+                            },
+                            "website_notice": {
+                              "description": "网站公告",
+                              "type": "string"
+                            },
+                            "website_record_no": {
+                              "description": "网站备案号",
+                              "type": "string"
+                            }
+                          }
                         },
                         "websocket_url": {
                           "description": "websocket地址",
-                          "type": "string"
-                        },
-                        "weixin_qr_code": {
-                          "description": "微信二维码",
                           "type": "string"
                         }
                       }
@@ -2738,7 +2834,7 @@
           }
         ],
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
@@ -3231,7 +3327,7 @@
           }
         ],
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
@@ -3707,7 +3803,7 @@
           }
         ],
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
@@ -4093,7 +4189,7 @@
           }
         ],
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
@@ -5232,9 +5328,9 @@
       "in": "header"
     }
   },
-  "x-date": "2025-05-29 10:41:51",
+  "x-date": "2025-06-10 14:15:39",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",
-  "x-goctl-version": "1.8.4-beta"
+  "x-goctl-version": "1.8.4"
 }
