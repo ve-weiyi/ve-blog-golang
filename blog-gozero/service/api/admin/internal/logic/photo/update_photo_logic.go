@@ -26,7 +26,7 @@ func NewUpdatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Updat
 
 func (l *UpdatePhotoLogic) UpdatePhoto(req *types.PhotoNewReq) (resp *types.PhotoBackVO, err error) {
 	in := ConvertPhotoPb(req)
-	out, err := l.svcCtx.PhotoRpc.UpdatePhoto(l.ctx, in)
+	out, err := l.svcCtx.ResourceRpc.UpdatePhoto(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

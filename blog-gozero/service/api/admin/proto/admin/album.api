@@ -27,7 +27,13 @@ type (
 
     AlbumQuery {
         PageQuery
-        AlbumName string `json:"album_name,optional"` // 相册名
+        AlbumName string `json:"album_name,optional"`      // 相册名
+        IsDelete int64 `json:"is_delete,optional"`         // 是否删除
+    }
+
+    PreDeleteAlbumReq {
+        Ids []int64 `json:"ids"`             // 主键
+        IsDelete int64 `json:"is_delete"`    // 是否删除
     }
 )
 
@@ -57,6 +63,10 @@ service admin-api {
     put /album/update_album (AlbumNewReq) returns (AlbumBackVO)
 
     @doc "删除相册"
-    @handler DeleteAlbum
-    delete /album/delete_album (IdReq) returns (BatchResp)
+    @handler DeletesAlbum
+    delete /album/deletes_album (IdsReq) returns (BatchResp)
+
+    @doc "预删除相册"
+    @handler PreDeleteAlbum
+    post /album/pre_delete_album (PreDeleteAlbumReq) returns (BatchResp)
 }

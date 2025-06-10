@@ -82,3 +82,21 @@ func (s *SyslogRpcServer) FindOperationLogList(ctx context.Context, in *syslogrp
 	l := syslogrpclogic.NewFindOperationLogListLogic(ctx, s.svcCtx)
 	return l.FindOperationLogList(in)
 }
+
+// 创建上传记录
+func (s *SyslogRpcServer) AddUploadLog(ctx context.Context, in *syslogrpc.UploadLogNewReq) (*syslogrpc.UploadLogDetails, error) {
+	l := syslogrpclogic.NewAddUploadLogLogic(ctx, s.svcCtx)
+	return l.AddUploadLog(in)
+}
+
+// 批量删除上传记录
+func (s *SyslogRpcServer) DeletesUploadLog(ctx context.Context, in *syslogrpc.IdsReq) (*syslogrpc.BatchResp, error) {
+	l := syslogrpclogic.NewDeletesUploadLogLogic(ctx, s.svcCtx)
+	return l.DeletesUploadLog(in)
+}
+
+// 查询上传记录列表
+func (s *SyslogRpcServer) FindUploadLogList(ctx context.Context, in *syslogrpc.FindUploadLogListReq) (*syslogrpc.FindUploadLogListResp, error) {
+	l := syslogrpclogic.NewFindUploadLogListLogic(ctx, s.svcCtx)
+	return l.FindUploadLogList(in)
+}

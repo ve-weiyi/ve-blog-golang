@@ -18,7 +18,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/configrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/messagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/permissionrpc"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/photorpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/resourcerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/talkrpc"
@@ -28,7 +27,6 @@ import (
 	configrpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/configrpc"
 	messagerpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/messagerpc"
 	permissionrpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/permissionrpc"
-	photorpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/photorpc"
 	resourcerpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/resourcerpc"
 	syslogrpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/syslogrpc"
 	talkrpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/talkrpc"
@@ -89,7 +87,6 @@ func main() {
 		accountrpc.RegisterAccountRpcServer(grpcServer, accountrpcServer.NewAccountRpcServer(ctx))
 		articlerpc.RegisterArticleRpcServer(grpcServer, articlerpcServer.NewArticleRpcServer(ctx))
 		permissionrpc.RegisterPermissionRpcServer(grpcServer, permissionrpcServer.NewPermissionRpcServer(ctx))
-		photorpc.RegisterPhotoRpcServer(grpcServer, photorpcServer.NewPhotoRpcServer(ctx))
 		syslogrpc.RegisterSyslogRpcServer(grpcServer, syslogrpcServer.NewSyslogRpcServer(ctx))
 		messagerpc.RegisterMessageRpcServer(grpcServer, messagerpcServer.NewMessageRpcServer(ctx))
 		talkrpc.RegisterTalkRpcServer(grpcServer, talkrpcServer.NewTalkRpcServer(ctx))

@@ -25,5 +25,11 @@ type PhotoNewReq struct {
 
 type PhotoQuery struct {
 	PageQuery
-	AlbumId int64 `json:"album_id,optional"` // 相册id
+	AlbumId  int64 `json:"album_id,optional"`  // 相册id
+	IsDelete int64 `json:"is_delete,optional"` // 是否删除
+}
+
+type PreDeletePhotoReq struct {
+	Ids      []int64 `json:"ids"`       // 主键
+	IsDelete int64   `json:"is_delete"` // 是否删除
 }

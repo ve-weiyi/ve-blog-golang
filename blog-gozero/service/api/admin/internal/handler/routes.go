@@ -13,7 +13,6 @@ import (
 	auth "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/auth"
 	category "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/category"
 	comment "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/comment"
-	file "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/file"
 	friend "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/friend"
 	login_log "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/login_log"
 	menu "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/menu"
@@ -24,6 +23,8 @@ import (
 	role "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/role"
 	tag "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/tag"
 	talk "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/talk"
+	upload "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/upload"
+	upload_log "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/upload_log"
 	user "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/user"
 	visit_log "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/visit_log"
 	website "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/website"
@@ -98,8 +99,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 删除相册
 					Method:  http.MethodDelete,
-					Path:    "/album/delete_album",
-					Handler: album.DeleteAlbumHandler(serverCtx),
+					Path:    "/album/deletes_album",
+					Handler: album.DeletesAlbumHandler(serverCtx),
 				},
 				{
 					// 分页获取相册列表
@@ -112,6 +113,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/album/get_album",
 					Handler: album.GetAlbumHandler(serverCtx),
+				},
+				{
+					// 预删除相册
+					Method:  http.MethodPost,
+					Path:    "/album/pre_delete_album",
+					Handler: album.PreDeleteAlbumHandler(serverCtx),
 				},
 				{
 					// 更新相册
@@ -135,12 +142,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: api.AddApiHandler(serverCtx),
 				},
 				{
-					// 批量删除api路由
-					Method:  http.MethodDelete,
-					Path:    "/api/batch_delete_api",
-					Handler: api.BatchDeleteApiHandler(serverCtx),
-				},
-				{
 					// 清空接口列表
 					Method:  http.MethodPost,
 					Path:    "/api/clean_api_list",
@@ -149,8 +150,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 删除api路由
 					Method:  http.MethodDelete,
-					Path:    "/api/delete_api",
-					Handler: api.DeleteApiHandler(serverCtx),
+					Path:    "/api/deletes_api",
+					Handler: api.DeletesApiHandler(serverCtx),
 				},
 				{
 					// 分页获取api路由列表
@@ -342,16 +343,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: category.AddCategoryHandler(serverCtx),
 				},
 				{
-					// 批量删除文章分类
-					Method:  http.MethodDelete,
-					Path:    "/category/batch_delete_category",
-					Handler: category.BatchDeleteCategoryHandler(serverCtx),
-				},
-				{
 					// 删除文章分类
 					Method:  http.MethodDelete,
-					Path:    "/category/delete_category",
-					Handler: category.DeleteCategoryHandler(serverCtx),
+					Path:    "/category/deletes_category",
+					Handler: category.DeletesCategoryHandler(serverCtx),
 				},
 				{
 					// 分页获取文章分类列表
@@ -375,16 +370,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
-					// 批量删除评论
-					Method:  http.MethodDelete,
-					Path:    "/comment/batch_delete_comment",
-					Handler: comment.BatchDeleteCommentHandler(serverCtx),
-				},
-				{
 					// 删除评论
 					Method:  http.MethodDelete,
-					Path:    "/comment/delete_comment",
-					Handler: comment.DeleteCommentHandler(serverCtx),
+					Path:    "/comment/deletes_comment",
+					Handler: comment.DeletesCommentHandler(serverCtx),
 				},
 				{
 					// 查询评论列表(后台)
@@ -408,68 +397,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
-					// 创建文件目录
-					Method:  http.MethodPost,
-					Path:    "/file/add_file_folder",
-					Handler: file.AddFileFolderHandler(serverCtx),
-				},
-				{
-					// 删除文件列表
-					Method:  http.MethodDelete,
-					Path:    "/file/deletes_file",
-					Handler: file.DeletesFileHandler(serverCtx),
-				},
-				{
-					// 分页获取文件列表
-					Method:  http.MethodPost,
-					Path:    "/file/find_file_list",
-					Handler: file.FindFileListHandler(serverCtx),
-				},
-				{
-					// 获取文件列表
-					Method:  http.MethodPost,
-					Path:    "/file/list_upload_file",
-					Handler: file.ListUploadFileHandler(serverCtx),
-				},
-				{
-					// 上传文件列表
-					Method:  http.MethodPost,
-					Path:    "/file/multi_upload_file",
-					Handler: file.MultiUploadFileHandler(serverCtx),
-				},
-				{
-					// 上传文件
-					Method:  http.MethodPost,
-					Path:    "/file/upload_file",
-					Handler: file.UploadFileHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin-api/v1"),
-		rest.WithMaxBytes(10485760),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
-			[]rest.Route{
-				{
 					// 创建友链
 					Method:  http.MethodPost,
 					Path:    "/friend/add_friend",
 					Handler: friend.AddFriendHandler(serverCtx),
 				},
 				{
-					// 批量删除友链
-					Method:  http.MethodDelete,
-					Path:    "/friend/batch_delete_friend",
-					Handler: friend.BatchDeleteFriendHandler(serverCtx),
-				},
-				{
 					// 删除友链
 					Method:  http.MethodDelete,
-					Path:    "/friend/delete_friend",
-					Handler: friend.DeleteFriendHandler(serverCtx),
+					Path:    "/friend/deletes_friend",
+					Handler: friend.DeletesFriendHandler(serverCtx),
 				},
 				{
 					// 分页获取友链列表
@@ -520,12 +457,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: menu.AddMenuHandler(serverCtx),
 				},
 				{
-					// 批量删除菜单
-					Method:  http.MethodDelete,
-					Path:    "/menu/batch_delete_menu",
-					Handler: menu.BatchDeleteMenuHandler(serverCtx),
-				},
-				{
 					// 清空菜单列表
 					Method:  http.MethodPost,
 					Path:    "/menu/clean_menu_list",
@@ -534,8 +465,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 删除菜单
 					Method:  http.MethodDelete,
-					Path:    "/menu/delete_menu",
-					Handler: menu.DeleteMenuHandler(serverCtx),
+					Path:    "/menu/deletes_menu",
+					Handler: menu.DeletesMenuHandler(serverCtx),
 				},
 				{
 					// 分页获取菜单列表
@@ -619,12 +550,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
-					// 批量删除照片
-					Method:  http.MethodDelete,
-					Path:    "/album/batch_delete_photo",
-					Handler: photo.BatchDeletePhotoHandler(serverCtx),
-				},
-				{
 					// 创建照片
 					Method:  http.MethodPost,
 					Path:    "/photo/add_photo",
@@ -633,14 +558,20 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 删除照片
 					Method:  http.MethodDelete,
-					Path:    "/photo/delete_photo",
-					Handler: photo.DeletePhotoHandler(serverCtx),
+					Path:    "/photo/deletes_photo",
+					Handler: photo.DeletesPhotoHandler(serverCtx),
 				},
 				{
 					// 分页获取照片列表
 					Method:  http.MethodPost,
 					Path:    "/photo/find_photo_list",
 					Handler: photo.FindPhotoListHandler(serverCtx),
+				},
+				{
+					// 预删除照片
+					Method:  http.MethodPut,
+					Path:    "/photo/pre_delete_photo",
+					Handler: photo.PreDeletePhotoHandler(serverCtx),
 				},
 				{
 					// 更新照片
@@ -658,16 +589,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
-					// 批量删除留言
-					Method:  http.MethodDelete,
-					Path:    "/remark/batch_delete_remark",
-					Handler: remark.BatchDeleteRemarkHandler(serverCtx),
-				},
-				{
 					// 删除留言
 					Method:  http.MethodDelete,
-					Path:    "/remark/delete_remark",
-					Handler: remark.DeleteRemarkHandler(serverCtx),
+					Path:    "/remark/deletes_remark",
+					Handler: remark.DeletesRemarkHandler(serverCtx),
 				},
 				{
 					// 分页获取留言列表
@@ -697,16 +622,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: role.AddRoleHandler(serverCtx),
 				},
 				{
-					// 批量删除角色
-					Method:  http.MethodPost,
-					Path:    "/role/batch_delete_role",
-					Handler: role.BatchDeleteRoleHandler(serverCtx),
-				},
-				{
 					// 删除角色
-					Method:  http.MethodDelete,
-					Path:    "/role/delete_role",
-					Handler: role.DeleteRoleHandler(serverCtx),
+					Method:  http.MethodPost,
+					Path:    "/role/deletes_role",
+					Handler: role.DeletesRoleHandler(serverCtx),
 				},
 				{
 					// 分页获取角色列表
@@ -754,16 +673,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: tag.AddTagHandler(serverCtx),
 				},
 				{
-					// 批量删除标签
-					Method:  http.MethodDelete,
-					Path:    "/tag/batch_delete_tag",
-					Handler: tag.BatchDeleteTagHandler(serverCtx),
-				},
-				{
 					// 删除标签
 					Method:  http.MethodDelete,
-					Path:    "/tag/delete_tag",
-					Handler: tag.DeleteTagHandler(serverCtx),
+					Path:    "/tag/deletes_tag",
+					Handler: tag.DeletesTagHandler(serverCtx),
 				},
 				{
 					// 分页获取标签列表
@@ -815,6 +728,61 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPut,
 					Path:    "/talk/update_talk",
 					Handler: talk.UpdateTalkHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/admin-api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Route{
+				{
+					// 删除文件列表
+					Method:  http.MethodDelete,
+					Path:    "/upload/deletes_upload_file",
+					Handler: upload.DeletesUploadFileHandler(serverCtx),
+				},
+				{
+					// 获取文件列表
+					Method:  http.MethodPost,
+					Path:    "/upload/list_upload_file",
+					Handler: upload.ListUploadFileHandler(serverCtx),
+				},
+				{
+					// 上传文件列表
+					Method:  http.MethodPost,
+					Path:    "/upload/multi_upload_file",
+					Handler: upload.MultiUploadFileHandler(serverCtx),
+				},
+				{
+					// 上传文件
+					Method:  http.MethodPost,
+					Path:    "/upload/upload_file",
+					Handler: upload.UploadFileHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/admin-api/v1"),
+		rest.WithMaxBytes(10485760),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Route{
+				{
+					// 删除登录日志
+					Method:  http.MethodDelete,
+					Path:    "/upload_log/deletes_upload_log",
+					Handler: upload_log.DeletesUploadLogHandler(serverCtx),
+				},
+				{
+					// 查询登录日志
+					Method:  http.MethodPost,
+					Path:    "/user/find_upload_log_list",
+					Handler: upload_log.FindUploadLogListHandler(serverCtx),
 				},
 			}...,
 		),

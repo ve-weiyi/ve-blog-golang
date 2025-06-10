@@ -74,9 +74,6 @@ func NewCasbinHolder(redisAddr string, pr permissionrpc.PermissionRpc) *CasbinHo
 }
 
 func (m *CasbinHolder) ReloadPolicy() error {
-	m.rw.Lock()
-	defer m.rw.Unlock()
-
 	return m.LoadPolicy()
 }
 

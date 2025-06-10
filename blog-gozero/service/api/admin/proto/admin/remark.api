@@ -46,10 +46,6 @@ service admin-api {
     put /remark/update_remark_review (RemarkReviewReq) returns (BatchResp)
 
     @doc "删除留言"
-    @handler DeleteRemark
-    delete /remark/delete_remark (IdReq) returns (BatchResp)
-
-    @doc "批量删除留言"
-    @handler BatchDeleteRemark
-    delete /remark/batch_delete_remark (IdsReq) returns (BatchResp)
+    @handler DeletesRemark
+    delete /remark/deletes_remark (IdsReq) returns (BatchResp)
 }

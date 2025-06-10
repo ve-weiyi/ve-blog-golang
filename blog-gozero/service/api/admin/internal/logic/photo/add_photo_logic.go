@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/photorpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/resourcerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +27,7 @@ func NewAddPhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPhoto
 
 func (l *AddPhotoLogic) AddPhoto(req *types.PhotoNewReq) (resp *types.PhotoBackVO, err error) {
 	in := ConvertPhotoPb(req)
-	out, err := l.svcCtx.PhotoRpc.AddPhoto(l.ctx, in)
+	out, err := l.svcCtx.ResourceRpc.AddPhoto(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -36,8 +36,8 @@ func (l *AddPhotoLogic) AddPhoto(req *types.PhotoNewReq) (resp *types.PhotoBackV
 	return resp, nil
 }
 
-func ConvertPhotoPb(in *types.PhotoNewReq) (out *photorpc.PhotoNewReq) {
-	out = &photorpc.PhotoNewReq{
+func ConvertPhotoPb(in *types.PhotoNewReq) (out *resourcerpc.PhotoNewReq) {
+	out = &resourcerpc.PhotoNewReq{
 		Id:        in.Id,
 		AlbumId:   in.AlbumId,
 		PhotoName: in.PhotoName,
@@ -49,7 +49,7 @@ func ConvertPhotoPb(in *types.PhotoNewReq) (out *photorpc.PhotoNewReq) {
 	return
 }
 
-func ConvertPhotoTypes(in *photorpc.PhotoDetails) (out *types.PhotoBackVO) {
+func ConvertPhotoTypes(in *resourcerpc.PhotoDetails) (out *types.PhotoBackVO) {
 	out = &types.PhotoBackVO{
 		Id:        in.Id,
 		AlbumId:   in.AlbumId,

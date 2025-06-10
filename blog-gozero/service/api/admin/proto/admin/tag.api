@@ -45,10 +45,6 @@ service admin-api {
     put /tag/update_tag (TagNewReq) returns (TagBackVO)
 
     @doc "删除标签"
-    @handler DeleteTag
-    delete /tag/delete_tag (IdReq) returns (BatchResp)
-
-    @doc "批量删除标签"
-    @handler BatchDeleteTag
-    delete /tag/batch_delete_tag (IdsReq) returns (BatchResp)
+    @handler DeletesTag
+    delete /tag/deletes_tag (IdsReq) returns (BatchResp)
 }

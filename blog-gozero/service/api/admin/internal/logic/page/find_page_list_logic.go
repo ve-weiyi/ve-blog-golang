@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/websiterpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/resourcerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,14 +26,14 @@ func NewFindPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 }
 
 func (l *FindPageListLogic) FindPageList(req *types.PageQueryReq) (resp *types.PageResp, err error) {
-	in := &websiterpc.FindPageListReq{
+	in := &resourcerpc.FindPageListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Sorts:    req.Sorts,
 		PageName: req.PageName,
 	}
 
-	out, err := l.svcCtx.WebsiteRpc.FindPageList(l.ctx, in)
+	out, err := l.svcCtx.ResourceRpc.FindPageList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

@@ -51,10 +51,6 @@ service admin-api {
     put /comment/update_comment_review (CommentReviewReq) returns (BatchResp)
 
     @doc "删除评论"
-    @handler DeleteComment
-    delete /comment/delete_comment (IdReq) returns (BatchResp)
-
-    @doc "批量删除评论"
-    @handler BatchDeleteComment
-    delete /comment/batch_delete_comment (IdsReq) returns (BatchResp)
+    @handler DeletesComment
+    delete /comment/deletes_comment (IdsReq) returns (BatchResp)
 }
