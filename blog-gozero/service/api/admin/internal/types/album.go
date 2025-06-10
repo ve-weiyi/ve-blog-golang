@@ -27,4 +27,10 @@ type AlbumNewReq struct {
 type AlbumQuery struct {
 	PageQuery
 	AlbumName string `json:"album_name,optional"` // 相册名
+	IsDelete  int64  `json:"is_delete,optional"`  // 是否删除
+}
+
+type PreDeleteAlbumReq struct {
+	Ids      []int64 `json:"ids"`       // 主键
+	IsDelete int64   `json:"is_delete"` // 是否删除
 }

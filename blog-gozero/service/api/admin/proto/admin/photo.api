@@ -26,7 +26,13 @@ type (
 
     PhotoQuery {
         PageQuery
-        AlbumId int64 `json:"album_id,optional"`         // 相册id
+        AlbumId int64 `json:"album_id,optional"`           // 相册id
+        IsDelete int64 `json:"is_delete,optional"`         // 是否删除
+    }
+
+    PreDeletePhotoReq {
+        Ids []int64 `json:"ids"`             // 主键
+        IsDelete int64 `json:"is_delete"`    // 是否删除
     }
 )
 
@@ -53,10 +59,10 @@ service admin-api {
     put /photo/update_photo (PhotoNewReq) returns (PhotoBackVO)
 
     @doc "删除照片"
-    @handler DeletePhoto
-    delete /photo/delete_photo (IdReq) returns (BatchResp)
+    @handler DeletesPhoto
+    delete /photo/deletes_photo (IdsReq) returns (BatchResp)
 
-    @doc "批量删除照片"
-    @handler BatchDeletePhoto
-    delete /album/batch_delete_photo (IdsReq) returns (BatchResp)
+    @doc "预删除照片"
+    @handler PreDeletePhoto
+    put /photo/pre_delete_photo (PreDeletePhotoReq) returns (BatchResp)
 }
