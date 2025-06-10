@@ -48,9 +48,6 @@ func convertPageQuery(in *websiterpc.FindPageListReq) (page int, size int, sorts
 	page = int(in.Page)
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")
-	if sorts == "" {
-		sorts = "id desc"
-	}
 
 	if in.PageName != "" {
 		conditions += "page_name like ?"
