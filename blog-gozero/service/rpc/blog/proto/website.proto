@@ -33,39 +33,6 @@ message CountResp {
   int64 count = 1;
 }
 
-/************** blog 页面管理 **************/
-message PageNewReq {
-  int64 id = 1;// 页面id
-  string page_name = 2;// 页面名
-  string page_label = 3;// 页面标签
-  string page_cover = 4;// 页面封面
-  int64 is_carousel = 5;// 是否轮播
-  repeated string carousel_covers = 6;// 轮播列表
-}
-
-message PageDetails {
-  int64 id = 1;// 页面id
-  string page_name = 2;// 页面名
-  string page_label = 3;// 页面标签
-  string page_cover = 4;// 页面封面
-  int64 is_carousel = 5;// 是否轮播
-  repeated string carousel_covers = 6;// 轮播列表
-  int64 created_at = 7;// 创建时间
-  int64 updated_at = 8;// 更新时间
-}
-
-message FindPageListReq {
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string page_name = 4;// 页面名
-}
-
-message FindPageListResp {
-  repeated PageDetails list = 1;
-  int64 total = 2;
-}
-
 /************** blog 友链管理 **************/
 message FriendNewReq {
   int64 id = 1;// id
@@ -136,16 +103,6 @@ service WebsiteRpc {
   rpc AddVisit(AddVisitReq) returns(AddVisitResp);
   // 查询用户访问趋势
   rpc FindVisitTrend(FindVisitTrendReq) returns(FindVisitTrendResp);
-
-  // 创建页面
-  rpc AddPage(PageNewReq) returns(PageDetails);
-  // 更新页面
-  rpc UpdatePage(PageNewReq) returns(PageDetails);
-  // 删除页面
-  rpc DeletePage(IdsReq) returns(BatchResp);
-  // 查询页面列表
-  rpc FindPageList(FindPageListReq) returns(FindPageListResp);
-
 
   // 创建友链
   rpc AddFriend(FriendNewReq) returns(FriendDetails);

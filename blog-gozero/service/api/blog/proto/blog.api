@@ -12,7 +12,7 @@ import "blog/friend.api"
 import "blog/comment.api"
 import "blog/page.api"
 import "blog/remark.api"
-import "blog/file.api"
+import "blog/upload.api"
 import "blog/websocket.api"
 
 info(

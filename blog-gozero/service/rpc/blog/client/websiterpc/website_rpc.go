@@ -23,16 +23,12 @@ type (
 	EmptyResp            = websiterpc.EmptyResp
 	FindFriendListReq    = websiterpc.FindFriendListReq
 	FindFriendListResp   = websiterpc.FindFriendListResp
-	FindPageListReq      = websiterpc.FindPageListReq
-	FindPageListResp     = websiterpc.FindPageListResp
 	FindVisitTrendReq    = websiterpc.FindVisitTrendReq
 	FindVisitTrendResp   = websiterpc.FindVisitTrendResp
 	FriendDetails        = websiterpc.FriendDetails
 	FriendNewReq         = websiterpc.FriendNewReq
 	IdReq                = websiterpc.IdReq
 	IdsReq               = websiterpc.IdsReq
-	PageDetails          = websiterpc.PageDetails
-	PageNewReq           = websiterpc.PageNewReq
 	UserIdReq            = websiterpc.UserIdReq
 	VisitDailyStatistics = websiterpc.VisitDailyStatistics
 
@@ -43,14 +39,6 @@ type (
 		AddVisit(ctx context.Context, in *AddVisitReq, opts ...grpc.CallOption) (*AddVisitResp, error)
 		// 查询用户访问趋势
 		FindVisitTrend(ctx context.Context, in *FindVisitTrendReq, opts ...grpc.CallOption) (*FindVisitTrendResp, error)
-		// 创建页面
-		AddPage(ctx context.Context, in *PageNewReq, opts ...grpc.CallOption) (*PageDetails, error)
-		// 更新页面
-		UpdatePage(ctx context.Context, in *PageNewReq, opts ...grpc.CallOption) (*PageDetails, error)
-		// 删除页面
-		DeletePage(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
-		// 查询页面列表
-		FindPageList(ctx context.Context, in *FindPageListReq, opts ...grpc.CallOption) (*FindPageListResp, error)
 		// 创建友链
 		AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error)
 		// 更新友链
@@ -88,30 +76,6 @@ func (m *defaultWebsiteRpc) AddVisit(ctx context.Context, in *AddVisitReq, opts 
 func (m *defaultWebsiteRpc) FindVisitTrend(ctx context.Context, in *FindVisitTrendReq, opts ...grpc.CallOption) (*FindVisitTrendResp, error) {
 	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
 	return client.FindVisitTrend(ctx, in, opts...)
-}
-
-// 创建页面
-func (m *defaultWebsiteRpc) AddPage(ctx context.Context, in *PageNewReq, opts ...grpc.CallOption) (*PageDetails, error) {
-	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
-	return client.AddPage(ctx, in, opts...)
-}
-
-// 更新页面
-func (m *defaultWebsiteRpc) UpdatePage(ctx context.Context, in *PageNewReq, opts ...grpc.CallOption) (*PageDetails, error) {
-	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
-	return client.UpdatePage(ctx, in, opts...)
-}
-
-// 删除页面
-func (m *defaultWebsiteRpc) DeletePage(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
-	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
-	return client.DeletePage(ctx, in, opts...)
-}
-
-// 查询页面列表
-func (m *defaultWebsiteRpc) FindPageList(ctx context.Context, in *FindPageListReq, opts ...grpc.CallOption) (*FindPageListResp, error) {
-	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
-	return client.FindPageList(ctx, in, opts...)
 }
 
 // 创建友链
