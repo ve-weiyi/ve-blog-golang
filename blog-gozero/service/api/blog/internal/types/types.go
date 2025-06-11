@@ -29,10 +29,6 @@ type ArticlePreview struct {
 	CreatedAt    int64  `json:"created_at"`    // 创建时间
 }
 
-type BatchResp struct {
-	SuccessCount int64 `json:"success_count"`
-}
-
 type Category struct {
 	Id           int64  `json:"id"`
 	CategoryName string `json:"category_name"` // 分类名

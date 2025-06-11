@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/photorpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/resourcerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +27,7 @@ func NewAddAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddAlbum
 
 func (l *AddAlbumLogic) AddAlbum(req *types.AlbumNewReq) (resp *types.AlbumBackVO, err error) {
 	in := ConvertAlbumPb(req)
-	out, err := l.svcCtx.PhotoRpc.AddAlbum(l.ctx, in)
+	out, err := l.svcCtx.ResourceRpc.AddAlbum(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -36,8 +36,8 @@ func (l *AddAlbumLogic) AddAlbum(req *types.AlbumNewReq) (resp *types.AlbumBackV
 	return resp, nil
 }
 
-func ConvertAlbumPb(in *types.AlbumNewReq) (out *photorpc.AlbumNewReq) {
-	out = &photorpc.AlbumNewReq{
+func ConvertAlbumPb(in *types.AlbumNewReq) (out *resourcerpc.AlbumNewReq) {
+	out = &resourcerpc.AlbumNewReq{
 		Id:         in.Id,
 		AlbumName:  in.AlbumName,
 		AlbumDesc:  in.AlbumDesc,
@@ -49,7 +49,7 @@ func ConvertAlbumPb(in *types.AlbumNewReq) (out *photorpc.AlbumNewReq) {
 	return
 }
 
-func ConvertAlbumTypes(in *photorpc.AlbumDetails) (out *types.AlbumBackVO) {
+func ConvertAlbumTypes(in *resourcerpc.AlbumDetails) (out *types.AlbumBackVO) {
 	out = &types.AlbumBackVO{
 		Id:         in.Id,
 		AlbumName:  in.AlbumName,

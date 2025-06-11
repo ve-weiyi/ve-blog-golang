@@ -24,6 +24,8 @@ type (
 	FindLoginLogListResp     = syslogrpc.FindLoginLogListResp
 	FindOperationLogListReq  = syslogrpc.FindOperationLogListReq
 	FindOperationLogListResp = syslogrpc.FindOperationLogListResp
+	FindUploadLogListReq     = syslogrpc.FindUploadLogListReq
+	FindUploadLogListResp    = syslogrpc.FindUploadLogListResp
 	FindVisitLogListReq      = syslogrpc.FindVisitLogListReq
 	FindVisitLogListResp     = syslogrpc.FindVisitLogListResp
 	IdReq                    = syslogrpc.IdReq
@@ -32,6 +34,8 @@ type (
 	LoginLogNewReq           = syslogrpc.LoginLogNewReq
 	OperationLogDetails      = syslogrpc.OperationLogDetails
 	OperationLogNewReq       = syslogrpc.OperationLogNewReq
+	UploadLogDetails         = syslogrpc.UploadLogDetails
+	UploadLogNewReq          = syslogrpc.UploadLogNewReq
 	UserIdReq                = syslogrpc.UserIdReq
 	VisitLogDetails          = syslogrpc.VisitLogDetails
 	VisitLogNewReq           = syslogrpc.VisitLogNewReq
@@ -57,6 +61,12 @@ type (
 		DeletesOperationLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询操作记录列表
 		FindOperationLogList(ctx context.Context, in *FindOperationLogListReq, opts ...grpc.CallOption) (*FindOperationLogListResp, error)
+		// 创建上传记录
+		AddUploadLog(ctx context.Context, in *UploadLogNewReq, opts ...grpc.CallOption) (*UploadLogDetails, error)
+		// 批量删除上传记录
+		DeletesUploadLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+		// 查询上传记录列表
+		FindUploadLogList(ctx context.Context, in *FindUploadLogListReq, opts ...grpc.CallOption) (*FindUploadLogListResp, error)
 	}
 
 	defaultSyslogRpc struct {
@@ -128,4 +138,22 @@ func (m *defaultSyslogRpc) DeletesOperationLog(ctx context.Context, in *IdsReq, 
 func (m *defaultSyslogRpc) FindOperationLogList(ctx context.Context, in *FindOperationLogListReq, opts ...grpc.CallOption) (*FindOperationLogListResp, error) {
 	client := syslogrpc.NewSyslogRpcClient(m.cli.Conn())
 	return client.FindOperationLogList(ctx, in, opts...)
+}
+
+// 创建上传记录
+func (m *defaultSyslogRpc) AddUploadLog(ctx context.Context, in *UploadLogNewReq, opts ...grpc.CallOption) (*UploadLogDetails, error) {
+	client := syslogrpc.NewSyslogRpcClient(m.cli.Conn())
+	return client.AddUploadLog(ctx, in, opts...)
+}
+
+// 批量删除上传记录
+func (m *defaultSyslogRpc) DeletesUploadLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	client := syslogrpc.NewSyslogRpcClient(m.cli.Conn())
+	return client.DeletesUploadLog(ctx, in, opts...)
+}
+
+// 查询上传记录列表
+func (m *defaultSyslogRpc) FindUploadLogList(ctx context.Context, in *FindUploadLogListReq, opts ...grpc.CallOption) (*FindUploadLogListResp, error) {
+	client := syslogrpc.NewSyslogRpcClient(m.cli.Conn())
+	return client.FindUploadLogList(ctx, in, opts...)
 }

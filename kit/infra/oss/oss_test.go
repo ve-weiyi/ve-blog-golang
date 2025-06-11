@@ -1,6 +1,7 @@
 package oss
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -9,63 +10,51 @@ import (
 func Test_Local(t *testing.T) {
 	uploader := NewLocal(&Config{
 		BucketUrl: "http://localhost:9999",
-		BasePath:  "runtime/uploads",
 	})
 
-	//// 上传文件
-	//url, err := uploader.UploadLocalFile("test.txt", "test", "test.txt")
-	//
-	//// 验证结果是否符合预期
-	//assert.NoError(t, err) // 验证错误是否为 nil
-	//t.Log(url)
-
-	files, err := uploader.ListFiles("", 10)
+	files, err := uploader.ListFiles("./", 10)
 	assert.NoError(t, err) // 验证错误是否为 nil
-	t.Log(files)
+	for _, file := range files {
+		t.Log(file)
+	}
 }
 
 func Test_Qiniu(t *testing.T) {
 	uploader := NewQiniu(&Config{
 		Zone:            "ZoneHuanan",
 		Endpoint:        "s3.cn-south-1.qiniucs.com",
-		AccessKeyId:     "",
-		AccessKeySecret: "",
+		AccessKeyId:     "gyoAZPHHZrwXt4HhG7SNRaxRShJPhEKvxJJKhDUV",
+		AccessKeySecret: "OqbepkdXNm0pKfZMy1ziPqdYjZMCtdzRIrz1Hlhi",
 		BucketName:      "veweiyi",
 		BucketUrl:       "https://static.veweiyi.cn",
-		BasePath:        "blog",
 	})
 
-	//// 上传文件
-	//url, err := uploader.UploadLocalFile("test.txt", "test", "test.txt")
-	//
-	//// 验证结果是否符合预期
-	//assert.NoError(t, err) // 验证错误是否为 nil
-	//t.Log(url)
-
-	files, err := uploader.ListFiles("", 10)
+	_, err := uploader.UploadFile(bytes.NewReader([]byte("")), "blog/test/", "")
 	assert.NoError(t, err) // 验证错误是否为 nil
-	t.Log(files)
+
+	files, err := uploader.ListFiles("blog/", 100)
+	assert.NoError(t, err) // 验证错误是否为 nil
+	for _, file := range files {
+		t.Log(file)
+	}
+
+	//err = uploader.DeleteFile("blog/test/")
+	//assert.NoError(t, err) // 验证错误是否为 nil
 }
 
 func Test_Aliyun(t *testing.T) {
 	uploader := NewAliyunOSS(&Config{
 		Zone:            "",
 		Endpoint:        "oss-cn-shenzhen.aliyuncs.com",
-		AccessKeyId:     "",
-		AccessKeySecret: "",
+		AccessKeyId:     "LTAI5t7vTeWDKrYUQFkVto8a",
+		AccessKeySecret: "GGSaxLp2aCFpQq7sgGOf9TnLxHeECu",
 		BucketName:      "ve-blog",
 		BucketUrl:       "http://ve-blog.oss-cn-shenzhen.aliyuncs.com",
-		BasePath:        "blog",
 	})
-
-	//// 上传文件
-	//url, err := uploader.UploadLocalFile("test.txt", "test", "test.txt")
-	//
-	//// 验证结果是否符合预期
-	//assert.NoError(t, err) // 验证错误是否为 nil
-	//t.Log(url)
 
 	files, err := uploader.ListFiles("", 10)
 	assert.NoError(t, err) // 验证错误是否为 nil
-	t.Log(files)
+	for _, file := range files {
+		t.Log(file)
+	}
 }

@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/photorpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/resourcerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,14 +26,15 @@ func NewFindPhotoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 }
 
 func (l *FindPhotoListLogic) FindPhotoList(req *types.PhotoQuery) (resp *types.PageResp, err error) {
-	in := &photorpc.FindPhotoListReq{
+	in := &resourcerpc.FindPhotoListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Sorts:    req.Sorts,
 		AlbumId:  req.AlbumId,
+		IsDelete: req.IsDelete,
 	}
 
-	out, err := l.svcCtx.PhotoRpc.FindPhotoList(l.ctx, in)
+	out, err := l.svcCtx.ResourceRpc.FindPhotoList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

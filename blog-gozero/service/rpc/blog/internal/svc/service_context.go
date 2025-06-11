@@ -69,9 +69,7 @@ type ServiceContext struct {
 	TVisitLogModel     model.TVisitLogModel
 	TLoginLogModel     model.TLoginLogModel
 	TOperationLogModel model.TOperationLogModel
-
-	TFileFolderModel model.TFileFolderModel
-	TFileUploadModel model.TFileUploadModel
+	TUploadLogModel    model.TUploadLogModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -134,8 +132,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TVisitLogModel:        model.NewTVisitLogModel(db),
 		TLoginLogModel:        model.NewTLoginLogModel(db),
 		TOperationLogModel:    model.NewTOperationLogModel(db),
-		TFileFolderModel:      model.NewTFileFolderModel(db),
-		TFileUploadModel:      model.NewTFileUploadModel(db),
+		TUploadLogModel:       model.NewTUploadLogModel(db),
 	}
 }
 
@@ -146,7 +143,7 @@ func ConnectGorm(c config.MysqlConf, l logx.LogConf) (*gorm.DB, error) {
 	if l.Mode == "console" && l.Encoding == "plain" {
 		// 跟随gorm的日志输出格式
 		lg = logger.New(
-			gormlogger.NewGormWriter(gormlogger.AddSkip(1)),
+			gormlogger.NewGormWriter(gormlogger.SkipKey("model/")),
 			logger.Config{
 				SlowThreshold:             500 * time.Millisecond, // 慢 SQL 阈值，超过会提前结束
 				LogLevel:                  logger.Info,

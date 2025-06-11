@@ -199,6 +199,20 @@ type Token struct {
 	Scope            string `json:"scope"`              // 作用域
 }
 
+type UploadLogBackVO struct {
+	Id        int64       `json:"id,optional"` // 文件目录ID
+	UserId    string      `json:"user_id"`     // 用户id
+	FilePath  string      `json:"file_path"`   // 文件路径
+	FileName  string      `json:"file_name"`   // 文件名称
+	FileType  string      `json:"file_type"`   // 文件类型
+	FileSize  int64       `json:"file_size"`   // 文件大小
+	FileMd5   string      `json:"file_md5"`    // 文件md5值
+	FileUrl   string      `json:"file_url"`    // 上传路径
+	CreatedAt int64       `json:"created_at"`  // 创建时间
+	UpdatedAt int64       `json:"updated_at"`  // 更新时间
+	Creator   *UserInfoVO `json:"creator"`     // 创建人
+}
+
 type UserApi struct {
 	Id        int64      `json:"id,optional"` // 主键id
 	ParentId  int64      `json:"parent_id"`   // 父id

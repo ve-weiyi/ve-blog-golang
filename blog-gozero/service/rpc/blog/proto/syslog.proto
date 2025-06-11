@@ -152,6 +152,45 @@ message FindOperationLogListResp {
 }
 
 
+/************** blog 上传日志管理 **************/
+message UploadLogNewReq {
+  int64 id = 1;// id
+  string user_id = 2;// 用户id
+  string file_path = 3;// 文件路径
+  string file_name = 4;// 文件名称
+  string file_type = 5;// 文件类型
+  int64 file_size = 6;// 文件大小
+  string file_md5 = 7;// 文件md5值
+  string file_url = 8;// 上传路径
+}
+
+message UploadLogDetails {
+  int64 id = 1;// id
+  string user_id = 2;// 用户id
+  string file_path = 3;// 文件路径
+  string file_name = 4;// 文件名称
+  string file_type = 5;// 文件类型
+  int64 file_size = 6;// 文件大小
+  string file_md5 = 7;// 文件md5值
+  string file_url = 8;// 上传路径
+  int64 created_at = 9;// 创建时间
+  int64 updated_at = 10;// 更新时间
+}
+
+message FindUploadLogListReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  repeated string sorts = 3; // 排序
+  string file_path = 4;// 文件路径
+  string file_name = 5;// 文件名称
+  string file_type = 6;// 文件类型
+}
+
+message FindUploadLogListResp {
+  repeated UploadLogDetails list = 1;
+  int64 total = 2;
+}
+
 service SyslogRpc {
   // 创建登录记录
   rpc AddLoginLog(LoginLogNewReq) returns(EmptyResp);
@@ -175,5 +214,13 @@ service SyslogRpc {
   rpc DeletesOperationLog(IdsReq) returns(BatchResp);
   // 查询操作记录列表
   rpc FindOperationLogList(FindOperationLogListReq) returns(FindOperationLogListResp);
+
+
+  // 创建上传记录
+  rpc AddUploadLog(UploadLogNewReq) returns(UploadLogDetails);
+  // 批量删除上传记录
+  rpc DeletesUploadLog(IdsReq) returns(BatchResp);
+  // 查询上传记录列表
+  rpc FindUploadLogList(FindUploadLogListReq) returns(FindUploadLogListResp);
 
 }

@@ -2,9 +2,9 @@ package oss
 
 import (
 	"fmt"
-	"mime/multipart"
-	"os"
+	"io"
 	"path"
+	"strings"
 
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 )
@@ -14,79 +14,57 @@ type Aliyun struct {
 	bucket *oss.Bucket
 }
 
-func (s *Aliyun) UploadHttpFile(file *multipart.FileHeader, prefix string, filename string) (url string, err error) {
+func (s *Aliyun) UploadFile(f io.Reader, prefix string, filename string) (filepath string, err error) {
 	// 本地文件目录
-	dir := path.Join(s.cfg.BasePath, prefix)
-	// 本地文件路径
-	localPath := path.Join(dir, filename)
-
-	// 读取本地文件
-	f, err := file.Open()
-	if err != nil {
-		return "", fmt.Errorf("Aliyun.UploadHttpFile file.Open() Failed, err:" + err.Error())
-	}
-	defer f.Close() // 创建文件 defer 关闭
+	key := path.Join(prefix, filename)
 
 	// 上传策略
 	bucket := s.bucket
 	// 上传文件流。
-	err = bucket.PutObject(localPath, f)
+	err = bucket.PutObject(key, f)
 	if err != nil {
-		return "", fmt.Errorf("Aliyun.UploadHttpFile formUploader.Put() Failed, err:" + err.Error())
+		return "", fmt.Errorf("Aliyun.UploadHttpFile formUploader.Put() Failed, err: %v" + err.Error())
 	}
 
-	return s.cfg.BucketUrl + "/" + localPath, nil
+	return s.cfg.BucketUrl + "/" + key, nil
 }
 
-func (s *Aliyun) UploadLocalFile(filepath string, prefix string, filename string) (url string, err error) {
-	// 本地文件目录
-	dir := path.Join(s.cfg.BasePath, prefix)
-	// 本地文件路径
-	localPath := path.Join(dir, filename)
-
-	// 读取本地文件
-	f, err := os.Open(filepath)
-	if err != nil {
-		return "", fmt.Errorf("Aliyun.UploadHttpFile file.Open() Failed, err:" + err.Error())
-	}
-	defer f.Close() // 创建文件 defer 关闭
-
-	// 上传策略
+func (s *Aliyun) DeleteFile(filepath string) (err error) {
 	bucket := s.bucket
-	// 上传文件流。
-	err = bucket.PutObject(localPath, f)
-	if err != nil {
-		return "", fmt.Errorf("Aliyun.UploadHttpFile formUploader.Put() Failed, err:" + err.Error())
-	}
 
-	return s.cfg.BucketUrl + "/" + localPath, nil
-}
-
-func (s *Aliyun) DeleteFile(key string) (err error) {
-	bucket := s.bucket
+	key := strings.TrimPrefix(filepath, s.cfg.BucketUrl+"/")
 	// 删除单个文件。objectName表示删除OSS文件时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg。
 	// 如需删除文件夹，请将objectName设置为对应的文件夹名称。如果文件夹非空，则需要将文件夹下的所有object删除后才能删除该文件夹。
 	err = bucket.DeleteObject(key)
 	if err != nil {
-		return fmt.Errorf("Aliyun.DeleteFile bucketManager.Delete() Filed, err:" + err.Error())
+		return fmt.Errorf("Aliyun.DeleteFile bucketManager.Delete() Filed, err: %v" + err.Error())
 	}
 
 	return nil
 }
 
-func (s *Aliyun) ListFiles(prefix string, limit int) (urls []string, err error) {
+func (s *Aliyun) ListFiles(prefix string, limit int) (files []*FileInfo, err error) {
 	bucket := s.bucket
 
-	result, err := bucket.ListObjectsV2(oss.Prefix(path.Join(s.cfg.BasePath, prefix)), oss.MaxKeys(limit))
+	result, err := bucket.ListObjectsV2(oss.Prefix(prefix), oss.MaxKeys(limit))
 	if err != nil {
-		return nil, fmt.Errorf("Aliyun.ListFiles bucketManager.ListFiles() Filed, err:" + err.Error())
+		return nil, fmt.Errorf("Aliyun.ListFiles bucketManager.ListFiles() Filed, err: %v" + err.Error())
 	}
 
 	for _, entry := range result.Objects {
-		urls = append(urls, s.cfg.BucketUrl+"/"+entry.Key)
+		f := &FileInfo{
+			IsDir:    entry.Type == "",
+			FilePath: entry.Key,
+			FileName: path.Base(entry.Key),
+			FileType: path.Ext(entry.Key),
+			FileSize: entry.Size,
+			FileUrl:  s.cfg.BucketUrl + "/" + entry.Key,
+			UpTime:   entry.LastModified.UnixMilli(),
+		}
+		files = append(files, f)
 	}
 
-	return urls, nil
+	return files, nil
 }
 
 func NewAliyunOSS(cfg *Config) *Aliyun {

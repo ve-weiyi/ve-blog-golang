@@ -41,30 +41,6 @@ func (s *WebsiteRpcServer) FindVisitTrend(ctx context.Context, in *websiterpc.Fi
 	return l.FindVisitTrend(in)
 }
 
-// 创建页面
-func (s *WebsiteRpcServer) AddPage(ctx context.Context, in *websiterpc.PageNewReq) (*websiterpc.PageDetails, error) {
-	l := websiterpclogic.NewAddPageLogic(ctx, s.svcCtx)
-	return l.AddPage(in)
-}
-
-// 更新页面
-func (s *WebsiteRpcServer) UpdatePage(ctx context.Context, in *websiterpc.PageNewReq) (*websiterpc.PageDetails, error) {
-	l := websiterpclogic.NewUpdatePageLogic(ctx, s.svcCtx)
-	return l.UpdatePage(in)
-}
-
-// 删除页面
-func (s *WebsiteRpcServer) DeletePage(ctx context.Context, in *websiterpc.IdsReq) (*websiterpc.BatchResp, error) {
-	l := websiterpclogic.NewDeletePageLogic(ctx, s.svcCtx)
-	return l.DeletePage(in)
-}
-
-// 查询页面列表
-func (s *WebsiteRpcServer) FindPageList(ctx context.Context, in *websiterpc.FindPageListReq) (*websiterpc.FindPageListResp, error) {
-	l := websiterpclogic.NewFindPageListLogic(ctx, s.svcCtx)
-	return l.FindPageList(in)
-}
-
 // 创建友链
 func (s *WebsiteRpcServer) AddFriend(ctx context.Context, in *websiterpc.FriendNewReq) (*websiterpc.FriendDetails, error) {
 	l := websiterpclogic.NewAddFriendLogic(ctx, s.svcCtx)

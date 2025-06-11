@@ -3,9 +3,9 @@ package oss
 import (
 	"context"
 	"fmt"
-	"mime/multipart"
-	"os"
+	"io"
 	"path"
+	"strings"
 
 	"github.com/qiniu/go-sdk/v7/auth/qbox"
 	"github.com/qiniu/go-sdk/v7/storage"
@@ -17,18 +17,9 @@ type Qiniu struct {
 	storageConfig *storage.Config
 }
 
-func (s *Qiniu) UploadHttpFile(file *multipart.FileHeader, prefix string, filename string) (url string, err error) {
+func (s *Qiniu) UploadFile(f io.Reader, prefix string, filename string) (filepath string, err error) {
 	// 本地文件目录
-	dir := path.Join(s.cfg.BasePath, prefix)
-	// 本地文件路径
-	localPath := path.Join(dir, filename)
-
-	// 读取本地文件
-	f, err := file.Open()
-	if err != nil {
-		return "", fmt.Errorf("Qiniu.UploadHttpFile file.Open() Failed, err:" + err.Error())
-	}
-	defer f.Close() // 创建文件 defer 关闭
+	key := path.Join(prefix, filename)
 
 	// 上传策略
 	putPolicy := storage.PutPolicy{Scope: s.cfg.BucketName}
@@ -38,70 +29,69 @@ func (s *Qiniu) UploadHttpFile(file *multipart.FileHeader, prefix string, filena
 	// 上传文件
 	ret := storage.PutRet{}
 	putExtra := storage.RputV2Extra{}
-	putErr := resumeUploader.Put(context.Background(), &ret, upToken, localPath, f, file.Size, &putExtra)
-	if putErr != nil {
-		return "", fmt.Errorf("Qiniu.UploadHttpFile formUploader.Put() Filed, err:" + putErr.Error())
+	err = resumeUploader.PutWithoutSize(context.Background(), &ret, upToken, key, f, &putExtra)
+	if err != nil {
+		return "", fmt.Errorf("Qiniu.UploadHttpFile formUploader.Put() Filed, err: %v" + err.Error())
 	}
-	return s.cfg.BucketUrl + "/" + localPath, nil
+	return s.cfg.BucketUrl + "/" + key, nil
 }
 
-func (s *Qiniu) UploadLocalFile(filepath string, prefix string, filename string) (url string, err error) {
-	// 本地文件目录
-	dir := path.Join(s.cfg.BasePath, prefix)
-	// 本地文件路径
-	localPath := path.Join(dir, filename)
-
-	// 读取本地文件
-	f, err := os.Open(filepath)
-	if err != nil {
-		return "", fmt.Errorf("Qiniu.UploadHttpFile file.Open() Failed, err:" + err.Error())
-	}
-	defer f.Close() // 创建文件 defer 关闭
-
-	// 获取文件信息
-	fs, err := f.Stat()
-	if err != nil {
-		return "", fmt.Errorf("Qiniu.UploadHttpFile file.Stat() Failed, err:" + err.Error())
-	}
-
-	// 上传策略
-	putPolicy := storage.PutPolicy{Scope: s.cfg.BucketName}
-	mac := qbox.NewMac(s.cfg.AccessKeyId, s.cfg.AccessKeySecret)
-	upToken := putPolicy.UploadToken(mac)
-	resumeUploader := storage.NewResumeUploaderV2(s.storageConfig)
-	// 上传文件
-	ret := storage.PutRet{}
-	putExtra := storage.RputV2Extra{}
-	putErr := resumeUploader.Put(context.Background(), &ret, upToken, localPath, f, fs.Size(), &putExtra)
-	if putErr != nil {
-		return "", fmt.Errorf("Qiniu.UploadHttpFile formUploader.Put() Filed, err:" + putErr.Error())
-	}
-	return s.cfg.BucketUrl + "/" + localPath, nil
-}
-
-func (s *Qiniu) DeleteFile(key string) error {
+func (s *Qiniu) DeleteFile(filepath string) error {
 	mac := qbox.NewMac(s.cfg.AccessKeyId, s.cfg.AccessKeySecret)
 	bucketManager := storage.NewBucketManager(mac, s.storageConfig)
+
+	key := strings.TrimPrefix(filepath, s.cfg.BucketUrl+"/")
+
 	if err := bucketManager.Delete(s.cfg.BucketName, key); err != nil {
-		return fmt.Errorf("Qiniu.UploadHttpFile bucketManager.Delete() Filed, err:" + err.Error())
+		return fmt.Errorf("Qiniu.UploadHttpFile bucketManager.Delete() Filed, err: %v", err.Error())
 	}
 	return nil
 }
 
-func (s *Qiniu) ListFiles(prefix string, limit int) (urls []string, err error) {
+func (s *Qiniu) ListFiles(prefix string, limit int) (files []*FileInfo, err error) {
 	mac := qbox.NewMac(s.cfg.AccessKeyId, s.cfg.AccessKeySecret)
 	bucketManager := storage.NewBucketManager(mac, s.storageConfig)
 
-	result, _, _, _, err := bucketManager.ListFiles(s.cfg.BucketName, path.Join(s.cfg.BasePath, prefix), "", "", limit)
+	// 参数设置
+	delimiter := "/" // 模拟目录结构,目录分割标识
+	marker := ""     // 分页标记
+
+	entries, prefixes, _, _, err := bucketManager.ListFiles(s.cfg.BucketName, prefix, delimiter, marker, limit)
 	if err != nil {
-		return nil, fmt.Errorf("Qiniu.ListFiles bucketManager.ListFiles() Filed, err:" + err.Error())
+		return nil, fmt.Errorf("Qiniu.ListFiles bucketManager.ListFiles() Filed, err: %v" + err.Error())
 	}
 
-	for _, entry := range result {
-		urls = append(urls, s.cfg.BucketUrl+"/"+entry.Key)
+	for _, fix := range prefixes {
+		f := &FileInfo{
+			IsDir:    true,
+			FilePath: fix,
+			FileName: path.Base(fix),
+			FileType: "",
+			FileSize: 0,
+			FileUrl:  s.cfg.BucketUrl + "/" + fix,
+			UpTime:   0,
+		}
+		files = append(files, f)
 	}
 
-	return urls, nil
+	for _, entry := range entries {
+		if entry.Fsize == 0 {
+			continue
+		}
+
+		f := &FileInfo{
+			IsDir:    false,
+			FilePath: entry.Key,
+			FileName: path.Base(entry.Key),
+			FileType: path.Ext(entry.Key),
+			FileSize: entry.Fsize,
+			FileUrl:  s.cfg.BucketUrl + "/" + entry.Key,
+			UpTime:   entry.PutTime / 10000,
+		}
+		files = append(files, f)
+	}
+
+	return files, nil
 }
 
 func NewQiniu(conf *Config) *Qiniu {
