@@ -2,10 +2,10 @@ module github.com/ve-weiyi/ve-blog-golang/blog-gozero
 
 go 1.23.3
 
-replace (
-	github.com/ve-weiyi/ve-blog-golang/kit => github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20250605073128-c1232a904980
-	github.com/ve-weiyi/ve-blog-golang/stompws => github.com/ve-weiyi/ve-blog-golang/stompws v0.0.0-20250603063828-b0daaee31f66
-)
+//replace (
+//	github.com/ve-weiyi/ve-blog-golang/kit => github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20250616101810-8d0f3ad71cd3
+//	github.com/ve-weiyi/ve-blog-golang/stompws => github.com/ve-weiyi/ve-blog-golang/stompws v0.0.0-20250616101810-8d0f3ad71cd3
+//)
 
 require (
 	github.com/casbin/casbin/v2 v2.107.0
@@ -21,8 +21,8 @@ require (
 	github.com/spf13/cast v1.9.2
 	github.com/stretchr/testify v1.10.0
 	github.com/swaggo/http-swagger v1.3.4
-	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-00010101000000-000000000000
-	github.com/ve-weiyi/ve-blog-golang/stompws v0.0.0-00010101000000-000000000000
+	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20250616101810-8d0f3ad71cd3
+	github.com/ve-weiyi/ve-blog-golang/stompws v0.0.0-20250616101810-8d0f3ad71cd3
 	github.com/zeromicro/go-zero v1.8.4
 	go.opentelemetry.io/otel/sdk v1.36.0
 	go.opentelemetry.io/otel/trace v1.36.0
