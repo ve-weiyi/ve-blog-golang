@@ -1,4 +1,4 @@
-package friend
+package category
 
 import (
 	"net/http"
@@ -6,22 +6,22 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/responsex"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/logic/friend"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/logic/category"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 )
 
-// 删除友链
-func DeleteFriendHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 删除文章分类
+func DeletesCategoryHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.IdReq
+		var req types.IdsReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := friend.NewDeleteFriendLogic(r.Context(), svcCtx)
-		resp, err := l.DeleteFriend(&req)
+		l := category.NewDeletesCategoryLogic(r.Context(), svcCtx)
+		resp, err := l.DeletesCategory(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

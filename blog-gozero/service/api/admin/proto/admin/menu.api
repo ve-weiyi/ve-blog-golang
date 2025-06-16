@@ -87,10 +87,6 @@ service admin-api {
     put /menu/update_menu (MenuNewReq) returns (MenuBackVO)
 
     @doc "删除菜单"
-    @handler DeleteMenu
-    delete /menu/delete_menu (IdReq) returns (BatchResp)
-
-    @doc "批量删除菜单"
-    @handler BatchDeleteMenu
-    delete /menu/batch_delete_menu (IdsReq) returns (BatchResp)
+    @handler DeletesMenu
+    delete /menu/deletes_menu (IdsReq) returns (BatchResp)
 }

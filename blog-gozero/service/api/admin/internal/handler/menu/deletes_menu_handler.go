@@ -12,16 +12,16 @@ import (
 )
 
 // 删除菜单
-func DeleteMenuHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func DeletesMenuHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.IdReq
+		var req types.IdsReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := menu.NewDeleteMenuLogic(r.Context(), svcCtx)
-		resp, err := l.DeleteMenu(&req)
+		l := menu.NewDeletesMenuLogic(r.Context(), svcCtx)
+		resp, err := l.DeletesMenu(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

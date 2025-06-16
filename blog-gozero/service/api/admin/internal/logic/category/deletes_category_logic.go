@@ -1,36 +1,36 @@
-package role
+package category
 
 import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type DeleteRoleLogic struct {
+type DeletesCategoryLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-// 删除角色
-func NewDeleteRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteRoleLogic {
-	return &DeleteRoleLogic{
+// 删除文章分类
+func NewDeletesCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeletesCategoryLogic {
+	return &DeletesCategoryLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *DeleteRoleLogic) DeleteRole(req *types.IdReq) (resp *types.BatchResp, err error) {
-	in := &permissionrpc.IdsReq{
-		Ids: []int64{req.Id},
+func (l *DeletesCategoryLogic) DeletesCategory(req *types.IdsReq) (resp *types.BatchResp, err error) {
+	in := &articlerpc.IdsReq{
+		Ids: req.Ids,
 	}
 
-	out, err := l.svcCtx.PermissionRpc.DeleteRole(l.ctx, in)
+	out, err := l.svcCtx.ArticleRpc.DeleteCategory(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
