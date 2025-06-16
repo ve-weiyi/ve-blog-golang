@@ -49,10 +49,6 @@ service admin-api {
     put /friend/update_friend (FriendNewReq) returns (FriendBackVO)
 
     @doc "删除友链"
-    @handler DeleteFriend
-    delete /friend/delete_friend (IdReq) returns (BatchResp)
-
-    @doc "批量删除友链"
-    @handler BatchDeleteFriend
-    delete /friend/batch_delete_friend (IdsReq) returns (BatchResp)
+    @handler DeletesFriend
+    delete /friend/deletes_friend (IdsReq) returns (BatchResp)
 }

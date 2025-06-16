@@ -1,4 +1,4 @@
-package remark
+package comment
 
 import (
 	"context"
@@ -10,27 +10,27 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type DeleteRemarkLogic struct {
+type DeletesCommentLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-// 删除留言
-func NewDeleteRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteRemarkLogic {
-	return &DeleteRemarkLogic{
+// 删除评论
+func NewDeletesCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeletesCommentLogic {
+	return &DeletesCommentLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *DeleteRemarkLogic) DeleteRemark(req *types.IdReq) (resp *types.BatchResp, err error) {
+func (l *DeletesCommentLogic) DeletesComment(req *types.IdsReq) (resp *types.BatchResp, err error) {
 	in := &messagerpc.IdsReq{
-		Ids: []int64{req.Id},
+		Ids: req.Ids,
 	}
 
-	out, err := l.svcCtx.MessageRpc.DeletesRemark(l.ctx, in)
+	out, err := l.svcCtx.MessageRpc.DeletesComment(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

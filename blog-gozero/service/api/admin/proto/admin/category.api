@@ -44,10 +44,6 @@ service admin-api {
     put /category/update_category (CategoryNewReq) returns (CategoryBackVO)
 
     @doc "删除文章分类"
-    @handler DeleteCategory
-    delete /category/delete_category (IdReq) returns (BatchResp)
-
-    @doc "批量删除文章分类"
-    @handler BatchDeleteCategory
-    delete /category/batch_delete_category (IdsReq) returns (BatchResp)
+    @handler DeletesCategory
+    delete /category/deletes_category (IdsReq) returns (BatchResp)
 }

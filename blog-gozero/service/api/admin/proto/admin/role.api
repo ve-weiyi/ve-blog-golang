@@ -76,12 +76,8 @@ service admin-api {
     put /role/update_role (RoleNewReq) returns (RoleBackVO)
 
     @doc "删除角色"
-    @handler DeleteRole
-    delete /role/delete_role (IdReq) returns (BatchResp)
-
-    @doc "批量删除角色"
-    @handler BatchDeleteRole
-    post /role/batch_delete_role (IdsReq) returns (BatchResp)
+    @handler DeletesRole
+    post /role/deletes_role (IdsReq) returns (BatchResp)
 
 
     @doc "更新角色菜单权限"
