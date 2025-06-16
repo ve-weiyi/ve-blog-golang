@@ -1,4 +1,4 @@
-package role
+package api
 
 import (
 	"context"
@@ -10,27 +10,27 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type DeleteRoleLogic struct {
+type DeletesApiLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-// 删除角色
-func NewDeleteRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteRoleLogic {
-	return &DeleteRoleLogic{
+// 删除api路由
+func NewDeletesApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeletesApiLogic {
+	return &DeletesApiLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *DeleteRoleLogic) DeleteRole(req *types.IdReq) (resp *types.BatchResp, err error) {
+func (l *DeletesApiLogic) DeletesApi(req *types.IdsReq) (resp *types.BatchResp, err error) {
 	in := &permissionrpc.IdsReq{
-		Ids: []int64{req.Id},
+		Ids: req.Ids,
 	}
 
-	out, err := l.svcCtx.PermissionRpc.DeleteRole(l.ctx, in)
+	out, err := l.svcCtx.PermissionRpc.DeleteApi(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

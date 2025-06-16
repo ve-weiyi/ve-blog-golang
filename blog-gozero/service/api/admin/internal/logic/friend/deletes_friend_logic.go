@@ -10,24 +10,24 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type DeleteFriendLogic struct {
+type DeletesFriendLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 删除友链
-func NewDeleteFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteFriendLogic {
-	return &DeleteFriendLogic{
+func NewDeletesFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeletesFriendLogic {
+	return &DeletesFriendLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *DeleteFriendLogic) DeleteFriend(req *types.IdReq) (resp *types.BatchResp, err error) {
+func (l *DeletesFriendLogic) DeletesFriend(req *types.IdsReq) (resp *types.BatchResp, err error) {
 	in := &websiterpc.IdsReq{
-		Ids: []int64{req.Id},
+		Ids: req.Ids,
 	}
 
 	out, err := l.svcCtx.WebsiteRpc.DeleteFriend(l.ctx, in)

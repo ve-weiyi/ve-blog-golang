@@ -1,36 +1,36 @@
-package tag
+package role
 
 import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type BatchDeleteTagLogic struct {
+type DeletesRoleLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-// 批量删除标签
-func NewBatchDeleteTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *BatchDeleteTagLogic {
-	return &BatchDeleteTagLogic{
+// 删除角色
+func NewDeletesRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeletesRoleLogic {
+	return &DeletesRoleLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *BatchDeleteTagLogic) BatchDeleteTag(req *types.IdsReq) (resp *types.BatchResp, err error) {
-	in := &articlerpc.IdsReq{
+func (l *DeletesRoleLogic) DeletesRole(req *types.IdsReq) (resp *types.BatchResp, err error) {
+	in := &permissionrpc.IdsReq{
 		Ids: req.Ids,
 	}
 
-	out, err := l.svcCtx.ArticleRpc.DeleteTag(l.ctx, in)
+	out, err := l.svcCtx.PermissionRpc.DeleteRole(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

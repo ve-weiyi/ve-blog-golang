@@ -2514,7 +2514,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "邮箱登录",
         "operationId": "authEmailLogin",
@@ -2605,213 +2605,6 @@
                           "type": "string"
                         }
                       }
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/blog-api/v1/file/multi_upload_file": {
-      "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "文件"
-        ],
-        "summary": "上传文件列表",
-        "operationId": "fileMultiUploadFile",
-        "parameters": [
-          {
-            "type": "array",
-            "description": "文件列表",
-            "name": "files",
-            "in": "formData",
-            "allowEmptyValue": true
-          },
-          {
-            "type": "string",
-            "description": "文件路径",
-            "name": "file_path",
-            "in": "formData",
-            "allowEmptyValue": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "created_at": {
-                      "description": "创建时间",
-                      "type": "integer"
-                    },
-                    "file_md5": {
-                      "description": "文件md5值",
-                      "type": "string"
-                    },
-                    "file_name": {
-                      "description": "文件名称",
-                      "type": "string"
-                    },
-                    "file_path": {
-                      "description": "文件路径",
-                      "type": "string"
-                    },
-                    "file_size": {
-                      "description": "文件大小",
-                      "type": "integer"
-                    },
-                    "file_type": {
-                      "description": "文件类型",
-                      "type": "string"
-                    },
-                    "file_url": {
-                      "description": "上传路径",
-                      "type": "string"
-                    },
-                    "id": {
-                      "description": "文件目录ID",
-                      "type": "integer"
-                    },
-                    "updated_at": {
-                      "description": "更新时间",
-                      "type": "integer"
-                    },
-                    "user_id": {
-                      "description": "用户id",
-                      "type": "string"
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/blog-api/v1/file/upload_file": {
-      "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "文件"
-        ],
-        "summary": "上传文件",
-        "operationId": "fileUploadFile",
-        "parameters": [
-          {
-            "description": "文件",
-            "name": "file",
-            "in": "formData",
-            "allowEmptyValue": true
-          },
-          {
-            "type": "string",
-            "description": "文件路径",
-            "name": "file_path",
-            "in": "formData",
-            "allowEmptyValue": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "created_at": {
-                      "description": "创建时间",
-                      "type": "integer"
-                    },
-                    "file_md5": {
-                      "description": "文件md5值",
-                      "type": "string"
-                    },
-                    "file_name": {
-                      "description": "文件名称",
-                      "type": "string"
-                    },
-                    "file_path": {
-                      "description": "文件路径",
-                      "type": "string"
-                    },
-                    "file_size": {
-                      "description": "文件大小",
-                      "type": "integer"
-                    },
-                    "file_type": {
-                      "description": "文件类型",
-                      "type": "string"
-                    },
-                    "file_url": {
-                      "description": "上传路径",
-                      "type": "string"
-                    },
-                    "id": {
-                      "description": "文件目录ID",
-                      "type": "integer"
-                    },
-                    "updated_at": {
-                      "description": "更新时间",
-                      "type": "integer"
-                    },
-                    "user_id": {
-                      "description": "用户id",
-                      "type": "string"
                     }
                   }
                 },
@@ -2925,7 +2718,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "获取验证码",
         "operationId": "authGetCaptchaCode",
@@ -3005,7 +2798,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "第三方登录授权地址",
         "operationId": "authGetOauthAuthorizeUrl",
@@ -3072,7 +2865,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "获取游客身份信息",
         "operationId": "authGetTouristInfo",
@@ -3124,7 +2917,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "登录",
         "operationId": "authLogin",
@@ -3418,7 +3211,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "手机登录",
         "operationId": "authPhoneLogin",
@@ -3590,7 +3383,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "注册",
         "operationId": "authRegister",
@@ -3894,7 +3687,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "重置密码",
         "operationId": "authResetPassword",
@@ -3972,7 +3765,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "发送邮件验证码",
         "operationId": "authSendEmailVerifyCode",
@@ -4042,7 +3835,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "发送手机验证码",
         "operationId": "authSendPhoneVerifyCode",
@@ -4489,7 +4282,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "第三方登录",
         "operationId": "authThirdLogin",
@@ -4571,6 +4364,329 @@
                           "type": "string"
                         }
                       }
+                    }
+                  }
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/blog-api/v1/upload/deletes_upload_file": {
+      "delete": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "文件管理"
+        ],
+        "summary": "删除文件列表",
+        "operationId": "uploadDeletesUploadFile",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "file_paths": {
+                  "description": "文件路径",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "success_count": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/blog-api/v1/upload/list_upload_file": {
+      "post": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "文件管理"
+        ],
+        "summary": "获取文件列表",
+        "operationId": "uploadListUploadFile",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "file_path": {
+                  "description": "文件路径",
+                  "type": "string"
+                },
+                "limit": {
+                  "description": "限制",
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/blog-api/v1/upload/multi_upload_file": {
+      "post": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "文件管理"
+        ],
+        "summary": "上传文件列表",
+        "operationId": "uploadMultiUploadFile",
+        "parameters": [
+          {
+            "type": "array",
+            "description": "文件列表",
+            "name": "files",
+            "in": "formData",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "description": "文件路径",
+            "name": "file_path",
+            "in": "formData",
+            "allowEmptyValue": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "file_name": {
+                      "description": "文件名称",
+                      "type": "string"
+                    },
+                    "file_path": {
+                      "description": "文件路径",
+                      "type": "string"
+                    },
+                    "file_size": {
+                      "description": "文件大小",
+                      "type": "integer"
+                    },
+                    "file_type": {
+                      "description": "文件类型",
+                      "type": "string"
+                    },
+                    "file_url": {
+                      "description": "上传路径",
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "description": "更新时间",
+                      "type": "integer"
+                    }
+                  }
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/blog-api/v1/upload/upload_file": {
+      "post": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "文件管理"
+        ],
+        "summary": "上传文件",
+        "operationId": "uploadUploadFile",
+        "parameters": [
+          {
+            "description": "文件",
+            "name": "file",
+            "in": "formData",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "description": "文件路径",
+            "name": "file_path",
+            "in": "formData",
+            "allowEmptyValue": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "file_name": {
+                      "description": "文件名称",
+                      "type": "string"
+                    },
+                    "file_path": {
+                      "description": "文件路径",
+                      "type": "string"
+                    },
+                    "file_size": {
+                      "description": "文件大小",
+                      "type": "integer"
+                    },
+                    "file_type": {
+                      "description": "文件类型",
+                      "type": "string"
+                    },
+                    "file_url": {
+                      "description": "上传路径",
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "description": "更新时间",
+                      "type": "integer"
                     }
                   }
                 },
@@ -5328,7 +5444,7 @@
       "in": "header"
     }
   },
-  "x-date": "2025-06-10 14:15:39",
+  "x-date": "2025-06-17 15:48:16",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

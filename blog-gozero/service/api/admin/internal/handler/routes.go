@@ -142,12 +142,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: api.AddApiHandler(serverCtx),
 				},
 				{
-					// 批量删除api路由
-					Method:  http.MethodDelete,
-					Path:    "/api/batch_delete_api",
-					Handler: api.BatchDeleteApiHandler(serverCtx),
-				},
-				{
 					// 清空接口列表
 					Method:  http.MethodPost,
 					Path:    "/api/clean_api_list",
@@ -156,8 +150,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 删除api路由
 					Method:  http.MethodDelete,
-					Path:    "/api/delete_api",
-					Handler: api.DeleteApiHandler(serverCtx),
+					Path:    "/api/deletes_api",
+					Handler: api.DeletesApiHandler(serverCtx),
 				},
 				{
 					// 分页获取api路由列表
@@ -349,16 +343,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: category.AddCategoryHandler(serverCtx),
 				},
 				{
-					// 批量删除文章分类
-					Method:  http.MethodDelete,
-					Path:    "/category/batch_delete_category",
-					Handler: category.BatchDeleteCategoryHandler(serverCtx),
-				},
-				{
 					// 删除文章分类
 					Method:  http.MethodDelete,
-					Path:    "/category/delete_category",
-					Handler: category.DeleteCategoryHandler(serverCtx),
+					Path:    "/category/deletes_category",
+					Handler: category.DeletesCategoryHandler(serverCtx),
 				},
 				{
 					// 分页获取文章分类列表
@@ -382,16 +370,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
-					// 批量删除评论
-					Method:  http.MethodDelete,
-					Path:    "/comment/batch_delete_comment",
-					Handler: comment.BatchDeleteCommentHandler(serverCtx),
-				},
-				{
 					// 删除评论
 					Method:  http.MethodDelete,
-					Path:    "/comment/delete_comment",
-					Handler: comment.DeleteCommentHandler(serverCtx),
+					Path:    "/comment/deletes_comment",
+					Handler: comment.DeletesCommentHandler(serverCtx),
 				},
 				{
 					// 查询评论列表(后台)
@@ -421,16 +403,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: friend.AddFriendHandler(serverCtx),
 				},
 				{
-					// 批量删除友链
-					Method:  http.MethodDelete,
-					Path:    "/friend/batch_delete_friend",
-					Handler: friend.BatchDeleteFriendHandler(serverCtx),
-				},
-				{
 					// 删除友链
 					Method:  http.MethodDelete,
-					Path:    "/friend/delete_friend",
-					Handler: friend.DeleteFriendHandler(serverCtx),
+					Path:    "/friend/deletes_friend",
+					Handler: friend.DeletesFriendHandler(serverCtx),
 				},
 				{
 					// 分页获取友链列表
@@ -481,12 +457,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: menu.AddMenuHandler(serverCtx),
 				},
 				{
-					// 批量删除菜单
-					Method:  http.MethodDelete,
-					Path:    "/menu/batch_delete_menu",
-					Handler: menu.BatchDeleteMenuHandler(serverCtx),
-				},
-				{
 					// 清空菜单列表
 					Method:  http.MethodPost,
 					Path:    "/menu/clean_menu_list",
@@ -495,8 +465,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 删除菜单
 					Method:  http.MethodDelete,
-					Path:    "/menu/delete_menu",
-					Handler: menu.DeleteMenuHandler(serverCtx),
+					Path:    "/menu/deletes_menu",
+					Handler: menu.DeletesMenuHandler(serverCtx),
 				},
 				{
 					// 分页获取菜单列表
@@ -619,16 +589,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
-					// 批量删除留言
-					Method:  http.MethodDelete,
-					Path:    "/remark/batch_delete_remark",
-					Handler: remark.BatchDeleteRemarkHandler(serverCtx),
-				},
-				{
 					// 删除留言
 					Method:  http.MethodDelete,
-					Path:    "/remark/delete_remark",
-					Handler: remark.DeleteRemarkHandler(serverCtx),
+					Path:    "/remark/deletes_remark",
+					Handler: remark.DeletesRemarkHandler(serverCtx),
 				},
 				{
 					// 分页获取留言列表
@@ -658,16 +622,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: role.AddRoleHandler(serverCtx),
 				},
 				{
-					// 批量删除角色
-					Method:  http.MethodPost,
-					Path:    "/role/batch_delete_role",
-					Handler: role.BatchDeleteRoleHandler(serverCtx),
-				},
-				{
 					// 删除角色
-					Method:  http.MethodDelete,
-					Path:    "/role/delete_role",
-					Handler: role.DeleteRoleHandler(serverCtx),
+					Method:  http.MethodPost,
+					Path:    "/role/deletes_role",
+					Handler: role.DeletesRoleHandler(serverCtx),
 				},
 				{
 					// 分页获取角色列表
@@ -715,16 +673,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: tag.AddTagHandler(serverCtx),
 				},
 				{
-					// 批量删除标签
-					Method:  http.MethodDelete,
-					Path:    "/tag/batch_delete_tag",
-					Handler: tag.BatchDeleteTagHandler(serverCtx),
-				},
-				{
 					// 删除标签
 					Method:  http.MethodDelete,
-					Path:    "/tag/delete_tag",
-					Handler: tag.DeleteTagHandler(serverCtx),
+					Path:    "/tag/deletes_tag",
+					Handler: tag.DeletesTagHandler(serverCtx),
 				},
 				{
 					// 分页获取标签列表
