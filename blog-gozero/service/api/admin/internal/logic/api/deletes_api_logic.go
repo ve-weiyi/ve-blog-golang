@@ -5,6 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +26,17 @@ func NewDeletesApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 func (l *DeletesApiLogic) DeletesApi(req *types.IdsReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &permissionrpc.IdsReq{
+		Ids: req.Ids,
+	}
 
-	return
+	out, err := l.svcCtx.PermissionRpc.DeleteApi(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	resp = &types.BatchResp{
+		SuccessCount: out.SuccessCount,
+	}
+	return resp, nil
 }

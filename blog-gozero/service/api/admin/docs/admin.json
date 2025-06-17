@@ -2572,7 +2572,7 @@
           }
         ],
         "consumes": [
-          "application/json"
+          "application/x-www-form-urlencoded"
         ],
         "produces": [
           "application/json"
@@ -2585,25 +2585,6 @@
         ],
         "summary": "同步api列表",
         "operationId": "apiSyncApiList",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "api_file_path"
-              ],
-              "properties": {
-                "api_file_path": {
-                  "description": "api文件路径",
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "",
@@ -4333,7 +4314,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "邮箱登录",
         "operationId": "authEmailLogin",
@@ -4839,7 +4820,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "获取验证码",
         "operationId": "authGetCaptchaCode",
@@ -4914,7 +4895,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "第三方登录授权地址",
         "operationId": "authGetOauthAuthorizeUrl",
@@ -4980,6 +4961,9 @@
         "schemes": [
           "https"
         ],
+        "tags": [
+          "登录认证"
+        ],
         "summary": "获取游客身份信息",
         "operationId": "authGetTouristInfo",
         "responses": {
@@ -5025,7 +5009,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "登录",
         "operationId": "authLogin",
@@ -5216,6 +5200,9 @@
         "schemes": [
           "https"
         ],
+        "tags": [
+          "登录认证"
+        ],
         "summary": "注销",
         "operationId": "authLogoff",
         "responses": {
@@ -5258,6 +5245,9 @@
         ],
         "schemes": [
           "https"
+        ],
+        "tags": [
+          "登录认证"
         ],
         "summary": "登出",
         "operationId": "authLogout",
@@ -7453,7 +7443,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "手机登录",
         "operationId": "authPhoneLogin",
@@ -8109,7 +8099,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "注册",
         "operationId": "authRegister",
@@ -8428,7 +8418,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "重置密码",
         "operationId": "authResetPassword",
@@ -9155,7 +9145,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "发送邮件验证码",
         "operationId": "authSendEmailVerifyCode",
@@ -9220,7 +9210,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "发送手机验证码",
         "operationId": "authSendPhoneVerifyCode",
@@ -10265,7 +10255,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "第三方登录",
         "operationId": "authThirdLogin",
@@ -12318,7 +12308,7 @@
       "in": "header"
     }
   },
-  "x-date": "2025-06-16 18:17:32",
+  "x-date": "2025-06-17 15:48:19",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

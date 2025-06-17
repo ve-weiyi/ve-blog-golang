@@ -52,23 +52,23 @@ func (s *AlbumController) AddAlbum(c *gin.Context) {
 // @Summary		"删除相册"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.IdReq		true	"请求参数"
+// @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/album/delete_album [DELETE]
-func (s *AlbumController) DeleteAlbum(c *gin.Context) {
+// @Router		/admin-api/v1/album/deletes_album [DELETE]
+func (s *AlbumController) DeletesAlbum(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.IdReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAlbumService(s.svcCtx).DeleteAlbum(reqCtx, req)
+	data, err := service.NewAlbumService(s.svcCtx).DeletesAlbum(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -125,6 +125,34 @@ func (s *AlbumController) GetAlbum(c *gin.Context) {
 	}
 
 	data, err := service.NewAlbumService(s.svcCtx).GetAlbum(reqCtx, req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	response.ResponseOk(c, data)
+}
+
+// @Tags		Album
+// @Summary		"预删除相册"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.PreDeleteAlbumReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
+// @Router		/admin-api/v1/album/pre_delete_album [POST]
+func (s *AlbumController) PreDeleteAlbum(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req *dto.PreDeleteAlbumReq
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewAlbumService(s.svcCtx).PreDeleteAlbum(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

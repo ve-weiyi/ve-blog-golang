@@ -27,10 +27,8 @@ func (s *CommentRouter) Register(r *gin.RouterGroup) {
 		group.Use(s.svcCtx.MiddlewareOperationLog)
 
 		handler := controller.NewCommentController(s.svcCtx)
-		// 批量删除评论
-		group.DELETE("/comment/batch_delete_comment", handler.BatchDeleteComment)
 		// 删除评论
-		group.DELETE("/comment/delete_comment", handler.DeleteComment)
+		group.DELETE("/comment/deletes_comment", handler.DeletesComment)
 		// 查询评论列表(后台)
 		group.POST("/comment/find_comment_back_list", handler.FindCommentBackList)
 		// 更新评论审核状态

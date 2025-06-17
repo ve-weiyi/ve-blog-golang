@@ -23,13 +23,6 @@ func (s *ApiService) AddApi(reqCtx *request.Context, in *dto.ApiNewReq) (out *dt
 	return
 }
 
-// 批量删除api路由
-func (s *ApiService) BatchDeleteApi(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
-	// todo
-
-	return
-}
-
 // 清空接口列表
 func (s *ApiService) CleanApiList(reqCtx *request.Context, in *dto.EmptyReq) (out *dto.BatchResp, err error) {
 	// todo
@@ -38,7 +31,7 @@ func (s *ApiService) CleanApiList(reqCtx *request.Context, in *dto.EmptyReq) (ou
 }
 
 // 删除api路由
-func (s *ApiService) DeleteApi(reqCtx *request.Context, in *dto.IdReq) (out *dto.BatchResp, err error) {
+func (s *ApiService) DeletesApi(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return

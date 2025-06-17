@@ -49,13 +49,13 @@ func (s *RoleController) AddRole(c *gin.Context) {
 }
 
 // @Tags		Role
-// @Summary		"批量删除角色"
+// @Summary		"删除角色"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/role/batch_delete_role [POST]
-func (s *RoleController) BatchDeleteRole(c *gin.Context) {
+// @Router		/admin-api/v1/role/deletes_role [POST]
+func (s *RoleController) DeletesRole(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
@@ -68,35 +68,7 @@ func (s *RoleController) BatchDeleteRole(c *gin.Context) {
 		return
 	}
 
-	data, err := service.NewRoleService(s.svcCtx).BatchDeleteRole(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Role
-// @Summary		"删除角色"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		dto.IdReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/role/delete_role [DELETE]
-func (s *RoleController) DeleteRole(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *dto.IdReq
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewRoleService(s.svcCtx).DeleteRole(reqCtx, req)
+	data, err := service.NewRoleService(s.svcCtx).DeletesRole(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
