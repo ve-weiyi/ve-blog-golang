@@ -49,7 +49,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 查询用户列表
@@ -88,7 +88,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 创建相册
@@ -133,7 +133,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 创建api路由
@@ -178,7 +178,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 添加文章
@@ -313,7 +313,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.AdminToken},
 			[]rest.Route{
 				{
 					// 注销
@@ -334,7 +334,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 创建文章分类
@@ -367,7 +367,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 删除评论
@@ -394,7 +394,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 创建友链
@@ -427,7 +427,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 删除登录日志
@@ -448,7 +448,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 创建菜单
@@ -493,7 +493,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 删除操作记录
@@ -514,7 +514,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 创建页面
@@ -547,7 +547,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 创建照片
@@ -586,7 +586,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 删除留言
@@ -613,7 +613,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 创建角色
@@ -664,7 +664,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 创建标签
@@ -697,7 +697,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 创建说说
@@ -736,7 +736,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 删除文件列表
@@ -770,7 +770,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 删除登录日志
@@ -791,7 +791,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 删除用户绑定第三方平台账号
@@ -872,7 +872,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 删除操作记录
@@ -893,7 +893,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 获取用户分布地区

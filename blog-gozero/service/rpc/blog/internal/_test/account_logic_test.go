@@ -13,7 +13,9 @@ import (
 func TestGetUserAreasAnalysis(t *testing.T) {
 	tsc := svc.NewTestServiceContext()
 	ctx := tracex.NewRandomTraceContext()
-	in := &accountrpc.EmptyReq{}
+	in := &accountrpc.AnalysisUserReq{
+		UserType: 1,
+	}
 
 	out, err := accountrpclogic.NewAnalysisUserLogic(ctx, tsc).AnalysisUser(in)
 	if err != nil {

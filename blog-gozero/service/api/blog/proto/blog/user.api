@@ -4,13 +4,12 @@ import "base.api"
 
 type (
     UserThirdPartyInfo {
-        Platform string `json:"platform"`             // 平台
-        OpenId string `json:"open_id"`                // 平台用户id
-        Nickname string `json:"nickname"`             // 昵称
-        Avatar string `json:"avatar"`                 // 头像
-        CreatedAt int64 `json:"created_at"`           // 创建时间
+        Platform string `json:"platform"`   // 平台
+        OpenId string `json:"open_id"`      // 平台用户id
+        Nickname string `json:"nickname"`   // 昵称
+        Avatar string `json:"avatar"`       // 头像
+        CreatedAt int64 `json:"created_at"` // 创建时间
     }
-
     UserInfoResp {
         UserId string `json:"user_id"`             // 用户id
         Username string `json:"username"`          // 用户名
@@ -23,58 +22,48 @@ type (
         UserInfoExt
         ThirdParty []*UserThirdPartyInfo `json:"third_party"`
     }
-
     UserLikeResp {
         ArticleLikeSet []int64 `json:"article_like_set"`
         CommentLikeSet []int64 `json:"comment_like_set"`
         TalkLikeSet []int64 `json:"talk_like_set"`
     }
-
-
     UpdateUserInfoReq {
         Nickname string `json:"nickname"` // 昵称
         UserInfoExt
     }
-
     UpdateUserAvatarReq {
-        Avatar string `json:"avatar"`     // 头像
+        Avatar string `json:"avatar"` // 头像
     }
-
     UpdateUserPasswordReq {
         OldPassword string `json:"old_password"`         // 旧密码
         NewPassword string `json:"new_password"`         // 新密码
         ConfirmPassword string `json:"confirm_password"` // 确认密码
     }
-
     UpdateUserBindEmailReq {
         Email string `json:"email"`            // 邮箱
         VerifyCode string `json:"verify_code"` // 验证码
     }
-
     UpdateUserBindPhoneReq {
         Phone string `json:"phone"`            // 手机号
         VerifyCode string `json:"verify_code"` // 验证码
     }
-
     UpdateUserBindThirdPartyReq {
-        Platform string `json:"platform"`          // 平台
-        Code string `json:"code"`                  // 授权码
-        State string `json:"state,optional"`       // 状态
+        Platform string `json:"platform"`    // 平台
+        Code string `json:"code"`            // 授权码
+        State string `json:"state,optional"` // 状态
     }
-
     DeleteUserBindThirdPartyReq {
-        Platform string `json:"platform"`          // 平台
+        Platform string `json:"platform"` // 平台
     }
 )
 
 @server(
-    tags : "用户"
-    prefix: /blog-api/v1
+    tags: "用户"
+    prefix:     /blog-api/v1
     group: user
     authType: apiKey
-    middleware: TimeToken,SignToken
+    middleware: TerminalToken,UserToken
 )
-
 service blog-api {
     @doc "获取用户信息"
     @handler GetUserInfo
@@ -83,8 +72,6 @@ service blog-api {
     @doc "获取用户点赞列表"
     @handler GetUserLike
     get /user/get_user_like (EmptyReq) returns (UserLikeResp)
-
-
 
     @doc "修改用户信息"
     @handler UpdateUserInfo
@@ -114,3 +101,4 @@ service blog-api {
     @handler DeleteUserBindThirdParty
     post /user/delete_user_bind_third_party (DeleteUserBindThirdPartyReq) returns (EmptyResp)
 }
+

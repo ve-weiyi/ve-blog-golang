@@ -1,31 +1,12 @@
-type RestHeader {
-    HeaderCountry string `header:"Country,optional"`
-    HeaderLanguage string `header:"Language,optional"`
-    HeaderTimezone string `header:"Timezone,optional"`
-    HeaderAppName string `header:"App-name,optional"`
-
-    HeaderTimestamp string `header:"Timestamp,optional"`
-    HeaderTerminalId string `header:"Terminal-Id,optional"`
-    HeaderXTsToken string `header:"X-Ts-Token,optional"`
-
-    HeaderUid string `header:"Uid,optional"`
-    HeaderToken string `header:"Token,optional"`
-    HeaderAuthorization string `header:"Authorization,optional"`
-}
-
-
 type (
-    EmptyReq {
+    EmptyReq{
     }
-
     IdReq {
         Id int64 `json:"id"`
     }
-
     IdsReq {
         Ids []int64 `json:"ids"`
     }
-
     PageQuery {
         Page int64 `json:"page,optional"`
         PageSize int64 `json:"page_size,optional"`
@@ -49,21 +30,19 @@ type (
     //        Operator string `json:"operator,optional"`      // = | >= | < | in | not in |....
     //    }
 )
-type (
-    EmptyResp {
-    }
 
+type (
+    EmptyResp{
+    }
     BatchResp {
         SuccessCount int64 `json:"success_count"`
     }
-
     PageResp {
         Page int64 `json:"page,omitempty"`
         PageSize int64 `json:"page_size,omitempty"`
         Total int64 `json:"total,omitempty"`
         List interface{} `json:"list,omitempty"`
     }
-
     Response {
         Code int `json:"code"`
         Msg string `json:"msg"`
@@ -80,10 +59,10 @@ type (
         Nickname string `json:"nickname"`
         UserInfoExt
     }
-
     UserInfoExt {
-        Gender int64 `json:"gender,optional"`        // 性别 0未知 1男 2女
-        Intro string `json:"intro,optional"`         // 简介
-        Website string `json:"website,optional"`     // 网站
+        Gender int64 `json:"gender,optional"`    // 性别 0未知 1男 2女
+        Intro string `json:"intro,optional"`     // 简介
+        Website string `json:"website,optional"` // 网站
     }
 )
+

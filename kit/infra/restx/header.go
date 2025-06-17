@@ -1,9 +1,5 @@
 package restx
 
-import (
-	"net/http"
-)
-
 /**
 HTTP请求头部中常用的信息包括但不限于以下字段：
 
@@ -27,6 +23,13 @@ X-Real-IP: 是一个非标准的HTTP请求头部字段，通常由反向代理�
 在没有代理的情况下，RemoteAddr通常就是客户端的真实IP地址。但是在使用代理的情况下，RemoteAddr可能是代理服务器的地址，而X-Real-IP则是客户端的真实IP地址。因此，如果你的服务部署在使用了反向代理的环境中，通常需要检查X-Real-IP来获取客户端的真实IP地址。
 */
 
+// grpc请求头部
+const (
+	// 自定义rpc请求头部，防止和grpc的头部冲突
+	HeaderRPCRemoteAgent = "rpc-remote-agent"
+	HeaderRPCRemoteIP    = "rpc-remote-ip"
+)
+
 // HTTP请求头部字段
 const (
 	// 通用请求头部
@@ -37,22 +40,29 @@ const (
 	HeaderXRealIP       = "x-real-ip"
 
 	// 自定义请求头部
-	HeaderAppName  = "app-name"
-	HeaderCountry  = "country"
-	HeaderLanguage = "language"
-	HeaderTimezone = "timezone"
-
-	// 游客认证信息 token = md5(terminal,timestamp)
+	HeaderAppName    = "app-name"
+	HeaderAppVersion = "app-version"
+	HeaderOsType     = "os-type"
+	HeaderOsVersion  = "os-version"
+	HeaderCountry    = "country"
+	HeaderLanguage   = "language"
+	HeaderTimezone   = "timezone"
 	HeaderTimestamp  = "timestamp"
-	HeaderTerminalId = "terminal-id"
-	HeaderXTsToken   = "x-ts-token"
 
-	// 用户认证信息
+	// 用户授权信息（jwt）
+	HeaderAuthorization = "authorization"
+
+	// 用户授权信息
 	HeaderUid   = "uid"
 	HeaderToken = "token"
 
-	// 用户授权信息
-	HeaderAuthorization = "authorization"
+	// 管理平台授权信息（暂不使用）
+	HeaderXAdminId    = "x-admin-id"
+	HeaderXAdminToken = "x-admin-token"
+
+	// 游客授权信息 token = md5(terminal-id,timestamp)
+	HeaderXTerminalId    = "x-terminal-id"
+	HeaderXTerminalToken = "x-terminal-token"
 
 	// 防重放限制 sign=md5(id+ts+secret)
 	HeaderXRequestId   = "x-request-id"
@@ -68,50 +78,25 @@ var HeaderFields = []string{
 	HeaderXRealIP,
 
 	HeaderAppName,
-	HeaderTimezone,
+	HeaderAppVersion,
+	HeaderOsType,
+	HeaderOsVersion,
 	HeaderCountry,
 	HeaderLanguage,
+	HeaderTimezone,
 	HeaderTimestamp,
 
-	HeaderTerminalId,
-	HeaderXTsToken,
+	HeaderAuthorization,
 	HeaderUid,
 	HeaderToken,
-	HeaderAuthorization,
-}
 
-// grpc请求头部
-const (
-	// 自定义rpc请求头部，防止和grpc的头部冲突
-	HeaderRPCRemoteAgent = "rpc-remote-agent"
-	HeaderRPCRemoteIP    = "rpc-remote-ip"
-)
+	HeaderXAdminId,
+	HeaderXAdminToken,
 
-// RestHeader restful请求头部(Representational State Transfer 表述性状态转移)
-type RestHeader struct {
-	HeaderAppName       string `json:"app-name" header:"app-name,optional"`
-	HeaderCountry       string `json:"country" header:"country,optional"`
-	HeaderLanguage      string `json:"language" header:"language,optional"`
-	HeaderTimezone      string `json:"timezone" header:"timezone,optional"`
-	HeaderTimestamp     string `json:"timestamp" header:"timestamp,optional"`
-	HeaderTerminalId    string `json:"terminal-id" header:"terminal-id,optional"`
-	HeaderXTsToken      string `json:"x-ts-token" header:"x-ts-token,optional"`
-	HeaderUid           string `json:"uid" header:"uid,optional"`
-	HeaderToken         string `json:"token" header:"token,optional"`
-	HeaderAuthorization string `json:"authorization" header:"authorization,optional"`
-}
+	HeaderXTerminalId,
+	HeaderXTerminalToken,
 
-func ParseRestHeader(r *http.Request) *RestHeader {
-	header := &RestHeader{}
-	header.HeaderAppName = r.Header.Get(HeaderAppName)
-	header.HeaderCountry = r.Header.Get(HeaderCountry)
-	header.HeaderLanguage = r.Header.Get(HeaderLanguage)
-	header.HeaderTimezone = r.Header.Get(HeaderTimezone)
-	header.HeaderTimestamp = r.Header.Get(HeaderTimestamp)
-	header.HeaderTerminalId = r.Header.Get(HeaderTerminalId)
-	header.HeaderXTsToken = r.Header.Get(HeaderXTsToken)
-	header.HeaderUid = r.Header.Get(HeaderUid)
-	header.HeaderToken = r.Header.Get(HeaderToken)
-	header.HeaderAuthorization = r.Header.Get(HeaderAuthorization)
-	return header
+	HeaderXRequestId,
+	HeaderXRequestTs,
+	HeaderXRequestSign,
 }

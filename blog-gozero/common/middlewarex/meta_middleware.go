@@ -22,7 +22,7 @@ func NewCtxMetaMiddleware() *CtxMetaMiddleware {
 // 将http header 放入 ctx 里面使用 metadata 保存.
 func (m *CtxMetaMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		logx.Infof("CtxMetaMiddleware Handle")
+		logx.Debugf("CtxMetaMiddleware Handle")
 		ctx := r.Context()
 		md := metadata.MD{}
 		// 从真实http 头获取header
@@ -47,11 +47,8 @@ func (m *CtxMetaMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			}
 		}
 
-		//ctx = context.WithValue(ctx, headerconst.HeaderReferer, r.Referer())
-
 		md.Set(restx.HeaderRPCRemoteAgent, r.UserAgent())
 		md.Set(restx.HeaderRPCRemoteIP, httpx.GetRemoteAddr(r))
-		//md.Set(headerconst.HeaderReferer, r.Referer())
 
 		ctx = metadata.NewOutgoingContext(ctx, md)
 		r = r.WithContext(ctx)

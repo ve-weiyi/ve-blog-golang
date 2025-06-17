@@ -12283,12 +12283,6 @@
       "name": "Authorization",
       "in": "header"
     },
-    "TerminalId": {
-      "description": "终端id，用于标识用户使用设备",
-      "type": "apiKey",
-      "name": "Terminal-Id",
-      "in": "header"
-    },
     "Timestamp": {
       "description": "时间戳，用于校验请求是否过期",
       "type": "apiKey",
@@ -12300,15 +12294,9 @@
       "type": "apiKey",
       "name": "Uid",
       "in": "header"
-    },
-    "XTsToken": {
-      "description": "游客token，使用时间戳和终端id生成",
-      "type": "apiKey",
-      "name": "X-Ts-Token",
-      "in": "header"
     }
   },
-  "x-date": "2025-06-17 15:48:19",
+  "x-date": "2025-06-30 11:42:21",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

@@ -6,112 +6,93 @@ type (
     GetTouristInfoResp {
         TouristId string `json:"tourist_id"` // 游客id
     }
-
     LoginReq {
         Username string `json:"username"`
         Password string `json:"password"`
-        CaptchaKey string `json:"captcha_key,optional"`       // 验证码key
-        CaptchaCode string `json:"captcha_code,optional"`     // 验证码
+        CaptchaKey string `json:"captcha_key,optional"`   // 验证码key
+        CaptchaCode string `json:"captcha_code,optional"` // 验证码
     }
-
     LoginResp {
         Token *Token `json:"token"`
     }
-
     Token {
-        UserId string `json:"user_id"`                      // 用户id
-        TokenType string `json:"token_type"`                // token类型,Bearer
-        AccessToken string `json:"access_token"`            // 访问token,过期时间较短。2h
-        ExpiresIn int64 `json:"expires_in"`                 // 访问token过期时间
-        RefreshToken string `json:"refresh_token"`          // 刷新token,过期时间较长。30d
-        RefreshExpiresIn int64 `json:"refresh_expires_in"`  // 刷新token过期时间
-        Scope string `json:"scope"`                         // 作用域
+        UserId string `json:"user_id"`                     // 用户id
+        TokenType string `json:"token_type"`               // token类型,Bearer
+        AccessToken string `json:"access_token"`           // 访问token,过期时间较短。2h
+        ExpiresIn int64 `json:"expires_in"`                // 访问token过期时间
+        RefreshToken string `json:"refresh_token"`         // 刷新token,过期时间较长。30d
+        RefreshExpiresIn int64 `json:"refresh_expires_in"` // 刷新token过期时间
+        Scope string `json:"scope"`                        // 作用域
     }
-
     EmailLoginReq {
-        Email string `json:"email"`                           // 邮箱
-        Password string `json:"password"`                     // 密码
-        CaptchaKey string `json:"captcha_key,optional"`       // 验证码key
-        CaptchaCode string `json:"captcha_code,optional"`     // 验证码
+        Email string `json:"email"`                       // 邮箱
+        Password string `json:"password"`                 // 密码
+        CaptchaKey string `json:"captcha_key,optional"`   // 验证码key
+        CaptchaCode string `json:"captcha_code,optional"` // 验证码
     }
-
     PhoneLoginReq {
-        Phone string `json:"phone"`                           // 手机号
-        VerifyCode string `json:"verify_code"`                // 验证码
+        Phone string `json:"phone"`            // 手机号
+        VerifyCode string `json:"verify_code"` // 验证码
     }
-
     ThirdLoginReq {
-        Platform string `json:"platform"`          // 平台
-        Code string `json:"code,optional"`         // 授权码
+        Platform string `json:"platform"`  // 平台
+        Code string `json:"code,optional"` // 授权码
     }
-
     RegisterReq {
         Username string `json:"username"`
         Password string `json:"password"`
-        ConfirmPassword string `json:"confirm_password"`    // 确认密码
-        Email string `json:"email"`                         // 邮箱
-        VerifyCode string `json:"verify_code"`              // 验证码
+        ConfirmPassword string `json:"confirm_password"` // 确认密码
+        Email string `json:"email"`                      // 邮箱
+        VerifyCode string `json:"verify_code"`           // 验证码
     }
-
     ResetPasswordReq {
         Password string `json:"password"`
-        ConfirmPassword string `json:"confirm_password"`    // 确认密码
+        ConfirmPassword string `json:"confirm_password"` // 确认密码
         Email string `json:"email"`
-        VerifyCode string `json:"verify_code"`              // 验证码
+        VerifyCode string `json:"verify_code"`           // 验证码
     }
-
-
     GetOauthAuthorizeUrlReq {
-        Platform string `json:"platform"`                     // 平台
-        State string `json:"state,optional"`                  // 状态
+        Platform string `json:"platform"`    // 平台
+        State string `json:"state,optional"` // 状态
     }
-
     GetOauthAuthorizeUrlResp {
         AuthorizeUrl string `json:"authorize_url"` // 授权地址
     }
-
     SendEmailVerifyCodeReq {
-        Email string `json:"email"`                         // 邮箱
-        Type string `json:"type"`                           // 类型 register,reset_password,bind_email,bind_phone
+        Email string `json:"email"` // 邮箱
+        Type string `json:"type"`   // 类型 register,reset_password,bind_email,bind_phone
     }
-
     SendPhoneVerifyCodeReq {
-        Phone string `json:"phone"`                         // 手机号
-        Type string `json:"type"`                           // 类型 register,reset_password,bind_email,bind_phone
+        Phone string `json:"phone"` // 手机号
+        Type string `json:"type"`   // 类型 register,reset_password,bind_email,bind_phone
     }
-
     GetCaptchaCodeReq {
-        Width int64 `json:"width,optional"`               // 宽度
-        Height int64 `json:"height,optional"`             // 高度
+        Width int64 `json:"width,optional"`   // 宽度
+        Height int64 `json:"height,optional"` // 高度
     }
-
     GetCaptchaCodeResp {
-        CaptchaKey string `json:"captcha_key"`               // 验证码key
-        CaptchaBase64 string `json:"captcha_base64"`         // 验证码base64
-        CaptchaCode string `json:"captcha_code"`             // 验证码
+        CaptchaKey string `json:"captcha_key"`       // 验证码key
+        CaptchaBase64 string `json:"captcha_base64"` // 验证码base64
+        CaptchaCode string `json:"captcha_code"`     // 验证码
     }
 )
 
-
 @server(
-    tags : "登录认证"
+    tags: "登录认证"
     prefix: /admin-api/v1
     group: auth
 )
-
 service admin-api {
     @doc "获取游客身份信息"
     @handler GetTouristInfo
     get /get_tourist_info (EmptyReq) returns (GetTouristInfoResp)
 }
 
-
 @server(
-    tags : "登录认证"
+    tags: "登录认证"
     prefix: /admin-api/v1
     group: auth
 )
-
 service admin-api {
     @doc "登录"
     @handler Login
@@ -137,8 +118,6 @@ service admin-api {
     @handler ResetPassword
     post /reset_password (ResetPasswordReq) returns (EmptyResp)
 
-
-
     @doc "第三方登录授权地址"
     @handler GetOauthAuthorizeUrl
     post /get_oauth_authorize_url (GetOauthAuthorizeUrlReq) returns (GetOauthAuthorizeUrlResp)
@@ -157,13 +136,12 @@ service admin-api {
 }
 
 @server(
-    tags : "登录认证"
-    prefix: /admin-api/v1
+    tags: "登录认证"
+    prefix:     /admin-api/v1
     group: auth
     authType: apiKey
-    middleware: JwtToken
+    middleware: AdminToken
 )
-
 service admin-api {
     @doc "登出"
     @handler Logout
@@ -173,3 +151,4 @@ service admin-api {
     @handler Logoff
     post /logoff (EmptyReq) returns (EmptyResp)
 }
+

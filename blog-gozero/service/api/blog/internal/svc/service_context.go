@@ -9,10 +9,10 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/tokenx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/docs"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/config"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/middleware"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/configrpc"
@@ -44,9 +44,9 @@ type ServiceContext struct {
 	TokenHolder tokenx.TokenHolder
 	Hub         *ws.Hub
 
-	TimeToken rest.Middleware
-	SignToken rest.Middleware
-	VisitLog  rest.Middleware
+	TerminalToken rest.Middleware
+	UserToken     rest.Middleware
+	VisitLog      rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -93,9 +93,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Uploader:    uploader,
 		TokenHolder: th,
 
-		TimeToken: middlewarex.NewTimeTokenMiddleware().Handle,
-		SignToken: middlewarex.NewSignTokenMiddleware(th).Handle,
-		VisitLog:  middlewarex.NewVisitLogMiddleware(doc.Spec(), syslogRpc).Handle,
+		TerminalToken: middleware.NewTerminalTokenMiddleware().Handle,
+		UserToken:     middleware.NewUserTokenMiddleware(th).Handle,
+		VisitLog:      middleware.NewVisitLogMiddleware(doc.Spec(), syslogRpc).Handle,
 	}
 }
 
