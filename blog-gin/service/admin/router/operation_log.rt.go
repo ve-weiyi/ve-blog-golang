@@ -19,18 +19,16 @@ func NewOperationLogRouter(svcCtx *svctx.ServiceContext) *OperationLogRouter {
 
 func (s *OperationLogRouter) Register(r *gin.RouterGroup) {
 	// OperationLog
-	// [SignToken JwtToken Operation]
+	// [JwtToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/admin-api/v1")
 		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group.Use(s.svcCtx.MiddlewarePermission)
+		group.Use(s.svcCtx.MiddlewareOperationLog)
 
 		handler := controller.NewOperationLogController(s.svcCtx)
-		// 批量删除操作记录
-		group.DELETE("/operation_log/batch_delete_operation_log", handler.BatchDeleteOperationLog)
 		// 删除操作记录
-		group.DELETE("/operation_log/delete_operation_log", handler.DeleteOperationLog)
+		group.DELETE("/operation_log/deletes_operation_log", handler.DeletesOperationLog)
 		// 分页获取操作记录列表
 		group.POST("/operation_log/find_operation_log_list", handler.FindOperationLogList)
 	}

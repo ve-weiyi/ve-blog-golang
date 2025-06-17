@@ -21,13 +21,13 @@ func NewCommentController(svcCtx *svctx.ServiceContext) *CommentController {
 }
 
 // @Tags		Comment
-// @Summary		"批量删除评论"
+// @Summary		"删除评论"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/comment/batch_delete_comment [DELETE]
-func (s *CommentController) BatchDeleteComment(c *gin.Context) {
+// @Router		/admin-api/v1/comment/deletes_comment [DELETE]
+func (s *CommentController) DeletesComment(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
@@ -40,35 +40,7 @@ func (s *CommentController) BatchDeleteComment(c *gin.Context) {
 		return
 	}
 
-	data, err := service.NewCommentService(s.svcCtx).BatchDeleteComment(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Comment
-// @Summary		"删除评论"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		dto.IdReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/comment/delete_comment [DELETE]
-func (s *CommentController) DeleteComment(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *dto.IdReq
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewCommentService(s.svcCtx).DeleteComment(reqCtx, req)
+	data, err := service.NewCommentService(s.svcCtx).DeletesComment(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -82,7 +54,7 @@ func (s *CommentController) DeleteComment(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.CommentQuery		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/admin_api/v1/comment/find_comment_back_list [POST]
+// @Router		/admin-api/v1/comment/find_comment_back_list [POST]
 func (s *CommentController) FindCommentBackList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -110,7 +82,7 @@ func (s *CommentController) FindCommentBackList(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.CommentReviewReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/comment/update_comment_review [PUT]
+// @Router		/admin-api/v1/comment/update_comment_review [PUT]
 func (s *CommentController) UpdateCommentReview(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {

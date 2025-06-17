@@ -16,6 +16,34 @@ func NewAuthService(svcCtx *svctx.ServiceContext) *AuthService {
 	}
 }
 
+// 获取游客身份信息
+func (s *AuthService) GetTouristInfo(reqCtx *request.Context, in *dto.EmptyReq) (out *dto.GetTouristInfoResp, err error) {
+	// todo
+
+	return
+}
+
+// 邮箱登录
+func (s *AuthService) EmailLogin(reqCtx *request.Context, in *dto.EmailLoginReq) (out *dto.LoginResp, err error) {
+	// todo
+
+	return
+}
+
+// 获取验证码
+func (s *AuthService) GetCaptchaCode(reqCtx *request.Context, in *dto.GetCaptchaCodeReq) (out *dto.GetCaptchaCodeResp, err error) {
+	// todo
+
+	return
+}
+
+// 第三方登录授权地址
+func (s *AuthService) GetOauthAuthorizeUrl(reqCtx *request.Context, in *dto.GetOauthAuthorizeUrlReq) (out *dto.GetOauthAuthorizeUrlResp, err error) {
+	// todo
+
+	return
+}
+
 // 登录
 func (s *AuthService) Login(reqCtx *request.Context, in *dto.LoginReq) (out *dto.LoginResp, err error) {
 	// todo
@@ -23,15 +51,8 @@ func (s *AuthService) Login(reqCtx *request.Context, in *dto.LoginReq) (out *dto
 	return
 }
 
-// 第三方登录授权地址
-func (s *AuthService) OauthAuthorizeUrl(reqCtx *request.Context, in *dto.OauthLoginReq) (out *dto.OauthLoginUrlResp, err error) {
-	// todo
-
-	return
-}
-
-// 第三方登录
-func (s *AuthService) OauthLogin(reqCtx *request.Context, in *dto.OauthLoginReq) (out *dto.LoginResp, err error) {
+// 手机登录
+func (s *AuthService) PhoneLogin(reqCtx *request.Context, in *dto.PhoneLoginReq) (out *dto.LoginResp, err error) {
 	// todo
 
 	return
@@ -44,13 +65,6 @@ func (s *AuthService) Register(reqCtx *request.Context, in *dto.RegisterReq) (ou
 	return
 }
 
-// 发送注册账号邮件
-func (s *AuthService) SendRegisterEmail(reqCtx *request.Context, in *dto.UserEmailReq) (out *dto.EmptyResp, err error) {
-	// todo
-
-	return
-}
-
 // 重置密码
 func (s *AuthService) ResetPassword(reqCtx *request.Context, in *dto.ResetPasswordReq) (out *dto.EmptyResp, err error) {
 	// todo
@@ -58,15 +72,22 @@ func (s *AuthService) ResetPassword(reqCtx *request.Context, in *dto.ResetPasswo
 	return
 }
 
-// 发送重置密码邮件
-func (s *AuthService) SendResetEmail(reqCtx *request.Context, in *dto.UserEmailReq) (out *dto.EmptyResp, err error) {
+// 发送邮件验证码
+func (s *AuthService) SendEmailVerifyCode(reqCtx *request.Context, in *dto.SendEmailVerifyCodeReq) (out *dto.EmptyResp, err error) {
 	// todo
 
 	return
 }
 
-// 绑定邮箱
-func (s *AuthService) BindUserEmail(reqCtx *request.Context, in *dto.BindUserEmailReq) (out *dto.EmptyResp, err error) {
+// 发送手机验证码
+func (s *AuthService) SendPhoneVerifyCode(reqCtx *request.Context, in *dto.SendPhoneVerifyCodeReq) (out *dto.EmptyResp, err error) {
+	// todo
+
+	return
+}
+
+// 第三方登录
+func (s *AuthService) ThirdLogin(reqCtx *request.Context, in *dto.ThirdLoginReq) (out *dto.LoginResp, err error) {
 	// todo
 
 	return
@@ -81,13 +102,6 @@ func (s *AuthService) Logoff(reqCtx *request.Context, in *dto.EmptyReq) (out *dt
 
 // 登出
 func (s *AuthService) Logout(reqCtx *request.Context, in *dto.EmptyReq) (out *dto.EmptyResp, err error) {
-	// todo
-
-	return
-}
-
-// 发送绑定邮箱验证码
-func (s *AuthService) SendBindEmail(reqCtx *request.Context, in *dto.UserEmailReq) (out *dto.EmptyResp, err error) {
 	// todo
 
 	return

@@ -17,21 +17,14 @@ func NewRoleService(svcCtx *svctx.ServiceContext) *RoleService {
 }
 
 // 创建角色
-func (s *RoleService) AddRole(reqCtx *request.Context, in *dto.RoleNewReq) (out *dto.RoleBackDTO, err error) {
-	// todo
-
-	return
-}
-
-// 批量删除角色
-func (s *RoleService) BatchDeleteRole(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
+func (s *RoleService) AddRole(reqCtx *request.Context, in *dto.RoleNewReq) (out *dto.RoleBackVO, err error) {
 	// todo
 
 	return
 }
 
 // 删除角色
-func (s *RoleService) DeleteRole(reqCtx *request.Context, in *dto.IdReq) (out *dto.BatchResp, err error) {
+func (s *RoleService) DeletesRole(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return
@@ -52,7 +45,7 @@ func (s *RoleService) FindRoleResources(reqCtx *request.Context, in *dto.IdReq) 
 }
 
 // 更新角色
-func (s *RoleService) UpdateRole(reqCtx *request.Context, in *dto.RoleNewReq) (out *dto.RoleBackDTO, err error) {
+func (s *RoleService) UpdateRole(reqCtx *request.Context, in *dto.RoleNewReq) (out *dto.RoleBackVO, err error) {
 	// todo
 
 	return

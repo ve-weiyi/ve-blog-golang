@@ -10,37 +10,37 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
 
-type BannerController struct {
+type PageController struct {
 	svcCtx *svctx.ServiceContext
 }
 
-func NewBannerController(svcCtx *svctx.ServiceContext) *BannerController {
-	return &BannerController{
+func NewPageController(svcCtx *svctx.ServiceContext) *PageController {
+	return &PageController{
 		svcCtx: svcCtx,
 	}
 }
 
-// @Tags		Banner
+// @Tags		Page
 // @Summary		"创建页面"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.BannerNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.BannerBackDTO}	"返回信息"
-// @Router		/admin_api/v1/banner/add_banner [POST]
-func (s *BannerController) AddBanner(c *gin.Context) {
+// @Param		data	body		dto.PageNewReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.PageBackVO}	"返回信息"
+// @Router		/admin-api/v1/page/add_page [POST]
+func (s *PageController) AddPage(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.BannerNewReq
+	var req *dto.PageNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewBannerService(s.svcCtx).AddBanner(reqCtx, req)
+	data, err := service.NewPageService(s.svcCtx).AddPage(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -48,14 +48,14 @@ func (s *BannerController) AddBanner(c *gin.Context) {
 	response.ResponseOk(c, data)
 }
 
-// @Tags		Banner
+// @Tags		Page
 // @Summary		"删除页面"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.IdReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/banner/delete_banner [DELETE]
-func (s *BannerController) DeleteBanner(c *gin.Context) {
+// @Router		/admin-api/v1/page/delete_page [DELETE]
+func (s *PageController) DeletePage(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
@@ -68,7 +68,7 @@ func (s *BannerController) DeleteBanner(c *gin.Context) {
 		return
 	}
 
-	data, err := service.NewBannerService(s.svcCtx).DeleteBanner(reqCtx, req)
+	data, err := service.NewPageService(s.svcCtx).DeletePage(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -76,27 +76,27 @@ func (s *BannerController) DeleteBanner(c *gin.Context) {
 	response.ResponseOk(c, data)
 }
 
-// @Tags		Banner
+// @Tags		Page
 // @Summary		"分页获取页面列表"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.BannerQuery		true	"请求参数"
+// @Param		data	body		dto.PageQueryReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/admin_api/v1/banner/find_banner_list [POST]
-func (s *BannerController) FindBannerList(c *gin.Context) {
+// @Router		/admin-api/v1/page/find_page_list [POST]
+func (s *PageController) FindPageList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.BannerQuery
+	var req *dto.PageQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewBannerService(s.svcCtx).FindBannerList(reqCtx, req)
+	data, err := service.NewPageService(s.svcCtx).FindPageList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -104,27 +104,27 @@ func (s *BannerController) FindBannerList(c *gin.Context) {
 	response.ResponseOk(c, data)
 }
 
-// @Tags		Banner
+// @Tags		Page
 // @Summary		"更新页面"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.BannerNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.BannerBackDTO}	"返回信息"
-// @Router		/admin_api/v1/banner/update_banner [PUT]
-func (s *BannerController) UpdateBanner(c *gin.Context) {
+// @Param		data	body		dto.PageNewReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.PageBackVO}	"返回信息"
+// @Router		/admin-api/v1/page/update_page [PUT]
+func (s *PageController) UpdatePage(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.BannerNewReq
+	var req *dto.PageNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewBannerService(s.svcCtx).UpdateBanner(reqCtx, req)
+	data, err := service.NewPageService(s.svcCtx).UpdatePage(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

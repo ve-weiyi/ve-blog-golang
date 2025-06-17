@@ -25,8 +25,8 @@ func NewRoleController(svcCtx *svctx.ServiceContext) *RoleController {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.RoleNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.RoleBackDTO}	"返回信息"
-// @Router		/admin_api/v1/role/add_role [POST]
+// @Success		200		{object}	response.Body{data=dto.RoleBackVO}	"返回信息"
+// @Router		/admin-api/v1/role/add_role [POST]
 func (s *RoleController) AddRole(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -49,13 +49,13 @@ func (s *RoleController) AddRole(c *gin.Context) {
 }
 
 // @Tags		Role
-// @Summary		"批量删除角色"
+// @Summary		"删除角色"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/role/batch_delete_role [POST]
-func (s *RoleController) BatchDeleteRole(c *gin.Context) {
+// @Router		/admin-api/v1/role/deletes_role [POST]
+func (s *RoleController) DeletesRole(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
@@ -68,35 +68,7 @@ func (s *RoleController) BatchDeleteRole(c *gin.Context) {
 		return
 	}
 
-	data, err := service.NewRoleService(s.svcCtx).BatchDeleteRole(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Role
-// @Summary		"删除角色"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		dto.IdReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/role/delete_role [DELETE]
-func (s *RoleController) DeleteRole(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *dto.IdReq
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewRoleService(s.svcCtx).DeleteRole(reqCtx, req)
+	data, err := service.NewRoleService(s.svcCtx).DeletesRole(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -110,7 +82,7 @@ func (s *RoleController) DeleteRole(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.RoleQuery		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/admin_api/v1/role/find_role_list [POST]
+// @Router		/admin-api/v1/role/find_role_list [POST]
 func (s *RoleController) FindRoleList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -138,7 +110,7 @@ func (s *RoleController) FindRoleList(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.IdReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.RoleResourcesResp}	"返回信息"
-// @Router		/admin_api/v1/role/find_role_resources [POST]
+// @Router		/admin-api/v1/role/find_role_resources [POST]
 func (s *RoleController) FindRoleResources(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -165,8 +137,8 @@ func (s *RoleController) FindRoleResources(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.RoleNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.RoleBackDTO}	"返回信息"
-// @Router		/admin_api/v1/role/update_role [PUT]
+// @Success		200		{object}	response.Body{data=dto.RoleBackVO}	"返回信息"
+// @Router		/admin-api/v1/role/update_role [PUT]
 func (s *RoleController) UpdateRole(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -194,7 +166,7 @@ func (s *RoleController) UpdateRole(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.UpdateRoleApisReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
-// @Router		/admin_api/v1/role/update_role_apis [POST]
+// @Router		/admin-api/v1/role/update_role_apis [POST]
 func (s *RoleController) UpdateRoleApis(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -222,7 +194,7 @@ func (s *RoleController) UpdateRoleApis(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.UpdateRoleMenusReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
-// @Router		/admin_api/v1/role/update_role_menus [POST]
+// @Router		/admin-api/v1/role/update_role_menus [POST]
 func (s *RoleController) UpdateRoleMenus(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {

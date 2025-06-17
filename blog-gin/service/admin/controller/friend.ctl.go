@@ -21,40 +21,12 @@ func NewFriendController(svcCtx *svctx.ServiceContext) *FriendController {
 }
 
 // @Tags		Friend
-// @Summary		"分页获取友链列表"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		dto.FriendQuery		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/admin_api/v1/friend/find_friend_list [POST]
-func (s *FriendController) FindFriendList(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *dto.FriendQuery
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewFriendService(s.svcCtx).FindFriendList(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Friend
 // @Summary		"创建友链"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.FriendNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.FriendBackDTO}	"返回信息"
-// @Router		/admin_api/v1/friend/add_friend [POST]
+// @Success		200		{object}	response.Body{data=dto.FriendBackVO}	"返回信息"
+// @Router		/admin-api/v1/friend/add_friend [POST]
 func (s *FriendController) AddFriend(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -77,13 +49,13 @@ func (s *FriendController) AddFriend(c *gin.Context) {
 }
 
 // @Tags		Friend
-// @Summary		"批量删除友链"
+// @Summary		"删除友链"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/friend/batch_delete_friend [DELETE]
-func (s *FriendController) BatchDeleteFriend(c *gin.Context) {
+// @Router		/admin-api/v1/friend/deletes_friend [DELETE]
+func (s *FriendController) DeletesFriend(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
@@ -96,7 +68,7 @@ func (s *FriendController) BatchDeleteFriend(c *gin.Context) {
 		return
 	}
 
-	data, err := service.NewFriendService(s.svcCtx).BatchDeleteFriend(reqCtx, req)
+	data, err := service.NewFriendService(s.svcCtx).DeletesFriend(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -105,26 +77,26 @@ func (s *FriendController) BatchDeleteFriend(c *gin.Context) {
 }
 
 // @Tags		Friend
-// @Summary		"删除友链"
+// @Summary		"分页获取友链列表"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.IdReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/friend/delete_friend [DELETE]
-func (s *FriendController) DeleteFriend(c *gin.Context) {
+// @Param		data	body		dto.FriendQuery		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
+// @Router		/admin-api/v1/friend/find_friend_list [POST]
+func (s *FriendController) FindFriendList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.IdReq
+	var req *dto.FriendQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFriendService(s.svcCtx).DeleteFriend(reqCtx, req)
+	data, err := service.NewFriendService(s.svcCtx).FindFriendList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -137,8 +109,8 @@ func (s *FriendController) DeleteFriend(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.FriendNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.FriendBackDTO}	"返回信息"
-// @Router		/admin_api/v1/friend/update_friend [PUT]
+// @Success		200		{object}	response.Body{data=dto.FriendBackVO}	"返回信息"
+// @Router		/admin-api/v1/friend/update_friend [PUT]
 func (s *FriendController) UpdateFriend(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {

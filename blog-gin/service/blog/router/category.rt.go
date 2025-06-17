@@ -19,10 +19,10 @@ func NewCategoryRouter(svcCtx *svctx.ServiceContext) *CategoryRouter {
 
 func (s *CategoryRouter) Register(r *gin.RouterGroup) {
 	// Category
-	// [SignToken]
+	// [TimeToken]
 	{
-		group := r.Group("/api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/blog-api/v1")
+		group.Use(s.svcCtx.MiddlewareTimeToken)
 
 		handler := controller.NewCategoryController(s.svcCtx)
 		// 分页获取文章分类列表

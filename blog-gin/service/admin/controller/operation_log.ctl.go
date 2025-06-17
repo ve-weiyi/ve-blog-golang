@@ -21,13 +21,13 @@ func NewOperationLogController(svcCtx *svctx.ServiceContext) *OperationLogContro
 }
 
 // @Tags		OperationLog
-// @Summary		"批量删除操作记录"
+// @Summary		"删除操作记录"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/operation_log/batch_delete_operation_log [DELETE]
-func (s *OperationLogController) BatchDeleteOperationLog(c *gin.Context) {
+// @Router		/admin-api/v1/operation_log/deletes_operation_log [DELETE]
+func (s *OperationLogController) DeletesOperationLog(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
@@ -40,35 +40,7 @@ func (s *OperationLogController) BatchDeleteOperationLog(c *gin.Context) {
 		return
 	}
 
-	data, err := service.NewOperationLogService(s.svcCtx).BatchDeleteOperationLog(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	response.ResponseOk(c, data)
-}
-
-// @Tags		OperationLog
-// @Summary		"删除操作记录"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		dto.IdReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/operation_log/delete_operation_log [DELETE]
-func (s *OperationLogController) DeleteOperationLog(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *dto.IdReq
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewOperationLogService(s.svcCtx).DeleteOperationLog(reqCtx, req)
+	data, err := service.NewOperationLogService(s.svcCtx).DeletesOperationLog(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -82,7 +54,7 @@ func (s *OperationLogController) DeleteOperationLog(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.OperationLogQuery		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/admin_api/v1/operation_log/find_operation_log_list [POST]
+// @Router		/admin-api/v1/operation_log/find_operation_log_list [POST]
 func (s *OperationLogController) FindOperationLogList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {

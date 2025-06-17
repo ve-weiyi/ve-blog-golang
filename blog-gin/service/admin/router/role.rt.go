@@ -19,20 +19,18 @@ func NewRoleRouter(svcCtx *svctx.ServiceContext) *RoleRouter {
 
 func (s *RoleRouter) Register(r *gin.RouterGroup) {
 	// Role
-	// [SignToken JwtToken Operation]
+	// [JwtToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/admin-api/v1")
 		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group.Use(s.svcCtx.MiddlewarePermission)
+		group.Use(s.svcCtx.MiddlewareOperationLog)
 
 		handler := controller.NewRoleController(s.svcCtx)
 		// 创建角色
 		group.POST("/role/add_role", handler.AddRole)
-		// 批量删除角色
-		group.POST("/role/batch_delete_role", handler.BatchDeleteRole)
 		// 删除角色
-		group.DELETE("/role/delete_role", handler.DeleteRole)
+		group.POST("/role/deletes_role", handler.DeletesRole)
 		// 分页获取角色列表
 		group.POST("/role/find_role_list", handler.FindRoleList)
 		// 获取角色资源列表

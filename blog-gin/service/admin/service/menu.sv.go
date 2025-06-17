@@ -17,14 +17,7 @@ func NewMenuService(svcCtx *svctx.ServiceContext) *MenuService {
 }
 
 // 创建菜单
-func (s *MenuService) AddMenu(reqCtx *request.Context, in *dto.MenuNewReq) (out *dto.MenuBackDTO, err error) {
-	// todo
-
-	return
-}
-
-// 批量删除菜单
-func (s *MenuService) BatchDeleteMenu(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
+func (s *MenuService) AddMenu(reqCtx *request.Context, in *dto.MenuNewReq) (out *dto.MenuBackVO, err error) {
 	// todo
 
 	return
@@ -38,7 +31,7 @@ func (s *MenuService) CleanMenuList(reqCtx *request.Context, in *dto.EmptyReq) (
 }
 
 // 删除菜单
-func (s *MenuService) DeleteMenu(reqCtx *request.Context, in *dto.IdReq) (out *dto.BatchResp, err error) {
+func (s *MenuService) DeletesMenu(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return
@@ -59,7 +52,7 @@ func (s *MenuService) SyncMenuList(reqCtx *request.Context, in *dto.SyncMenuReq)
 }
 
 // 更新菜单
-func (s *MenuService) UpdateMenu(reqCtx *request.Context, in *dto.MenuNewReq) (out *dto.MenuBackDTO, err error) {
+func (s *MenuService) UpdateMenu(reqCtx *request.Context, in *dto.MenuNewReq) (out *dto.MenuBackVO, err error) {
 	// todo
 
 	return

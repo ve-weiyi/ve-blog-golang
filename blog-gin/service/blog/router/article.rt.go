@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/service/blog/controller"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
@@ -19,10 +18,10 @@ func NewArticleRouter(svcCtx *svctx.ServiceContext) *ArticleRouter {
 
 func (s *ArticleRouter) Register(r *gin.RouterGroup) {
 	// Article
-	// [SignToken]
+	// [TimeToken]
 	{
-		group := r.Group("/api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/blog-api/v1")
+		group.Use(s.svcCtx.MiddlewareTimeToken)
 
 		handler := controller.NewArticleController(s.svcCtx)
 		// 文章归档(时间轴)
@@ -39,11 +38,11 @@ func (s *ArticleRouter) Register(r *gin.RouterGroup) {
 		group.POST("/article/get_article_recommend", handler.FindArticleRecommend)
 	}
 	// Article
-	// [SignToken JwtToken]
+	// [TimeToken SignToken]
 	{
-		group := r.Group("/api/v1")
+		group := r.Group("/blog-api/v1")
+		group.Use(s.svcCtx.MiddlewareTimeToken)
 		group.Use(s.svcCtx.MiddlewareSignToken)
-		group.Use(s.svcCtx.MiddlewareJwtToken)
 
 		handler := controller.NewArticleController(s.svcCtx)
 		// 点赞文章

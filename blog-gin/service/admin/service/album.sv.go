@@ -16,6 +16,20 @@ func NewAlbumService(svcCtx *svctx.ServiceContext) *AlbumService {
 	}
 }
 
+// 创建相册
+func (s *AlbumService) AddAlbum(reqCtx *request.Context, in *dto.AlbumNewReq) (out *dto.AlbumBackVO, err error) {
+	// todo
+
+	return
+}
+
+// 删除相册
+func (s *AlbumService) DeletesAlbum(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
+	// todo
+
+	return
+}
+
 // 分页获取相册列表
 func (s *AlbumService) FindAlbumList(reqCtx *request.Context, in *dto.AlbumQuery) (out *dto.PageResp, err error) {
 	// todo
@@ -23,36 +37,22 @@ func (s *AlbumService) FindAlbumList(reqCtx *request.Context, in *dto.AlbumQuery
 	return
 }
 
-// 创建相册
-func (s *AlbumService) AddAlbum(reqCtx *request.Context, in *dto.AlbumNewReq) (out *dto.AlbumBackDTO, err error) {
-	// todo
-
-	return
-}
-
-// 批量删除相册
-func (s *AlbumService) BatchDeleteAlbum(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
-	// todo
-
-	return
-}
-
-// 删除相册
-func (s *AlbumService) DeleteAlbum(reqCtx *request.Context, in *dto.IdReq) (out *dto.BatchResp, err error) {
-	// todo
-
-	return
-}
-
 // 查询相册
-func (s *AlbumService) GetAlbum(reqCtx *request.Context, in *dto.IdReq) (out *dto.AlbumBackDTO, err error) {
+func (s *AlbumService) GetAlbum(reqCtx *request.Context, in *dto.IdReq) (out *dto.AlbumBackVO, err error) {
+	// todo
+
+	return
+}
+
+// 预删除相册
+func (s *AlbumService) PreDeleteAlbum(reqCtx *request.Context, in *dto.PreDeleteAlbumReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return
 }
 
 // 更新相册
-func (s *AlbumService) UpdateAlbum(reqCtx *request.Context, in *dto.AlbumNewReq) (out *dto.AlbumBackDTO, err error) {
+func (s *AlbumService) UpdateAlbum(reqCtx *request.Context, in *dto.AlbumNewReq) (out *dto.AlbumBackVO, err error) {
 	// todo
 
 	return

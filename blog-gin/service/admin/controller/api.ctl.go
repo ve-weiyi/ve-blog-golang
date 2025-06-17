@@ -21,40 +21,12 @@ func NewApiController(svcCtx *svctx.ServiceContext) *ApiController {
 }
 
 // @Tags		Api
-// @Summary		"分页获取api路由列表"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		dto.ApiQuery		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/admin_api/v1/api/find_api_list [POST]
-func (s *ApiController) FindApiList(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *dto.ApiQuery
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewApiService(s.svcCtx).FindApiList(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Api
 // @Summary		"创建api路由"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.ApiNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.ApiBackDTO}	"返回信息"
-// @Router		/admin_api/v1/api/add_api [POST]
+// @Success		200		{object}	response.Body{data=dto.ApiBackVO}	"返回信息"
+// @Router		/admin-api/v1/api/add_api [POST]
 func (s *ApiController) AddApi(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -77,40 +49,12 @@ func (s *ApiController) AddApi(c *gin.Context) {
 }
 
 // @Tags		Api
-// @Summary		"批量删除api路由"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		dto.IdsReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/api/batch_delete_api [DELETE]
-func (s *ApiController) BatchDeleteApi(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *dto.IdsReq
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewApiService(s.svcCtx).BatchDeleteApi(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Api
 // @Summary		"清空接口列表"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.EmptyReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/api/clean_api_list [POST]
+// @Router		/admin-api/v1/api/clean_api_list [POST]
 func (s *ApiController) CleanApiList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -136,23 +80,51 @@ func (s *ApiController) CleanApiList(c *gin.Context) {
 // @Summary		"删除api路由"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.IdReq		true	"请求参数"
+// @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/api/delete_api [DELETE]
-func (s *ApiController) DeleteApi(c *gin.Context) {
+// @Router		/admin-api/v1/api/deletes_api [DELETE]
+func (s *ApiController) DeletesApi(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.IdReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewApiService(s.svcCtx).DeleteApi(reqCtx, req)
+	data, err := service.NewApiService(s.svcCtx).DeletesApi(reqCtx, req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	response.ResponseOk(c, data)
+}
+
+// @Tags		Api
+// @Summary		"分页获取api路由列表"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.ApiQuery		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
+// @Router		/admin-api/v1/api/find_api_list [POST]
+func (s *ApiController) FindApiList(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req *dto.ApiQuery
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewApiService(s.svcCtx).FindApiList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -166,7 +138,7 @@ func (s *ApiController) DeleteApi(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.SyncApiReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/api/sync_api_list [POST]
+// @Router		/admin-api/v1/api/sync_api_list [POST]
 func (s *ApiController) SyncApiList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -193,8 +165,8 @@ func (s *ApiController) SyncApiList(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.ApiNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.ApiBackDTO}	"返回信息"
-// @Router		/admin_api/v1/api/update_api [PUT]
+// @Success		200		{object}	response.Body{data=dto.ApiBackVO}	"返回信息"
+// @Router		/admin-api/v1/api/update_api [PUT]
 func (s *ApiController) UpdateApi(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {

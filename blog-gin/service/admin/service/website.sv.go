@@ -16,6 +16,13 @@ func NewWebsiteService(svcCtx *svctx.ServiceContext) *WebsiteService {
 	}
 }
 
+// 获取用户分布地区
+func (s *WebsiteService) GetUserAreaStats(reqCtx *request.Context, in *dto.GetUserAreaStatsReq) (out *dto.GetUserAreaStatsResp, err error) {
+	// todo
+
+	return
+}
+
 // 获取后台首页信息
 func (s *WebsiteService) GetAdminHomeInfo(reqCtx *request.Context, in *dto.EmptyReq) (out *dto.AdminHomeInfo, err error) {
 	// todo
@@ -24,21 +31,28 @@ func (s *WebsiteService) GetAdminHomeInfo(reqCtx *request.Context, in *dto.Empty
 }
 
 // 获取关于我的信息
-func (s *WebsiteService) GetAboutMe(reqCtx *request.Context, in *dto.EmptyReq) (out *dto.AboutMe, err error) {
+func (s *WebsiteService) GetAboutMe(reqCtx *request.Context, in *dto.EmptyReq) (out *dto.AboutMeVO, err error) {
 	// todo
 
 	return
 }
 
-// 更新关于我的信息
-func (s *WebsiteService) UpdateAboutMe(reqCtx *request.Context, in *dto.AboutMe) (out *dto.EmptyResp, err error) {
+// 获取访客数据分析
+func (s *WebsiteService) GetVisitStats(reqCtx *request.Context, in *dto.EmptyReq) (out *dto.GetVisitStatsResp, err error) {
+	// todo
+
+	return
+}
+
+// 获取访客数据趋势
+func (s *WebsiteService) GetVisitTrend(reqCtx *request.Context, in *dto.GetVisitTrendReq) (out *dto.GetVisitTrendResp, err error) {
 	// todo
 
 	return
 }
 
 // 获取网站配置
-func (s *WebsiteService) GetWebsiteConfig(reqCtx *request.Context, in *dto.EmptyReq) (out *dto.WebsiteConfig, err error) {
+func (s *WebsiteService) GetWebsiteConfig(reqCtx *request.Context, in *dto.EmptyReq) (out *dto.WebsiteConfigVO, err error) {
 	// todo
 
 	return
@@ -51,8 +65,15 @@ func (s *WebsiteService) GetSystemState(reqCtx *request.Context, in *dto.EmptyRe
 	return
 }
 
+// 更新关于我的信息
+func (s *WebsiteService) UpdateAboutMe(reqCtx *request.Context, in *dto.AboutMeVO) (out *dto.EmptyResp, err error) {
+	// todo
+
+	return
+}
+
 // 更新网站配置
-func (s *WebsiteService) UpdateWebsiteConfig(reqCtx *request.Context, in *dto.WebsiteConfig) (out *dto.EmptyResp, err error) {
+func (s *WebsiteService) UpdateWebsiteConfig(reqCtx *request.Context, in *dto.WebsiteConfigVO) (out *dto.EmptyResp, err error) {
 	// todo
 
 	return

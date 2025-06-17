@@ -19,10 +19,10 @@ func NewFriendRouter(svcCtx *svctx.ServiceContext) *FriendRouter {
 
 func (s *FriendRouter) Register(r *gin.RouterGroup) {
 	// Friend
-	// [SignToken]
+	// [TimeToken]
 	{
-		group := r.Group("/api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/blog-api/v1")
+		group.Use(s.svcCtx.MiddlewareTimeToken)
 
 		handler := controller.NewFriendController(s.svcCtx)
 		// 分页获取友链列表
