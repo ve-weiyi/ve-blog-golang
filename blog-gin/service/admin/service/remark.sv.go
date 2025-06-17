@@ -16,15 +16,8 @@ func NewRemarkService(svcCtx *svctx.ServiceContext) *RemarkService {
 	}
 }
 
-// 批量删除留言
-func (s *RemarkService) BatchDeleteRemark(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
-	// todo
-
-	return
-}
-
 // 删除留言
-func (s *RemarkService) DeleteRemark(reqCtx *request.Context, in *dto.IdReq) (out *dto.BatchResp, err error) {
+func (s *RemarkService) DeletesRemark(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return

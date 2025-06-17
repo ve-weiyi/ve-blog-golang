@@ -33,8 +33,7 @@ type (
         Method string `json:"method,optional"`       // api请求方法
     }
 
-    SyncApiReq {
-        ApiFilePath string `json:"api_file_path"` // api文件路径
+    SyncApiReq{
     }
 )
 

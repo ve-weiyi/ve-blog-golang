@@ -29,10 +29,8 @@ func (s *FriendRouter) Register(r *gin.RouterGroup) {
 		handler := controller.NewFriendController(s.svcCtx)
 		// 创建友链
 		group.POST("/friend/add_friend", handler.AddFriend)
-		// 批量删除友链
-		group.DELETE("/friend/batch_delete_friend", handler.BatchDeleteFriend)
 		// 删除友链
-		group.DELETE("/friend/delete_friend", handler.DeleteFriend)
+		group.DELETE("/friend/deletes_friend", handler.DeletesFriend)
 		// 分页获取友链列表
 		group.POST("/friend/find_friend_list", handler.FindFriendList)
 		// 更新友链

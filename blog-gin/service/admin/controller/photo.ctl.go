@@ -21,34 +21,6 @@ func NewPhotoController(svcCtx *svctx.ServiceContext) *PhotoController {
 }
 
 // @Tags		Photo
-// @Summary		"批量删除照片"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		dto.IdsReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/album/batch_delete_photo [DELETE]
-func (s *PhotoController) BatchDeletePhoto(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *dto.IdsReq
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewPhotoService(s.svcCtx).BatchDeletePhoto(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Photo
 // @Summary		"创建照片"
 // @accept		application/json
 // @Produce		application/json
@@ -80,23 +52,23 @@ func (s *PhotoController) AddPhoto(c *gin.Context) {
 // @Summary		"删除照片"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.IdReq		true	"请求参数"
+// @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/photo/delete_photo [DELETE]
-func (s *PhotoController) DeletePhoto(c *gin.Context) {
+// @Router		/admin-api/v1/photo/deletes_photo [DELETE]
+func (s *PhotoController) DeletesPhoto(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.IdReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewPhotoService(s.svcCtx).DeletePhoto(reqCtx, req)
+	data, err := service.NewPhotoService(s.svcCtx).DeletesPhoto(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -125,6 +97,34 @@ func (s *PhotoController) FindPhotoList(c *gin.Context) {
 	}
 
 	data, err := service.NewPhotoService(s.svcCtx).FindPhotoList(reqCtx, req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	response.ResponseOk(c, data)
+}
+
+// @Tags		Photo
+// @Summary		"预删除照片"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.PreDeletePhotoReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
+// @Router		/admin-api/v1/photo/pre_delete_photo [PUT]
+func (s *PhotoController) PreDeletePhoto(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req *dto.PreDeletePhotoReq
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewPhotoService(s.svcCtx).PreDeletePhoto(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

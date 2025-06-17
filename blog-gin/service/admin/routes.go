@@ -17,7 +17,6 @@ func RegisterHandlers(r *gin.RouterGroup, svCtx *svctx.ServiceContext) {
 	router.NewCategoryRouter(svCtx).Register(r)
 	router.NewCommentRouter(svCtx).Register(r)
 	router.NewCommonRouter(svCtx).Register(r)
-	router.NewFileRouter(svCtx).Register(r)
 	router.NewFriendRouter(svCtx).Register(r)
 	router.NewLoginLogRouter(svCtx).Register(r)
 	router.NewMenuRouter(svCtx).Register(r)
@@ -28,7 +27,10 @@ func RegisterHandlers(r *gin.RouterGroup, svCtx *svctx.ServiceContext) {
 	router.NewRoleRouter(svCtx).Register(r)
 	router.NewTagRouter(svCtx).Register(r)
 	router.NewTalkRouter(svCtx).Register(r)
+	router.NewUploadRouter(svCtx).Register(r)
+	router.NewUploadLogRouter(svCtx).Register(r)
 	router.NewUserRouter(svCtx).Register(r)
 	router.NewVisitLogRouter(svCtx).Register(r)
 	router.NewWebsiteRouter(svCtx).Register(r)
+	router.NewWebsocketRouter(svCtx).Register(r)
 }

@@ -23,15 +23,8 @@ func (s *CategoryService) AddCategory(reqCtx *request.Context, in *dto.CategoryN
 	return
 }
 
-// 批量删除文章分类
-func (s *CategoryService) BatchDeleteCategory(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
-	// todo
-
-	return
-}
-
 // 删除文章分类
-func (s *CategoryService) DeleteCategory(reqCtx *request.Context, in *dto.IdReq) (out *dto.BatchResp, err error) {
+func (s *CategoryService) DeletesCategory(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return

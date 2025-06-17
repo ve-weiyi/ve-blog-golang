@@ -16,13 +16,6 @@ func NewPhotoService(svcCtx *svctx.ServiceContext) *PhotoService {
 	}
 }
 
-// 批量删除照片
-func (s *PhotoService) BatchDeletePhoto(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
-	// todo
-
-	return
-}
-
 // 创建照片
 func (s *PhotoService) AddPhoto(reqCtx *request.Context, in *dto.PhotoNewReq) (out *dto.PhotoBackVO, err error) {
 	// todo
@@ -31,7 +24,7 @@ func (s *PhotoService) AddPhoto(reqCtx *request.Context, in *dto.PhotoNewReq) (o
 }
 
 // 删除照片
-func (s *PhotoService) DeletePhoto(reqCtx *request.Context, in *dto.IdReq) (out *dto.BatchResp, err error) {
+func (s *PhotoService) DeletesPhoto(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return
@@ -39,6 +32,13 @@ func (s *PhotoService) DeletePhoto(reqCtx *request.Context, in *dto.IdReq) (out 
 
 // 分页获取照片列表
 func (s *PhotoService) FindPhotoList(reqCtx *request.Context, in *dto.PhotoQuery) (out *dto.PageResp, err error) {
+	// todo
+
+	return
+}
+
+// 预删除照片
+func (s *PhotoService) PreDeletePhoto(reqCtx *request.Context, in *dto.PreDeletePhotoReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return

@@ -31,14 +31,7 @@ func (s *WebsiteService) GetAdminHomeInfo(reqCtx *request.Context, in *dto.Empty
 }
 
 // 获取关于我的信息
-func (s *WebsiteService) GetAboutMe(reqCtx *request.Context, in *dto.EmptyReq) (out *dto.AboutMe, err error) {
-	// todo
-
-	return
-}
-
-// 更新关于我的信息
-func (s *WebsiteService) UpdateAboutMe(reqCtx *request.Context, in *dto.AboutMe) (out *dto.EmptyResp, err error) {
+func (s *WebsiteService) GetAboutMe(reqCtx *request.Context, in *dto.EmptyReq) (out *dto.AboutMeVO, err error) {
 	// todo
 
 	return
@@ -59,7 +52,7 @@ func (s *WebsiteService) GetVisitTrend(reqCtx *request.Context, in *dto.GetVisit
 }
 
 // 获取网站配置
-func (s *WebsiteService) GetWebsiteConfig(reqCtx *request.Context, in *dto.EmptyReq) (out *dto.WebsiteConfig, err error) {
+func (s *WebsiteService) GetWebsiteConfig(reqCtx *request.Context, in *dto.EmptyReq) (out *dto.WebsiteConfigVO, err error) {
 	// todo
 
 	return
@@ -72,8 +65,15 @@ func (s *WebsiteService) GetSystemState(reqCtx *request.Context, in *dto.EmptyRe
 	return
 }
 
+// 更新关于我的信息
+func (s *WebsiteService) UpdateAboutMe(reqCtx *request.Context, in *dto.AboutMeVO) (out *dto.EmptyResp, err error) {
+	// todo
+
+	return
+}
+
 // 更新网站配置
-func (s *WebsiteService) UpdateWebsiteConfig(reqCtx *request.Context, in *dto.WebsiteConfig) (out *dto.EmptyResp, err error) {
+func (s *WebsiteService) UpdateWebsiteConfig(reqCtx *request.Context, in *dto.WebsiteConfigVO) (out *dto.EmptyResp, err error) {
 	// todo
 
 	return

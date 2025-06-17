@@ -29,12 +29,10 @@ func (s *ApiRouter) Register(r *gin.RouterGroup) {
 		handler := controller.NewApiController(s.svcCtx)
 		// 创建api路由
 		group.POST("/api/add_api", handler.AddApi)
-		// 批量删除api路由
-		group.DELETE("/api/batch_delete_api", handler.BatchDeleteApi)
 		// 清空接口列表
 		group.POST("/api/clean_api_list", handler.CleanApiList)
 		// 删除api路由
-		group.DELETE("/api/delete_api", handler.DeleteApi)
+		group.DELETE("/api/deletes_api", handler.DeletesApi)
 		// 分页获取api路由列表
 		group.POST("/api/find_api_list", handler.FindApiList)
 		// 同步api列表

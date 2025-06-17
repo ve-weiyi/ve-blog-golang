@@ -10,65 +10,37 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
 
-type CategoryController struct {
+type UploadController struct {
 	svcCtx *svctx.ServiceContext
 }
 
-func NewCategoryController(svcCtx *svctx.ServiceContext) *CategoryController {
-	return &CategoryController{
+func NewUploadController(svcCtx *svctx.ServiceContext) *UploadController {
+	return &UploadController{
 		svcCtx: svcCtx,
 	}
 }
 
-// @Tags		Category
-// @Summary		"创建文章分类"
+// @Tags		Upload
+// @Summary		"删除文件列表"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.CategoryNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.CategoryBackVO}	"返回信息"
-// @Router		/admin-api/v1/category/add_category [POST]
-func (s *CategoryController) AddCategory(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *dto.CategoryNewReq
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewCategoryService(s.svcCtx).AddCategory(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Category
-// @Summary		"删除文章分类"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		dto.IdsReq		true	"请求参数"
+// @Param		data	body		dto.DeletesUploadFileReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/category/deletes_category [DELETE]
-func (s *CategoryController) DeletesCategory(c *gin.Context) {
+// @Router		/admin-api/v1/upload/deletes_upload_file [DELETE]
+func (s *UploadController) DeletesUploadFile(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.IdsReq
+	var req *dto.DeletesUploadFileReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCategoryService(s.svcCtx).DeletesCategory(reqCtx, req)
+	data, err := service.NewUploadService(s.svcCtx).DeletesUploadFile(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -76,27 +48,27 @@ func (s *CategoryController) DeletesCategory(c *gin.Context) {
 	response.ResponseOk(c, data)
 }
 
-// @Tags		Category
-// @Summary		"分页获取文章分类列表"
+// @Tags		Upload
+// @Summary		"获取文件列表"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.CategoryQuery		true	"请求参数"
+// @Param		data	body		dto.ListUploadFileReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/admin-api/v1/category/find_category_list [POST]
-func (s *CategoryController) FindCategoryList(c *gin.Context) {
+// @Router		/admin-api/v1/upload/list_upload_file [POST]
+func (s *UploadController) ListUploadFile(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.CategoryQuery
+	var req *dto.ListUploadFileReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCategoryService(s.svcCtx).FindCategoryList(reqCtx, req)
+	data, err := service.NewUploadService(s.svcCtx).ListUploadFile(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -104,27 +76,55 @@ func (s *CategoryController) FindCategoryList(c *gin.Context) {
 	response.ResponseOk(c, data)
 }
 
-// @Tags		Category
-// @Summary		"更新文章分类"
+// @Tags		Upload
+// @Summary		"上传文件列表"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.CategoryNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.CategoryBackVO}	"返回信息"
-// @Router		/admin-api/v1/category/update_category [PUT]
-func (s *CategoryController) UpdateCategory(c *gin.Context) {
+// @Param		data	body		dto.MultiUploadFileReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=[]dto.FileInfoVO}	"返回信息"
+// @Router		/admin-api/v1/upload/multi_upload_file [POST]
+func (s *UploadController) MultiUploadFile(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.CategoryNewReq
+	var req *dto.MultiUploadFileReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCategoryService(s.svcCtx).UpdateCategory(reqCtx, req)
+	data, err := service.NewUploadService(s.svcCtx).MultiUploadFile(reqCtx, req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	response.ResponseOk(c, data)
+}
+
+// @Tags		Upload
+// @Summary		"上传文件"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.UploadFileReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.FileInfoVO}	"返回信息"
+// @Router		/admin-api/v1/upload/upload_file [POST]
+func (s *UploadController) UploadFile(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req *dto.UploadFileReq
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewUploadService(s.svcCtx).UploadFile(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

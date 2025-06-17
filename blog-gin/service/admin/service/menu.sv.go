@@ -23,13 +23,6 @@ func (s *MenuService) AddMenu(reqCtx *request.Context, in *dto.MenuNewReq) (out 
 	return
 }
 
-// 批量删除菜单
-func (s *MenuService) BatchDeleteMenu(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
-	// todo
-
-	return
-}
-
 // 清空菜单列表
 func (s *MenuService) CleanMenuList(reqCtx *request.Context, in *dto.EmptyReq) (out *dto.BatchResp, err error) {
 	// todo
@@ -38,7 +31,7 @@ func (s *MenuService) CleanMenuList(reqCtx *request.Context, in *dto.EmptyReq) (
 }
 
 // 删除菜单
-func (s *MenuService) DeleteMenu(reqCtx *request.Context, in *dto.IdReq) (out *dto.BatchResp, err error) {
+func (s *MenuService) DeletesMenu(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return

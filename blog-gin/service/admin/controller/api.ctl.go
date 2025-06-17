@@ -49,34 +49,6 @@ func (s *ApiController) AddApi(c *gin.Context) {
 }
 
 // @Tags		Api
-// @Summary		"批量删除api路由"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		dto.IdsReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/api/batch_delete_api [DELETE]
-func (s *ApiController) BatchDeleteApi(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *dto.IdsReq
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewApiService(s.svcCtx).BatchDeleteApi(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Api
 // @Summary		"清空接口列表"
 // @accept		application/json
 // @Produce		application/json
@@ -108,23 +80,23 @@ func (s *ApiController) CleanApiList(c *gin.Context) {
 // @Summary		"删除api路由"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.IdReq		true	"请求参数"
+// @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/api/delete_api [DELETE]
-func (s *ApiController) DeleteApi(c *gin.Context) {
+// @Router		/admin-api/v1/api/deletes_api [DELETE]
+func (s *ApiController) DeletesApi(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.IdReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewApiService(s.svcCtx).DeleteApi(reqCtx, req)
+	data, err := service.NewApiService(s.svcCtx).DeletesApi(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

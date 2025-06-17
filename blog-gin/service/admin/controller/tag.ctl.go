@@ -49,13 +49,13 @@ func (s *TagController) AddTag(c *gin.Context) {
 }
 
 // @Tags		Tag
-// @Summary		"批量删除标签"
+// @Summary		"删除标签"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/tag/batch_delete_tag [DELETE]
-func (s *TagController) BatchDeleteTag(c *gin.Context) {
+// @Router		/admin-api/v1/tag/deletes_tag [DELETE]
+func (s *TagController) DeletesTag(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
@@ -68,35 +68,7 @@ func (s *TagController) BatchDeleteTag(c *gin.Context) {
 		return
 	}
 
-	data, err := service.NewTagService(s.svcCtx).BatchDeleteTag(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Tag
-// @Summary		"删除标签"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		dto.IdReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/tag/delete_tag [DELETE]
-func (s *TagController) DeleteTag(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *dto.IdReq
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewTagService(s.svcCtx).DeleteTag(reqCtx, req)
+	data, err := service.NewTagService(s.svcCtx).DeletesTag(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

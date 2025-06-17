@@ -2,9 +2,8 @@ package api
 
 import (
 	"context"
-	"fmt"
+	"encoding/json"
 	"net/http"
-	"path"
 	"sort"
 
 	"github.com/go-openapi/loads"
@@ -12,6 +11,7 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/docs"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
@@ -33,13 +33,9 @@ func NewSyncApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SyncA
 }
 
 func (l *SyncApiListLogic) SyncApiList(req *types.SyncApiReq) (resp *types.BatchResp, err error) {
-	if path.Ext(req.ApiFilePath) != ".json" {
-		return nil, fmt.Errorf("api file path must be swagger.json file")
-	}
-
-	doc, err := loads.Spec(req.ApiFilePath)
+	doc, err := loads.Analyzed(json.RawMessage(docs.Docs), "")
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 
 	sp := doc.Spec()

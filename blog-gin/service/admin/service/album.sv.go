@@ -24,7 +24,7 @@ func (s *AlbumService) AddAlbum(reqCtx *request.Context, in *dto.AlbumNewReq) (o
 }
 
 // 删除相册
-func (s *AlbumService) DeleteAlbum(reqCtx *request.Context, in *dto.IdReq) (out *dto.BatchResp, err error) {
+func (s *AlbumService) DeletesAlbum(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return
@@ -39,6 +39,13 @@ func (s *AlbumService) FindAlbumList(reqCtx *request.Context, in *dto.AlbumQuery
 
 // 查询相册
 func (s *AlbumService) GetAlbum(reqCtx *request.Context, in *dto.IdReq) (out *dto.AlbumBackVO, err error) {
+	// todo
+
+	return
+}
+
+// 预删除相册
+func (s *AlbumService) PreDeleteAlbum(reqCtx *request.Context, in *dto.PreDeleteAlbumReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return

@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/service/blog/controller"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
@@ -18,11 +19,10 @@ func NewRemarkRouter(svcCtx *svctx.ServiceContext) *RemarkRouter {
 
 func (s *RemarkRouter) Register(r *gin.RouterGroup) {
 	// Remark
-	// [TimeToken VisitLog]
+	// [TimeToken]
 	{
 		group := r.Group("/blog-api/v1")
 		group.Use(s.svcCtx.MiddlewareTimeToken)
-		group.Use(s.svcCtx.MiddlewareVisitLog)
 
 		handler := controller.NewRemarkController(s.svcCtx)
 		// 分页获取留言列表

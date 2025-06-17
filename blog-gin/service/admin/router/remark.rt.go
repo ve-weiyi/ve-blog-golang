@@ -27,10 +27,8 @@ func (s *RemarkRouter) Register(r *gin.RouterGroup) {
 		group.Use(s.svcCtx.MiddlewareOperationLog)
 
 		handler := controller.NewRemarkController(s.svcCtx)
-		// 批量删除留言
-		group.DELETE("/remark/batch_delete_remark", handler.BatchDeleteRemark)
 		// 删除留言
-		group.DELETE("/remark/delete_remark", handler.DeleteRemark)
+		group.DELETE("/remark/deletes_remark", handler.DeletesRemark)
 		// 分页获取留言列表
 		group.POST("/remark/find_remark_list", handler.FindRemarkList)
 		// 更新留言

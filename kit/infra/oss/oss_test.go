@@ -23,8 +23,8 @@ func Test_Qiniu(t *testing.T) {
 	uploader := NewQiniu(&Config{
 		Zone:            "ZoneHuanan",
 		Endpoint:        "s3.cn-south-1.qiniucs.com",
-		AccessKeyId:     "gyoAZPHHZrwXt4HhG7SNRaxRShJPhEKvxJJKhDUV",
-		AccessKeySecret: "OqbepkdXNm0pKfZMy1ziPqdYjZMCtdzRIrz1Hlhi",
+		AccessKeyId:     "",
+		AccessKeySecret: "",
 		BucketName:      "veweiyi",
 		BucketUrl:       "https://static.veweiyi.cn",
 	})
@@ -46,8 +46,8 @@ func Test_Aliyun(t *testing.T) {
 	uploader := NewAliyunOSS(&Config{
 		Zone:            "",
 		Endpoint:        "oss-cn-shenzhen.aliyuncs.com",
-		AccessKeyId:     "LTAI5t7vTeWDKrYUQFkVto8a",
-		AccessKeySecret: "GGSaxLp2aCFpQq7sgGOf9TnLxHeECu",
+		AccessKeyId:     "",
+		AccessKeySecret: "",
 		BucketName:      "ve-blog",
 		BucketUrl:       "http://ve-blog.oss-cn-shenzhen.aliyuncs.com",
 	})

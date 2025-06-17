@@ -16,15 +16,8 @@ func NewCommentService(svcCtx *svctx.ServiceContext) *CommentService {
 	}
 }
 
-// 批量删除评论
-func (s *CommentService) BatchDeleteComment(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
-	// todo
-
-	return
-}
-
 // 删除评论
-func (s *CommentService) DeleteComment(reqCtx *request.Context, in *dto.IdReq) (out *dto.BatchResp, err error) {
+func (s *CommentService) DeletesComment(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return
