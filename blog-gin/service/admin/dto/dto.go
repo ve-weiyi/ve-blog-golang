@@ -1,13 +1,17 @@
 package dto
 
-type AboutMe struct {
+type AboutMeVO struct {
 	Content string `json:"content"`
 }
 
 type AccountQuery struct {
 	PageQuery
-	Username string `json:"username,optional"`
-	Nickname string `json:"nickname,optional"`
+	Username string   `json:"username,optional"`
+	Nickname string   `json:"nickname,optional"`
+	Email    string   `json:"email,optional"`
+	Phone    string   `json:"phone,optional"`
+	Status   int64    `json:"status,optional"`   // 状态: -1删除 0正常 1禁用
+	UserIds  []string `json:"user_ids,optional"` // 用户ID
 }
 
 type AdminHomeInfo struct {
@@ -44,6 +48,7 @@ type AlbumNewReq struct {
 type AlbumQuery struct {
 	PageQuery
 	AlbumName string `json:"album_name,optional"` // 相册名
+	IsDelete  int64  `json:"is_delete,optional"`  // 是否删除
 }
 
 type ApiBackVO struct {
@@ -196,6 +201,10 @@ type DeleteUserBindThirdPartyReq struct {
 	Platform string `json:"platform"` // 平台
 }
 
+type DeletesUploadFileReq struct {
+	FilePaths []string `json:"file_paths,optional"` // 文件路径
+}
+
 type EmailLoginReq struct {
 	Email       string `json:"email"`                 // 邮箱
 	Password    string `json:"password"`              // 密码
@@ -209,29 +218,13 @@ type EmptyReq struct {
 type EmptyResp struct {
 }
 
-type FileBackVO struct {
-	Id        int64       `json:"id,optional"` // 文件目录ID
-	UserId    string      `json:"user_id"`     // 用户id
-	FilePath  string      `json:"file_path"`   // 文件路径
-	FileName  string      `json:"file_name"`   // 文件名称
-	FileType  string      `json:"file_type"`   // 文件类型
-	FileSize  int64       `json:"file_size"`   // 文件大小
-	FileMd5   string      `json:"file_md5"`    // 文件md5值
-	FileUrl   string      `json:"file_url"`    // 上传路径
-	CreatedAt int64       `json:"created_at"`  // 创建时间
-	UpdatedAt int64       `json:"updated_at"`  // 更新时间
-	Creator   *UserInfoVO `json:"creator"`     // 创建人
-}
-
-type FileFolderNewReq struct {
-	FilePath string `json:"file_path"` // 文件路径
-	FileName string `json:"file_name"` // 文件名称
-}
-
-type FileQuery struct {
-	PageQuery
-	FilePath string `json:"file_path,optional"` // 文件路径
-	FileType string `json:"file_type,optional"` // 文件类型
+type FileInfoVO struct {
+	FilePath  string `json:"file_path"`  // 文件路径
+	FileName  string `json:"file_name"`  // 文件名称
+	FileType  string `json:"file_type"`  // 文件类型
+	FileSize  int64  `json:"file_size"`  // 文件大小
+	FileUrl   string `json:"file_url"`   // 上传路径
+	UpdatedAt int64  `json:"updated_at"` // 更新时间
 }
 
 type FriendBackVO struct {
@@ -321,10 +314,6 @@ type ListUploadFileReq struct {
 	Limit    int64  `json:"limit,optional"`     // 限制
 }
 
-type ListUploadFileResp struct {
-	Urls []string `json:"urls"` // 文件路径
-}
-
 type LoginLogBackVO struct {
 	Id        int64       `json:"id,optional"`
 	UserId    string      `json:"user_id"`    // 用户id
@@ -406,6 +395,11 @@ type MenuQuery struct {
 type MultiUploadFileReq struct {
 	Files    []interface{} `form:"files,optional"`     // 文件列表
 	FilePath string        `form:"file_path,optional"` // 文件路径
+}
+
+type OnlineCountResp struct {
+	Msg   string `json:"msg"`   // 消息
+	Count int    `json:"count"` // 在线人数
 }
 
 type OperationLogBackVO struct {
@@ -495,7 +489,8 @@ type PhotoNewReq struct {
 
 type PhotoQuery struct {
 	PageQuery
-	AlbumId int64 `json:"album_id,optional"` // 相册id
+	AlbumId  int64 `json:"album_id,optional"`  // 相册id
+	IsDelete int64 `json:"is_delete,optional"` // 是否删除
 }
 
 type PingReq struct {
@@ -508,6 +503,16 @@ type PingResp struct {
 	Runtime     string   `json:"runtime"`
 	Description string   `json:"description"`
 	RpcStatus   []string `json:"rpc_status"`
+}
+
+type PreDeleteAlbumReq struct {
+	Ids      []int64 `json:"ids"`       // 主键
+	IsDelete int64   `json:"is_delete"` // 是否删除
+}
+
+type PreDeletePhotoReq struct {
+	Ids      []int64 `json:"ids"`       // 主键
+	IsDelete int64   `json:"is_delete"` // 是否删除
 }
 
 type RegisterReq struct {
@@ -551,19 +556,27 @@ type ResetPasswordReq struct {
 
 type Response struct {
 	Code    int         `json:"code"`
-	Message string      `json:"message"`
+	Msg     string      `json:"msg"`
 	Data    interface{} `json:"data"`
 	TraceId string      `json:"trace_id"`
 }
 
 type RestHeader struct {
-	HeaderCountry    string `header:"Country,optional"`
-	HeaderLanguage   string `header:"Language,optional"`
-	HeaderTimezone   string `header:"Timezone,optional"`
-	HeaderAppName    string `header:"App-name,optional"`
-	HeaderXUserId    string `header:"X-User-Id,optional"`
-	HeaderXAuthToken string `header:"X-Auth-Token,optional"`
-	HeaderTerminalId string `header:"X-Terminal-Id,optional"`
+	HeaderCountry       string `header:"Country,optional"`
+	HeaderLanguage      string `header:"Language,optional"`
+	HeaderTimezone      string `header:"Timezone,optional"`
+	HeaderAppName       string `header:"App-name,optional"`
+	HeaderTimestamp     string `header:"Timestamp,optional"`
+	HeaderTerminalId    string `header:"Terminal-Id,optional"`
+	HeaderXTsToken      string `header:"X-Ts-Token,optional"`
+	HeaderUid           string `header:"Uid,optional"`
+	HeaderToken         string `header:"Token,optional"`
+	HeaderAuthorization string `header:"Authorization,optional"`
+}
+
+type RewardQrCode struct {
+	AlipayQrCode string `json:"alipay_qr_code"` // 支付宝二维码
+	WeixinQrCode string `json:"weixin_qr_code"` // 微信二维码
 }
 
 type RoleBackVO struct {
@@ -618,8 +631,14 @@ type Server struct {
 	Disk interface{} `json:"disk"`
 }
 
+type SocialAccountInfo struct {
+	Name     string `json:"name"`     // 名称-微信
+	Platform string `json:"platform"` // 平台-wechat
+	LinkUrl  string `json:"link_url"` // 链接地址
+	Enabled  bool   `json:"enabled"`  // 是否启用
+}
+
 type SyncApiReq struct {
-	ApiFilePath string `json:"api_file_path"` // api文件路径
 }
 
 type SyncMenuReq struct {
@@ -680,6 +699,13 @@ type TalkQuery struct {
 type ThirdLoginReq struct {
 	Platform string `json:"platform"`      // 平台
 	Code     string `json:"code,optional"` // 授权码
+}
+
+type ThirdPlatformInfo struct {
+	Name         string `json:"name"`          // 名称-微信
+	Platform     string `json:"platform"`      // 平台-wechat
+	AuthorizeUrl string `json:"authorize_url"` // 授权地址
+	Enabled      bool   `json:"enabled"`       // 是否启用
 }
 
 type Token struct {
@@ -753,6 +779,27 @@ type UploadFileReq struct {
 	FilePath string      `form:"file_path,optional"` // 文件路径
 }
 
+type UploadLogBackVO struct {
+	Id        int64       `json:"id,optional"` // 文件目录ID
+	UserId    string      `json:"user_id"`     // 用户id
+	FilePath  string      `json:"file_path"`   // 文件路径
+	FileName  string      `json:"file_name"`   // 文件名称
+	FileType  string      `json:"file_type"`   // 文件类型
+	FileSize  int64       `json:"file_size"`   // 文件大小
+	FileMd5   string      `json:"file_md5"`    // 文件md5值
+	FileUrl   string      `json:"file_url"`    // 上传路径
+	CreatedAt int64       `json:"created_at"`  // 创建时间
+	UpdatedAt int64       `json:"updated_at"`  // 更新时间
+	Creator   *UserInfoVO `json:"creator"`     // 创建人
+}
+
+type UploadLogQuery struct {
+	PageQuery
+	FilePath string `json:"file_path,optional"` // 文件路径
+	FileName string `json:"file_name,optional"` // 文件名称
+	FileType string `json:"file_type,optional"` // 文件类型
+}
+
 type UserApi struct {
 	Id        int64      `json:"id,optional"` // 主键id
 	ParentId  int64      `json:"parent_id"`   // 父id
@@ -774,18 +821,18 @@ type UserAreaVO struct {
 }
 
 type UserInfoDetail struct {
-	UserId    string `json:"user_id"`    // 用户id
-	Username  string `json:"username"`   // 用户名
-	Nickname  string `json:"nickname"`   // 用户昵称
-	Avatar    string `json:"avatar"`     // 用户头像
-	Email     string `json:"email"`      // 用户邮箱
-	Phone     string `json:"phone"`      // 用户手机号
-	Status    int64  `json:"status"`     // 状态
-	LoginType string `json:"login_type"` // 登录方式
-	IpAddress string `json:"ip_address"` // ip host
-	IpSource  string `json:"ip_source"`  // ip 源
-	CreatedAt int64  `json:"created_at"`
-	UpdatedAt int64  `json:"updated_at"`
+	UserId       string `json:"user_id"`       // 用户id
+	Username     string `json:"username"`      // 用户名
+	Nickname     string `json:"nickname"`      // 用户昵称
+	Avatar       string `json:"avatar"`        // 用户头像
+	Email        string `json:"email"`         // 用户邮箱
+	Phone        string `json:"phone"`         // 用户手机号
+	Status       int64  `json:"status"`        // 状态
+	RegisterType string `json:"register_type"` // 注册方式
+	IpAddress    string `json:"ip_address"`    // ip host
+	IpSource     string `json:"ip_source"`     // ip 源
+	CreatedAt    int64  `json:"created_at"`
+	UpdatedAt    int64  `json:"updated_at"`
 	UserInfoExt
 	RoleLabels []*UserRoleLabel `json:"roles"`
 }
@@ -797,13 +844,14 @@ type UserInfoExt struct {
 }
 
 type UserInfoResp struct {
-	UserId    string `json:"user_id"`    // 用户id
-	Username  string `json:"username"`   // 用户名
-	Nickname  string `json:"nickname"`   // 用户昵称
-	Avatar    string `json:"avatar"`     // 用户头像
-	Email     string `json:"email"`      // 用户邮箱
-	Phone     string `json:"phone"`      // 用户手机号
-	CreatedAt int64  `json:"created_at"` // 创建时间
+	UserId       string `json:"user_id"`       // 用户id
+	Username     string `json:"username"`      // 用户名
+	Nickname     string `json:"nickname"`      // 用户昵称
+	Avatar       string `json:"avatar"`        // 用户头像
+	Email        string `json:"email"`         // 用户邮箱
+	Phone        string `json:"phone"`         // 用户手机号
+	CreatedAt    int64  `json:"created_at"`    // 创建时间
+	RegisterType string `json:"register_type"` // 注册方式
 	UserInfoExt
 	ThirdParty []*UserThirdPartyInfo `json:"third_party"`
 	Roles      []string              `json:"roles"`
@@ -913,29 +961,33 @@ type VisitTrendVO struct {
 	PvCount int64  `json:"pv_count"` // 浏览量
 }
 
-type WebsiteConfig struct {
-	AdminUrl          string   `json:"admin_url"`           // 后台地址
-	AlipayQrCode      string   `json:"alipay_qr_code"`      // 支付宝二维码
-	Gitee             string   `json:"gitee"`               // Gitee
-	Github            string   `json:"github"`              // Github
-	IsChatRoom        int64    `json:"is_chat_room"`        // 是否开启聊天室
-	IsCommentReview   int64    `json:"is_comment_review"`   // 是否开启评论审核
-	IsEmailNotice     int64    `json:"is_email_notice"`     // 是否开启邮件通知
-	IsMessageReview   int64    `json:"is_message_review"`   // 是否开启留言审核
-	IsMusicPlayer     int64    `json:"is_music_player"`     // 是否开启音乐播放器
-	IsReward          int64    `json:"is_reward"`           // 是否开启打赏
-	Qq                string   `json:"qq"`                  // QQ
-	SocialLoginList   []string `json:"social_login_list"`   // 社交登录列表
-	SocialUrlList     []string `json:"social_url_list"`     // 社交地址列表
-	TouristAvatar     string   `json:"tourist_avatar"`      // 游客头像
-	UserAvatar        string   `json:"user_avatar"`         // 用户头像
-	WebsiteAuthor     string   `json:"website_author"`      // 网站作者
-	WebsiteAvatar     string   `json:"website_avatar"`      // 网站头像
-	WebsiteCreateTime string   `json:"website_create_time"` // 网站创建时间
-	WebsiteIntro      string   `json:"website_intro"`       // 网站介绍
-	WebsiteName       string   `json:"website_name"`        // 网站名称
-	WebsiteNotice     string   `json:"website_notice"`      // 网站公告
-	WebsiteRecordNo   string   `json:"website_record_no"`   // 网站备案号
-	WebsocketUrl      string   `json:"websocket_url"`       // websocket地址
-	WeixinQrCode      string   `json:"weixin_qr_code"`      // 微信二维码
+type WebsiteConfigVO struct {
+	AdminUrl        string               `json:"admin_url"`         // 后台地址
+	WebsocketUrl    string               `json:"websocket_url"`     // websocket地址
+	TouristAvatar   string               `json:"tourist_avatar"`    // 游客头像
+	UserAvatar      string               `json:"user_avatar"`       // 用户头像
+	WebsiteFeature  *WebsiteFeature      `json:"website_feature"`   // 网站功能
+	WebsiteInfo     *WebsiteInfo         `json:"website_info"`      // 网站信息
+	RewardQrCode    *RewardQrCode        `json:"reward_qr_code"`    // 打赏二维码
+	SocialLoginList []*ThirdPlatformInfo `json:"social_login_list"` // 用户第三方登录列表
+	SocialUrlList   []*SocialAccountInfo `json:"social_url_list"`   // 作者社交地址列表
+}
+
+type WebsiteFeature struct {
+	IsChatRoom      int64 `json:"is_chat_room"`      // 是否开启聊天室
+	IsCommentReview int64 `json:"is_comment_review"` // 是否开启评论审核
+	IsEmailNotice   int64 `json:"is_email_notice"`   // 是否开启邮件通知
+	IsMessageReview int64 `json:"is_message_review"` // 是否开启留言审核
+	IsMusicPlayer   int64 `json:"is_music_player"`   // 是否开启音乐播放器
+	IsReward        int64 `json:"is_reward"`         // 是否开启打赏
+}
+
+type WebsiteInfo struct {
+	WebsiteAuthor     string `json:"website_author"`      // 网站作者
+	WebsiteAvatar     string `json:"website_avatar"`      // 网站头像
+	WebsiteCreateTime string `json:"website_create_time"` // 网站创建时间
+	WebsiteIntro      string `json:"website_intro"`       // 网站介绍
+	WebsiteName       string `json:"website_name"`        // 网站名称
+	WebsiteNotice     string `json:"website_notice"`      // 网站公告
+	WebsiteRecordNo   string `json:"website_record_no"`   // 网站备案号
 }

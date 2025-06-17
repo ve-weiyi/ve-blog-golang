@@ -23,15 +23,8 @@ func (s *TagService) AddTag(reqCtx *request.Context, in *dto.TagNewReq) (out *dt
 	return
 }
 
-// 批量删除标签
-func (s *TagService) BatchDeleteTag(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
-	// todo
-
-	return
-}
-
 // 删除标签
-func (s *TagService) DeleteTag(reqCtx *request.Context, in *dto.IdReq) (out *dto.BatchResp, err error) {
+func (s *TagService) DeletesTag(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return

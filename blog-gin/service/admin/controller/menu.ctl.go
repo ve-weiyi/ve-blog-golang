@@ -49,34 +49,6 @@ func (s *MenuController) AddMenu(c *gin.Context) {
 }
 
 // @Tags		Menu
-// @Summary		"批量删除菜单"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		dto.IdsReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/menu/batch_delete_menu [DELETE]
-func (s *MenuController) BatchDeleteMenu(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *dto.IdsReq
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewMenuService(s.svcCtx).BatchDeleteMenu(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Menu
 // @Summary		"清空菜单列表"
 // @accept		application/json
 // @Produce		application/json
@@ -108,23 +80,23 @@ func (s *MenuController) CleanMenuList(c *gin.Context) {
 // @Summary		"删除菜单"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.IdReq		true	"请求参数"
+// @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/menu/delete_menu [DELETE]
-func (s *MenuController) DeleteMenu(c *gin.Context) {
+// @Router		/admin-api/v1/menu/deletes_menu [DELETE]
+func (s *MenuController) DeletesMenu(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.IdReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewMenuService(s.svcCtx).DeleteMenu(reqCtx, req)
+	data, err := service.NewMenuService(s.svcCtx).DeletesMenu(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

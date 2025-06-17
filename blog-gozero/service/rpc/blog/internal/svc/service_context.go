@@ -101,7 +101,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		EmailDeliver:  deliver,
 		CaptchaHolder: captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
 
-		OnlineUserService: online.NewOnlineUserService(rds, 3600),
+		OnlineUserService: online.NewOnlineUserService(rds, 3600*24),
 		// account models
 		TUserModel:      model.NewTUserModel(db),
 		TUserOauthModel: model.NewTUserOauthModel(db),
