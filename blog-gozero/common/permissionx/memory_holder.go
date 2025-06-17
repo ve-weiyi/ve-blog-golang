@@ -3,6 +3,7 @@ package permissionx
 import (
 	"context"
 	"fmt"
+	"log"
 	"sync"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
@@ -32,15 +33,14 @@ func NewMemoryHolder(pr permissionrpc.PermissionRpc) *MemoryHolder {
 }
 
 func (m *MemoryHolder) ReloadPolicy() error {
-	m.rw.Lock()
-	defer m.rw.Unlock()
-
 	return m.LoadPolicy()
 }
 
 func (m *MemoryHolder) LoadPolicy() error {
+	log.Println("Reloading permissions...")
 	m.rw.Lock()
 	defer m.rw.Unlock()
+	log.Println("Reloading permissions... done")
 
 	// 重置所有权限
 	m.policy = make(map[string][]string)

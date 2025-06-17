@@ -33,8 +33,8 @@ type (
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
 		FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TUser, total int64, err error)
 		// add extra method in here
-		FindOneByUsername(ctx context.Context, username string) (out *TUser, err error)
 		FindOneByUserId(ctx context.Context, user_id string) (out *TUser, err error)
+		FindOneByUsername(ctx context.Context, username string) (out *TUser, err error)
 	}
 
 	// 表字段定义
@@ -268,20 +268,20 @@ func (m *defaultTUserModel) FindListAndTotal(ctx context.Context, page int, size
 }
 
 // add extra method in here
-func (m *defaultTUserModel) FindOneByUsername(ctx context.Context, username string) (out *TUser, err error) {
+func (m *defaultTUserModel) FindOneByUserId(ctx context.Context, user_id string) (out *TUser, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	err = db.Where("`username` = ?", username).First(&out).Error
+	err = db.Where("`user_id` = ?", user_id).First(&out).Error
 	if err != nil {
 		return nil, err
 	}
 
 	return out, nil
 }
-func (m *defaultTUserModel) FindOneByUserId(ctx context.Context, user_id string) (out *TUser, err error) {
+func (m *defaultTUserModel) FindOneByUsername(ctx context.Context, username string) (out *TUser, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	err = db.Where("`user_id` = ?", user_id).First(&out).Error
+	err = db.Where("`username` = ?", username).First(&out).Error
 	if err != nil {
 		return nil, err
 	}

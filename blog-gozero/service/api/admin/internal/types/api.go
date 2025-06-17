@@ -34,5 +34,4 @@ type ApiQuery struct {
 }
 
 type SyncApiReq struct {
-	ApiFilePath string `json:"api_file_path"` // api文件路径
 }

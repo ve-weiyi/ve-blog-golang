@@ -94,6 +94,7 @@ type (
 
 
 @server(
+    tags : "登录认证"
     prefix: /admin-api/v1
     group: auth
 )
@@ -106,7 +107,7 @@ service admin-api {
 
 
 @server(
-    tags : "认证"
+    tags : "登录认证"
     prefix: /admin-api/v1
     group: auth
 )
@@ -156,6 +157,7 @@ service admin-api {
 }
 
 @server(
+    tags : "登录认证"
     prefix: /admin-api/v1
     group: auth
     authType: apiKey

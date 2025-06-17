@@ -22,6 +22,7 @@ type ArticleClassifyQueryReq struct {
 
 type ArticleDetails struct {
 	ArticleHome
+	Author               *UserInfoVO       `json:"author"`                 // 作者
 	LastArticle          *ArticlePreview   `json:"last_article"`           // 上一篇文章
 	NextArticle          *ArticlePreview   `json:"next_article"`           // 下一篇文章
 	RecommendArticleList []*ArticlePreview `json:"recommend_article_list"` // 推荐文章列表
@@ -76,25 +77,22 @@ type CategoryQueryReq struct {
 	CategoryName string `json:"category_name,optional"` // 分类名
 }
 
-type ChatRecordResp struct {
-	Id          int64  `json:"id"`           // 主键
-	UserId      string `json:"user_id"`      // 用户id
-	DeviceId    string `json:"device_id"`    // 设备id
-	Nickname    string `json:"nickname"`     // 昵称
-	Avatar      string `json:"avatar"`       // 头像
-	ChatContent string `json:"chat_content"` // 消息内容
-	IpAddress   string `json:"ip_address"`   // ip地址
-	IpSource    string `json:"ip_source"`    // ip来源
-	Type        string `json:"type"`         // 类型
-	CreatedAt   int64  `json:"created_at"`   // 创建时间
-	UpdatedAt   int64  `json:"updated_at"`   // 更新时间
+type ChatMessageEvent struct {
+	Id         int64  `json:"id"`          // 主键
+	UserId     string `json:"user_id"`     // 用户id
+	TerminalId string `json:"terminal_id"` // 设备id
+	Nickname   string `json:"nickname"`    // 昵称
+	Avatar     string `json:"avatar"`      // 头像
+	IpAddress  string `json:"ip_address"`  // ip地址
+	IpSource   string `json:"ip_source"`   // ip来源
+	Type       string `json:"type"`        // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
+	Content    string `json:"content"`     // 消息内容
+	Status     int64  `json:"status"`      // 消息状态 0-正常 1-已编辑 2-已撤回 3-已删除
+	CreatedAt  int64  `json:"created_at"`  // 创建时间
+	UpdatedAt  int64  `json:"updated_at"`  // 更新时间
 }
 
-type ClientInfoResp struct {
-	ClientId  string `json:"client_id"`  // 客户端id
-	UserId    string `json:"user_id"`    // 用户id
-	DeviceId  string `json:"device_id"`  // 设备id
-	Nickname  string `json:"nickname"`   // 昵称
+type ClientInfoEvent struct {
 	IpAddress string `json:"ip_address"` // ip地址
 	IpSource  string `json:"ip_source"`  // ip来源
 }
@@ -152,6 +150,10 @@ type DeleteUserBindThirdPartyReq struct {
 	Platform string `json:"platform"` // 平台
 }
 
+type DeletesUploadFileReq struct {
+	FilePaths []string `json:"file_paths,optional"` // 文件路径
+}
+
 type EmailLoginReq struct {
 	Email       string `json:"email"`                 // 邮箱
 	Password    string `json:"password"`              // 密码
@@ -165,17 +167,13 @@ type EmptyReq struct {
 type EmptyResp struct {
 }
 
-type FileBackVO struct {
-	Id        int64  `json:"id,optional"` // 文件目录ID
-	UserId    string `json:"user_id"`     // 用户id
-	FilePath  string `json:"file_path"`   // 文件路径
-	FileName  string `json:"file_name"`   // 文件名称
-	FileType  string `json:"file_type"`   // 文件类型
-	FileSize  int64  `json:"file_size"`   // 文件大小
-	FileMd5   string `json:"file_md5"`    // 文件md5值
-	FileUrl   string `json:"file_url"`    // 上传路径
-	CreatedAt int64  `json:"created_at"`  // 创建时间
-	UpdatedAt int64  `json:"updated_at"`  // 更新时间
+type FileInfoVO struct {
+	FilePath  string `json:"file_path"`  // 文件路径
+	FileName  string `json:"file_name"`  // 文件名称
+	FileType  string `json:"file_type"`  // 文件类型
+	FileSize  int64  `json:"file_size"`  // 文件大小
+	FileUrl   string `json:"file_url"`   // 上传路径
+	UpdatedAt int64  `json:"updated_at"` // 更新时间
 }
 
 type Friend struct {
@@ -208,8 +206,8 @@ type GetBlogHomeInfoResp struct {
 	TagCount           int64           `json:"tag_count"`             // 标签数量
 	TotalUserViewCount int64           `json:"total_user_view_count"` // 总服务量
 	TotalPageViewCount int64           `json:"total_page_view_count"` // 总浏览量
-	WebsiteConfig      WebsiteConfigVO `json:"website_config"`        // 网站配置
 	PageList           []*PageVO       `json:"page_list"`             // 页面列表
+	WebsiteConfig      WebsiteConfigVO `json:"website_config"`        // 网站配置
 }
 
 type GetCaptchaCodeReq struct {
@@ -236,12 +234,21 @@ type GetTouristInfoResp struct {
 	TouristId string `json:"tourist_id"` // 游客id
 }
 
+type HistoryMessageEvent struct {
+	List []*ChatMessageEvent `json:"list"` // 消息列表
+}
+
 type IdReq struct {
 	Id int64 `json:"id"`
 }
 
 type IdsReq struct {
 	Ids []int64 `json:"ids"`
+}
+
+type ListUploadFileReq struct {
+	FilePath string `json:"file_path,optional"` // 文件路径
+	Limit    int64  `json:"limit,optional"`     // 限制
 }
 
 type LoginReq struct {
@@ -255,14 +262,21 @@ type LoginResp struct {
 	Token *Token `json:"token"`
 }
 
+type MessageEvent struct {
+	Type      int64  `json:"type"`      // 消息类型
+	Data      string `json:"data"`      // 消息内容
+	Timestamp int64  `json:"timestamp"` // 消息时间戳
+}
+
 type MultiUploadFileReq struct {
 	Files    []interface{} `form:"files,optional"`     // 文件列表
 	FilePath string        `form:"file_path,optional"` // 文件路径
 }
 
-type OnlineCountResp struct {
-	Msg   string `json:"msg"`   // 消息
-	Count int    `json:"count"` // 在线人数
+type OnlineEvent struct {
+	Count    int64  `json:"count"`
+	IsOnline bool   `json:"is_online"`
+	Msg      string `json:"msg"` // 消息内容
 }
 
 type Page struct {
@@ -326,18 +340,8 @@ type PingResp struct {
 	RpcStatus   []string `json:"rpc_status"`
 }
 
-type RecallMessageReq struct {
+type RecallMessageEvent struct {
 	Id int64 `json:"id"` // 消息id
-}
-
-type RecallMessageResp struct {
-	Id int64 `json:"id"` // 消息id
-}
-
-type ReceiveMsg struct {
-	Type      int    `json:"type"`      // 类型
-	Data      string `json:"data"`      // 数据
-	Timestamp int64  `json:"timestamp"` //时间戳
 }
 
 type RegisterReq struct {
@@ -369,12 +373,6 @@ type RemarkQueryReq struct {
 	PageQuery
 }
 
-type ReplyMsg struct {
-	Type      int    `json:"type"`      // 类型
-	Data      string `json:"data"`      // 数据
-	Timestamp int64  `json:"timestamp"` //时间戳
-}
-
 type ResetPasswordReq struct {
 	Password        string `json:"password"`
 	ConfirmPassword string `json:"confirm_password"` // 确认密码
@@ -384,19 +382,27 @@ type ResetPasswordReq struct {
 
 type Response struct {
 	Code    int         `json:"code"`
-	Message string      `json:"message"`
+	Msg     string      `json:"msg"`
 	Data    interface{} `json:"data"`
 	TraceId string      `json:"trace_id"`
 }
 
 type RestHeader struct {
-	HeaderCountry    string `header:"Country,optional"`
-	HeaderLanguage   string `header:"Language,optional"`
-	HeaderTimezone   string `header:"Timezone,optional"`
-	HeaderAppName    string `header:"App-name,optional"`
-	HeaderXUserId    string `header:"X-User-Id,optional"`
-	HeaderXAuthToken string `header:"X-Auth-Token,optional"`
-	HeaderTerminalId string `header:"X-Terminal-Id,optional"`
+	HeaderCountry       string `header:"Country,optional"`
+	HeaderLanguage      string `header:"Language,optional"`
+	HeaderTimezone      string `header:"Timezone,optional"`
+	HeaderAppName       string `header:"App-name,optional"`
+	HeaderTimestamp     string `header:"Timestamp,optional"`
+	HeaderTerminalId    string `header:"Terminal-Id,optional"`
+	HeaderXTsToken      string `header:"X-Ts-Token,optional"`
+	HeaderUid           string `header:"Uid,optional"`
+	HeaderToken         string `header:"Token,optional"`
+	HeaderAuthorization string `header:"Authorization,optional"`
+}
+
+type RewardQrCode struct {
+	AlipayQrCode string `json:"alipay_qr_code"` // 支付宝二维码
+	WeixinQrCode string `json:"weixin_qr_code"` // 微信二维码
 }
 
 type SendEmailVerifyCodeReq struct {
@@ -404,14 +410,16 @@ type SendEmailVerifyCodeReq struct {
 	Type  string `json:"type"`  // 类型 register,reset_password,bind_email,bind_phone
 }
 
-type SendMessageReq struct {
-	Type    string `json:"type"`    // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
-	Content string `json:"content"` // 消息内容
-}
-
 type SendPhoneVerifyCodeReq struct {
 	Phone string `json:"phone"` // 手机号
 	Type  string `json:"type"`  // 类型 register,reset_password,bind_email,bind_phone
+}
+
+type SocialAccountInfo struct {
+	Name     string `json:"name"`     // 名称-微信
+	Platform string `json:"platform"` // 平台-wechat
+	LinkUrl  string `json:"link_url"` // 链接地址
+	Enabled  bool   `json:"enabled"`  // 是否启用
 }
 
 type Tag struct {
@@ -448,6 +456,13 @@ type TalkQueryReq struct {
 type ThirdLoginReq struct {
 	Platform string `json:"platform"`      // 平台
 	Code     string `json:"code,optional"` // 授权码
+}
+
+type ThirdPlatformInfo struct {
+	Name         string `json:"name"`          // 名称-微信
+	Platform     string `json:"platform"`      // 平台-wechat
+	AuthorizeUrl string `json:"authorize_url"` // 授权地址
+	Enabled      bool   `json:"enabled"`       // 是否启用
 }
 
 type Token struct {
@@ -510,13 +525,14 @@ type UserInfoExt struct {
 }
 
 type UserInfoResp struct {
-	UserId    string `json:"user_id"`    // 用户id
-	Username  string `json:"username"`   // 用户名
-	Nickname  string `json:"nickname"`   // 用户昵称
-	Avatar    string `json:"avatar"`     // 用户头像
-	Email     string `json:"email"`      // 用户邮箱
-	Phone     string `json:"phone"`      // 用户手机号
-	CreatedAt int64  `json:"created_at"` // 创建时间
+	UserId       string `json:"user_id"`       // 用户id
+	Username     string `json:"username"`      // 用户名
+	Nickname     string `json:"nickname"`      // 用户昵称
+	Avatar       string `json:"avatar"`        // 用户头像
+	Email        string `json:"email"`         // 用户邮箱
+	Phone        string `json:"phone"`         // 用户手机号
+	RegisterType string `json:"register_type"` // 注册方式
+	CreatedAt    int64  `json:"created_at"`    // 创建时间
 	UserInfoExt
 	ThirdParty []*UserThirdPartyInfo `json:"third_party"`
 }
@@ -544,28 +560,32 @@ type UserThirdPartyInfo struct {
 }
 
 type WebsiteConfigVO struct {
-	AdminUrl          string   `json:"admin_url"`           // 后台地址
-	AlipayQrCode      string   `json:"alipay_qr_code"`      // 支付宝二维码
-	Gitee             string   `json:"gitee"`               // Gitee
-	Github            string   `json:"github"`              // Github
-	IsChatRoom        int64    `json:"is_chat_room"`        // 是否开启聊天室
-	IsCommentReview   int64    `json:"is_comment_review"`   // 是否开启评论审核
-	IsEmailNotice     int64    `json:"is_email_notice"`     // 是否开启邮件通知
-	IsMessageReview   int64    `json:"is_message_review"`   // 是否开启留言审核
-	IsMusicPlayer     int64    `json:"is_music_player"`     // 是否开启音乐播放器
-	IsReward          int64    `json:"is_reward"`           // 是否开启打赏
-	Qq                string   `json:"qq"`                  // QQ
-	SocialLoginList   []string `json:"social_login_list"`   // 社交登录列表
-	SocialUrlList     []string `json:"social_url_list"`     // 社交地址列表
-	TouristAvatar     string   `json:"tourist_avatar"`      // 游客头像
-	UserAvatar        string   `json:"user_avatar"`         // 用户头像
-	WebsiteAuthor     string   `json:"website_author"`      // 网站作者
-	WebsiteAvatar     string   `json:"website_avatar"`      // 网站头像
-	WebsiteCreateTime string   `json:"website_create_time"` // 网站创建时间
-	WebsiteIntro      string   `json:"website_intro"`       // 网站介绍
-	WebsiteName       string   `json:"website_name"`        // 网站名称
-	WebsiteNotice     string   `json:"website_notice"`      // 网站公告
-	WebsiteRecordNo   string   `json:"website_record_no"`   // 网站备案号
-	WebsocketUrl      string   `json:"websocket_url"`       // websocket地址
-	WeixinQrCode      string   `json:"weixin_qr_code"`      // 微信二维码
+	AdminUrl        string               `json:"admin_url"`         // 后台地址
+	WebsocketUrl    string               `json:"websocket_url"`     // websocket地址
+	TouristAvatar   string               `json:"tourist_avatar"`    // 游客头像
+	UserAvatar      string               `json:"user_avatar"`       // 用户头像
+	WebsiteFeature  *WebsiteFeature      `json:"website_feature"`   // 网站功能
+	WebsiteInfo     *WebsiteInfo         `json:"website_info"`      // 网站信息
+	RewardQrCode    *RewardQrCode        `json:"reward_qr_code"`    // 打赏二维码
+	SocialLoginList []*ThirdPlatformInfo `json:"social_login_list"` // 用户第三方登录列表
+	SocialUrlList   []*SocialAccountInfo `json:"social_url_list"`   // 作者社交地址列表
+}
+
+type WebsiteFeature struct {
+	IsChatRoom      int64 `json:"is_chat_room"`      // 是否开启聊天室
+	IsCommentReview int64 `json:"is_comment_review"` // 是否开启评论审核
+	IsEmailNotice   int64 `json:"is_email_notice"`   // 是否开启邮件通知
+	IsMessageReview int64 `json:"is_message_review"` // 是否开启留言审核
+	IsMusicPlayer   int64 `json:"is_music_player"`   // 是否开启音乐播放器
+	IsReward        int64 `json:"is_reward"`         // 是否开启打赏
+}
+
+type WebsiteInfo struct {
+	WebsiteAuthor     string `json:"website_author"`      // 网站作者
+	WebsiteAvatar     string `json:"website_avatar"`      // 网站头像
+	WebsiteCreateTime string `json:"website_create_time"` // 网站创建时间
+	WebsiteIntro      string `json:"website_intro"`       // 网站介绍
+	WebsiteName       string `json:"website_name"`        // 网站名称
+	WebsiteNotice     string `json:"website_notice"`      // 网站公告
+	WebsiteRecordNo   string `json:"website_record_no"`   // 网站备案号
 }

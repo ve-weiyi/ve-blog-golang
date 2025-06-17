@@ -2514,7 +2514,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "邮箱登录",
         "operationId": "authEmailLogin",
@@ -2718,7 +2718,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "获取验证码",
         "operationId": "authGetCaptchaCode",
@@ -2798,7 +2798,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "第三方登录授权地址",
         "operationId": "authGetOauthAuthorizeUrl",
@@ -2865,7 +2865,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "获取游客身份信息",
         "operationId": "authGetTouristInfo",
@@ -2917,7 +2917,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "登录",
         "operationId": "authLogin",
@@ -3211,7 +3211,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "手机登录",
         "operationId": "authPhoneLogin",
@@ -3383,7 +3383,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "注册",
         "operationId": "authRegister",
@@ -3687,7 +3687,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "重置密码",
         "operationId": "authResetPassword",
@@ -3765,7 +3765,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "发送邮件验证码",
         "operationId": "authSendEmailVerifyCode",
@@ -3835,7 +3835,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "发送手机验证码",
         "operationId": "authSendPhoneVerifyCode",
@@ -4282,7 +4282,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "第三方登录",
         "operationId": "authThirdLogin",
@@ -5444,7 +5444,7 @@
       "in": "header"
     }
   },
-  "x-date": "2025-06-16 18:17:20",
+  "x-date": "2025-06-17 15:48:16",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

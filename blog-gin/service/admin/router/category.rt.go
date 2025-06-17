@@ -29,10 +29,8 @@ func (s *CategoryRouter) Register(r *gin.RouterGroup) {
 		handler := controller.NewCategoryController(s.svcCtx)
 		// 创建文章分类
 		group.POST("/category/add_category", handler.AddCategory)
-		// 批量删除文章分类
-		group.DELETE("/category/batch_delete_category", handler.BatchDeleteCategory)
 		// 删除文章分类
-		group.DELETE("/category/delete_category", handler.DeleteCategory)
+		group.DELETE("/category/deletes_category", handler.DeletesCategory)
 		// 分页获取文章分类列表
 		group.POST("/category/find_category_list", handler.FindCategoryList)
 		// 更新文章分类
