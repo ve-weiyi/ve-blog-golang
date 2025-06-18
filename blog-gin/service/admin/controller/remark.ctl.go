@@ -21,13 +21,13 @@ func NewRemarkController(svcCtx *svctx.ServiceContext) *RemarkController {
 }
 
 // @Tags		Remark
-// @Summary		"批量删除留言"
+// @Summary		"删除留言"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/remark/batch_delete_remark [DELETE]
-func (s *RemarkController) BatchDeleteRemark(c *gin.Context) {
+// @Router		/admin-api/v1/remark/deletes_remark [DELETE]
+func (s *RemarkController) DeletesRemark(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
@@ -40,35 +40,7 @@ func (s *RemarkController) BatchDeleteRemark(c *gin.Context) {
 		return
 	}
 
-	data, err := service.NewRemarkService(s.svcCtx).BatchDeleteRemark(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Remark
-// @Summary		"删除留言"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		dto.IdReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/remark/delete_remark [DELETE]
-func (s *RemarkController) DeleteRemark(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *dto.IdReq
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewRemarkService(s.svcCtx).DeleteRemark(reqCtx, req)
+	data, err := service.NewRemarkService(s.svcCtx).DeletesRemark(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

@@ -106,29 +106,6 @@ goctl api ts -api blog.api -dir ../ts
 goctl docker --go service/rpc/blog/blog.go --exe blog
 ```
 
-### 4. 插件使用
-
-#### Swagger 文档生成
-
-1. 安装插件：
-
-```bash
-# 设置 GOPROXY
-export GOPROXY=https://goproxy.cn/,direct
-```
-
-```bash
-# 安装 goctl-swagger 插件
-go install github.com/zeromicro/goctl-swagger@latest
-```
-
-2. 使用插件：
-
-```bash
-# 生成 Swagger 文档
-goctl api plugin -plugin goctl-swagger="swagger -filename user.json" -api user.api -dir .
-```
-
 ## 最佳实践
 
 1. 建议使用 Goctl 一键安装工具，避免手动安装可能出现的版本兼容问题

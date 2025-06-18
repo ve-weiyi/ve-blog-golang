@@ -17,10 +17,11 @@ import "admin/photo.api"
 import "admin/album.api"
 import "admin/talk.api"
 import "admin/comment.api"
-import "admin/file.api"
+import "admin/upload.api"
 import "admin/login_log.api"
 import "admin/operation_log.api"
 import "admin/visit_log.api"
+import "admin/upload_log.api"
 import "admin/websocket.api"
 
 info (

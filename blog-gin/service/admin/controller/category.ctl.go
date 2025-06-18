@@ -49,13 +49,13 @@ func (s *CategoryController) AddCategory(c *gin.Context) {
 }
 
 // @Tags		Category
-// @Summary		"批量删除文章分类"
+// @Summary		"删除文章分类"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/category/batch_delete_category [DELETE]
-func (s *CategoryController) BatchDeleteCategory(c *gin.Context) {
+// @Router		/admin-api/v1/category/deletes_category [DELETE]
+func (s *CategoryController) DeletesCategory(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
@@ -68,35 +68,7 @@ func (s *CategoryController) BatchDeleteCategory(c *gin.Context) {
 		return
 	}
 
-	data, err := service.NewCategoryService(s.svcCtx).BatchDeleteCategory(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Category
-// @Summary		"删除文章分类"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		dto.IdReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/category/delete_category [DELETE]
-func (s *CategoryController) DeleteCategory(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *dto.IdReq
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewCategoryService(s.svcCtx).DeleteCategory(reqCtx, req)
+	data, err := service.NewCategoryService(s.svcCtx).DeletesCategory(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

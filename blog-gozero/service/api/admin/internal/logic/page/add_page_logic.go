@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/websiterpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/resourcerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +27,7 @@ func NewAddPageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPageLo
 
 func (l *AddPageLogic) AddPage(req *types.PageNewReq) (resp *types.PageBackVO, err error) {
 	in := ConvertPagePb(req)
-	out, err := l.svcCtx.WebsiteRpc.AddPage(l.ctx, in)
+	out, err := l.svcCtx.ResourceRpc.AddPage(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -36,8 +36,8 @@ func (l *AddPageLogic) AddPage(req *types.PageNewReq) (resp *types.PageBackVO, e
 	return resp, nil
 }
 
-func ConvertPagePb(in *types.PageNewReq) (out *websiterpc.PageNewReq) {
-	out = &websiterpc.PageNewReq{
+func ConvertPagePb(in *types.PageNewReq) (out *resourcerpc.PageNewReq) {
+	out = &resourcerpc.PageNewReq{
 		Id:             in.Id,
 		PageName:       in.PageName,
 		PageLabel:      in.PageLabel,
@@ -49,7 +49,7 @@ func ConvertPagePb(in *types.PageNewReq) (out *websiterpc.PageNewReq) {
 	return
 }
 
-func ConvertPageTypes(in *websiterpc.PageDetails) (out *types.PageBackVO) {
+func ConvertPageTypes(in *resourcerpc.PageDetails) (out *types.PageBackVO) {
 	out = &types.PageBackVO{
 		Id:             in.Id,
 		PageName:       in.PageName,

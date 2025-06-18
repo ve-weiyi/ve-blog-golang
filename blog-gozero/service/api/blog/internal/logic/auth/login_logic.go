@@ -60,7 +60,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 }
 
 func createToken(ctx context.Context, svcCtx *svc.ServiceContext, login *accountrpc.LoginResp) (token *types.Token, err error) {
-	expires := 7 * 24 * time.Hour
+	expires := 1 * 24 * time.Hour
 	uid := login.UserId
 
 	accessToken, err := svcCtx.TokenHolder.CreateToken(

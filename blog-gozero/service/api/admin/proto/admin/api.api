@@ -33,8 +33,7 @@ type (
         Method string `json:"method,optional"`       // api请求方法
     }
 
-    SyncApiReq {
-        ApiFilePath string `json:"api_file_path"` // api文件路径
+    SyncApiReq{
     }
 )
 
@@ -69,10 +68,6 @@ service admin-api {
     put /api/update_api (ApiNewReq) returns (ApiBackVO)
 
     @doc "删除api路由"
-    @handler DeleteApi
-    delete /api/delete_api (IdReq) returns (BatchResp)
-
-    @doc "批量删除api路由"
-    @handler BatchDeleteApi
-    delete /api/batch_delete_api (IdsReq) returns (BatchResp)
+    @handler DeletesApi
+    delete /api/deletes_api (IdsReq) returns (BatchResp)
 }

@@ -23,15 +23,8 @@ func (s *FriendService) AddFriend(reqCtx *request.Context, in *dto.FriendNewReq)
 	return
 }
 
-// 批量删除友链
-func (s *FriendService) BatchDeleteFriend(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
-	// todo
-
-	return
-}
-
 // 删除友链
-func (s *FriendService) DeleteFriend(reqCtx *request.Context, in *dto.IdReq) (out *dto.BatchResp, err error) {
+func (s *FriendService) DeletesFriend(reqCtx *request.Context, in *dto.IdsReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return

@@ -29,10 +29,8 @@ func (s *TagRouter) Register(r *gin.RouterGroup) {
 		handler := controller.NewTagController(s.svcCtx)
 		// 创建标签
 		group.POST("/tag/add_tag", handler.AddTag)
-		// 批量删除标签
-		group.DELETE("/tag/batch_delete_tag", handler.BatchDeleteTag)
 		// 删除标签
-		group.DELETE("/tag/delete_tag", handler.DeleteTag)
+		group.DELETE("/tag/deletes_tag", handler.DeletesTag)
 		// 分页获取标签列表
 		group.POST("/tag/find_tag_list", handler.FindTagList)
 		// 更新标签

@@ -705,7 +705,7 @@
         }
       }
     },
-    "/admin-api/v1/admin/about_me": {
+    "/admin-api/v1/admin/get_about_me": {
       "get": {
         "security": [
           {
@@ -741,68 +741,6 @@
                       "type": "string"
                     }
                   }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "网站管理"
-        ],
-        "summary": "更新关于我的信息",
-        "operationId": "websiteUpdateAboutMe",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "content"
-              ],
-              "properties": {
-                "content": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object"
                 },
                 "msg": {
                   "description": "business message",
@@ -1017,58 +955,84 @@
                       "description": "后台地址",
                       "type": "string"
                     },
-                    "alipay_qr_code": {
-                      "description": "支付宝二维码",
-                      "type": "string"
-                    },
-                    "gitee": {
-                      "description": "Gitee",
-                      "type": "string"
-                    },
-                    "github": {
-                      "description": "Github",
-                      "type": "string"
-                    },
-                    "is_chat_room": {
-                      "description": "是否开启聊天室",
-                      "type": "integer"
-                    },
-                    "is_comment_review": {
-                      "description": "是否开启评论审核",
-                      "type": "integer"
-                    },
-                    "is_email_notice": {
-                      "description": "是否开启邮件通知",
-                      "type": "integer"
-                    },
-                    "is_message_review": {
-                      "description": "是否开启留言审核",
-                      "type": "integer"
-                    },
-                    "is_music_player": {
-                      "description": "是否开启音乐播放器",
-                      "type": "integer"
-                    },
-                    "is_reward": {
-                      "description": "是否开启打赏",
-                      "type": "integer"
-                    },
-                    "qq": {
-                      "description": "QQ",
-                      "type": "string"
+                    "reward_qr_code": {
+                      "description": "打赏二维码",
+                      "type": "object",
+                      "required": [
+                        "alipay_qr_code",
+                        "weixin_qr_code"
+                      ],
+                      "properties": {
+                        "alipay_qr_code": {
+                          "description": "支付宝二维码",
+                          "type": "string"
+                        },
+                        "weixin_qr_code": {
+                          "description": "微信二维码",
+                          "type": "string"
+                        }
+                      }
                     },
                     "social_login_list": {
-                      "description": "社交登录列表",
+                      "description": "用户第三方登录列表",
                       "type": "array",
                       "items": {
-                        "type": "string"
+                        "type": "object",
+                        "required": [
+                          "name",
+                          "platform",
+                          "authorize_url",
+                          "enabled"
+                        ],
+                        "properties": {
+                          "authorize_url": {
+                            "description": "授权地址",
+                            "type": "string"
+                          },
+                          "enabled": {
+                            "description": "是否启用",
+                            "type": "boolean"
+                          },
+                          "name": {
+                            "description": "名称-微信",
+                            "type": "string"
+                          },
+                          "platform": {
+                            "description": "平台-wechat",
+                            "type": "string"
+                          }
+                        }
                       }
                     },
                     "social_url_list": {
-                      "description": "社交地址列表",
+                      "description": "作者社交地址列表",
                       "type": "array",
                       "items": {
-                        "type": "string"
+                        "type": "object",
+                        "required": [
+                          "name",
+                          "platform",
+                          "link_url",
+                          "enabled"
+                        ],
+                        "properties": {
+                          "enabled": {
+                            "description": "是否启用",
+                            "type": "boolean"
+                          },
+                          "link_url": {
+                            "description": "链接地址",
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "名称-微信",
+                            "type": "string"
+                          },
+                          "platform": {
+                            "description": "平台-wechat",
+                            "type": "string"
+                          }
+                        }
                       }
                     },
                     "tourist_avatar": {
@@ -1079,40 +1043,89 @@
                       "description": "用户头像",
                       "type": "string"
                     },
-                    "website_author": {
-                      "description": "网站作者",
-                      "type": "string"
+                    "website_feature": {
+                      "description": "网站功能",
+                      "type": "object",
+                      "required": [
+                        "is_chat_room",
+                        "is_comment_review",
+                        "is_email_notice",
+                        "is_message_review",
+                        "is_music_player",
+                        "is_reward"
+                      ],
+                      "properties": {
+                        "is_chat_room": {
+                          "description": "是否开启聊天室",
+                          "type": "integer"
+                        },
+                        "is_comment_review": {
+                          "description": "是否开启评论审核",
+                          "type": "integer"
+                        },
+                        "is_email_notice": {
+                          "description": "是否开启邮件通知",
+                          "type": "integer"
+                        },
+                        "is_message_review": {
+                          "description": "是否开启留言审核",
+                          "type": "integer"
+                        },
+                        "is_music_player": {
+                          "description": "是否开启音乐播放器",
+                          "type": "integer"
+                        },
+                        "is_reward": {
+                          "description": "是否开启打赏",
+                          "type": "integer"
+                        }
+                      }
                     },
-                    "website_avatar": {
-                      "description": "网站头像",
-                      "type": "string"
-                    },
-                    "website_create_time": {
-                      "description": "网站创建时间",
-                      "type": "string"
-                    },
-                    "website_intro": {
-                      "description": "网站介绍",
-                      "type": "string"
-                    },
-                    "website_name": {
-                      "description": "网站名称",
-                      "type": "string"
-                    },
-                    "website_notice": {
-                      "description": "网站公告",
-                      "type": "string"
-                    },
-                    "website_record_no": {
-                      "description": "网站备案号",
-                      "type": "string"
+                    "website_info": {
+                      "description": "网站信息",
+                      "type": "object",
+                      "required": [
+                        "website_author",
+                        "website_avatar",
+                        "website_create_time",
+                        "website_intro",
+                        "website_name",
+                        "website_notice",
+                        "website_record_no"
+                      ],
+                      "properties": {
+                        "website_author": {
+                          "description": "网站作者",
+                          "type": "string"
+                        },
+                        "website_avatar": {
+                          "description": "网站头像",
+                          "type": "string"
+                        },
+                        "website_create_time": {
+                          "description": "网站创建时间",
+                          "type": "string"
+                        },
+                        "website_intro": {
+                          "description": "网站介绍",
+                          "type": "string"
+                        },
+                        "website_name": {
+                          "description": "网站名称",
+                          "type": "string"
+                        },
+                        "website_notice": {
+                          "description": "网站公告",
+                          "type": "string"
+                        },
+                        "website_record_no": {
+                          "description": "网站备案号",
+                          "type": "string"
+                        }
+                      }
                     },
                     "websocket_url": {
                       "description": "websocket地址",
-                      "type": "string"
-                    },
-                    "weixin_qr_code": {
-                      "description": "微信二维码",
                       "type": "string"
                     }
                   }
@@ -1177,6 +1190,70 @@
         }
       }
     },
+    "/admin-api/v1/admin/update_about_me": {
+      "put": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "网站管理"
+        ],
+        "summary": "更新关于我的信息",
+        "operationId": "websiteUpdateAboutMe",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "content"
+              ],
+              "properties": {
+                "content": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "type": "object"
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin-api/v1/admin/update_website_config": {
       "put": {
         "security": [
@@ -1207,87 +1284,98 @@
               "type": "object",
               "required": [
                 "admin_url",
-                "alipay_qr_code",
-                "gitee",
-                "github",
-                "is_chat_room",
-                "is_comment_review",
-                "is_email_notice",
-                "is_message_review",
-                "is_music_player",
-                "is_reward",
-                "qq",
-                "social_login_list",
-                "social_url_list",
+                "websocket_url",
                 "tourist_avatar",
                 "user_avatar",
-                "website_author",
-                "website_avatar",
-                "website_create_time",
-                "website_intro",
-                "website_name",
-                "website_notice",
-                "website_record_no",
-                "websocket_url",
-                "weixin_qr_code"
+                "website_feature",
+                "website_info",
+                "reward_qr_code",
+                "social_login_list",
+                "social_url_list"
               ],
               "properties": {
                 "admin_url": {
                   "description": "后台地址",
                   "type": "string"
                 },
-                "alipay_qr_code": {
-                  "description": "支付宝二维码",
-                  "type": "string"
-                },
-                "gitee": {
-                  "description": "Gitee",
-                  "type": "string"
-                },
-                "github": {
-                  "description": "Github",
-                  "type": "string"
-                },
-                "is_chat_room": {
-                  "description": "是否开启聊天室",
-                  "type": "integer"
-                },
-                "is_comment_review": {
-                  "description": "是否开启评论审核",
-                  "type": "integer"
-                },
-                "is_email_notice": {
-                  "description": "是否开启邮件通知",
-                  "type": "integer"
-                },
-                "is_message_review": {
-                  "description": "是否开启留言审核",
-                  "type": "integer"
-                },
-                "is_music_player": {
-                  "description": "是否开启音乐播放器",
-                  "type": "integer"
-                },
-                "is_reward": {
-                  "description": "是否开启打赏",
-                  "type": "integer"
-                },
-                "qq": {
-                  "description": "QQ",
-                  "type": "string"
+                "reward_qr_code": {
+                  "description": "打赏二维码",
+                  "type": "object",
+                  "required": [
+                    "alipay_qr_code",
+                    "weixin_qr_code"
+                  ],
+                  "properties": {
+                    "alipay_qr_code": {
+                      "description": "支付宝二维码",
+                      "type": "string"
+                    },
+                    "weixin_qr_code": {
+                      "description": "微信二维码",
+                      "type": "string"
+                    }
+                  }
                 },
                 "social_login_list": {
-                  "description": "社交登录列表",
+                  "description": "用户第三方登录列表",
                   "type": "array",
                   "items": {
-                    "type": "string"
+                    "type": "object",
+                    "required": [
+                      "name",
+                      "platform",
+                      "authorize_url",
+                      "enabled"
+                    ],
+                    "properties": {
+                      "authorize_url": {
+                        "description": "授权地址",
+                        "type": "string"
+                      },
+                      "enabled": {
+                        "description": "是否启用",
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "description": "名称-微信",
+                        "type": "string"
+                      },
+                      "platform": {
+                        "description": "平台-wechat",
+                        "type": "string"
+                      }
+                    }
                   }
                 },
                 "social_url_list": {
-                  "description": "社交地址列表",
+                  "description": "作者社交地址列表",
                   "type": "array",
                   "items": {
-                    "type": "string"
+                    "type": "object",
+                    "required": [
+                      "name",
+                      "platform",
+                      "link_url",
+                      "enabled"
+                    ],
+                    "properties": {
+                      "enabled": {
+                        "description": "是否启用",
+                        "type": "boolean"
+                      },
+                      "link_url": {
+                        "description": "链接地址",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "名称-微信",
+                        "type": "string"
+                      },
+                      "platform": {
+                        "description": "平台-wechat",
+                        "type": "string"
+                      }
+                    }
                   }
                 },
                 "tourist_avatar": {
@@ -1298,40 +1386,89 @@
                   "description": "用户头像",
                   "type": "string"
                 },
-                "website_author": {
-                  "description": "网站作者",
-                  "type": "string"
+                "website_feature": {
+                  "description": "网站功能",
+                  "type": "object",
+                  "required": [
+                    "is_chat_room",
+                    "is_comment_review",
+                    "is_email_notice",
+                    "is_message_review",
+                    "is_music_player",
+                    "is_reward"
+                  ],
+                  "properties": {
+                    "is_chat_room": {
+                      "description": "是否开启聊天室",
+                      "type": "integer"
+                    },
+                    "is_comment_review": {
+                      "description": "是否开启评论审核",
+                      "type": "integer"
+                    },
+                    "is_email_notice": {
+                      "description": "是否开启邮件通知",
+                      "type": "integer"
+                    },
+                    "is_message_review": {
+                      "description": "是否开启留言审核",
+                      "type": "integer"
+                    },
+                    "is_music_player": {
+                      "description": "是否开启音乐播放器",
+                      "type": "integer"
+                    },
+                    "is_reward": {
+                      "description": "是否开启打赏",
+                      "type": "integer"
+                    }
+                  }
                 },
-                "website_avatar": {
-                  "description": "网站头像",
-                  "type": "string"
-                },
-                "website_create_time": {
-                  "description": "网站创建时间",
-                  "type": "string"
-                },
-                "website_intro": {
-                  "description": "网站介绍",
-                  "type": "string"
-                },
-                "website_name": {
-                  "description": "网站名称",
-                  "type": "string"
-                },
-                "website_notice": {
-                  "description": "网站公告",
-                  "type": "string"
-                },
-                "website_record_no": {
-                  "description": "网站备案号",
-                  "type": "string"
+                "website_info": {
+                  "description": "网站信息",
+                  "type": "object",
+                  "required": [
+                    "website_author",
+                    "website_avatar",
+                    "website_create_time",
+                    "website_intro",
+                    "website_name",
+                    "website_notice",
+                    "website_record_no"
+                  ],
+                  "properties": {
+                    "website_author": {
+                      "description": "网站作者",
+                      "type": "string"
+                    },
+                    "website_avatar": {
+                      "description": "网站头像",
+                      "type": "string"
+                    },
+                    "website_create_time": {
+                      "description": "网站创建时间",
+                      "type": "string"
+                    },
+                    "website_intro": {
+                      "description": "网站介绍",
+                      "type": "string"
+                    },
+                    "website_name": {
+                      "description": "网站名称",
+                      "type": "string"
+                    },
+                    "website_notice": {
+                      "description": "网站公告",
+                      "type": "string"
+                    },
+                    "website_record_no": {
+                      "description": "网站备案号",
+                      "type": "string"
+                    }
+                  }
                 },
                 "websocket_url": {
                   "description": "websocket地址",
-                  "type": "string"
-                },
-                "weixin_qr_code": {
-                  "description": "微信二维码",
                   "type": "string"
                 }
               }
@@ -1490,79 +1627,7 @@
         }
       }
     },
-    "/admin-api/v1/album/batch_delete_photo": {
-      "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "照片管理"
-        ],
-        "summary": "批量删除照片",
-        "operationId": "photoBatchDeletePhoto",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "ids"
-              ],
-              "properties": {
-                "ids": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "success_count": {
-                      "type": "integer"
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/album/delete_album": {
+    "/admin-api/v1/album/deletes_album": {
       "delete": {
         "security": [
           {
@@ -1582,7 +1647,7 @@
           "相册管理"
         ],
         "summary": "删除相册",
-        "operationId": "albumDeleteAlbum",
+        "operationId": "albumDeletesAlbum",
         "parameters": [
           {
             "name": "body",
@@ -1591,11 +1656,14 @@
             "schema": {
               "type": "object",
               "required": [
-                "id"
+                "ids"
               ],
               "properties": {
-                "id": {
-                  "type": "integer"
+                "ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
                 }
               }
             }
@@ -1663,6 +1731,10 @@
                 "album_name": {
                   "description": "相册名",
                   "type": "string"
+                },
+                "is_delete": {
+                  "description": "是否删除",
+                  "type": "integer"
                 },
                 "page": {
                   "description": "当前页码",
@@ -1807,6 +1879,84 @@
                     },
                     "updated_at": {
                       "description": "更新时间",
+                      "type": "integer"
+                    }
+                  }
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/album/pre_delete_album": {
+      "post": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "相册管理"
+        ],
+        "summary": "预删除相册",
+        "operationId": "albumPreDeleteAlbum",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "ids",
+                "is_delete"
+              ],
+              "properties": {
+                "ids": {
+                  "description": "主键",
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                },
+                "is_delete": {
+                  "description": "是否删除",
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "success_count": {
                       "type": "integer"
                     }
                   }
@@ -2194,78 +2344,6 @@
         }
       }
     },
-    "/admin-api/v1/api/batch_delete_api": {
-      "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "接口管理"
-        ],
-        "summary": "批量删除api路由",
-        "operationId": "apiBatchDeleteApi",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "ids"
-              ],
-              "properties": {
-                "ids": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "success_count": {
-                      "type": "integer"
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/admin-api/v1/api/clean_api_list": {
       "post": {
         "security": [
@@ -2317,7 +2395,7 @@
         }
       }
     },
-    "/admin-api/v1/api/delete_api": {
+    "/admin-api/v1/api/deletes_api": {
       "delete": {
         "security": [
           {
@@ -2337,7 +2415,7 @@
           "接口管理"
         ],
         "summary": "删除api路由",
-        "operationId": "apiDeleteApi",
+        "operationId": "apiDeletesApi",
         "parameters": [
           {
             "name": "body",
@@ -2346,11 +2424,14 @@
             "schema": {
               "type": "object",
               "required": [
-                "id"
+                "ids"
               ],
               "properties": {
-                "id": {
-                  "type": "integer"
+                "ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
                 }
               }
             }
@@ -2491,7 +2572,7 @@
           }
         ],
         "consumes": [
-          "application/json"
+          "application/x-www-form-urlencoded"
         ],
         "produces": [
           "application/json"
@@ -2504,25 +2585,6 @@
         ],
         "summary": "同步api列表",
         "operationId": "apiSyncApiList",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "api_file_path"
-              ],
-              "properties": {
-                "api_file_path": {
-                  "description": "api文件路径",
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "",
@@ -3751,79 +3813,7 @@
         }
       }
     },
-    "/admin-api/v1/category/batch_delete_category": {
-      "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "分类管理"
-        ],
-        "summary": "批量删除文章分类",
-        "operationId": "categoryBatchDeleteCategory",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "ids"
-              ],
-              "properties": {
-                "ids": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "success_count": {
-                      "type": "integer"
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/category/delete_category": {
+    "/admin-api/v1/category/deletes_category": {
       "delete": {
         "security": [
           {
@@ -3843,7 +3833,7 @@
           "分类管理"
         ],
         "summary": "删除文章分类",
-        "operationId": "categoryDeleteCategory",
+        "operationId": "categoryDeletesCategory",
         "parameters": [
           {
             "name": "body",
@@ -3852,11 +3842,14 @@
             "schema": {
               "type": "object",
               "required": [
-                "id"
+                "ids"
               ],
               "properties": {
-                "id": {
-                  "type": "integer"
+                "ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
                 }
               }
             }
@@ -4069,79 +4062,7 @@
         }
       }
     },
-    "/admin-api/v1/comment/batch_delete_comment": {
-      "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "评论管理"
-        ],
-        "summary": "批量删除评论",
-        "operationId": "commentBatchDeleteComment",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "ids"
-              ],
-              "properties": {
-                "ids": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "success_count": {
-                      "type": "integer"
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/comment/delete_comment": {
+    "/admin-api/v1/comment/deletes_comment": {
       "delete": {
         "security": [
           {
@@ -4161,7 +4082,7 @@
           "评论管理"
         ],
         "summary": "删除评论",
-        "operationId": "commentDeleteComment",
+        "operationId": "commentDeletesComment",
         "parameters": [
           {
             "name": "body",
@@ -4170,11 +4091,14 @@
             "schema": {
               "type": "object",
               "required": [
-                "id"
+                "ids"
               ],
               "properties": {
-                "id": {
-                  "type": "integer"
+                "ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
                 }
               }
             }
@@ -4390,7 +4314,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "邮箱登录",
         "operationId": "authEmailLogin",
@@ -4481,673 +4405,6 @@
                           "type": "string"
                         }
                       }
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/file/add_file_folder": {
-      "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "文件管理"
-        ],
-        "summary": "创建文件目录",
-        "operationId": "fileAddFileFolder",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "file_path",
-                "file_name"
-              ],
-              "properties": {
-                "file_name": {
-                  "description": "文件名称",
-                  "type": "string"
-                },
-                "file_path": {
-                  "description": "文件路径",
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "created_at": {
-                      "description": "创建时间",
-                      "type": "integer"
-                    },
-                    "creator": {
-                      "description": "创建人",
-                      "type": "object",
-                      "required": [
-                        "user_id",
-                        "username",
-                        "avatar",
-                        "nickname"
-                      ],
-                      "properties": {
-                        "avatar": {
-                          "type": "string"
-                        },
-                        "gender": {
-                          "description": "性别 0未知 1男 2女",
-                          "type": "integer"
-                        },
-                        "intro": {
-                          "description": "简介",
-                          "type": "string"
-                        },
-                        "nickname": {
-                          "type": "string"
-                        },
-                        "user_id": {
-                          "type": "string"
-                        },
-                        "username": {
-                          "type": "string"
-                        },
-                        "website": {
-                          "description": "网站",
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "file_md5": {
-                      "description": "文件md5值",
-                      "type": "string"
-                    },
-                    "file_name": {
-                      "description": "文件名称",
-                      "type": "string"
-                    },
-                    "file_path": {
-                      "description": "文件路径",
-                      "type": "string"
-                    },
-                    "file_size": {
-                      "description": "文件大小",
-                      "type": "integer"
-                    },
-                    "file_type": {
-                      "description": "文件类型",
-                      "type": "string"
-                    },
-                    "file_url": {
-                      "description": "上传路径",
-                      "type": "string"
-                    },
-                    "id": {
-                      "description": "文件目录ID",
-                      "type": "integer"
-                    },
-                    "updated_at": {
-                      "description": "更新时间",
-                      "type": "integer"
-                    },
-                    "user_id": {
-                      "description": "用户id",
-                      "type": "string"
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/file/deletes_file": {
-      "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "文件管理"
-        ],
-        "summary": "删除文件列表",
-        "operationId": "fileDeletesFile",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "ids"
-              ],
-              "properties": {
-                "ids": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "success_count": {
-                      "type": "integer"
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/file/find_file_list": {
-      "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "文件管理"
-        ],
-        "summary": "分页获取文件列表",
-        "operationId": "fileFindFileList",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "file_path": {
-                  "description": "文件路径",
-                  "type": "string"
-                },
-                "file_type": {
-                  "description": "文件类型",
-                  "type": "string"
-                },
-                "page": {
-                  "description": "当前页码",
-                  "type": "integer"
-                },
-                "page_size": {
-                  "description": "每页数量",
-                  "type": "integer"
-                },
-                "sorts": {
-                  "description": "排序",
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "list": {},
-                    "page": {
-                      "type": "integer"
-                    },
-                    "page_size": {
-                      "type": "integer"
-                    },
-                    "total": {
-                      "type": "integer"
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/file/list_upload_file": {
-      "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "文件管理"
-        ],
-        "summary": "获取文件列表",
-        "operationId": "fileListUploadFile",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "file_path": {
-                  "description": "文件路径",
-                  "type": "string"
-                },
-                "limit": {
-                  "description": "限制",
-                  "type": "integer"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "urls": {
-                      "description": "文件路径",
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/file/multi_upload_file": {
-      "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "文件管理"
-        ],
-        "summary": "上传文件列表",
-        "operationId": "fileMultiUploadFile",
-        "parameters": [
-          {
-            "type": "array",
-            "description": "文件列表",
-            "name": "files",
-            "in": "formData",
-            "allowEmptyValue": true
-          },
-          {
-            "type": "string",
-            "description": "文件路径",
-            "name": "file_path",
-            "in": "formData",
-            "allowEmptyValue": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "created_at": {
-                      "description": "创建时间",
-                      "type": "integer"
-                    },
-                    "creator": {
-                      "description": "创建人",
-                      "type": "object",
-                      "required": [
-                        "user_id",
-                        "username",
-                        "avatar",
-                        "nickname"
-                      ],
-                      "properties": {
-                        "avatar": {
-                          "type": "string"
-                        },
-                        "gender": {
-                          "description": "性别 0未知 1男 2女",
-                          "type": "integer"
-                        },
-                        "intro": {
-                          "description": "简介",
-                          "type": "string"
-                        },
-                        "nickname": {
-                          "type": "string"
-                        },
-                        "user_id": {
-                          "type": "string"
-                        },
-                        "username": {
-                          "type": "string"
-                        },
-                        "website": {
-                          "description": "网站",
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "file_md5": {
-                      "description": "文件md5值",
-                      "type": "string"
-                    },
-                    "file_name": {
-                      "description": "文件名称",
-                      "type": "string"
-                    },
-                    "file_path": {
-                      "description": "文件路径",
-                      "type": "string"
-                    },
-                    "file_size": {
-                      "description": "文件大小",
-                      "type": "integer"
-                    },
-                    "file_type": {
-                      "description": "文件类型",
-                      "type": "string"
-                    },
-                    "file_url": {
-                      "description": "上传路径",
-                      "type": "string"
-                    },
-                    "id": {
-                      "description": "文件目录ID",
-                      "type": "integer"
-                    },
-                    "updated_at": {
-                      "description": "更新时间",
-                      "type": "integer"
-                    },
-                    "user_id": {
-                      "description": "用户id",
-                      "type": "string"
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/file/upload_file": {
-      "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "文件管理"
-        ],
-        "summary": "上传文件",
-        "operationId": "fileUploadFile",
-        "parameters": [
-          {
-            "description": "文件",
-            "name": "file",
-            "in": "formData",
-            "allowEmptyValue": true
-          },
-          {
-            "type": "string",
-            "description": "文件路径",
-            "name": "file_path",
-            "in": "formData",
-            "allowEmptyValue": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "created_at": {
-                      "description": "创建时间",
-                      "type": "integer"
-                    },
-                    "creator": {
-                      "description": "创建人",
-                      "type": "object",
-                      "required": [
-                        "user_id",
-                        "username",
-                        "avatar",
-                        "nickname"
-                      ],
-                      "properties": {
-                        "avatar": {
-                          "type": "string"
-                        },
-                        "gender": {
-                          "description": "性别 0未知 1男 2女",
-                          "type": "integer"
-                        },
-                        "intro": {
-                          "description": "简介",
-                          "type": "string"
-                        },
-                        "nickname": {
-                          "type": "string"
-                        },
-                        "user_id": {
-                          "type": "string"
-                        },
-                        "username": {
-                          "type": "string"
-                        },
-                        "website": {
-                          "description": "网站",
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "file_md5": {
-                      "description": "文件md5值",
-                      "type": "string"
-                    },
-                    "file_name": {
-                      "description": "文件名称",
-                      "type": "string"
-                    },
-                    "file_path": {
-                      "description": "文件路径",
-                      "type": "string"
-                    },
-                    "file_size": {
-                      "description": "文件大小",
-                      "type": "integer"
-                    },
-                    "file_type": {
-                      "description": "文件类型",
-                      "type": "string"
-                    },
-                    "file_url": {
-                      "description": "上传路径",
-                      "type": "string"
-                    },
-                    "id": {
-                      "description": "文件目录ID",
-                      "type": "integer"
-                    },
-                    "updated_at": {
-                      "description": "更新时间",
-                      "type": "integer"
-                    },
-                    "user_id": {
-                      "description": "用户id",
-                      "type": "string"
                     }
                   }
                 },
@@ -5276,79 +4533,7 @@
         }
       }
     },
-    "/admin-api/v1/friend/batch_delete_friend": {
-      "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "友链管理"
-        ],
-        "summary": "批量删除友链",
-        "operationId": "friendBatchDeleteFriend",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "ids"
-              ],
-              "properties": {
-                "ids": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "success_count": {
-                      "type": "integer"
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/friend/delete_friend": {
+    "/admin-api/v1/friend/deletes_friend": {
       "delete": {
         "security": [
           {
@@ -5368,7 +4553,7 @@
           "友链管理"
         ],
         "summary": "删除友链",
-        "operationId": "friendDeleteFriend",
+        "operationId": "friendDeletesFriend",
         "parameters": [
           {
             "name": "body",
@@ -5377,11 +4562,14 @@
             "schema": {
               "type": "object",
               "required": [
-                "id"
+                "ids"
               ],
               "properties": {
-                "id": {
-                  "type": "integer"
+                "ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
                 }
               }
             }
@@ -5632,7 +4820,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "获取验证码",
         "operationId": "authGetCaptchaCode",
@@ -5707,7 +4895,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "第三方登录授权地址",
         "operationId": "authGetOauthAuthorizeUrl",
@@ -5773,6 +4961,9 @@
         "schemes": [
           "https"
         ],
+        "tags": [
+          "登录认证"
+        ],
         "summary": "获取游客身份信息",
         "operationId": "authGetTouristInfo",
         "responses": {
@@ -5818,7 +5009,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "登录",
         "operationId": "authLogin",
@@ -6009,6 +5200,9 @@
         "schemes": [
           "https"
         ],
+        "tags": [
+          "登录认证"
+        ],
         "summary": "注销",
         "operationId": "authLogoff",
         "responses": {
@@ -6051,6 +5245,9 @@
         ],
         "schemes": [
           "https"
+        ],
+        "tags": [
+          "登录认证"
         ],
         "summary": "登出",
         "operationId": "authLogout",
@@ -6649,78 +5846,6 @@
         }
       }
     },
-    "/admin-api/v1/menu/batch_delete_menu": {
-      "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "菜单管理"
-        ],
-        "summary": "批量删除菜单",
-        "operationId": "menuBatchDeleteMenu",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "ids"
-              ],
-              "properties": {
-                "ids": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "success_count": {
-                      "type": "integer"
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/admin-api/v1/menu/clean_menu_list": {
       "post": {
         "security": [
@@ -6772,7 +5897,7 @@
         }
       }
     },
-    "/admin-api/v1/menu/delete_menu": {
+    "/admin-api/v1/menu/deletes_menu": {
       "delete": {
         "security": [
           {
@@ -6792,7 +5917,7 @@
           "菜单管理"
         ],
         "summary": "删除菜单",
-        "operationId": "menuDeleteMenu",
+        "operationId": "menuDeletesMenu",
         "parameters": [
           {
             "name": "body",
@@ -6801,11 +5926,14 @@
             "schema": {
               "type": "object",
               "required": [
-                "id"
+                "ids"
               ],
               "properties": {
-                "id": {
-                  "type": "integer"
+                "ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
                 }
               }
             }
@@ -7814,7 +6942,7 @@
           }
         ],
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
@@ -8315,7 +7443,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "手机登录",
         "operationId": "authPhoneLogin",
@@ -8535,7 +7663,7 @@
         }
       }
     },
-    "/admin-api/v1/photo/delete_photo": {
+    "/admin-api/v1/photo/deletes_photo": {
       "delete": {
         "security": [
           {
@@ -8555,7 +7683,7 @@
           "照片管理"
         ],
         "summary": "删除照片",
-        "operationId": "photoDeletePhoto",
+        "operationId": "photoDeletesPhoto",
         "parameters": [
           {
             "name": "body",
@@ -8564,11 +7692,14 @@
             "schema": {
               "type": "object",
               "required": [
-                "id"
+                "ids"
               ],
               "properties": {
-                "id": {
-                  "type": "integer"
+                "ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
                 }
               }
             }
@@ -8637,6 +7768,10 @@
                   "description": "相册id",
                   "type": "integer"
                 },
+                "is_delete": {
+                  "description": "是否删除",
+                  "type": "integer"
+                },
                 "page": {
                   "description": "当前页码",
                   "type": "integer"
@@ -8678,6 +7813,84 @@
                       "type": "integer"
                     },
                     "total": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/photo/pre_delete_photo": {
+      "put": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "照片管理"
+        ],
+        "summary": "预删除照片",
+        "operationId": "photoPreDeletePhoto",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "ids",
+                "is_delete"
+              ],
+              "properties": {
+                "ids": {
+                  "description": "主键",
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                },
+                "is_delete": {
+                  "description": "是否删除",
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "success_count": {
                       "type": "integer"
                     }
                   }
@@ -8886,7 +8099,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "注册",
         "operationId": "authRegister",
@@ -8952,79 +8165,7 @@
         }
       }
     },
-    "/admin-api/v1/remark/batch_delete_remark": {
-      "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "留言管理"
-        ],
-        "summary": "批量删除留言",
-        "operationId": "remarkBatchDeleteRemark",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "ids"
-              ],
-              "properties": {
-                "ids": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "success_count": {
-                      "type": "integer"
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/remark/delete_remark": {
+    "/admin-api/v1/remark/deletes_remark": {
       "delete": {
         "security": [
           {
@@ -9044,7 +8185,7 @@
           "留言管理"
         ],
         "summary": "删除留言",
-        "operationId": "remarkDeleteRemark",
+        "operationId": "remarkDeletesRemark",
         "parameters": [
           {
             "name": "body",
@@ -9053,11 +8194,14 @@
             "schema": {
               "type": "object",
               "required": [
-                "id"
+                "ids"
               ],
               "properties": {
-                "id": {
-                  "type": "integer"
+                "ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
                 }
               }
             }
@@ -9274,7 +8418,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "重置密码",
         "operationId": "authResetPassword",
@@ -9466,7 +8610,7 @@
         }
       }
     },
-    "/admin-api/v1/role/batch_delete_role": {
+    "/admin-api/v1/role/deletes_role": {
       "post": {
         "security": [
           {
@@ -9485,8 +8629,8 @@
         "tags": [
           "角色管理"
         ],
-        "summary": "批量删除角色",
-        "operationId": "roleBatchDeleteRole",
+        "summary": "删除角色",
+        "operationId": "roleDeletesRole",
         "parameters": [
           {
             "name": "body",
@@ -9503,75 +8647,6 @@
                   "items": {
                     "type": "integer"
                   }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "success_count": {
-                      "type": "integer"
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/role/delete_role": {
-      "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "角色管理"
-        ],
-        "summary": "删除角色",
-        "operationId": "roleDeleteRole",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "id"
-              ],
-              "properties": {
-                "id": {
-                  "type": "integer"
                 }
               }
             }
@@ -10070,7 +9145,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "发送邮件验证码",
         "operationId": "authSendEmailVerifyCode",
@@ -10135,7 +9210,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "发送手机验证码",
         "operationId": "authSendPhoneVerifyCode",
@@ -10278,79 +9353,7 @@
         }
       }
     },
-    "/admin-api/v1/tag/batch_delete_tag": {
-      "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "标签管理"
-        ],
-        "summary": "批量删除标签",
-        "operationId": "tagBatchDeleteTag",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "ids"
-              ],
-              "properties": {
-                "ids": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "success_count": {
-                      "type": "integer"
-                    }
-                  }
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/tag/delete_tag": {
+    "/admin-api/v1/tag/deletes_tag": {
       "delete": {
         "security": [
           {
@@ -10370,7 +9373,7 @@
           "标签管理"
         ],
         "summary": "删除标签",
-        "operationId": "tagDeleteTag",
+        "operationId": "tagDeletesTag",
         "parameters": [
           {
             "name": "body",
@@ -10379,11 +9382,14 @@
             "schema": {
               "type": "object",
               "required": [
-                "id"
+                "ids"
               ],
               "properties": {
-                "id": {
-                  "type": "integer"
+                "ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
                 }
               }
             }
@@ -11249,7 +10255,7 @@
           "https"
         ],
         "tags": [
-          "认证"
+          "登录认证"
         ],
         "summary": "第三方登录",
         "operationId": "authThirdLogin",
@@ -11331,6 +10337,401 @@
                           "type": "string"
                         }
                       }
+                    }
+                  }
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/upload/deletes_upload_file": {
+      "delete": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "文件管理"
+        ],
+        "summary": "删除文件列表",
+        "operationId": "uploadDeletesUploadFile",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "file_paths": {
+                  "description": "文件路径",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "success_count": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/upload/list_upload_file": {
+      "post": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "文件管理"
+        ],
+        "summary": "获取文件列表",
+        "operationId": "uploadListUploadFile",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "file_path": {
+                  "description": "文件路径",
+                  "type": "string"
+                },
+                "limit": {
+                  "description": "限制",
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/upload/multi_upload_file": {
+      "post": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "文件管理"
+        ],
+        "summary": "上传文件列表",
+        "operationId": "uploadMultiUploadFile",
+        "parameters": [
+          {
+            "type": "array",
+            "description": "文件列表",
+            "name": "files",
+            "in": "formData",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "description": "文件路径",
+            "name": "file_path",
+            "in": "formData",
+            "allowEmptyValue": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "file_name": {
+                      "description": "文件名称",
+                      "type": "string"
+                    },
+                    "file_path": {
+                      "description": "文件路径",
+                      "type": "string"
+                    },
+                    "file_size": {
+                      "description": "文件大小",
+                      "type": "integer"
+                    },
+                    "file_type": {
+                      "description": "文件类型",
+                      "type": "string"
+                    },
+                    "file_url": {
+                      "description": "上传路径",
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "description": "更新时间",
+                      "type": "integer"
+                    }
+                  }
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/upload/upload_file": {
+      "post": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "文件管理"
+        ],
+        "summary": "上传文件",
+        "operationId": "uploadUploadFile",
+        "parameters": [
+          {
+            "description": "文件",
+            "name": "file",
+            "in": "formData",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "description": "文件路径",
+            "name": "file_path",
+            "in": "formData",
+            "allowEmptyValue": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "file_name": {
+                      "description": "文件名称",
+                      "type": "string"
+                    },
+                    "file_path": {
+                      "description": "文件路径",
+                      "type": "string"
+                    },
+                    "file_size": {
+                      "description": "文件大小",
+                      "type": "integer"
+                    },
+                    "file_type": {
+                      "description": "文件类型",
+                      "type": "string"
+                    },
+                    "file_url": {
+                      "description": "上传路径",
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "description": "更新时间",
+                      "type": "integer"
+                    }
+                  }
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/upload_log/deletes_upload_log": {
+      "delete": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "上传日志"
+        ],
+        "summary": "删除登录日志",
+        "operationId": "uploadLogDeletesUploadLog",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "ids"
+              ],
+              "properties": {
+                "ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "success_count": {
+                      "type": "integer"
                     }
                   }
                 },
@@ -11457,6 +10858,103 @@
                 "user_id": {
                   "description": "用户id",
                   "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "list": {},
+                    "page": {
+                      "type": "integer"
+                    },
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/user/find_upload_log_list": {
+      "post": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "上传日志"
+        ],
+        "summary": "查询登录日志",
+        "operationId": "uploadLogFindUploadLogList",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "file_name": {
+                  "description": "文件名称",
+                  "type": "string"
+                },
+                "file_path": {
+                  "description": "文件路径",
+                  "type": "string"
+                },
+                "file_type": {
+                  "description": "文件类型",
+                  "type": "string"
+                },
+                "page": {
+                  "description": "当前页码",
+                  "type": "integer"
+                },
+                "page_size": {
+                  "description": "每页数量",
+                  "type": "integer"
+                },
+                "sorts": {
+                  "description": "排序",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
                 }
               }
             }
@@ -11784,7 +11282,7 @@
           }
         ],
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
@@ -12810,9 +12308,9 @@
       "in": "header"
     }
   },
-  "x-date": "2025-05-29 10:35:25",
+  "x-date": "2025-06-17 15:48:19",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",
-  "x-goctl-version": "1.8.4-beta"
+  "x-goctl-version": "1.8.4"
 }

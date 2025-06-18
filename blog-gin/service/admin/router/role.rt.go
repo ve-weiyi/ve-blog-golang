@@ -29,10 +29,8 @@ func (s *RoleRouter) Register(r *gin.RouterGroup) {
 		handler := controller.NewRoleController(s.svcCtx)
 		// 创建角色
 		group.POST("/role/add_role", handler.AddRole)
-		// 批量删除角色
-		group.POST("/role/batch_delete_role", handler.BatchDeleteRole)
 		// 删除角色
-		group.DELETE("/role/delete_role", handler.DeleteRole)
+		group.POST("/role/deletes_role", handler.DeletesRole)
 		// 分页获取角色列表
 		group.POST("/role/find_role_list", handler.FindRoleList)
 		// 获取角色资源列表
