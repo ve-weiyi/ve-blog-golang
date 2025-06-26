@@ -2,7 +2,6 @@ package blog
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/service/blog/router"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )

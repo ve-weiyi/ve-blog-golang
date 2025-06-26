@@ -2,7 +2,6 @@ package admin
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/service/admin/router"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )

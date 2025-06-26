@@ -18,10 +18,10 @@ func NewArticleRouter(svcCtx *svctx.ServiceContext) *ArticleRouter {
 
 func (s *ArticleRouter) Register(r *gin.RouterGroup) {
 	// Article
-	// [TimeToken]
+	// [TerminalToken]
 	{
 		group := r.Group("/blog-api/v1")
-		group.Use(s.svcCtx.MiddlewareTimeToken)
+		group.Use(s.svcCtx.TerminalToken)
 
 		handler := controller.NewArticleController(s.svcCtx)
 		// 文章归档(时间轴)
@@ -38,11 +38,11 @@ func (s *ArticleRouter) Register(r *gin.RouterGroup) {
 		group.POST("/article/get_article_recommend", handler.FindArticleRecommend)
 	}
 	// Article
-	// [TimeToken SignToken]
+	// [TerminalToken UserToken]
 	{
 		group := r.Group("/blog-api/v1")
-		group.Use(s.svcCtx.MiddlewareTimeToken)
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group.Use(s.svcCtx.TerminalToken)
+		group.Use(s.svcCtx.UserToken)
 
 		handler := controller.NewArticleController(s.svcCtx)
 		// 点赞文章

@@ -23,7 +23,7 @@ func (s *{{.Group}}Router) Register(r *gin.RouterGroup) {
     {
         group := r.Group("{{.Prefix}}")
         {{- range .Middleware}}
-        group.Use(s.svcCtx.Middleware{{.}})
+        group.Use(s.svcCtx.{{.}})
         {{- end }}
 
         handler := controller.New{{$.Group}}Controller(s.svcCtx)
