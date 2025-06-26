@@ -6,22 +6,18 @@ type (
         Data string `json:"data"`          // 消息内容
         Timestamp int64 `json:"timestamp"` // 消息时间戳
     }
-
     OnlineEvent {
         Count int64 `json:"count"`
         IsOnline bool `json:"is_online"`
         Msg string `json:"msg"` // 消息内容
     }
-
     ClientInfoEvent {
         IpAddress string `json:"ip_address"` // ip地址
         IpSource string `json:"ip_source"`   // ip来源
     }
-
     HistoryMessageEvent {
         List []*ChatMessageEvent `json:"list"` // 消息列表
     }
-
     ChatMessageEvent {
         Id int64 `json:"id"`                   // 主键
         UserId string `json:"user_id"`         // 用户id
@@ -36,21 +32,19 @@ type (
         CreatedAt int64 `json:"created_at"`    // 创建时间
         UpdatedAt int64 `json:"updated_at"`    // 更新时间
     }
-
     RecallMessageEvent {
         Id int64 `json:"id"` // 消息id
     }
 )
 
-
 @server(
-    tags : "WebSocket"
+    tags: "WebSocket"
     prefix: /blog-api/v1
     group: websocket
 )
-
 service blog-api {
     @doc "WebSocket消息"
     @handler Websocket
     get /websocket
 }
+

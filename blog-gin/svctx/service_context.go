@@ -23,13 +23,13 @@ type ServiceContext struct {
 	LocalCache *ecache.Cache
 	Token      *jwtx.JwtInstance
 
-	MiddlewareSignToken    gin.HandlerFunc
-	MiddlewareJwtToken     gin.HandlerFunc
-	MiddlewareOperation    gin.HandlerFunc
-	MiddlewarePermission   gin.HandlerFunc
-	MiddlewareOperationLog gin.HandlerFunc
-	MiddlewareTimeToken    gin.HandlerFunc
-	MiddlewareVisitLog     gin.HandlerFunc
+	TerminalToken gin.HandlerFunc
+	UserToken     gin.HandlerFunc
+	AdminToken    gin.HandlerFunc
+	Operation     gin.HandlerFunc
+	Permission    gin.HandlerFunc
+	OperationLog  gin.HandlerFunc
+	VisitLog      gin.HandlerFunc
 }
 
 func NewServiceContext(c *config.Config) *ServiceContext {
@@ -48,17 +48,17 @@ func NewServiceContext(c *config.Config) *ServiceContext {
 	tk := jwtx.NewJWTInstance([]byte(c.JWT.SigningKey))
 
 	return &ServiceContext{
-		Config:                 c,
-		DbEngin:                db,
-		RedisEngin:             rdb,
-		LocalCache:             cache,
-		Token:                  tk,
-		MiddlewareSignToken:    middleware.SignToken(),
-		MiddlewareJwtToken:     middleware.JwtToken(tk),
-		MiddlewareOperation:    middleware.GinLogger(),
-		MiddlewarePermission:   middleware.Trace(),
-		MiddlewareOperationLog: middleware.SignToken(),
-		MiddlewareTimeToken:    middleware.SignToken(),
-		MiddlewareVisitLog:     middleware.SignToken(),
+		Config:        c,
+		DbEngin:       db,
+		RedisEngin:    rdb,
+		LocalCache:    cache,
+		Token:         tk,
+		TerminalToken: middleware.TerminalToken(),
+		UserToken:     middleware.UserToken(),
+		AdminToken:    middleware.AdminToken(tk),
+		Operation:     middleware.GinLogger(),
+		Permission:    middleware.GinRecovery(true),
+		OperationLog:  middleware.GinRecovery(true),
+		VisitLog:      middleware.GinRecovery(true),
 	}
 }

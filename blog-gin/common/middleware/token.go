@@ -12,19 +12,61 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jwtx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 )
 
-// JwtToken jwt中间件
-func JwtToken(tk *jwtx.JwtInstance) gin.HandlerFunc {
-
-	parser := tk
-
+// 未登录token
+// 未登录时，token = md5(tm,ts)
+func TerminalToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var token string
-		var uid string
+		tk := c.Request.Header.Get(restx.HeaderXTerminalToken)
+		tm := c.Request.Header.Get(restx.HeaderXTerminalId)
+		ts := c.Request.Header.Get(restx.HeaderTimestamp)
 
-		token = c.Request.Header.Get(restx.HeaderToken)
-		uid = c.Request.Header.Get(restx.HeaderUid)
+		//glog.Infof("api is no login required. tk:%v, tm:%v,ts:%v", tk, tm, ts)
+		// 请求头缺少参数
+		if tk == "" || tm == "" || ts == "" {
+			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeUserUnLogin, "用户未登录"))
+			c.Abort()
+			return
+		}
+		// 判断 token = md5(tm,ts)
+		if tk != crypto.Md5v(tm, ts) {
+			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeUserLoginExpired, "无效请求"))
+			c.Abort()
+			return
+		}
+
+		c.Next()
+	}
+}
+
+// 登录token
+// 登录时，token = md5(uid,ts)，从redis中获取token对应的用户信息
+func UserToken() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		tk := c.Request.Header.Get(restx.HeaderToken)
+		uid := c.Request.Header.Get(restx.HeaderUid)
+
+		glog.Infof("api is login required. tk:%v, uid:%v", tk, uid)
+		// 请求头缺少参数
+		if tk == "" || uid == "" {
+			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeUserUnLogin, "用户未登录"))
+			c.Abort()
+			return
+		}
+		// 判断 uid = cache.get(token)
+
+		c.Next()
+	}
+}
+
+// 管理员token
+// jwt token
+func AdminToken(tk *jwtx.JwtInstance) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		token := c.Request.Header.Get(restx.HeaderAuthorization)
+		uid := c.Request.Header.Get(restx.HeaderUid)
 
 		// token为空或者uid为空
 		if token == "" || uid == "" {
@@ -37,7 +79,7 @@ func JwtToken(tk *jwtx.JwtInstance) gin.HandlerFunc {
 		}
 
 		// 解析token
-		tok, err := parser.ParseToken(token)
+		tok, err := tk.ParseToken(token)
 		if err != nil {
 			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeUserLoginExpired, "token parse error"))
 			c.Abort()

@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/service/admin/controller"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
@@ -19,12 +18,12 @@ func NewCategoryRouter(svcCtx *svctx.ServiceContext) *CategoryRouter {
 
 func (s *CategoryRouter) Register(r *gin.RouterGroup) {
 	// Category
-	// [JwtToken Permission OperationLog]
+	// [AdminToken Permission OperationLog]
 	{
 		group := r.Group("/admin-api/v1")
-		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewarePermission)
-		group.Use(s.svcCtx.MiddlewareOperationLog)
+		group.Use(s.svcCtx.AdminToken)
+		group.Use(s.svcCtx.Permission)
+		group.Use(s.svcCtx.OperationLog)
 
 		handler := controller.NewCategoryController(s.svcCtx)
 		// 创建文章分类

@@ -18,11 +18,11 @@ func NewUserRouter(svcCtx *svctx.ServiceContext) *UserRouter {
 
 func (s *UserRouter) Register(r *gin.RouterGroup) {
 	// User
-	// [TimeToken SignToken]
+	// [TerminalToken UserToken]
 	{
 		group := r.Group("/blog-api/v1")
-		group.Use(s.svcCtx.MiddlewareTimeToken)
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group.Use(s.svcCtx.TerminalToken)
+		group.Use(s.svcCtx.UserToken)
 
 		handler := controller.NewUserController(s.svcCtx)
 		// 删除用户绑定第三方平台账号

@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/service/admin/controller"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
@@ -55,10 +54,10 @@ func (s *AuthRouter) Register(r *gin.RouterGroup) {
 		group.POST("/third_login", handler.ThirdLogin)
 	}
 	// Auth
-	// [JwtToken]
+	// [AdminToken]
 	{
 		group := r.Group("/admin-api/v1")
-		group.Use(s.svcCtx.MiddlewareJwtToken)
+		group.Use(s.svcCtx.AdminToken)
 
 		handler := controller.NewAuthController(s.svcCtx)
 		// 注销

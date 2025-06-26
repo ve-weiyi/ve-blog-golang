@@ -40,7 +40,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken},
+			[]rest.Middleware{serverCtx.TerminalToken},
 			[]rest.Route{
 				{
 					// 获取相册列表
@@ -67,7 +67,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken},
+			[]rest.Middleware{serverCtx.TerminalToken},
 			[]rest.Route{
 				{
 					// 文章归档(时间轴)
@@ -112,7 +112,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken, serverCtx.SignToken},
+			[]rest.Middleware{serverCtx.TerminalToken, serverCtx.UserToken},
 			[]rest.Route{
 				{
 					// 点赞文章
@@ -139,7 +139,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken},
+			[]rest.Middleware{serverCtx.TerminalToken},
 			[]rest.Route{
 				{
 					// 邮箱登录
@@ -208,7 +208,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken, serverCtx.SignToken},
+			[]rest.Middleware{serverCtx.TerminalToken, serverCtx.UserToken},
 			[]rest.Route{
 				{
 					// 注销
@@ -229,7 +229,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken},
+			[]rest.Middleware{serverCtx.TerminalToken},
 			[]rest.Route{
 				{
 					// 分页获取文章分类列表
@@ -244,7 +244,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken},
+			[]rest.Middleware{serverCtx.TerminalToken},
 			[]rest.Route{
 				{
 					// 查询评论列表
@@ -271,7 +271,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken, serverCtx.SignToken},
+			[]rest.Middleware{serverCtx.TerminalToken, serverCtx.UserToken},
 			[]rest.Route{
 				{
 					// 创建评论
@@ -298,7 +298,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken},
+			[]rest.Middleware{serverCtx.TerminalToken},
 			[]rest.Route{
 				{
 					// 分页获取友链列表
@@ -313,7 +313,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken},
+			[]rest.Middleware{serverCtx.TerminalToken},
 			[]rest.Route{
 				{
 					// 分页获取页面列表
@@ -328,7 +328,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken},
+			[]rest.Middleware{serverCtx.TerminalToken},
 			[]rest.Route{
 				{
 					// 分页获取留言列表
@@ -343,7 +343,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken},
+			[]rest.Middleware{serverCtx.TerminalToken},
 			[]rest.Route{
 				{
 					// 创建留言
@@ -358,7 +358,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken},
+			[]rest.Middleware{serverCtx.TerminalToken},
 			[]rest.Route{
 				{
 					// 分页获取标签列表
@@ -373,7 +373,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken},
+			[]rest.Middleware{serverCtx.TerminalToken},
 			[]rest.Route{
 				{
 					// 分页获取说说列表
@@ -400,7 +400,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken},
+			[]rest.Middleware{serverCtx.TerminalToken},
 			[]rest.Route{
 				{
 					// 删除文件列表
@@ -433,7 +433,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken, serverCtx.SignToken},
+			[]rest.Middleware{serverCtx.TerminalToken, serverCtx.UserToken},
 			[]rest.Route{
 				{
 					// 删除用户绑定第三方平台账号
@@ -496,7 +496,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TimeToken},
+			[]rest.Middleware{serverCtx.TerminalToken},
 			[]rest.Route{
 				{
 					// 获取博客前台首页信息

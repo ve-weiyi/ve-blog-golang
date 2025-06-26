@@ -22,7 +22,7 @@ func NewAntiReplyMiddleware() *AntiReplyMiddleware {
 // 防重放
 func (m *AntiReplyMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		logx.Infof("AntiReplyMiddleware Handle")
+		logx.Debugf("AntiReplyMiddleware Handle")
 
 		if r.Method != http.MethodGet {
 			ts := r.Header.Get(restx.HeaderTimestamp)

@@ -2,14 +2,14 @@ package middleware
 
 import "net/http"
 
-type JwtTokenMiddleware struct {
+type SimpleMiddleware struct {
 }
 
-func NewJwtTokenMiddleware() *JwtTokenMiddleware {
-	return &JwtTokenMiddleware{}
+func NewSimpleMiddleware() *SimpleMiddleware {
+	return &SimpleMiddleware{}
 }
 
-func (m *JwtTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
+func (m *SimpleMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// TODO generate middleware implement function, delete after code implementation
 

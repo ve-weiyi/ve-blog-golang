@@ -171,19 +171,6 @@ type Response struct {
 	TraceId string      `json:"trace_id"`
 }
 
-type RestHeader struct {
-	HeaderCountry       string `header:"Country,optional"`
-	HeaderLanguage      string `header:"Language,optional"`
-	HeaderTimezone      string `header:"Timezone,optional"`
-	HeaderAppName       string `header:"App-name,optional"`
-	HeaderTimestamp     string `header:"Timestamp,optional"`
-	HeaderTerminalId    string `header:"Terminal-Id,optional"`
-	HeaderXTsToken      string `header:"X-Ts-Token,optional"`
-	HeaderUid           string `header:"Uid,optional"`
-	HeaderToken         string `header:"Token,optional"`
-	HeaderAuthorization string `header:"Authorization,optional"`
-}
-
 type RewardQrCode struct {
 	AlipayQrCode string `json:"alipay_qr_code"` // 支付宝二维码
 	WeixinQrCode string `json:"weixin_qr_code"` // 微信二维码

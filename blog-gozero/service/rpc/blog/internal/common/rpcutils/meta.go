@@ -32,13 +32,13 @@ func GetTerminalIdFromCtx(ctx context.Context) (string, error) {
 		return "", fmt.Errorf("metadata error")
 	}
 
-	if val, ok := md[restx.HeaderTerminalId]; ok {
+	if val, ok := md[restx.HeaderXTerminalId]; ok {
 		if len(val) > 0 {
 			return val[0], nil
 		}
 	}
 
-	return "", fmt.Errorf("missing rpc meta '%v'", restx.HeaderTerminalId)
+	return "", fmt.Errorf("missing rpc meta '%v'", restx.HeaderXTerminalId)
 }
 
 func GetAppNameFromCtx(ctx context.Context) (string, error) {
