@@ -15,7 +15,7 @@ func ServerErrorInterceptor(ctx context.Context, req interface{}, info *grpc.Una
 	resp, err := handler(ctx, req)
 	if err != nil {
 		st := status.New(codes.Internal, err.Error())
-		logx.WithContext(ctx).Infof("grpc server error info, full_method=%s, err=%+v", info.FullMethod, err)
+		logx.WithContext(ctx).Errorf("grpc server error info, full_method=%s, err=%+v", info.FullMethod, err)
 		return resp, st.Err()
 	}
 

@@ -18,10 +18,10 @@ func NewAlbumRouter(svcCtx *svctx.ServiceContext) *AlbumRouter {
 
 func (s *AlbumRouter) Register(r *gin.RouterGroup) {
 	// Album
-	// [TimeToken]
+	// [TerminalToken]
 	{
 		group := r.Group("/blog-api/v1")
-		group.Use(s.svcCtx.MiddlewareTimeToken)
+		group.Use(s.svcCtx.TerminalToken)
 
 		handler := controller.NewAlbumController(s.svcCtx)
 		// 获取相册列表
