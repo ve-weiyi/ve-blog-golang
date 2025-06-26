@@ -1,6 +1,7 @@
-package middlewarex
+package middleware
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -11,21 +12,19 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 )
 
-type JwtTokenMiddleware struct {
+type AdminTokenMiddleware struct {
 	verifier tokenx.TokenHolder
 }
 
-func NewJwtTokenMiddleware(verifier tokenx.TokenHolder) *JwtTokenMiddleware {
-	return &JwtTokenMiddleware{
+func NewAdminTokenMiddleware(verifier tokenx.TokenHolder) *AdminTokenMiddleware {
+	return &AdminTokenMiddleware{
 		verifier: verifier,
 	}
 }
 
-// 用户token
-// jwt验证
-func (j *JwtTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
+func (m *AdminTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		logx.Infof("JwtTokenMiddleware Handle")
+		logx.Debugf("JwtTokenMiddleware Handle")
 		var token string
 		var uid string
 
@@ -33,17 +32,17 @@ func (j *JwtTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		uid = r.Header.Get(restx.HeaderUid)
 
 		// 请求头缺少参数
-		if token == "" {
-			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "request header field 'token' is missing"))
-			return
-		}
-
 		if uid == "" {
-			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "request header field 'uid' is missing"))
+			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeInvalidParam, fmt.Sprintf("request header field '%v' is missing", restx.HeaderUid)))
 			return
 		}
 
-		err := j.verifier.VerifyToken(r.Context(), token, uid)
+		if token == "" {
+			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeInvalidParam, fmt.Sprintf("request header field '%v' is missing", restx.HeaderAuthorization)))
+			return
+		}
+
+		err := m.verifier.VerifyToken(r.Context(), token, uid)
 		if err != nil {
 			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeUserLoginExpired, err.Error()))
 			return
