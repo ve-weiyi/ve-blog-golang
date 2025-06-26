@@ -9,11 +9,11 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/permissionx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/tokenx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/docs"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/config"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/middleware"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/configrpc"
@@ -44,8 +44,7 @@ type ServiceContext struct {
 	TokenHolder      tokenx.TokenHolder
 	PermissionHolder permissionx.PermissionHolder
 
-	TimeToken    rest.Middleware
-	JwtToken     rest.Middleware
+	AdminToken   rest.Middleware
 	Permission   rest.Middleware
 	OperationLog rest.Middleware
 }
@@ -100,11 +99,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Uploader:         uploader,
 		TokenHolder:      th,
 		PermissionHolder: ph,
-		TimeToken:        middlewarex.NewTimeTokenMiddleware().Handle,
-		JwtToken:         middlewarex.NewJwtTokenMiddleware(th).Handle,
-		Permission:       middlewarex.NewMiddleware().Handle, // 不使用接口权限控制
-		//Permission:       middlewarex.NewPermissionMiddleware(ph).Handle,
-		OperationLog: middlewarex.NewOperationLogMiddleware(doc.Spec(), syslogRpc, permissionRpc).Handle,
+
+		AdminToken: middleware.NewAdminTokenMiddleware(th).Handle,
+		Permission: middleware.NewSimpleMiddleware().Handle, // 不使用接口权限控制
+		//Permission:       middleware.NewPermissionMiddleware(ph).Handle,
+		OperationLog: middleware.NewOperationLogMiddleware(doc.Spec(), syslogRpc, permissionRpc).Handle,
 	}
 }
 
