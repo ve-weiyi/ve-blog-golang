@@ -1,11 +1,11 @@
 go 1.23.3
 
 use (
+	./tools
 	blog-gin
 	blog-gozero
 	kit
 	stompws
-	tools
 )
 
 // go work init
