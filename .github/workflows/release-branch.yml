@@ -3,6 +3,7 @@ name: Docker Build and Push on Branches
 on:
   push:
     branches:
+      - main
       - master
       - feature/**  # 监听 master 和所有 feature 分支
 
