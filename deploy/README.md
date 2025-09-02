@@ -11,13 +11,13 @@
 
 ### 数据服务 (data-server.com)
 
-| 服务名称          | 用途     | 是否必需 | 说明         | docker-compose                                                       |
-|---------------|--------|------|------------|----------------------------------------------------------------------|
-| MySQL         | 关系型数据库 | 必需   | 存储核心业务数据   | [docker-compose.yaml](docker-compose/data/docker-compose.yaml)       |
-| Redis         | 缓存服务   | 必需   | 存储文章访问量    | [docker-compose.yaml](docker-compose/data/docker-compose.yaml)       |
-| RabbitMQ      | 消息队列   | 必需   | 异步处理邮件发送数据 | [docker-compose.yaml](docker-compose/data/docker-compose.yaml)       |
-| Kafka         | 消息队列   | 可选   | 异步处理页面访问数据 | [docker-compose.yaml](docker-compose/data/kafka/docker-compose.yaml) |
-| Elasticsearch | 搜索引擎   | 可选   | 搜索文章内容(未做) |                                                                      |
+| 服务名称          | 用途     | 是否必需 | 说明         | docker-compose                                                              |
+|---------------|--------|------|------------|-----------------------------------------------------------------------------|
+| MySQL         | 关系型数据库 | 必需   | 存储核心业务数据   | [docker-compose.yaml](docker-compose/environment/data/docker-compose.yaml)  |
+| Redis         | 缓存服务   | 必需   | 存储文章访问量    | [docker-compose.yaml](docker-compose/environment/data/docker-compose.yaml)  |
+| RabbitMQ      | 消息队列   | 必需   | 异步处理邮件发送数据 | [docker-compose.yaml](docker-compose/environment/data/docker-compose.yaml)  |
+| Kafka         | 消息队列   | 可选   | 异步处理页面访问数据 | [docker-compose.yaml](docker-compose/environment/kafka/docker-compose.yaml) |
+| Elasticsearch | 搜索引擎   | 可选   | 搜索文章内容(未做) |                                                                             |
 
 ### 环境服务 (environment-server.com)
 
@@ -55,4 +55,4 @@
 docker-compose -f docker-compose.yaml up -d
 ```
 
-
+curl -vk https://host.docker.internal/ping
