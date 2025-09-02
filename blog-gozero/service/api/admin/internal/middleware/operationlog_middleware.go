@@ -54,7 +54,7 @@ func (m *OperationLogMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc 
 
 		ok, err := m.isTraceable(r.URL.Path)
 		if err != nil || !ok {
-			logx.Infof("OperationLogMiddleware Handle isTraceable err: %v", err)
+			logx.Debugf("OperationLogMiddleware Handle isTraceable err: %v", err)
 			next.ServeHTTP(w, r)
 			return
 		}
