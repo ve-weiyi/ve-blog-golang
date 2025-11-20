@@ -8,11 +8,11 @@ import (
 	"github.com/segmentio/kafka-go"
 	"github.com/segmentio/kafka-go/sasl/scram"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/logz"
 )
 
 type KafkaConsumer struct {
-	glog.Logger
+	logz.Logger
 
 	r *kafka.Reader
 }
@@ -41,7 +41,7 @@ func NewKafkaConsumer(c *KafkaConf) *KafkaConsumer {
 	})
 
 	return &KafkaConsumer{
-		Logger: glog.Default(),
+		Logger: logz.Default().Sugar(),
 		r:      r,
 	}
 }

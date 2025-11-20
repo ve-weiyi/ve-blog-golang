@@ -5,14 +5,14 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/logz"
 )
 
 //有一个分布式系统业务场景：运行有相同代码的三台服务器A、B、C，用户调用接口时可能分配到三台服务器中的任何一台。我希望无论是那一台服务器接收到，都会通知到所有的服务器
 
 // RedisMqConn 结构体，同时实现发布和订阅功能
 type RedisMqConn struct {
-	glog.Logger
+	logz.Logger
 
 	client  *redis.Client
 	channel string
@@ -25,7 +25,7 @@ func NewRedisMqConn(redisAddr, channel string) *RedisMqConn {
 	})
 
 	return &RedisMqConn{
-		Logger:  glog.Default(),
+		Logger:  logz.Default().Sugar(),
 		client:  client,
 		channel: channel,
 	}
