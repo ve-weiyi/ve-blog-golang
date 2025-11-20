@@ -45,7 +45,7 @@ func NewServiceContext(c *config.Config) *ServiceContext {
 
 	cache := ecache.NewLRUCache(16, 200, 10*time.Second).LRU2(1024)
 
-	tk := jwtx.NewJWTInstance([]byte(c.JWT.SigningKey))
+	tk := jwtx.NewJWTInstance([]byte(c.JWT.Secret))
 
 	return &ServiceContext{
 		Config:        c,

@@ -1,11 +1,13 @@
 definitions:
-  dto.AboutMe:
+  dto.AboutMeVO:
     properties:
       content:
         type: string
     type: object
   dto.AccountQuery:
     properties:
+      email:
+        type: string
       nickname:
         type: string
       page:
@@ -14,8 +16,18 @@ definitions:
       page_size:
         description: 每页数量
         type: integer
+      phone:
+        type: string
       sorts:
         description: 排序
+        items:
+          type: string
+        type: array
+      status:
+        description: '状态: -1删除 0正常 1禁用'
+        type: integer
+      user_ids:
+        description: 用户ID
         items:
           type: string
         type: array
@@ -125,6 +137,9 @@ definitions:
       album_name:
         description: 相册名
         type: string
+      is_delete:
+        description: 是否删除
+        type: integer
       page:
         description: 当前页码
         type: integer
@@ -318,6 +333,10 @@ definitions:
       article_type:
         description: 文章类型
         type: integer
+      author:
+        allOf:
+          - $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO'
+        description: 作者
       category_name:
         description: 文章分类名
         type: string
@@ -402,6 +421,9 @@ definitions:
         type: string
       id:
         description: id
+        type: integer
+      is_top:
+        description: 是否置顶
         type: integer
       original_url:
         description: 原文链接
@@ -605,7 +627,7 @@ definitions:
         type: integer
       reply_user:
         allOf:
-          - $ref: '#/definitions/dto.CommentUserInfo'
+          - $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO'
         description: 被回复评论用户
       reply_user_id:
         description: 被回复用户id
@@ -618,7 +640,7 @@ definitions:
         type: integer
       user:
         allOf:
-          - $ref: '#/definitions/dto.CommentUserInfo'
+          - $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO'
         description: 评论用户
       user_id:
         description: 用户id
@@ -638,6 +660,9 @@ definitions:
       reply_user_id:
         description: 回复用户id
         type: string
+      status:
+        description: 状态 0.正常 1.已编辑 2.已删除
+        type: integer
       topic_id:
         description: 主题id
         type: integer
@@ -709,7 +734,7 @@ definitions:
         type: integer
       reply_user:
         allOf:
-          - $ref: '#/definitions/dto.CommentUserInfo'
+          - $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO'
         description: 被回复评论用户
       reply_user_id:
         description: 被回复用户id
@@ -722,8 +747,8 @@ definitions:
         type: integer
       user:
         allOf:
-          - $ref: '#/definitions/dto.CommentUserInfo'
-        description: 评论用户
+          - $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO'
+        description: 用户信息
       user_id:
         description: 用户id
         type: string
@@ -736,116 +761,6 @@ definitions:
         type: array
       is_review:
         type: integer
-    type: object
-  dto.CommentUserInfo:
-    properties:
-      avatar:
-        type: string
-      nickname:
-        type: string
-      user_id:
-        type: string
-      website:
-        type: string
-    type: object
-  dto.FileBackDTO:
-    properties:
-      created_at:
-        description: 创建时间
-        type: integer
-      file_md5:
-        description: 文件md5值
-        type: string
-      file_name:
-        description: 文件名称
-        type: string
-      file_path:
-        description: 文件路径
-        type: string
-      file_size:
-        description: 文件大小
-        type: integer
-      file_type:
-        description: 文件类型
-        type: string
-      file_url:
-        description: 上传路径
-        type: string
-      id:
-        description: 文件目录ID
-        type: integer
-      updated_at:
-        description: 更新时间
-        type: integer
-      user_id:
-        description: 用户id
-        type: string
-    type: object
-  dto.FileBackVO:
-    properties:
-      created_at:
-        description: 创建时间
-        type: integer
-      creator:
-        allOf:
-          - $ref: '#/definitions/dto.UserInfo'
-        description: 创建人
-      file_md5:
-        description: 文件md5值
-        type: string
-      file_name:
-        description: 文件名称
-        type: string
-      file_path:
-        description: 文件路径
-        type: string
-      file_size:
-        description: 文件大小
-        type: integer
-      file_type:
-        description: 文件类型
-        type: string
-      file_url:
-        description: 上传路径
-        type: string
-      id:
-        description: 文件目录ID
-        type: integer
-      updated_at:
-        description: 更新时间
-        type: integer
-      user_id:
-        description: 用户id
-        type: string
-    type: object
-  dto.FileFolderNewReq:
-    properties:
-      file_name:
-        description: 文件名称
-        type: string
-      file_path:
-        description: 文件路径
-        type: string
-    type: object
-  dto.FileQuery:
-    properties:
-      file_path:
-        description: 文件路径
-        type: string
-      file_type:
-        description: 文件类型
-        type: string
-      page:
-        description: 当前页码
-        type: integer
-      page_size:
-        description: 每页数量
-        type: integer
-      sorts:
-        description: 排序
-        items:
-          type: string
-        type: array
     type: object
   dto.FriendBackVO:
     properties:
@@ -937,7 +852,7 @@ definitions:
       page_list:
         description: 页面列表
         items:
-          $ref: '#/definitions/dto.PageDTO'
+          $ref: '#/definitions/dto.PageVO'
         type: array
       tag_count:
         description: 标签数量
@@ -945,16 +860,13 @@ definitions:
       total_page_view_count:
         description: 总浏览量
         type: integer
+      total_user_view_count:
+        description: 总服务量
+        type: integer
       website_config:
         allOf:
-          - $ref: '#/definitions/dto.WebsiteConfigDTO'
+          - $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.WebsiteConfigVO'
         description: 网站配置
-    type: object
-  dto.GetTouristInfoResp:
-    properties:
-      tourist_id:
-        description: 游客id
-        type: string
     type: object
   dto.GetUserAreaStatsReq:
     properties:
@@ -1011,23 +923,6 @@ definitions:
         description: 访客数和浏览量趋势
         items:
           $ref: '#/definitions/dto.VisitTrendVO'
-        type: array
-    type: object
-  dto.ListUploadFileReq:
-    properties:
-      file_path:
-        description: 文件路径
-        type: string
-      limit:
-        description: 限制
-        type: integer
-    type: object
-  dto.ListUploadFileResp:
-    properties:
-      urls:
-        description: 文件路径
-        items:
-          type: string
         type: array
     type: object
   dto.LoginLogQuery:
@@ -1237,24 +1132,6 @@ definitions:
         description: 更新时间
         type: integer
     type: object
-  dto.PageDTO:
-    properties:
-      id:
-        description: 页面ID
-        type: integer
-      is_carousel:
-        description: 是否轮播
-        type: integer
-      page_cover:
-        description: 页面封面
-        type: string
-      page_label:
-        description: 页面标签
-        type: string
-      page_name:
-        description: 页面名称
-        type: string
-    type: object
   dto.PageNewReq:
     properties:
       carousel_covers:
@@ -1276,6 +1153,24 @@ definitions:
         type: string
       page_name:
         description: 页面名
+        type: string
+    type: object
+  dto.PageVO:
+    properties:
+      id:
+        description: 页面ID
+        type: integer
+      is_carousel:
+        description: 是否轮播
+        type: integer
+      page_cover:
+        description: 页面封面
+        type: string
+      page_label:
+        description: 页面标签
+        type: string
+      page_name:
+        description: 页面名称
         type: string
     type: object
   dto.PhotoBackVO:
@@ -1331,6 +1226,9 @@ definitions:
       album_id:
         description: 相册id
         type: integer
+      is_delete:
+        description: 是否删除
+        type: integer
       page:
         description: 当前页码
         type: integer
@@ -1349,11 +1247,30 @@ definitions:
         description: 相册ID
         type: integer
     type: object
+  dto.PreDeleteAlbumReq:
+    properties:
+      ids:
+        description: 主键
+        items:
+          type: integer
+        type: array
+      is_delete:
+        description: 是否删除
+        type: integer
+    type: object
+  dto.PreDeletePhotoReq:
+    properties:
+      ids:
+        description: 主键
+        items:
+          type: integer
+        type: array
+      is_delete:
+        description: 是否删除
+        type: integer
+    type: object
   dto.Remark:
     properties:
-      avatar:
-        description: 头像
-        type: string
       created_at:
         description: 发布时间
         type: integer
@@ -1372,23 +1289,24 @@ definitions:
       message_content:
         description: 留言内容
         type: string
-      nickname:
-        description: 昵称
+      terminal_id:
+        description: 终端id
         type: string
       updated_at:
         description: 更新时间
         type: integer
+      user:
+        allOf:
+          - $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO'
+        description: 用户信息
+      user_id:
+        description: 用户id
+        type: string
     type: object
   dto.RemarkNewReq:
     properties:
-      avatar:
-        description: 头像
-        type: string
       message_content:
         description: 留言内容
-        type: string
-      nickname:
-        description: 昵称
         type: string
     type: object
   dto.RemarkQuery:
@@ -1530,10 +1448,6 @@ definitions:
       ram: { }
     type: object
   dto.SyncApiReq:
-    properties:
-      api_file_path:
-        description: api文件路径
-        type: string
     type: object
   dto.SyncMenuReq:
     properties:
@@ -1613,9 +1527,6 @@ definitions:
     type: object
   dto.Talk:
     properties:
-      avatar:
-        description: 用户头像
-        type: string
       comment_count:
         description: 评论量
         type: integer
@@ -1639,15 +1550,16 @@ definitions:
       like_count:
         description: 点赞量
         type: integer
-      nickname:
-        description: 用户昵称
-        type: string
       status:
         description: 状态 1.公开 2.私密
         type: integer
       updated_at:
         description: 更新时间
         type: integer
+      user:
+        allOf:
+          - $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO'
+        description: 用户信息
       user_id:
         description: 用户ID
         type: string
@@ -1685,7 +1597,7 @@ definitions:
         type: integer
       user:
         allOf:
-          - $ref: '#/definitions/dto.UserInfo'
+          - $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UserInfoVO'
         description: 用户信息
       user_id:
         description: 用户ID
@@ -1763,6 +1675,21 @@ definitions:
       user_id:
         type: string
     type: object
+  dto.UpdateCommentReq:
+    properties:
+      comment_content:
+        description: 评论内容
+        type: string
+      id:
+        description: 主键
+        type: integer
+      reply_user_id:
+        description: 回复用户id
+        type: string
+      status:
+        description: 状态 0.正常 1.已编辑 2.已删除
+        type: integer
+    type: object
   dto.UpdateRoleApisReq:
     properties:
       api_ids:
@@ -1780,6 +1707,29 @@ definitions:
         type: array
       role_id:
         type: integer
+    type: object
+  dto.UploadLogQuery:
+    properties:
+      file_name:
+        description: 文件名称
+        type: string
+      file_path:
+        description: 文件路径
+        type: string
+      file_type:
+        description: 文件类型
+        type: string
+      page:
+        description: 当前页码
+        type: integer
+      page_size:
+        description: 每页数量
+        type: integer
+      sorts:
+        description: 排序
+        items:
+          type: string
+        type: array
     type: object
   dto.UserApi:
     properties:
@@ -1822,17 +1772,6 @@ definitions:
         type: string
       value:
         type: integer
-    type: object
-  dto.UserInfo:
-    properties:
-      avatar:
-        type: string
-      nickname:
-        type: string
-      user_id:
-        type: string
-      username:
-        type: string
     type: object
   dto.UserLikeResp:
     properties:
@@ -1940,15 +1879,6 @@ definitions:
         description: 角色标签
         type: string
     type: object
-  dto.UserRoleLabel:
-    properties:
-      role_id:
-        type: integer
-      role_key:
-        type: string
-      role_label:
-        type: string
-    type: object
   dto.UserRolesResp:
     properties:
       list:
@@ -1991,168 +1921,24 @@ definitions:
         description: 访客数
         type: integer
     type: object
-  dto.WebsiteConfig:
-    properties:
-      admin_url:
-        description: 后台地址
-        type: string
-      alipay_qr_code:
-        description: 支付宝二维码
-        type: string
-      gitee:
-        description: Gitee
-        type: string
-      github:
-        description: Github
-        type: string
-      is_chat_room:
-        description: 是否开启聊天室
-        type: integer
-      is_comment_review:
-        description: 是否开启评论审核
-        type: integer
-      is_email_notice:
-        description: 是否开启邮件通知
-        type: integer
-      is_message_review:
-        description: 是否开启留言审核
-        type: integer
-      is_music_player:
-        description: 是否开启音乐播放器
-        type: integer
-      is_reward:
-        description: 是否开启打赏
-        type: integer
-      qq:
-        description: QQ
-        type: string
-      social_login_list:
-        description: 社交登录列表
-        items:
-          type: string
-        type: array
-      social_url_list:
-        description: 社交地址列表
-        items:
-          type: string
-        type: array
-      tourist_avatar:
-        description: 游客头像
-        type: string
-      user_avatar:
-        description: 用户头像
-        type: string
-      website_author:
-        description: 网站作者
-        type: string
-      website_avatar:
-        description: 网站头像
-        type: string
-      website_create_time:
-        description: 网站创建时间
-        type: string
-      website_intro:
-        description: 网站介绍
-        type: string
-      website_name:
-        description: 网站名称
-        type: string
-      website_notice:
-        description: 网站公告
-        type: string
-      website_record_no:
-        description: 网站备案号
-        type: string
-      websocket_url:
-        description: websocket地址
-        type: string
-      weixin_qr_code:
-        description: 微信二维码
-        type: string
-    type: object
-  dto.WebsiteConfigDTO:
-    properties:
-      admin_url:
-        description: 后台地址
-        type: string
-      alipay_qr_code:
-        description: 支付宝二维码
-        type: string
-      gitee:
-        description: Gitee
-        type: string
-      github:
-        description: Github
-        type: string
-      is_chat_room:
-        description: 是否开启聊天室
-        type: integer
-      is_comment_review:
-        description: 是否开启评论审核
-        type: integer
-      is_email_notice:
-        description: 是否开启邮件通知
-        type: integer
-      is_message_review:
-        description: 是否开启留言审核
-        type: integer
-      is_music_player:
-        description: 是否开启音乐播放器
-        type: integer
-      is_reward:
-        description: 是否开启打赏
-        type: integer
-      qq:
-        description: QQ
-        type: string
-      social_login_list:
-        description: 社交登录列表
-        items:
-          type: string
-        type: array
-      social_url_list:
-        description: 社交地址列表
-        items:
-          type: string
-        type: array
-      tourist_avatar:
-        description: 游客头像
-        type: string
-      user_avatar:
-        description: 用户头像
-        type: string
-      website_author:
-        description: 网站作者
-        type: string
-      website_avatar:
-        description: 网站头像
-        type: string
-      website_create_time:
-        description: 网站创建时间
-        type: string
-      website_intro:
-        description: 网站介绍
-        type: string
-      website_name:
-        description: 网站名称
-        type: string
-      website_notice:
-        description: 网站公告
-        type: string
-      website_record_no:
-        description: 网站备案号
-        type: string
-      websocket_url:
-        description: websocket地址
-        type: string
-      weixin_qr_code:
-        description: 微信二维码
-        type: string
-    type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp:
     properties:
       success_count:
         type: integer
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.DeleteUserBindThirdPartyReq:
+    properties:
+      platform:
+        description: 平台
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.DeletesUploadFileReq:
+    properties:
+      file_paths:
+        description: 文件路径
+        items:
+          type: string
+        type: array
     type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmailLoginReq:
     properties:
@@ -2172,6 +1958,27 @@ definitions:
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq:
     type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp:
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.FileInfoVO:
+    properties:
+      file_name:
+        description: 文件名称
+        type: string
+      file_path:
+        description: 文件路径
+        type: string
+      file_size:
+        description: 文件大小
+        type: integer
+      file_type:
+        description: 文件类型
+        type: string
+      file_url:
+        description: 上传路径
+        type: string
+      updated_at:
+        description: 更新时间
+        type: integer
     type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetCaptchaCodeReq:
     properties:
@@ -2194,6 +2001,27 @@ definitions:
         description: 验证码key
         type: string
     type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetOauthAuthorizeUrlReq:
+    properties:
+      platform:
+        description: 平台
+        type: string
+      state:
+        description: 状态
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetOauthAuthorizeUrlResp:
+    properties:
+      authorize_url:
+        description: 授权地址
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetTouristInfoResp:
+    properties:
+      tourist_id:
+        description: 游客id
+        type: string
+    type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq:
     properties:
       id:
@@ -2205,6 +2033,15 @@ definitions:
         items:
           type: integer
         type: array
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ListUploadFileReq:
+    properties:
+      file_path:
+        description: 文件路径
+        type: string
+      limit:
+        description: 限制
+        type: integer
     type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.LoginReq:
     properties:
@@ -2233,24 +2070,6 @@ definitions:
         description: 文件列表
         items: { }
         type: array
-    type: object
-  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.OauthLoginReq:
-    properties:
-      code:
-        description: 授权码
-        type: string
-      platform:
-        description: 平台
-        type: string
-      state:
-        description: 状态
-        type: string
-    type: object
-  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.OauthLoginUrlResp:
-    properties:
-      url:
-        description: 授权地址
-        type: string
     type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageQueryReq:
     properties:
@@ -2336,6 +2155,15 @@ definitions:
         description: 验证码
         type: string
     type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.RewardQrCode:
+    properties:
+      alipay_qr_code:
+        description: 支付宝二维码
+        type: string
+      weixin_qr_code:
+        description: 微信二维码
+        type: string
+    type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.SendEmailVerifyCodeReq:
     properties:
       email:
@@ -2352,6 +2180,45 @@ definitions:
         type: string
       type:
         description: 类型 register,reset_password,bind_email,bind_phone
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.SocialAccountInfo:
+    properties:
+      enabled:
+        description: 是否启用
+        type: boolean
+      link_url:
+        description: 链接地址
+        type: string
+      name:
+        description: 名称-微信
+        type: string
+      platform:
+        description: 平台-wechat
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ThirdLoginReq:
+    properties:
+      code:
+        description: 授权码
+        type: string
+      platform:
+        description: 平台
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ThirdPlatformInfo:
+    properties:
+      authorize_url:
+        description: 授权地址
+        type: string
+      enabled:
+        description: 是否启用
+        type: boolean
+      name:
+        description: 名称-微信
+        type: string
+      platform:
+        description: 平台-wechat
         type: string
     type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.Token:
@@ -2402,6 +2269,18 @@ definitions:
         description: 验证码
         type: string
     type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserBindThirdPartyReq:
+    properties:
+      code:
+        description: 授权码
+        type: string
+      platform:
+        description: 平台
+        type: string
+      state:
+        description: 状态
+        type: string
+    type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserInfoReq:
     properties:
       gender:
@@ -2443,6 +2322,7 @@ definitions:
         description: 用户头像
         type: string
       created_at:
+        description: 创建时间
         type: integer
       email:
         description: 用户邮箱
@@ -2453,34 +2333,27 @@ definitions:
       intro:
         description: 简介
         type: string
-      ip_address:
-        description: ip host
-        type: string
-      ip_source:
-        description: ip 源
-        type: string
-      login_type:
-        description: 登录方式
-        type: string
       nickname:
         description: 用户昵称
         type: string
       perms:
         items:
-          $ref: '#/definitions/dto.UserApi'
+          type: string
         type: array
       phone:
         description: 用户手机号
         type: string
+      register_type:
+        description: 注册方式
+        type: string
       roles:
         items:
-          $ref: '#/definitions/dto.UserRoleLabel'
+          type: string
         type: array
-      status:
-        description: 状态
-        type: integer
-      updated_at:
-        type: integer
+      third_party:
+        items:
+          $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UserThirdPartyInfo'
+        type: array
       user_id:
         description: 用户id
         type: string
@@ -2490,6 +2363,145 @@ definitions:
       website:
         description: 网站
         type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UserInfoVO:
+    properties:
+      avatar:
+        type: string
+      gender:
+        description: 性别 0未知 1男 2女
+        type: integer
+      intro:
+        description: 简介
+        type: string
+      nickname:
+        type: string
+      user_id:
+        type: string
+      username:
+        type: string
+      website:
+        description: 网站
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UserThirdPartyInfo:
+    properties:
+      avatar:
+        description: 头像
+        type: string
+      created_at:
+        description: 创建时间
+        type: integer
+      nickname:
+        description: 昵称
+        type: string
+      open_id:
+        description: 平台用户id
+        type: string
+      platform:
+        description: 平台
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.WebsiteConfigVO:
+    properties:
+      admin_url:
+        description: 后台地址
+        type: string
+      reward_qr_code:
+        allOf:
+          - $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.RewardQrCode'
+        description: 打赏二维码
+      social_login_list:
+        description: 用户第三方登录列表
+        items:
+          $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ThirdPlatformInfo'
+        type: array
+      social_url_list:
+        description: 作者社交地址列表
+        items:
+          $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.SocialAccountInfo'
+        type: array
+      tourist_avatar:
+        description: 游客头像
+        type: string
+      user_avatar:
+        description: 用户头像
+        type: string
+      website_feature:
+        allOf:
+          - $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.WebsiteFeature'
+        description: 网站功能
+      website_info:
+        allOf:
+          - $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.WebsiteInfo'
+        description: 网站信息
+      websocket_url:
+        description: websocket地址
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.WebsiteFeature:
+    properties:
+      is_chat_room:
+        description: 是否开启聊天室
+        type: integer
+      is_comment_review:
+        description: 是否开启评论审核
+        type: integer
+      is_email_notice:
+        description: 是否开启邮件通知
+        type: integer
+      is_message_review:
+        description: 是否开启留言审核
+        type: integer
+      is_music_player:
+        description: 是否开启音乐播放器
+        type: integer
+      is_reward:
+        description: 是否开启打赏
+        type: integer
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.WebsiteInfo:
+    properties:
+      website_author:
+        description: 网站作者
+        type: string
+      website_avatar:
+        description: 网站头像
+        type: string
+      website_create_time:
+        description: 网站创建时间
+        type: string
+      website_intro:
+        description: 网站介绍
+        type: string
+      website_name:
+        description: 网站名称
+        type: string
+      website_notice:
+        description: 网站公告
+        type: string
+      website_record_no:
+        description: 网站备案号
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.BatchResp:
+    properties:
+      success_count:
+        type: integer
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.DeleteUserBindThirdPartyReq:
+    properties:
+      platform:
+        description: 平台
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.DeletesUploadFileReq:
+    properties:
+      file_paths:
+        description: 文件路径
+        items:
+          type: string
+        type: array
     type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmailLoginReq:
     properties:
@@ -2509,6 +2521,27 @@ definitions:
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyReq:
     type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp:
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.FileInfoVO:
+    properties:
+      file_name:
+        description: 文件名称
+        type: string
+      file_path:
+        description: 文件路径
+        type: string
+      file_size:
+        description: 文件大小
+        type: integer
+      file_type:
+        description: 文件类型
+        type: string
+      file_url:
+        description: 上传路径
+        type: string
+      updated_at:
+        description: 更新时间
+        type: integer
     type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetCaptchaCodeReq:
     properties:
@@ -2531,9 +2564,39 @@ definitions:
         description: 验证码key
         type: string
     type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetOauthAuthorizeUrlReq:
+    properties:
+      platform:
+        description: 平台
+        type: string
+      state:
+        description: 状态
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetOauthAuthorizeUrlResp:
+    properties:
+      authorize_url:
+        description: 授权地址
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetTouristInfoResp:
+    properties:
+      tourist_id:
+        description: 游客id
+        type: string
+    type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.IdReq:
     properties:
       id:
+        type: integer
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ListUploadFileReq:
+    properties:
+      file_path:
+        description: 文件路径
+        type: string
+      limit:
+        description: 限制
         type: integer
     type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.LoginReq:
@@ -2563,24 +2626,6 @@ definitions:
         description: 文件列表
         items: { }
         type: array
-    type: object
-  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.OauthLoginReq:
-    properties:
-      code:
-        description: 授权码
-        type: string
-      platform:
-        description: 平台
-        type: string
-      state:
-        description: 状态
-        type: string
-    type: object
-  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.OauthLoginUrlResp:
-    properties:
-      url:
-        description: 授权地址
-        type: string
     type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageQueryReq:
     properties:
@@ -2660,6 +2705,15 @@ definitions:
         description: 验证码
         type: string
     type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.RewardQrCode:
+    properties:
+      alipay_qr_code:
+        description: 支付宝二维码
+        type: string
+      weixin_qr_code:
+        description: 微信二维码
+        type: string
+    type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.SendEmailVerifyCodeReq:
     properties:
       email:
@@ -2676,6 +2730,45 @@ definitions:
         type: string
       type:
         description: 类型 register,reset_password,bind_email,bind_phone
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.SocialAccountInfo:
+    properties:
+      enabled:
+        description: 是否启用
+        type: boolean
+      link_url:
+        description: 链接地址
+        type: string
+      name:
+        description: 名称-微信
+        type: string
+      platform:
+        description: 平台-wechat
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ThirdLoginReq:
+    properties:
+      code:
+        description: 授权码
+        type: string
+      platform:
+        description: 平台
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ThirdPlatformInfo:
+    properties:
+      authorize_url:
+        description: 授权地址
+        type: string
+      enabled:
+        description: 是否启用
+        type: boolean
+      name:
+        description: 名称-微信
+        type: string
+      platform:
+        description: 平台-wechat
         type: string
     type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.Token:
@@ -2726,6 +2819,18 @@ definitions:
         description: 验证码
         type: string
     type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserBindThirdPartyReq:
+    properties:
+      code:
+        description: 授权码
+        type: string
+      platform:
+        description: 平台
+        type: string
+      state:
+        description: 状态
+        type: string
+    type: object
   github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserInfoReq:
     properties:
       gender:
@@ -2766,6 +2871,9 @@ definitions:
       avatar:
         description: 用户头像
         type: string
+      created_at:
+        description: 创建时间
+        type: integer
       email:
         description: 用户邮箱
         type: string
@@ -2781,6 +2889,13 @@ definitions:
       phone:
         description: 用户手机号
         type: string
+      register_type:
+        description: 注册方式
+        type: string
+      third_party:
+        items:
+          $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserThirdPartyInfo'
+        type: array
       user_id:
         description: 用户id
         type: string
@@ -2789,6 +2904,126 @@ definitions:
         type: string
       website:
         description: 网站
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO:
+    properties:
+      avatar:
+        type: string
+      gender:
+        description: 性别 0未知 1男 2女
+        type: integer
+      intro:
+        description: 简介
+        type: string
+      nickname:
+        type: string
+      user_id:
+        type: string
+      username:
+        type: string
+      website:
+        description: 网站
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserThirdPartyInfo:
+    properties:
+      avatar:
+        description: 头像
+        type: string
+      created_at:
+        description: 创建时间
+        type: integer
+      nickname:
+        description: 昵称
+        type: string
+      open_id:
+        description: 平台用户id
+        type: string
+      platform:
+        description: 平台
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.WebsiteConfigVO:
+    properties:
+      admin_url:
+        description: 后台地址
+        type: string
+      reward_qr_code:
+        allOf:
+          - $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.RewardQrCode'
+        description: 打赏二维码
+      social_login_list:
+        description: 用户第三方登录列表
+        items:
+          $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ThirdPlatformInfo'
+        type: array
+      social_url_list:
+        description: 作者社交地址列表
+        items:
+          $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.SocialAccountInfo'
+        type: array
+      tourist_avatar:
+        description: 游客头像
+        type: string
+      user_avatar:
+        description: 用户头像
+        type: string
+      website_feature:
+        allOf:
+          - $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.WebsiteFeature'
+        description: 网站功能
+      website_info:
+        allOf:
+          - $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.WebsiteInfo'
+        description: 网站信息
+      websocket_url:
+        description: websocket地址
+        type: string
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.WebsiteFeature:
+    properties:
+      is_chat_room:
+        description: 是否开启聊天室
+        type: integer
+      is_comment_review:
+        description: 是否开启评论审核
+        type: integer
+      is_email_notice:
+        description: 是否开启邮件通知
+        type: integer
+      is_message_review:
+        description: 是否开启留言审核
+        type: integer
+      is_music_player:
+        description: 是否开启音乐播放器
+        type: integer
+      is_reward:
+        description: 是否开启打赏
+        type: integer
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.WebsiteInfo:
+    properties:
+      website_author:
+        description: 网站作者
+        type: string
+      website_avatar:
+        description: 网站头像
+        type: string
+      website_create_time:
+        description: 网站创建时间
+        type: string
+      website_intro:
+        description: 网站介绍
+        type: string
+      website_name:
+        description: 网站名称
+        type: string
+      website_notice:
+        description: 网站公告
+        type: string
+      website_record_no:
+        description: 网站备案号
         type: string
     type: object
   response.Body:
@@ -2998,7 +3233,7 @@ paths:
       summary: '"获取后台首页信息"'
       tags:
         - Website
-  /admin-api/v1/admin/about_me:
+  /admin-api/v1/admin/get_about_me:
     get:
       consumes:
         - application/json
@@ -3019,34 +3254,9 @@ paths:
               - $ref: '#/definitions/response.Body'
               - properties:
                   data:
-                    $ref: '#/definitions/dto.AboutMe'
+                    $ref: '#/definitions/dto.AboutMeVO'
                 type: object
       summary: '"获取关于我的信息"'
-      tags:
-        - Website
-    put:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/dto.AboutMe'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp'
-                type: object
-      summary: '"更新关于我的信息"'
       tags:
         - Website
   /admin-api/v1/admin/get_visit_stats:
@@ -3122,7 +3332,7 @@ paths:
               - $ref: '#/definitions/response.Body'
               - properties:
                   data:
-                    $ref: '#/definitions/dto.WebsiteConfig'
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.WebsiteConfigVO'
                 type: object
       summary: '"获取网站配置"'
       tags:
@@ -3153,6 +3363,32 @@ paths:
       summary: '"获取服务器信息"'
       tags:
         - Website
+  /admin-api/v1/admin/update_about_me:
+    put:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/dto.AboutMeVO'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp'
+                type: object
+      summary: '"更新关于我的信息"'
+      tags:
+        - Website
   /admin-api/v1/admin/update_website_config:
     put:
       consumes:
@@ -3163,7 +3399,7 @@ paths:
           name: data
           required: true
           schema:
-            $ref: '#/definitions/dto.WebsiteConfig'
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.WebsiteConfigVO'
       produces:
         - application/json
       responses:
@@ -3205,7 +3441,7 @@ paths:
       summary: '"创建相册"'
       tags:
         - Album
-  /admin-api/v1/album/batch_delete_photo:
+  /admin-api/v1/album/deletes_album:
     delete:
       consumes:
         - application/json
@@ -3216,32 +3452,6 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp'
-                type: object
-      summary: '"批量删除照片"'
-      tags:
-        - Photo
-  /admin-api/v1/album/delete_album:
-    delete:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq'
       produces:
         - application/json
       responses:
@@ -3309,6 +3519,32 @@ paths:
       summary: '"查询相册"'
       tags:
         - Album
+  /admin-api/v1/album/pre_delete_album:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/dto.PreDeleteAlbumReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp'
+                type: object
+      summary: '"预删除相册"'
+      tags:
+        - Album
   /admin-api/v1/album/update_album:
     put:
       consumes:
@@ -3361,32 +3597,6 @@ paths:
       summary: '"创建api路由"'
       tags:
         - Api
-  /admin-api/v1/api/batch_delete_api:
-    delete:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp'
-                type: object
-      summary: '"批量删除api路由"'
-      tags:
-        - Api
   /admin-api/v1/api/clean_api_list:
     post:
       consumes:
@@ -3413,7 +3623,7 @@ paths:
       summary: '"清空接口列表"'
       tags:
         - Api
-  /admin-api/v1/api/delete_api:
+  /admin-api/v1/api/deletes_api:
     delete:
       consumes:
         - application/json
@@ -3423,7 +3633,7 @@ paths:
           name: data
           required: true
           schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq'
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq'
       produces:
         - application/json
       responses:
@@ -3751,7 +3961,7 @@ paths:
       summary: '"创建文章分类"'
       tags:
         - Category
-  /admin-api/v1/category/batch_delete_category:
+  /admin-api/v1/category/deletes_category:
     delete:
       consumes:
         - application/json
@@ -3762,32 +3972,6 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp'
-                type: object
-      summary: '"批量删除文章分类"'
-      tags:
-        - Category
-  /admin-api/v1/category/delete_category:
-    delete:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq'
       produces:
         - application/json
       responses:
@@ -3855,7 +4039,7 @@ paths:
       summary: '"更新文章分类"'
       tags:
         - Category
-  /admin-api/v1/comment/batch_delete_comment:
+  /admin-api/v1/comment/deletes_comment:
     delete:
       consumes:
         - application/json
@@ -3866,32 +4050,6 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp'
-                type: object
-      summary: '"批量删除评论"'
-      tags:
-        - Comment
-  /admin-api/v1/comment/delete_comment:
-    delete:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq'
       produces:
         - application/json
       responses:
@@ -3985,164 +4143,6 @@ paths:
       summary: '"邮箱登录"'
       tags:
         - Auth
-  /admin-api/v1/file/add_file_folder:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/dto.FileFolderNewReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/dto.FileBackVO'
-                type: object
-      summary: '"创建文件目录"'
-      tags:
-        - File
-  /admin-api/v1/file/deletes_file:
-    delete:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp'
-                type: object
-      summary: '"删除文件列表"'
-      tags:
-        - File
-  /admin-api/v1/file/find_file_list:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/dto.FileQuery'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp'
-                type: object
-      summary: '"分页获取文件列表"'
-      tags:
-        - File
-  /admin-api/v1/file/list_upload_file:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/dto.ListUploadFileReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/dto.ListUploadFileResp'
-                type: object
-      summary: '"获取文件列表"'
-      tags:
-        - File
-  /admin-api/v1/file/multi_upload_file:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.MultiUploadFileReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    items:
-                      $ref: '#/definitions/dto.FileBackVO'
-                    type: array
-                type: object
-      summary: '"上传文件列表"'
-      tags:
-        - File
-  /admin-api/v1/file/upload_file:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UploadFileReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/dto.FileBackVO'
-                type: object
-      summary: '"上传文件"'
-      tags:
-        - File
   /admin-api/v1/friend/add_friend:
     post:
       consumes:
@@ -4169,7 +4169,7 @@ paths:
       summary: '"创建友链"'
       tags:
         - Friend
-  /admin-api/v1/friend/batch_delete_friend:
+  /admin-api/v1/friend/deletes_friend:
     delete:
       consumes:
         - application/json
@@ -4180,32 +4180,6 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp'
-                type: object
-      summary: '"批量删除友链"'
-      tags:
-        - Friend
-  /admin-api/v1/friend/delete_friend:
-    delete:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq'
       produces:
         - application/json
       responses:
@@ -4297,6 +4271,58 @@ paths:
                     $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetCaptchaCodeResp'
                 type: object
       summary: '"获取验证码"'
+      tags:
+        - Auth
+  /admin-api/v1/get_oauth_authorize_url:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetOauthAuthorizeUrlReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetOauthAuthorizeUrlResp'
+                type: object
+      summary: '"第三方登录授权地址"'
+      tags:
+        - Auth
+  /admin-api/v1/get_tourist_info:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetTouristInfoResp'
+                type: object
+      summary: '"获取游客身份信息"'
       tags:
         - Auth
   /admin-api/v1/login:
@@ -4429,32 +4455,6 @@ paths:
       summary: '"创建菜单"'
       tags:
         - Menu
-  /admin-api/v1/menu/batch_delete_menu:
-    delete:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp'
-                type: object
-      summary: '"批量删除菜单"'
-      tags:
-        - Menu
   /admin-api/v1/menu/clean_menu_list:
     post:
       consumes:
@@ -4481,7 +4481,7 @@ paths:
       summary: '"清空菜单列表"'
       tags:
         - Menu
-  /admin-api/v1/menu/delete_menu:
+  /admin-api/v1/menu/deletes_menu:
     delete:
       consumes:
         - application/json
@@ -4491,7 +4491,7 @@ paths:
           name: data
           required: true
           schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq'
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq'
       produces:
         - application/json
       responses:
@@ -4585,58 +4585,6 @@ paths:
       summary: '"更新菜单"'
       tags:
         - Menu
-  /admin-api/v1/oauth_authorize_url:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.OauthLoginReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.OauthLoginUrlResp'
-                type: object
-      summary: '"第三方登录授权地址"'
-      tags:
-        - Auth
-  /admin-api/v1/oauth_login:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.OauthLoginReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.LoginResp'
-                type: object
-      summary: '"第三方登录"'
-      tags:
-        - Auth
   /admin-api/v1/operation_log/deletes_operation_log:
     delete:
       consumes:
@@ -4845,7 +4793,7 @@ paths:
       summary: '"创建照片"'
       tags:
         - Photo
-  /admin-api/v1/photo/delete_photo:
+  /admin-api/v1/photo/deletes_photo:
     delete:
       consumes:
         - application/json
@@ -4855,7 +4803,7 @@ paths:
           name: data
           required: true
           schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq'
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq'
       produces:
         - application/json
       responses:
@@ -4895,6 +4843,32 @@ paths:
                     $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp'
                 type: object
       summary: '"分页获取照片列表"'
+      tags:
+        - Photo
+  /admin-api/v1/photo/pre_delete_photo:
+    put:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/dto.PreDeletePhotoReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp'
+                type: object
+      summary: '"预删除照片"'
       tags:
         - Photo
   /admin-api/v1/photo/update_photo:
@@ -4975,7 +4949,7 @@ paths:
       summary: '"注册"'
       tags:
         - Auth
-  /admin-api/v1/remark/batch_delete_remark:
+  /admin-api/v1/remark/deletes_remark:
     delete:
       consumes:
         - application/json
@@ -4986,32 +4960,6 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp'
-                type: object
-      summary: '"批量删除留言"'
-      tags:
-        - Remark
-  /admin-api/v1/remark/delete_remark:
-    delete:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq'
       produces:
         - application/json
       responses:
@@ -5131,7 +5079,7 @@ paths:
       summary: '"创建角色"'
       tags:
         - Role
-  /admin-api/v1/role/batch_delete_role:
+  /admin-api/v1/role/deletes_role:
     post:
       consumes:
         - application/json
@@ -5142,32 +5090,6 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp'
-                type: object
-      summary: '"批量删除角色"'
-      tags:
-        - Role
-  /admin-api/v1/role/delete_role:
-    delete:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq'
       produces:
         - application/json
       responses:
@@ -5391,7 +5313,7 @@ paths:
       summary: '"创建标签"'
       tags:
         - Tag
-  /admin-api/v1/tag/batch_delete_tag:
+  /admin-api/v1/tag/deletes_tag:
     delete:
       consumes:
         - application/json
@@ -5402,32 +5324,6 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp'
-                type: object
-      summary: '"批量删除标签"'
-      tags:
-        - Tag
-  /admin-api/v1/tag/delete_tag:
-    delete:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq'
       produces:
         - application/json
       responses:
@@ -5625,6 +5521,190 @@ paths:
       summary: '"更新说说"'
       tags:
         - Talk
+  /admin-api/v1/third_login:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ThirdLoginReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.LoginResp'
+                type: object
+      summary: '"第三方登录"'
+      tags:
+        - Auth
+  /admin-api/v1/upload/deletes_upload_file:
+    delete:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.DeletesUploadFileReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp'
+                type: object
+      summary: '"删除文件列表"'
+      tags:
+        - Upload
+  /admin-api/v1/upload/list_upload_file:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ListUploadFileReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp'
+                type: object
+      summary: '"获取文件列表"'
+      tags:
+        - Upload
+  /admin-api/v1/upload/multi_upload_file:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.MultiUploadFileReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    items:
+                      $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.FileInfoVO'
+                    type: array
+                type: object
+      summary: '"上传文件列表"'
+      tags:
+        - Upload
+  /admin-api/v1/upload/upload_file:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UploadFileReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.FileInfoVO'
+                type: object
+      summary: '"上传文件"'
+      tags:
+        - Upload
+  /admin-api/v1/upload_log/deletes_upload_log:
+    delete:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp'
+                type: object
+      summary: '"删除登录日志"'
+      tags:
+        - UploadLog
+  /admin-api/v1/user/delete_user_bind_third_party:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.DeleteUserBindThirdPartyReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp'
+                type: object
+      summary: '"删除用户绑定第三方平台账号"'
+      tags:
+        - User
   /admin-api/v1/user/find_login_log_list:
     post:
       consumes:
@@ -5651,6 +5731,32 @@ paths:
       summary: '"查询登录日志"'
       tags:
         - LoginLog
+  /admin-api/v1/user/find_upload_log_list:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/dto.UploadLogQuery'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp'
+                type: object
+      summary: '"查询登录日志"'
+      tags:
+        - UploadLog
   /admin-api/v1/user/get_user_apis:
     get:
       consumes:
@@ -5859,6 +5965,32 @@ paths:
       summary: '"修改用户绑定手机号"'
       tags:
         - User
+  /admin-api/v1/user/update_user_bind_third_party:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserBindThirdPartyReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp'
+                type: object
+      summary: '"修改用户绑定第三方平台账号"'
+      tags:
+        - User
   /admin-api/v1/user/update_user_info:
     post:
       consumes:
@@ -5963,6 +6095,16 @@ paths:
       summary: '"分页获取操作记录列表"'
       tags:
         - VisitLog
+  /admin-api/v1/websocket:
+    get:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses: { }
+      summary: '"WebSocket消息"'
+      tags:
+        - Websocket
   /blog-api/v1/album/find_album_list:
     post:
       consumes:
@@ -6431,6 +6573,32 @@ paths:
       summary: '"点赞评论"'
       tags:
         - Comment
+  /blog-api/v1/comment/update_comment:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/dto.UpdateCommentReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/dto.Comment'
+                type: object
+      summary: '"更新评论"'
+      tags:
+        - Comment
   /blog-api/v1/email_login:
     post:
       consumes:
@@ -6457,60 +6625,6 @@ paths:
       summary: '"邮箱登录"'
       tags:
         - Auth
-  /blog-api/v1/file/multi_upload_file:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.MultiUploadFileReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    items:
-                      $ref: '#/definitions/dto.FileBackDTO'
-                    type: array
-                type: object
-      summary: '"上传文件列表"'
-      tags:
-        - File
-  /blog-api/v1/file/upload_file:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UploadFileReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/dto.FileBackDTO'
-                type: object
-      summary: '"上传文件"'
-      tags:
-        - File
   /blog-api/v1/friend_link/find_friend_list:
     post:
       consumes:
@@ -6563,6 +6677,32 @@ paths:
       summary: '"获取验证码"'
       tags:
         - Auth
+  /blog-api/v1/get_oauth_authorize_url:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetOauthAuthorizeUrlReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetOauthAuthorizeUrlResp'
+                type: object
+      summary: '"第三方登录授权地址"'
+      tags:
+        - Auth
   /blog-api/v1/get_tourist_info:
     get:
       consumes:
@@ -6584,11 +6724,11 @@ paths:
               - $ref: '#/definitions/response.Body'
               - properties:
                   data:
-                    $ref: '#/definitions/dto.GetTouristInfoResp'
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetTouristInfoResp'
                 type: object
       summary: '"获取游客身份信息"'
       tags:
-        - User
+        - Auth
   /blog-api/v1/login:
     post:
       consumes:
@@ -6665,58 +6805,6 @@ paths:
                     $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp'
                 type: object
       summary: '"登出"'
-      tags:
-        - Auth
-  /blog-api/v1/oauth_authorize_url:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.OauthLoginReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.OauthLoginUrlResp'
-                type: object
-      summary: '"第三方登录授权地址"'
-      tags:
-        - Auth
-  /blog-api/v1/oauth_login:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.OauthLoginReq'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Body'
-              - properties:
-                  data:
-                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.LoginResp'
-                type: object
-      summary: '"第三方登录"'
       tags:
         - Auth
   /blog-api/v1/page/find_page_list:
@@ -7057,6 +7145,164 @@ paths:
       summary: '"点赞说说"'
       tags:
         - Talk
+  /blog-api/v1/third_login:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ThirdLoginReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.LoginResp'
+                type: object
+      summary: '"第三方登录"'
+      tags:
+        - Auth
+  /blog-api/v1/upload/deletes_upload_file:
+    delete:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.DeletesUploadFileReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.BatchResp'
+                type: object
+      summary: '"删除文件列表"'
+      tags:
+        - Upload
+  /blog-api/v1/upload/list_upload_file:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ListUploadFileReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp'
+                type: object
+      summary: '"获取文件列表"'
+      tags:
+        - Upload
+  /blog-api/v1/upload/multi_upload_file:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.MultiUploadFileReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    items:
+                      $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.FileInfoVO'
+                    type: array
+                type: object
+      summary: '"上传文件列表"'
+      tags:
+        - Upload
+  /blog-api/v1/upload/upload_file:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UploadFileReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.FileInfoVO'
+                type: object
+      summary: '"上传文件"'
+      tags:
+        - Upload
+  /blog-api/v1/user/delete_user_bind_third_party:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.DeleteUserBindThirdPartyReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp'
+                type: object
+      summary: '"删除用户绑定第三方平台账号"'
+      tags:
+        - User
   /blog-api/v1/user/get_user_info:
     get:
       consumes:
@@ -7185,6 +7431,32 @@ paths:
                     $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp'
                 type: object
       summary: '"修改用户绑定手机号"'
+      tags:
+        - User
+  /blog-api/v1/user/update_user_bind_third_party:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserBindThirdPartyReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Body'
+              - properties:
+                  data:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp'
+                type: object
+      summary: '"修改用户绑定第三方平台账号"'
       tags:
         - User
   /blog-api/v1/user/update_user_info:
