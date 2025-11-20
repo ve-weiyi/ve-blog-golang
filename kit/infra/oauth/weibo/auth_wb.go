@@ -37,7 +37,7 @@ func (a *AuthWb) GetName() string {
 // 获取登录地址
 func (a *AuthWb) GetAuthLoginUrl(state string) string {
 
-	url := httpx.NewClient(
+	url := httpx.NewRequest(
 		"GET",
 		a.AuthorizeUrl,
 		httpx.WithParams(map[string]string{
@@ -76,7 +76,7 @@ func (a *AuthWb) GetAuthUserInfo(code string) (resp *oauth.UserResult, err error
 // 获取token
 func (a *AuthWb) GetAccessToken(code string) (resp *TokenResult, err error) {
 
-	body, err := httpx.NewClient(
+	body, err := httpx.NewRequest(
 		"POST",
 		a.AccessTokenUrl,
 		httpx.WithParams(map[string]string{
@@ -86,7 +86,7 @@ func (a *AuthWb) GetAccessToken(code string) (resp *TokenResult, err error) {
 			"code":          code,
 			"grant_type":    "authorization_code",
 		}),
-	).DoRequest()
+	).Do()
 
 	if err != nil {
 		return nil, err
@@ -105,14 +105,14 @@ func (a *AuthWb) GetAccessToken(code string) (resp *TokenResult, err error) {
 // 获取第三方用户信息
 func (a *AuthWb) GetUserInfo(accessToken string, openId string) (resp *UserResult, err error) {
 
-	body, err := httpx.NewClient(
+	body, err := httpx.NewRequest(
 		"GET",
 		a.UserInfoUrl,
 		httpx.WithParams(map[string]string{
 			"uid":          openId,
 			"access_token": accessToken,
 		}),
-	).DoRequest()
+	).Do()
 	if err != nil {
 		return nil, err
 	}

@@ -7,11 +7,11 @@ import (
 	"github.com/segmentio/kafka-go"
 	"github.com/segmentio/kafka-go/sasl/scram"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/logz"
 )
 
 type KafkaProducer struct {
-	glog.Logger
+	logz.Logger
 
 	w *kafka.Writer
 }
@@ -35,7 +35,7 @@ func NewKafkaProducer(c *KafkaConf) *KafkaProducer {
 
 	return &KafkaProducer{
 		w:      w,
-		Logger: glog.Default(),
+		Logger: logz.Default().Sugar(),
 	}
 }
 
