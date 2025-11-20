@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	FormatConsole = "console"
-	FormatJson    = "json"
+	FormatPlain = "plain"
+	FormatJson  = "json"
 )
 
 // zapcore.Core 需要三个配置
@@ -21,7 +21,7 @@ const (
 type ZapConfig struct {
 	// 日志输出位置
 	Mode     string `json:",default=console,options=[console,file,volume]"`
-	Encoding string `json:"encoding"` // 输出格式 使用json还是console
+	Encoding string `json:"encoding"` // 输出格式 使用json还是plain
 
 	// 日志输出格式设置
 	Level     string `json:"level" `     // 级别,低于该级别时不打印日志
@@ -45,7 +45,7 @@ func NewConsoleConfig() ZapConfig {
 		Mode:       "console",
 		Level:      "debug",
 		Prefix:     "",
-		Encoding:   FormatConsole,
+		Encoding:   FormatPlain,
 		ShowLine:   true,
 		ShowColor:  true,
 		Path:       fmt.Sprintf("runtime/logs"),

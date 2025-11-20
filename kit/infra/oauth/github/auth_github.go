@@ -40,7 +40,7 @@ func (a *AuthGithub) GetName() string {
 // 1. 获取第三方登录地址（获取授权码code）
 func (a *AuthGithub) GetAuthLoginUrl(state string) string {
 
-	url := httpx.NewClient(
+	url := httpx.NewRequest(
 		"GET",
 		a.AuthorizeUrl,
 		httpx.WithParams(map[string]string{
@@ -84,7 +84,7 @@ func (a *AuthGithub) GetAuthUserInfo(code string) (resp *oauth.UserResult, err e
 // 获取用户授权凭证
 func (a *AuthGithub) GetAccessToken(code string) (resp *Token, err error) {
 
-	body, err := httpx.NewClient(
+	body, err := httpx.NewRequest(
 		"POST",
 		a.AccessTokenUrl,
 		httpx.WithHeaders(map[string]string{
@@ -98,7 +98,7 @@ func (a *AuthGithub) GetAccessToken(code string) (resp *Token, err error) {
 			"code":          code,
 			"redirect_uri":  a.Config.RedirectUri,
 		}),
-	).DoRequest()
+	).Do()
 
 	if err != nil {
 		return nil, err
@@ -116,14 +116,14 @@ func (a *AuthGithub) GetAccessToken(code string) (resp *Token, err error) {
 
 func (a *AuthGithub) GetUserInfo(accessToken string) (resp *Userinfo, err error) {
 
-	body, err := httpx.NewClient(
+	body, err := httpx.NewRequest(
 		"GET",
 		a.UserInfoUrl,
 		httpx.WithHeaders(map[string]string{
 			"Authorization": fmt.Sprintf("Bearer %s", accessToken),
 			"Content-Type":  "application/json; charset=utf-8",
 		}),
-	).DoRequest()
+	).Do()
 
 	if err != nil {
 		return nil, err

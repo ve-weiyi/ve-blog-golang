@@ -43,7 +43,7 @@ func (a *AuthFeishu) GetName() string {
 // 获取登录地址（获取授权码code）
 func (a *AuthFeishu) GetAuthLoginUrl(state string) string {
 
-	url := httpx.NewClient(
+	url := httpx.NewRequest(
 		"GET",
 		a.AuthorizeUrl,
 		httpx.WithParams(map[string]string{
@@ -86,14 +86,14 @@ func (a *AuthFeishu) GetAuthUserInfo(code string) (resp *oauth.UserResult, err e
 // 获取应用授权凭证
 func (a *AuthFeishu) GetAppAccessToken() (resp *AppTokenResp, err error) {
 
-	body, err := httpx.NewClient(
+	body, err := httpx.NewRequest(
 		"POST",
 		a.AppAccessTokenUrl,
 		httpx.WithParams(map[string]string{
 			"app_id":     a.Config.ClientId,
 			"app_secret": a.Config.ClientSecret,
 		}),
-	).DoRequest()
+	).Do()
 
 	if err != nil {
 		return nil, err
@@ -116,14 +116,14 @@ func (a *AuthFeishu) GetAppAccessToken() (resp *AppTokenResp, err error) {
 // 获取租户授权凭证
 func (a *AuthFeishu) GetTenantAccessToken() (resp *TenantTokenResp, err error) {
 
-	body, err := httpx.NewClient(
+	body, err := httpx.NewRequest(
 		"POST",
 		a.TenantAccessTokenUrl,
 		httpx.WithParams(map[string]string{
 			"app_id":     a.Config.ClientId,
 			"app_secret": a.Config.ClientSecret,
 		}),
-	).DoRequest()
+	).Do()
 
 	if err != nil {
 		return nil, err
@@ -150,7 +150,7 @@ func (a *AuthFeishu) GetUserAccessToken(code string) (resp *UserAccessTokenResp,
 		return nil, err
 	}
 
-	body, err := httpx.NewClient(
+	body, err := httpx.NewRequest(
 		"POST",
 		a.UserAccessTokenUrl,
 		httpx.WithHeaders(map[string]string{
@@ -161,7 +161,7 @@ func (a *AuthFeishu) GetUserAccessToken(code string) (resp *UserAccessTokenResp,
 			"grant_type": "authorization_code",
 			"code":       code,
 		}),
-	).DoRequest()
+	).Do()
 
 	if err != nil {
 		return nil, err
@@ -188,7 +188,7 @@ func (a *AuthFeishu) RefreshAccessToken(refreshToken string) (resp *UserAccessTo
 		return nil, err
 	}
 
-	body, err := httpx.NewClient(
+	body, err := httpx.NewRequest(
 		"POST",
 		a.RefreshTokenUrl,
 		httpx.WithHeaders(map[string]string{
@@ -199,7 +199,7 @@ func (a *AuthFeishu) RefreshAccessToken(refreshToken string) (resp *UserAccessTo
 			"grant_type":    "refresh_token",
 			"refresh_token": refreshToken,
 		}),
-	).DoRequest()
+	).Do()
 
 	if err != nil {
 		return nil, err
@@ -221,14 +221,14 @@ func (a *AuthFeishu) RefreshAccessToken(refreshToken string) (resp *UserAccessTo
 
 func (a *AuthFeishu) GetUserInfo(accessToken string) (resp *UserInfoResp, err error) {
 
-	body, err := httpx.NewClient(
+	body, err := httpx.NewRequest(
 		"GET",
 		a.UserInfoUrl,
 		httpx.WithHeaders(map[string]string{
 			"Authorization": fmt.Sprintf("Bearer %s", accessToken),
 			"Content-Type":  "application/json; charset=utf-8",
 		}),
-	).DoRequest()
+	).Do()
 
 	if err != nil {
 		return nil, err
