@@ -14,13 +14,13 @@ func NewZapLogger(skip int, cfg ZapConfig) *zap.Logger {
 		NewTreeCore(cfg)...,
 	)
 	// 创建一个将日志写入 WriteSyncer 的核心。
-	// Glogger.Debug->skip1  glog.Debug->skip2
+	// Glogger.Debug->skip1  logz.Debug->skip2
 	logger := zap.New(
 		core,
+		zap.AddCaller(),
+		zap.AddCallerSkip(skip),
+		zap.AddStacktrace(zapcore.ErrorLevel), // 设置记录堆栈跟踪的日志级别
 	)
-
-	logger = logger.WithOptions(zap.AddCaller())
-	logger = logger.WithOptions(zap.AddCallerSkip(skip))
 
 	return logger
 }
@@ -75,7 +75,7 @@ func NewEncoder(cfg ZapConfig) zapcore.Encoder {
 	}
 
 	switch cfg.Encoding {
-	case FormatConsole: // 控制台格式
+	case FormatPlain: // 控制台格式
 		return zapcore.NewConsoleEncoder(encodeConfig)
 	case FormatJson: // json格式
 		return zapcore.NewJSONEncoder(encodeConfig)
