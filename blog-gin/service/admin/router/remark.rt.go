@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/service/admin/controller"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
@@ -19,29 +18,19 @@ func NewRemarkRouter(svcCtx *svctx.ServiceContext) *RemarkRouter {
 
 func (s *RemarkRouter) Register(r *gin.RouterGroup) {
 	// Remark
-	// [SignToken]
+	// [AdminToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/admin-api/v1")
+		group.Use(s.svcCtx.AdminToken)
+		group.Use(s.svcCtx.Permission)
+		group.Use(s.svcCtx.OperationLog)
 
 		handler := controller.NewRemarkController(s.svcCtx)
+		// 删除留言
+		group.DELETE("/remark/deletes_remark", handler.DeletesRemark)
 		// 分页获取留言列表
 		group.POST("/remark/find_remark_list", handler.FindRemarkList)
-	}
-	// Remark
-	// [SignToken JwtToken Operation]
-	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
-		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
-
-		handler := controller.NewRemarkController(s.svcCtx)
-		// 批量删除留言
-		group.DELETE("/remark/batch_delete_remark", handler.BatchDeleteRemark)
-		// 删除留言
-		group.DELETE("/remark/delete_remark", handler.DeleteRemark)
 		// 更新留言
-		group.PUT("/remark/update_remark", handler.UpdateRemark)
+		group.PUT("/remark/update_remark_review", handler.UpdateRemarkReview)
 	}
 }

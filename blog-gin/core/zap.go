@@ -2,31 +2,28 @@ package core
 
 import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/config"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog/zaplog"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/logz"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/logz/zaplog"
 )
 
 // 初始化日志组件 zap
 func SetLog(c config.Zap) {
-	err := files.MkDir(c.CacheDir)
-	if err != nil {
-		panic(err)
+	var cfg zaplog.ZapConfig
+
+	switch c.Mode {
+	case "console":
+		cfg = zaplog.NewConsoleConfig()
+	case "file":
+		cfg = zaplog.NewFileConfig()
 	}
 
-	var cfg zaplog.ZapConfig
-	cfg = zaplog.NewFileConfig()
 	cfg.Mode = c.Mode
-	cfg.Encoding = c.Format
-	cfg.Prefix = c.Prefix
+	cfg.Encoding = c.Encoding
+	cfg.Prefix = c.ServiceName
 	cfg.Level = c.Level
-	cfg.ShowLine = c.EncodeCaller == "long"
-	cfg.ShowColor = c.EncodeColorful
+	cfg.KeepDays = c.KeepDays
 
-	cfg.FileName = c.Filename + ".log"
-	cfg.Path = c.CacheDir
-	cfg.KeepDays = c.MaxAge
-
-	glog.Init(1, cfg)
+	logz.Init(zaplog.NewZapLogger(1, cfg))
+	logz.Infof("zap log init success. mode:%v, level:%v", c.Mode, c.Level)
 	return
 }

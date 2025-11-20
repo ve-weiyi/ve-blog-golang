@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/service/admin/controller"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
@@ -19,12 +18,12 @@ func NewArticleRouter(svcCtx *svctx.ServiceContext) *ArticleRouter {
 
 func (s *ArticleRouter) Register(r *gin.RouterGroup) {
 	// Article
-	// [SignToken JwtToken Operation]
+	// [AdminToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
-		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group := r.Group("/admin-api/v1")
+		group.Use(s.svcCtx.AdminToken)
+		group.Use(s.svcCtx.Permission)
+		group.Use(s.svcCtx.OperationLog)
 
 		handler := controller.NewArticleController(s.svcCtx)
 		// 添加文章

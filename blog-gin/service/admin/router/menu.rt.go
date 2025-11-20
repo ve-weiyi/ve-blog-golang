@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/service/admin/controller"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
@@ -19,22 +18,20 @@ func NewMenuRouter(svcCtx *svctx.ServiceContext) *MenuRouter {
 
 func (s *MenuRouter) Register(r *gin.RouterGroup) {
 	// Menu
-	// [SignToken JwtToken Operation]
+	// [AdminToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
-		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group := r.Group("/admin-api/v1")
+		group.Use(s.svcCtx.AdminToken)
+		group.Use(s.svcCtx.Permission)
+		group.Use(s.svcCtx.OperationLog)
 
 		handler := controller.NewMenuController(s.svcCtx)
 		// 创建菜单
 		group.POST("/menu/add_menu", handler.AddMenu)
-		// 批量删除菜单
-		group.DELETE("/menu/batch_delete_menu", handler.BatchDeleteMenu)
 		// 清空菜单列表
 		group.POST("/menu/clean_menu_list", handler.CleanMenuList)
 		// 删除菜单
-		group.DELETE("/menu/delete_menu", handler.DeleteMenu)
+		group.DELETE("/menu/deletes_menu", handler.DeletesMenu)
 		// 分页获取菜单列表
 		group.POST("/menu/find_menu_list", handler.FindMenuList)
 		// 同步菜单列表

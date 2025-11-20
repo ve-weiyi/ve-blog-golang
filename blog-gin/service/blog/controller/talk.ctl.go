@@ -26,7 +26,7 @@ func NewTalkController(svcCtx *svctx.ServiceContext) *TalkController {
 // @Produce		application/json
 // @Param		data	body		dto.TalkQueryReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/api/v1/talk/find_talk_list [POST]
+// @Router		/blog-api/v1/talk/find_talk_list [POST]
 func (s *TalkController) FindTalkList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -54,7 +54,7 @@ func (s *TalkController) FindTalkList(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.IdReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.Talk}	"返回信息"
-// @Router		/api/v1/talk/get_talk [POST]
+// @Router		/blog-api/v1/talk/get_talk [POST]
 func (s *TalkController) GetTalk(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -82,7 +82,7 @@ func (s *TalkController) GetTalk(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.IdReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
-// @Router		/api/v1/talk/like_talk [PUT]
+// @Router		/blog-api/v1/talk/like_talk [PUT]
 func (s *TalkController) LikeTalk(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {

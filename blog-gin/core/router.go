@@ -19,28 +19,28 @@ import (
 
 // 初始化总路由
 func RegisterRouters(engine *gin.Engine, svCtx *svctx.ServiceContext) {
-	r := engine.Group("")
+	v1 := engine.Group("/api/v1")
+	RegisterPingHandlers(v1, svCtx)
+	RegisterStaticHandlers(v1, svCtx)
+	RegisterSwaggerHandlers(v1, svCtx)
 
-	RegisterStaticHandlers(r, svCtx)
+	api := engine.Group("")
 
 	// r.Use(middleware.GinLogger())  // 访问记录，gin.Default()自带了
 	// r.Use(middleware.GinRecovery(true)) // 捕获panic，gin.Default()自带了
-	// r.Use(middleware.LoadTls())  // 使用https，一般在nginx处理。前往 core/server.go 将启动模式 更变为 r.RunTLS("端口","你的cre/pem文件","你的key文件")
 	// r.Use(middleware.Limit(svCtx.RedisEngin)) // 请求限频，一般在nginx层处理。
+	api.Use(middleware.Cors())  // 直接放行全部跨域请求
+	api.Use(middleware.Trace()) // 打印请求的traceId
 
-	r.Use(middleware.Cors())  // 直接放行全部跨域请求
-	r.Use(middleware.Trace()) // 打印请求的traceId
-
-	RegisterPingHandlers(r, svCtx)
-	admin.RegisterHandlers(r, svCtx)
-	blog.RegisterHandlers(r, svCtx)
+	admin.RegisterHandlers(api, svCtx)
+	blog.RegisterHandlers(api, svCtx)
 }
 
 // 健康检查
 func RegisterPingHandlers(r *gin.RouterGroup, svCtx *svctx.ServiceContext) {
 	now := time.Now()
 	// 健康监测
-	r.GET("/api/v1/version", func(c *gin.Context) {
+	r.GET("/version", func(c *gin.Context) {
 		traceID := trace.SpanContextFromContext(c.Request.Context())
 
 		c.JSON(http.StatusOK, gin.H{
@@ -53,12 +53,13 @@ func RegisterPingHandlers(r *gin.RouterGroup, svCtx *svctx.ServiceContext) {
 
 // 静态资源处理
 func RegisterStaticHandlers(r *gin.RouterGroup, svCtx *svctx.ServiceContext) {
-	staticRouter := r.Group("/api/v1")
 	// 放行后端静态资源目录，为用户头像和文件提供静态地址
-	staticRouter.StaticFS(svCtx.Config.System.RuntimePath, http.Dir(svCtx.Config.System.RuntimePath))
+	r.StaticFS(svCtx.Config.System.RuntimePath, http.Dir(svCtx.Config.System.RuntimePath))
+}
 
+func RegisterSwaggerHandlers(r *gin.RouterGroup, svCtx *svctx.ServiceContext) {
 	// Generate Swagger JSON file
 	docs.SwaggerInfo.Host = fmt.Sprintf("localhost:%d", svCtx.Config.System.Port)
 	docs.SwaggerInfo.Version = svCtx.Config.System.Version
-	staticRouter.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

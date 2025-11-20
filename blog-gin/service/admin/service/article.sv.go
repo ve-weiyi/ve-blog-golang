@@ -17,7 +17,7 @@ func NewArticleService(svcCtx *svctx.ServiceContext) *ArticleService {
 }
 
 // 添加文章
-func (s *ArticleService) AddArticle(reqCtx *request.Context, in *dto.ArticleNewReq) (out *dto.ArticleBackDTO, err error) {
+func (s *ArticleService) AddArticle(reqCtx *request.Context, in *dto.ArticleNewReq) (out *dto.ArticleBackVO, err error) {
 	// todo
 
 	return
@@ -45,7 +45,7 @@ func (s *ArticleService) FindArticleList(reqCtx *request.Context, in *dto.Articl
 }
 
 // 查询文章
-func (s *ArticleService) GetArticle(reqCtx *request.Context, in *dto.IdReq) (out *dto.ArticleBackDTO, err error) {
+func (s *ArticleService) GetArticle(reqCtx *request.Context, in *dto.IdReq) (out *dto.ArticleBackVO, err error) {
 	// todo
 
 	return
@@ -66,7 +66,7 @@ func (s *ArticleService) TopArticle(reqCtx *request.Context, in *dto.ArticleTopR
 }
 
 // 保存文章
-func (s *ArticleService) UpdateArticle(reqCtx *request.Context, in *dto.ArticleNewReq) (out *dto.ArticleBackDTO, err error) {
+func (s *ArticleService) UpdateArticle(reqCtx *request.Context, in *dto.ArticleNewReq) (out *dto.ArticleBackVO, err error) {
 	// todo
 
 	return

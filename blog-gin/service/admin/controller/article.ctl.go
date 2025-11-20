@@ -25,8 +25,8 @@ func NewArticleController(svcCtx *svctx.ServiceContext) *ArticleController {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.ArticleNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.ArticleBackDTO}	"返回信息"
-// @Router		/admin_api/v1/article/add_article [POST]
+// @Success		200		{object}	response.Body{data=dto.ArticleBackVO}	"返回信息"
+// @Router		/admin-api/v1/article/add_article [POST]
 func (s *ArticleController) AddArticle(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -54,7 +54,7 @@ func (s *ArticleController) AddArticle(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.IdReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/article/delete_article [POST]
+// @Router		/admin-api/v1/article/delete_article [POST]
 func (s *ArticleController) DeleteArticle(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -82,7 +82,7 @@ func (s *ArticleController) DeleteArticle(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
-// @Router		/admin_api/v1/article/export_article_list [POST]
+// @Router		/admin-api/v1/article/export_article_list [POST]
 func (s *ArticleController) ExportArticleList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -110,7 +110,7 @@ func (s *ArticleController) ExportArticleList(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.ArticleQuery		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/admin_api/v1/article/find_article_list [POST]
+// @Router		/admin-api/v1/article/find_article_list [POST]
 func (s *ArticleController) FindArticleList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -137,8 +137,8 @@ func (s *ArticleController) FindArticleList(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.IdReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.ArticleBackDTO}	"返回信息"
-// @Router		/admin_api/v1/article/get_article [POST]
+// @Success		200		{object}	response.Body{data=dto.ArticleBackVO}	"返回信息"
+// @Router		/admin-api/v1/article/get_article [POST]
 func (s *ArticleController) GetArticle(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -166,7 +166,7 @@ func (s *ArticleController) GetArticle(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.ArticleRecycleReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
-// @Router		/admin_api/v1/article/recycle_article [POST]
+// @Router		/admin-api/v1/article/recycle_article [POST]
 func (s *ArticleController) RecycleArticle(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -194,7 +194,7 @@ func (s *ArticleController) RecycleArticle(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.ArticleTopReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
-// @Router		/admin_api/v1/article/top_article [POST]
+// @Router		/admin-api/v1/article/top_article [POST]
 func (s *ArticleController) TopArticle(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -221,8 +221,8 @@ func (s *ArticleController) TopArticle(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.ArticleNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.ArticleBackDTO}	"返回信息"
-// @Router		/admin_api/v1/article/update_article [POST]
+// @Success		200		{object}	response.Body{data=dto.ArticleBackVO}	"返回信息"
+// @Router		/admin-api/v1/article/update_article [POST]
 func (s *ArticleController) UpdateArticle(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {

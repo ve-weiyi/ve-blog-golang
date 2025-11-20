@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/service/blog/controller"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
@@ -19,10 +18,10 @@ func NewAlbumRouter(svcCtx *svctx.ServiceContext) *AlbumRouter {
 
 func (s *AlbumRouter) Register(r *gin.RouterGroup) {
 	// Album
-	// [SignToken]
+	// [TerminalToken]
 	{
-		group := r.Group("/api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/blog-api/v1")
+		group.Use(s.svcCtx.TerminalToken)
 
 		handler := controller.NewAlbumController(s.svcCtx)
 		// 获取相册列表

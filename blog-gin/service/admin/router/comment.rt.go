@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/service/admin/controller"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
@@ -19,18 +18,16 @@ func NewCommentRouter(svcCtx *svctx.ServiceContext) *CommentRouter {
 
 func (s *CommentRouter) Register(r *gin.RouterGroup) {
 	// Comment
-	// [SignToken JwtToken Operation]
+	// [AdminToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
-		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group := r.Group("/admin-api/v1")
+		group.Use(s.svcCtx.AdminToken)
+		group.Use(s.svcCtx.Permission)
+		group.Use(s.svcCtx.OperationLog)
 
 		handler := controller.NewCommentController(s.svcCtx)
-		// 批量删除评论
-		group.DELETE("/comment/batch_delete_comment", handler.BatchDeleteComment)
 		// 删除评论
-		group.DELETE("/comment/delete_comment", handler.DeleteComment)
+		group.DELETE("/comment/deletes_comment", handler.DeletesComment)
 		// 查询评论列表(后台)
 		group.POST("/comment/find_comment_back_list", handler.FindCommentBackList)
 		// 更新评论审核状态

@@ -26,7 +26,7 @@ func NewTagController(svcCtx *svctx.ServiceContext) *TagController {
 // @Produce		application/json
 // @Param		data	body		dto.TagQueryReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/api/v1/tag/find_tag_list [POST]
+// @Router		/blog-api/v1/tag/find_tag_list [POST]
 func (s *TagController) FindTagList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {

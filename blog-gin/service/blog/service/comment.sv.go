@@ -50,3 +50,10 @@ func (s *CommentService) LikeComment(reqCtx *request.Context, in *dto.IdReq) (ou
 
 	return
 }
+
+// 更新评论
+func (s *CommentService) UpdateComment(reqCtx *request.Context, in *dto.UpdateCommentReq) (out *dto.Comment, err error) {
+	// todo
+
+	return
+}

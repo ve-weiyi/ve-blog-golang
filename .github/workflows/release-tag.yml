@@ -68,7 +68,7 @@ jobs:
             echo "=== 部署参数 ==="
             echo "IMAGE_TAG: ${{ env.IMAGE_NAME }}"
             echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
-            echo "NACOS_IP: ${{ vars.NACOS_IP }}"
+            echo "NACOS_HOST: ${{ vars.NACOS_HOST }}"
             
             # 拉取新镜像
             docker pull ghcr.nju.edu.cn/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
@@ -84,7 +84,7 @@ jobs:
             -v /data/runtime:/app/runtime \
             ghcr.nju.edu.cn/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
               ./blog \
-              -nacos-ip "${{ vars.NACOS_IP }}" \
+              -nacos-host "${{ vars.NACOS_HOST }}" \
               -nacos-port "${{ vars.NACOS_PORT }}" \
               -nacos-username "${{ vars.NACOS_USERNAME }}" \
               -nacos-password "${{ vars.NACOS_PASSWORD }}" \
@@ -149,7 +149,7 @@ jobs:
             echo "=== 部署参数 ==="
             echo "IMAGE_TAG: ${{ env.IMAGE_NAME }}"
             echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
-            echo "NACOS_IP: ${{ vars.NACOS_IP }}"
+            echo "NACOS_HOST: ${{ vars.NACOS_HOST }}"
             
             # 拉取新镜像
             docker pull ghcr.nju.edu.cn/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
@@ -165,7 +165,7 @@ jobs:
             -v /data/runtime:/app/runtime \
             ghcr.nju.edu.cn/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
               ./blog \
-              -nacos-ip "${{ vars.NACOS_IP }}" \
+              -nacos-host "${{ vars.NACOS_HOST }}" \
               -nacos-port "${{ vars.NACOS_PORT }}" \
               -nacos-username "${{ vars.NACOS_USERNAME }}" \
               -nacos-password "${{ vars.NACOS_PASSWORD }}" \
@@ -230,7 +230,7 @@ jobs:
             echo "=== 部署参数 ==="
             echo "IMAGE_TAG: ${{ env.IMAGE_NAME }}"
             echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
-            echo "NACOS_IP: ${{ vars.NACOS_IP }}"
+            echo "NACOS_HOST: ${{ vars.NACOS_HOST }}"
             
             # 拉取新镜像
             docker pull ghcr.nju.edu.cn/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
@@ -246,7 +246,7 @@ jobs:
             -v /data/runtime:/app/runtime \
             ghcr.nju.edu.cn/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
               ./admin \
-              -nacos-ip "${{ vars.NACOS_IP }}" \
+              -nacos-host "${{ vars.NACOS_HOST }}" \
               -nacos-port "${{ vars.NACOS_PORT }}" \
               -nacos-username "${{ vars.NACOS_USERNAME }}" \
               -nacos-password "${{ vars.NACOS_PASSWORD }}" \

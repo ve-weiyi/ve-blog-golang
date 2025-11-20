@@ -12,15 +12,15 @@
 
 
 # dsn(Data Source Name)本地数据库生成model文件
-go run main.go model dsn \
--t=./template/go-zero/model.tpl \
--n='%v_model.go' \
--o='/Users/weiyi/Github/ve-blog-golang/blog-gozero/service/model'  \
--s='root:mysql7914@(127.0.0.1:3306)/blog-veweiyi?charset=utf8mb4&parseTime=True&loc=Local'
-
-# ddl(Data Definition Language)生成model文件
-#go run main.go model ddl \
+#go run main.go model dsn \
 #-t=./template/go-zero/model.tpl \
 #-n='%v_model.go' \
-#-o='./runtime/model'  \
-#-s='./testdata/test.sql'
+#-o='/Users/weiyi/Github/ve-blog-golang/blog-gozero/service/model'  \
+#-s='root:mysql7914@(veweiyi.cn:3306)/blog-veweiyi?charset=utf8mb4&parseTime=True&loc=Local'
+
+# ddl(Data Definition Language)生成model文件
+go run main.go model ddl \
+-t=./template/go-zero/model.tpl \
+-n='%v_model.go' \
+-o='./runtime/model'  \
+-s='./testdata/test.sql'

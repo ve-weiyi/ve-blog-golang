@@ -41,7 +41,8 @@ to quickly create a Cobra application.`,
 		// has an action associated with it:
 		Run: func(cmd *cobra.Command, args []string) {
 			//实现功能逻辑的函数。
-			_ = cmd.Help()
+			//_ = cmd.Help()
+			NewApiCmd().cmd.Execute()
 			return
 		},
 	}

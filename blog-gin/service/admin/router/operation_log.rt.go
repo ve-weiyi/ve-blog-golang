@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/service/admin/controller"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
@@ -19,18 +18,16 @@ func NewOperationLogRouter(svcCtx *svctx.ServiceContext) *OperationLogRouter {
 
 func (s *OperationLogRouter) Register(r *gin.RouterGroup) {
 	// OperationLog
-	// [SignToken JwtToken Operation]
+	// [AdminToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
-		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group := r.Group("/admin-api/v1")
+		group.Use(s.svcCtx.AdminToken)
+		group.Use(s.svcCtx.Permission)
+		group.Use(s.svcCtx.OperationLog)
 
 		handler := controller.NewOperationLogController(s.svcCtx)
-		// 批量删除操作记录
-		group.DELETE("/operation_log/batch_delete_operation_log", handler.BatchDeleteOperationLog)
 		// 删除操作记录
-		group.DELETE("/operation_log/delete_operation_log", handler.DeleteOperationLog)
+		group.DELETE("/operation_log/deletes_operation_log", handler.DeletesOperationLog)
 		// 分页获取操作记录列表
 		group.POST("/operation_log/find_operation_log_list", handler.FindOperationLogList)
 	}
