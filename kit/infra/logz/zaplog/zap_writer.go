@@ -14,7 +14,7 @@ import (
 // 按时间分割日志文件 runtime/log/2022-11
 // rotate库于2022.11.9开始不再更新
 func NewFileWriter(cfg ZapConfig) *rotatelogs.RotateLogs {
-	fileName := cfg.FileName
+	fileName := time.Now().Format("2006-01-02") + ".log"
 	var opts []rotatelogs.Option
 	// 最新的日志文件保存地址
 	//opts = append(opts, rotatelogs.WithLinkName(path.Join(cfg.Path, fileName)))

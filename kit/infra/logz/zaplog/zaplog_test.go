@@ -41,7 +41,7 @@ func TestConsole(t *testing.T) {
 // 输出到文件测试
 func TestFile(t *testing.T) {
 	cfg := NewFileConfig()
-	//cfg.Encoding = FormatConsole
+	//cfg.Encoding = FormatPlain
 	cfg.ShowColor = true
 
 	logc := NewZapLogger(0, cfg)
@@ -57,12 +57,14 @@ func TestFile(t *testing.T) {
 // 同时输出到控制台和文件测试
 func TestConsoleAndFile(t *testing.T) {
 	cfg := NewFileConfig()
-	cfg.Encoding = FormatConsole
-	logs := NewZapLogger(0, cfg)
+	cfg.Encoding = FormatPlain
+	logc := NewZapLogger(0, cfg)
 
 	// 压测
 
-	logs.Sugar().Info("hello")
+	logc.Sugar().Info("info")
+	logc.Sugar().Warn("warn")
+	logc.Sugar().Error("error")
 }
 
 // 压力测试

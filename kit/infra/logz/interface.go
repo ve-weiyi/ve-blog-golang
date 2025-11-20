@@ -1,4 +1,4 @@
-package glog
+package logz
 
 type Logger interface {
 	Info(args ...interface{})

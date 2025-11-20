@@ -43,8 +43,8 @@ func (c *ClientBuilder) WithBody(body []byte) *ClientBuilder {
 }
 
 // Build 根据构建器的设置创建一个新的 HTTP 客户端。
-func (c *ClientBuilder) Build() *Client {
-	return &Client{
+func (c *ClientBuilder) Build() *Request {
+	return &Request{
 		method:  c.method,
 		url:     c.url,
 		headers: c.headers,
