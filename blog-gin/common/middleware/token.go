@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -9,7 +10,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/common/response"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jwtx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
@@ -23,13 +23,26 @@ func TerminalToken() gin.HandlerFunc {
 		tm := c.Request.Header.Get(restx.HeaderXTerminalId)
 		ts := c.Request.Header.Get(restx.HeaderTimestamp)
 
-		//glog.Infof("api is no login required. tk:%v, tm:%v,ts:%v", tk, tm, ts)
+		//logz.Infof("api is no login required. tk:%v, tm:%v,ts:%v", tk, tm, ts)
 		// 请求头缺少参数
-		if tk == "" || tm == "" || ts == "" {
-			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeUserUnLogin, "用户未登录"))
+		if tk == "" {
+			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeInvalidParam, fmt.Sprintf("request header field '%v' is missing", restx.HeaderXAdminToken)))
 			c.Abort()
 			return
 		}
+
+		if tm == "" {
+			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeInvalidParam, fmt.Sprintf("request header field '%v' is missing", restx.HeaderXTerminalId)))
+			c.Abort()
+			return
+		}
+
+		if ts == "" {
+			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeInvalidParam, fmt.Sprintf("request header field '%v' is missing", restx.HeaderTimestamp)))
+			c.Abort()
+			return
+		}
+
 		// 判断 token = md5(tm,ts)
 		if tk != crypto.Md5v(tm, ts) {
 			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeUserLoginExpired, "无效请求"))
@@ -48,13 +61,20 @@ func UserToken() gin.HandlerFunc {
 		tk := c.Request.Header.Get(restx.HeaderToken)
 		uid := c.Request.Header.Get(restx.HeaderUid)
 
-		glog.Infof("api is login required. tk:%v, uid:%v", tk, uid)
 		// 请求头缺少参数
-		if tk == "" || uid == "" {
-			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeUserUnLogin, "用户未登录"))
+		// token为空或者uid为空
+		if tk == "" {
+			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeInvalidParam, fmt.Sprintf("request header field '%v' is missing", restx.HeaderToken)))
 			c.Abort()
 			return
 		}
+
+		if uid == "" {
+			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeInvalidParam, fmt.Sprintf("request header field '%v' is missing", restx.HeaderUid)))
+			c.Abort()
+			return
+		}
+
 		// 判断 uid = cache.get(token)
 
 		c.Next()
@@ -69,11 +89,14 @@ func AdminToken(tk *jwtx.JwtInstance) gin.HandlerFunc {
 		uid := c.Request.Header.Get(restx.HeaderUid)
 
 		// token为空或者uid为空
-		if token == "" || uid == "" {
-			// 有错误，直接返回给前端错误，前端直接报错500
-			// c.AbortWithStatus(http.StatusInternalServerError)
-			// 该方式前端不报错
-			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeUserUnLogin, "用户未登录"))
+		if token == "" {
+			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeInvalidParam, fmt.Sprintf("request header field '%v' is missing", restx.HeaderAuthorization)))
+			c.Abort()
+			return
+		}
+
+		if uid == "" {
+			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeInvalidParam, fmt.Sprintf("request header field '%v' is missing", restx.HeaderUid)))
 			c.Abort()
 			return
 		}
@@ -112,8 +135,6 @@ func AdminToken(tk *jwtx.JwtInstance) gin.HandlerFunc {
 		// if jwtService.IsBlacklist(token) {
 		//
 		// }
-
-		glog.Infof("user login-->%v", claims)
 
 		// 写入上下文
 		ctx := c.Request.Context()
