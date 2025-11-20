@@ -12,7 +12,6 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 )
 
 type EmptyResp struct {
@@ -61,7 +60,6 @@ func ResponseOk(c *gin.Context, data interface{}) {
 }
 
 func ResponseError(c *gin.Context, err error) {
-	glog.Error("操作失败!", err)
 	//debug.PrintStack() // 打印调用栈
 
 	switch e := err.(type) {

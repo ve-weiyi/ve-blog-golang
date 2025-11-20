@@ -13,7 +13,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/common/response"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/logz"
 )
 
 // GinRecovery recover掉项目可能出现的panic，并使用zap记录相关日志
@@ -36,7 +36,7 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 				// DumpRequest 以 HTTP/1.x 连线形式返回给定的请求
 				httpRequest, _ := httputil.DumpRequest(c.Request, false)
 				if brokenPipe {
-					glog.Error(c.Request.URL.Path,
+					logz.Error(c.Request.URL.Path,
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 					)
@@ -47,19 +47,20 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 				}
 
 				if stack {
-					glog.Error("[Recovery from panic]",
+					logz.Error("[Recovery from panic]",
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 						zap.String("stack", string(debug.Stack())), // 返回调用它的goroutine的格式化堆栈跟踪。
 					)
 				} else {
-					glog.Error("[Recovery from panic]",
+					logz.Error("[Recovery from panic]",
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 					)
 				}
 
 				response.ResponseError(c, bizerr.NewBizError(bizerr.CodeInternalServerError, "系统错误"))
+				// 有错误，直接返回给前端错误，前端直接报错500
 				c.AbortWithStatus(http.StatusInternalServerError) // 终止该中间件
 				return
 			}

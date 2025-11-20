@@ -30,7 +30,7 @@ func (s *WebsocketController) Websocket(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	err = service.NewWebsocketService(s.svcCtx).WebSocket(reqCtx)
+	err = service.NewWebsocketService(s.svcCtx).Websocket(reqCtx)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
