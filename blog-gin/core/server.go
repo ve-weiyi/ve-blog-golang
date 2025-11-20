@@ -10,7 +10,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/config"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/logz"
 )
 
 type server interface {
@@ -31,7 +31,7 @@ func RunWindowsServer(c *config.Config) {
 	engine := gin.Default()
 	RegisterRouters(engine, ctx)
 
-	glog.Info("register router success")
+	logz.Infof("register router success")
 
 	address := fmt.Sprintf(":%d", c.System.Port)
 	var s server
@@ -45,7 +45,7 @@ func RunWindowsServer(c *config.Config) {
 	// 保证文本顺序输出
 	// In order to ensure that the text order output can be deleted
 	time.Sleep(10 * time.Microsecond)
-	glog.Infof("run server on http://localhost:%v success", c.System.Port)
+	logz.Infof("run server on http://localhost:%v success", c.System.Port)
 
 	fmt.Printf(`
 	欢迎使用 ve-blog-golang
@@ -53,5 +53,5 @@ func RunWindowsServer(c *config.Config) {
 	微信号：wy791422171 QQ：791422171
 	默认接口文档地址:http://localhost%s/api/v1/swagger/index.html
 `, c.System.Version, address)
-	glog.Error(s.ListenAndServe().Error())
+	fmt.Println(s.ListenAndServe().Error())
 }

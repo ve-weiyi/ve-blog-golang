@@ -4,8 +4,9 @@ import (
 	"net/http"
 	"time"
 
+	"go.uber.org/zap"
+
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/stompws"
 	"github.com/ve-weiyi/ve-blog-golang/stompws/logws"
 )
@@ -13,7 +14,7 @@ import (
 var stompServer *stompws.StompWebsocketServer
 
 func Init(ctx *svc.ServiceContext) {
-	l := logws.NewZapLogger(glog.Default().Logger())
+	l := logws.NewZapLogger(zap.L())
 	stompServer = stompws.NewWebsocketServer(
 		stompws.Config{
 			Authenticator: nil,
