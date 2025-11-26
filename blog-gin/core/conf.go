@@ -116,7 +116,7 @@ func initNacosConfig(option *ConfigOption) (*config.Config, error) {
 		NotLoadCacheAtStart: true,
 		LogDir:              path.Join(option.NacosRuntimeDir, "logs"),
 		CacheDir:            path.Join(option.NacosRuntimeDir, "cache"),
-		LogLevel:            "debug",
+		LogLevel:            "info",
 	}
 
 	// 2. 创建Nacos配置客户端
