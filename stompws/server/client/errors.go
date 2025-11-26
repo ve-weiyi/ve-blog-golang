@@ -1,36 +1,30 @@
 package client
 
-const (
-	notConnected             = errorMessage("expected CONNECT or STOMP frame")
-	unexpectedCommand        = errorMessage("unexpected frame command")
-	unknownCommand           = errorMessage("unknown command")
-	receiptInConnect         = errorMessage("receipt header prohibited in CONNECT or STOMP frame")
-	authenticationFailed     = errorMessage("authentication failed")
-	txAlreadyInProgress      = errorMessage("transaction already in progress")
-	txUnknown                = errorMessage("unknown transaction")
-	unsupportedVersion       = errorMessage("unsupported version")
-	subscriptionExists       = errorMessage("subscription already exists")
-	subscriptionNotFound     = errorMessage("subscription not found")
-	invalidFrameFormat       = errorMessage("invalid frame format")
-	invalidCommand           = errorMessage("invalid command")
-	unknownVersion           = errorMessage("incompatible version")
-	notConnectFrame          = errorMessage("operation valid for STOMP and CONNECT frames only")
-	invalidHeartBeat         = errorMessage("invalid format for heart-beat")
-	invalidOperationForFrame = errorMessage("invalid operation for frame")
-	exceededMaxFrameSize     = errorMessage("exceeded max frame size")
-	invalidHeaderValue       = errorMessage("invalid header value")
-)
+import "fmt"
 
-type errorMessage string
+// Error messages following STOMP protocol conventions
+type stompError string
 
-func (e errorMessage) Error() string {
+func (e stompError) Error() string {
 	return string(e)
 }
 
-func missingHeader(name string) errorMessage {
-	return errorMessage("missing header: " + name)
-}
+// Standard STOMP error messages
+const (
+	errNotConnected         = stompError("expected CONNECT or STOMP frame")
+	errAlreadyConnected     = stompError("already connected")
+	errUnknownCommand       = stompError("unknown command")
+	errSubscriptionExists   = stompError("subscription already exists")
+	errSubscriptionNotFound = stompError("subscription not found")
+	errTransactionExists    = stompError("transaction already exists")
+	errTransactionNotFound  = stompError("unknown transaction")
+	errInvalidHeartBeat     = stompError("invalid heart-beat format")
+	errUnsupportedVersion   = stompError("unsupported protocol version")
+	errAuthenticationFailed = stompError("authentication failed")
+	errInvalidDestination   = stompError("invalid destination")
+	errPermissionDenied     = stompError("permission denied")
+)
 
-func prohibitedHeader(name string) errorMessage {
-	return errorMessage("prohibited header: " + name)
+func errMissingHeader(name string) error {
+	return fmt.Errorf("missing required header: %s", name)
 }
