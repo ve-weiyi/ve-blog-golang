@@ -63,6 +63,7 @@ message UpdateChatReq{
   string type = 6;// 类型
   string content = 7;// 聊天内容
   int64 status = 8;// 状态:0正常 1编辑 2撤回 3删除
+  int64 updated_at = 13;// 更新时间
 }
 
 message UpdateChatStatusReq{

@@ -30,7 +30,7 @@ func NewAddCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCom
 func (l *AddCommentLogic) AddComment(in *messagerpc.CommentNewReq) (*messagerpc.CommentDetails, error) {
 	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
 	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)
-	is, _ := ipx.GetIpSourceByBaidu(ip)
+	is := ipx.GetIpSourceByBaidu(ip)
 
 	entity := &model.TComment{
 		Id:             0,

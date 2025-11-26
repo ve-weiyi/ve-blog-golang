@@ -33,7 +33,7 @@ func (l *AddRemarkLogic) AddRemark(in *messagerpc.RemarkNewReq) (*messagerpc.Rem
 	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
 	tid, _ := rpcutils.GetTerminalIdFromCtx(l.ctx)
 	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)
-	is, _ := ipx.GetIpSourceByBaidu(ip)
+	is := ipx.GetIpSourceByBaidu(ip)
 
 	entity := &model.TRemark{
 		Id:             0,

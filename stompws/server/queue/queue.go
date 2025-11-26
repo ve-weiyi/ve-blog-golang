@@ -5,15 +5,13 @@ package queue
 
 import (
 	"github.com/go-stomp/stomp/v3/frame"
-
-	"github.com/ve-weiyi/ve-blog-golang/stompws/server/client"
 )
 
 // Queue for storing message frames.
 type Queue struct {
 	destination string
 	qstore      Storage
-	subs        *client.SubscriptionList
+	subs        *SubscriptionList
 }
 
 // Create a new queue -- called from the queue manager only.
@@ -21,7 +19,7 @@ func newQueue(destination string, qstore Storage) *Queue {
 	return &Queue{
 		destination: destination,
 		qstore:      qstore,
-		subs:        client.NewSubscriptionList(),
+		subs:        NewSubscriptionList(),
 	}
 }
 
@@ -29,7 +27,7 @@ func newQueue(destination string, qstore Storage) *Queue {
 // whenever a frame is sent to the subscription and needs to
 // be re-added when the subscription decides that the message
 // has been received by the client.
-func (q *Queue) Subscribe(sub *client.Subscription) error {
+func (q *Queue) Subscribe(sub Subscription) error {
 	// see if there is a frame available for this subscription
 	f, err := q.qstore.Dequeue(sub.Destination())
 	if err != nil {
@@ -47,7 +45,7 @@ func (q *Queue) Subscribe(sub *client.Subscription) error {
 }
 
 // Unsubscribe a subscription.
-func (q *Queue) Unsubscribe(sub *client.Subscription) {
+func (q *Queue) Unsubscribe(sub Subscription) {
 	q.subs.Remove(sub)
 }
 

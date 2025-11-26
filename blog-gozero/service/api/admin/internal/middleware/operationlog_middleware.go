@@ -116,7 +116,7 @@ func (m *OperationLogMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc 
 		cost := time.Since(start)
 
 		ip := httpx.GetRemoteAddr(r)
-		is, err := ipx.GetIpSourceByBaidu(ip)
+		is := ipx.GetIpSourceByBaidu(ip)
 		if err != nil {
 			logx.Errorf("OperationLogMiddleware Handle GetIpInfoByBaidu err: %v", err)
 		}

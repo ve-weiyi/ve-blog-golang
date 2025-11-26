@@ -54,7 +54,7 @@ func convertChatQuery(in *messagerpc.FindChatListReq) (page int, size int, sorts
 			conditions += " and "
 		}
 		conditions += "created_at >= ?"
-		params = append(params, time.UnixMilli(in.After))
+		params = append(params, time.Unix(in.After, 0))
 	}
 
 	if in.Before != 0 {
@@ -62,7 +62,7 @@ func convertChatQuery(in *messagerpc.FindChatListReq) (page int, size int, sorts
 			conditions += " and "
 		}
 		conditions += "created_at <= ?"
-		params = append(params, time.UnixMilli(in.Before))
+		params = append(params, time.Unix(in.Before, 0))
 	}
 
 	if in.UserId != "" {

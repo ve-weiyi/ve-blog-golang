@@ -80,7 +80,7 @@ func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.LoginR
 
 func (l *RegisterLogic) register(tx *gorm.DB, in *accountrpc.RegisterReq) (out *model.TUser, err error) {
 	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)
-	is, _ := ipx.GetIpSourceByBaidu(ip)
+	is := ipx.GetIpSourceByBaidu(ip)
 
 	// 邮箱注册
 	user := &model.TUser{

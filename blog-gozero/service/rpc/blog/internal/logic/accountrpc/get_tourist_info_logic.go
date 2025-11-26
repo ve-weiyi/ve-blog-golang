@@ -43,7 +43,7 @@ func (l *GetTouristInfoLogic) GetTouristInfo(in *accountrpc.EmptyReq) (*accountr
 	}
 
 	// 分割字符串，提取 IP 部分
-	is, _ := ipx.GetIpSourceByBaidu(ip)
+	is := ipx.GetIpSourceByBaidu(ip)
 	os := useragent.New(ua).OS()
 	browser, _ := useragent.New(ua).Browser()
 

@@ -6,7 +6,6 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/common/stomp"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 )
 
@@ -26,11 +25,8 @@ func NewWebsocketLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Websock
 }
 
 func (l *WebsocketLogic) Websocket(w http.ResponseWriter, r *http.Request) error {
-	err := stomp.HandleWebSocket(w, r)
-	if err != nil {
-		l.Errorf("websocket连接失败：%+v", err)
-		return err
-	}
+	// 处理WebSocket连接
+	l.svcCtx.StompHubServer.HandleWebSocket(w, r)
 
 	return nil
 }

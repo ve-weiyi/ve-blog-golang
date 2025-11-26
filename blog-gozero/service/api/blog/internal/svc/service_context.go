@@ -11,6 +11,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/tokenx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/docs"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/common/stomphook"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/middleware"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
@@ -24,6 +25,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
+	"github.com/ve-weiyi/ve-blog-golang/stompws/logws"
+	"github.com/ve-weiyi/ve-blog-golang/stompws/server/client"
 )
 
 type ServiceContext struct {
@@ -43,6 +46,8 @@ type ServiceContext struct {
 	Uploader    oss.OSS
 	TokenHolder tokenx.TokenHolder
 	Hub         *ws.Hub
+
+	StompHubServer *client.StompHubServer
 
 	TerminalToken rest.Middleware
 	UserToken     rest.Middleware
@@ -77,6 +82,15 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	configRpc := configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 	syslogRpc := syslogrpc.NewSyslogRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 
+	hub := client.NewStompHubServer(
+		client.WithEventHooks(
+			stomphook.NewChatRoomEventHook(accountRpc, messageRpc),
+			stomphook.NewOnlineEventHook(),
+		),
+		client.WithAuthenticator(stomphook.NewSignAuthenticator(th)),
+		client.WithLogger(logws.NewDefaultLogger()),
+	)
+
 	return &ServiceContext{
 		Config:        c,
 		AccountRpc:    accountRpc,
@@ -89,9 +103,10 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ConfigRpc:     configRpc,
 		SyslogRpc:     syslogRpc,
 
-		Redis:       rds,
-		Uploader:    uploader,
-		TokenHolder: th,
+		Redis:          rds,
+		Uploader:       uploader,
+		TokenHolder:    th,
+		StompHubServer: hub,
 
 		TerminalToken: middleware.NewTerminalTokenMiddleware().Handle,
 		UserToken:     middleware.NewUserTokenMiddleware(th).Handle,

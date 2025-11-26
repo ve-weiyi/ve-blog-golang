@@ -1,9 +1,8 @@
 package queue
 
 import (
-	"testing"
-
 	"gopkg.in/check.v1"
+	"testing"
 )
 
 // Runs all gocheck tests in this package.
