@@ -7813,25 +7813,30 @@
         }
       }
     },
-    "MultiUploadFileReq": {
-      "type": "object"
-    },
-    "OnlineCountResp": {
+    "MessageEvent": {
       "type": "object",
       "required": [
-        "msg",
-        "count"
+        "type",
+        "data",
+        "timestamp"
       ],
       "properties": {
-        "count": {
-          "description": "在线人数",
+        "data": {
+          "description": "消息内容",
+          "type": "string"
+        },
+        "timestamp": {
+          "description": "消息时间戳",
           "type": "integer"
         },
-        "msg": {
-          "description": "消息",
-          "type": "string"
+        "type": {
+          "description": "消息类型",
+          "type": "integer"
         }
       }
+    },
+    "MultiUploadFileReq": {
+      "type": "object"
     },
     "OperationLogBackVO": {
       "type": "object",
@@ -10429,7 +10434,7 @@
       "in": "header"
     }
   },
-  "x-date": "2025-11-20 11:42:04",
+  "x-date": "2025-11-26 12:41:59",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",
