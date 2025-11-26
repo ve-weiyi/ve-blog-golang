@@ -8,7 +8,6 @@ import (
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/common/stomp"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/middlewarex"
@@ -26,7 +25,7 @@ var (
 	nacosPassword  = flag.String("nacos-password", "nacos", "Input Your Nacos Password")
 	nacosNamespace = flag.String("nacos-namespace", "test", "Input Your Nacos NameSpaceId")
 	nacosGroup     = flag.String("nacos-group", "veweiyi.cn", "nacos group")
-	nacosDataID    = flag.String("nacos-data-id", "blog-rpc", "Input Your Nacos DataId")
+	nacosDataID    = flag.String("nacos-data-id", "blog-api", "Input Your Nacos DataId")
 )
 
 var configFile = flag.String("f", "", "the config file")
@@ -53,7 +52,7 @@ func main() {
 			func(content string) {
 				err := conf.LoadFromYamlBytes([]byte(content), &c)
 				if err != nil {
-					fmt.Printf("nacos config content changed, but failed to load: %v", err)
+					fmt.Printf("nacos config content changed, but failed to load: %v\n", err)
 					return
 				}
 			})
@@ -66,7 +65,6 @@ func main() {
 	defer server.Stop()
 
 	ctx := svc.NewServiceContext(c)
-	stomp.Init(ctx)
 	swagger.RegisterHttpSwagHandler(server, "/blog-api/v1/swagger/", []byte(docs.Docs))
 
 	server.Use(middlewarex.NewCtxMetaMiddleware().Handle)

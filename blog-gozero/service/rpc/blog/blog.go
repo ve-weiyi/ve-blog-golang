@@ -71,7 +71,7 @@ func main() {
 			func(content string) {
 				err := conf.LoadFromYamlBytes([]byte(content), &c)
 				if err != nil {
-					fmt.Printf("nacos config content changed, but failed to load: %v", err)
+					fmt.Printf("nacos config content changed, but failed to load: %v\n", err)
 					return
 				}
 			})

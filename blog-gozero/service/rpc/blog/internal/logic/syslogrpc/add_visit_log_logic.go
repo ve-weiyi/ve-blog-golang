@@ -36,7 +36,7 @@ func (l *AddVisitLogLogic) AddVisitLog(in *syslogrpc.VisitLogNewReq) (*syslogrpc
 	ua, _ := rpcutils.GetRemoteAgentFromCtx(l.ctx)
 
 	// 分割字符串，提取 IP 部分
-	is, _ := ipx.GetIpSourceByBaidu(ip)
+	is := ipx.GetIpSourceByBaidu(ip)
 	os := useragent.New(ua).OS()
 	browser, _ := useragent.New(ua).Browser()
 
