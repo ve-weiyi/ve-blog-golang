@@ -3477,90 +3477,6 @@
         }
       }
     },
-    "ChatMessageEvent": {
-      "type": "object",
-      "required": [
-        "id",
-        "user_id",
-        "terminal_id",
-        "nickname",
-        "avatar",
-        "ip_address",
-        "ip_source",
-        "type",
-        "content",
-        "status",
-        "created_at",
-        "updated_at"
-      ],
-      "properties": {
-        "avatar": {
-          "description": "头像",
-          "type": "string"
-        },
-        "content": {
-          "description": "消息内容",
-          "type": "string"
-        },
-        "created_at": {
-          "description": "创建时间",
-          "type": "integer"
-        },
-        "id": {
-          "description": "主键",
-          "type": "integer"
-        },
-        "ip_address": {
-          "description": "ip地址",
-          "type": "string"
-        },
-        "ip_source": {
-          "description": "ip来源",
-          "type": "string"
-        },
-        "nickname": {
-          "description": "昵称",
-          "type": "string"
-        },
-        "status": {
-          "description": "消息状态 0-正常 1-已编辑 2-已撤回 3-已删除",
-          "type": "integer"
-        },
-        "terminal_id": {
-          "description": "设备id",
-          "type": "string"
-        },
-        "type": {
-          "description": "消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息",
-          "type": "string"
-        },
-        "updated_at": {
-          "description": "更新时间",
-          "type": "integer"
-        },
-        "user_id": {
-          "description": "用户id",
-          "type": "string"
-        }
-      }
-    },
-    "ClientInfoEvent": {
-      "type": "object",
-      "required": [
-        "ip_address",
-        "ip_source"
-      ],
-      "properties": {
-        "ip_address": {
-          "description": "ip地址",
-          "type": "string"
-        },
-        "ip_source": {
-          "description": "ip来源",
-          "type": "string"
-        }
-      }
-    },
     "Comment": {
       "type": "object",
       "required": [
@@ -4340,21 +4256,6 @@
         }
       }
     },
-    "HistoryMessageEvent": {
-      "type": "object",
-      "required": [
-        "list"
-      ],
-      "properties": {
-        "list": {
-          "description": "消息列表",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ChatMessageEvent"
-          }
-        }
-      }
-    },
     "IdReq": {
       "type": "object",
       "required": [
@@ -4491,26 +4392,6 @@
     },
     "MultiUploadFileReq": {
       "type": "object"
-    },
-    "OnlineEvent": {
-      "type": "object",
-      "required": [
-        "count",
-        "is_online",
-        "msg"
-      ],
-      "properties": {
-        "count": {
-          "type": "integer"
-        },
-        "is_online": {
-          "type": "boolean"
-        },
-        "msg": {
-          "description": "消息内容",
-          "type": "string"
-        }
-      }
     },
     "Page": {
       "type": "object",
@@ -4719,18 +4600,6 @@
         },
         "version": {
           "type": "string"
-        }
-      }
-    },
-    "RecallMessageEvent": {
-      "type": "object",
-      "required": [
-        "id"
-      ],
-      "properties": {
-        "id": {
-          "description": "消息id",
-          "type": "integer"
         }
       }
     },
@@ -5844,7 +5713,7 @@
       "in": "header"
     }
   },
-  "x-date": "2025-11-20 11:42:47",
+  "x-date": "2025-11-26 12:41:44",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

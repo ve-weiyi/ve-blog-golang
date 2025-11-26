@@ -83,9 +83,10 @@ type MenuMetaParams struct {
 	Value string `json:"value,optional"`
 }
 
-type OnlineCountResp struct {
-	Msg   string `json:"msg"`   // 消息
-	Count int    `json:"count"` // 在线人数
+type MessageEvent struct {
+	Type      int64  `json:"type"`      // 消息类型
+	Data      string `json:"data"`      // 消息内容
+	Timestamp int64  `json:"timestamp"` // 消息时间戳
 }
 
 type OperationLogBackVO struct {
