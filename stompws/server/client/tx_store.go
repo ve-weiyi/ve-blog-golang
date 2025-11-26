@@ -1,65 +1,60 @@
 package client
 
-import (
-	"container/list"
-
-	"github.com/go-stomp/stomp/v3/frame"
-)
+import "github.com/go-stomp/stomp/v3/frame"
 
 type txStore struct {
-	transactions map[string]*list.List
+	transactions map[string][]*frame.Frame
 }
 
-// Initializes a new store or clears out an existing store
-func (txs *txStore) Init() {
-	txs.transactions = nil
+func newTxStore() *txStore {
+	return &txStore{
+		transactions: make(map[string][]*frame.Frame),
+	}
 }
 
 func (txs *txStore) Begin(tx string) error {
-	if txs.transactions == nil {
-		txs.transactions = make(map[string]*list.List)
+	if _, exists := txs.transactions[tx]; exists {
+		return errTransactionExists
+	}
+	txs.transactions[tx] = make([]*frame.Frame, 0)
+	return nil
+}
+
+func (txs *txStore) Add(tx string, f *frame.Frame) error {
+	frames, exists := txs.transactions[tx]
+	if !exists {
+		return errTransactionNotFound
+	}
+	// 移除 transaction 头部
+	f.Header.Del(frame.Transaction)
+	txs.transactions[tx] = append(frames, f)
+	return nil
+}
+
+func (txs *txStore) Commit(tx string, commitFunc func(f *frame.Frame) error) error {
+	frames, exists := txs.transactions[tx]
+	if !exists {
+		return errTransactionNotFound
 	}
 
-	if _, ok := txs.transactions[tx]; ok {
-		return txAlreadyInProgress
+	for _, f := range frames {
+		if err := commitFunc(f); err != nil {
+			return err
+		}
 	}
 
-	txs.transactions[tx] = list.New()
+	delete(txs.transactions, tx)
 	return nil
 }
 
 func (txs *txStore) Abort(tx string) error {
-	if list, ok := txs.transactions[tx]; ok {
-		list.Init()
-		delete(txs.transactions, tx)
-		return nil
+	if _, exists := txs.transactions[tx]; !exists {
+		return errTransactionNotFound
 	}
-	return txUnknown
+	delete(txs.transactions, tx)
+	return nil
 }
 
-// Commit causes all requests that have been queued for the transaction
-// to be sent to the request channel for processing. Calls the commit
-// function (commitFunc) in order for each request that is part of the
-// transaction.
-func (txs *txStore) Commit(tx string, commitFunc func(f *frame.Frame) error) error {
-	if list, ok := txs.transactions[tx]; ok {
-		for element := list.Front(); element != nil; element = list.Front() {
-			err := commitFunc(list.Remove(element).(*frame.Frame))
-			if err != nil {
-				return err
-			}
-		}
-		delete(txs.transactions, tx)
-		return nil
-	}
-	return txUnknown
-}
-
-func (txs *txStore) Add(tx string, f *frame.Frame) error {
-	if list, ok := txs.transactions[tx]; ok {
-		f.Header.Del(frame.Transaction)
-		list.PushBack(f)
-		return nil
-	}
-	return txUnknown
+func (txs *txStore) Clear() {
+	txs.transactions = make(map[string][]*frame.Frame)
 }

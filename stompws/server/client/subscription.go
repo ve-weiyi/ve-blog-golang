@@ -1,36 +1,30 @@
 package client
 
 import (
-	"net"
-
 	"github.com/go-stomp/stomp/v3/frame"
 )
 
 type Subscription struct {
-	conn    *Conn
-	dest    string
-	id      string            // client's subscription id
-	ack     string            // auto, client, client-individual
-	msgId   uint64            // message-id (or ack) for acknowledgement
-	subList *SubscriptionList // am I in a list
-	frame   *frame.Frame      // message allocated to subscription
+	client      *Client
+	id          string
+	destination string
+	ack         string
+	msgId       uint64
+	subList     *SubscriptionList // am I in a list
+	frame       *frame.Frame
 }
 
-func newSubscription(c *Conn, dest string, id string, ack string) *Subscription {
+func newSubscription(c *Client, dest string, id string, ack string) *Subscription {
 	return &Subscription{
-		conn: c,
-		dest: dest,
-		id:   id,
-		ack:  ack,
+		client:      c,
+		id:          id,
+		destination: dest,
+		ack:         ack,
 	}
 }
 
-func (s *Subscription) NetConn() net.Conn {
-	return s.conn.rw
-}
-
 func (s *Subscription) Destination() string {
-	return s.dest
+	return s.destination
 }
 
 func (s *Subscription) Ack() string {
@@ -50,15 +44,12 @@ func (s *Subscription) IsAckedBy(msgId uint64) bool {
 		return msgId >= s.msgId
 	case frame.AckClientIndividual:
 		return msgId == s.msgId
+	default:
+		return false
 	}
-
-	// should not get here
-	panic("invalid value for subscript.ack")
 }
 
 func (s *Subscription) IsNackedBy(msgId uint64) bool {
-	// TODO: not sure about this, interpreting NACK
-	// to apply to an individual message
 	return msgId == s.msgId
 }
 
@@ -66,20 +57,16 @@ func (s *Subscription) SendQueueFrame(f *frame.Frame) {
 	s.setSubscriptionHeader(f)
 	s.frame = f
 
-	// let the connection deal with the subscription
-	// acknowledgement
-	s.conn.subChannel <- s
+	// 设置frame并发送到subChan
+	s.client.subChan <- s
 }
 
-// Send a message frame to the client, as part of this
-// subscription. Called within the queue when a message
-// frame is available.
 func (s *Subscription) SendTopicFrame(f *frame.Frame) {
 	s.setSubscriptionHeader(f)
 
-	// topics are handled differently, they just go
-	// straight to the client without acknowledgement
-	s.conn.writeChannel <- f
+	// let the connection deal with the subscription
+	// acknowledgement
+	s.client.writeChan <- f
 }
 
 func (s *Subscription) setSubscriptionHeader(f *frame.Frame) {
