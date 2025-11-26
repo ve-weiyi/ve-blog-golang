@@ -42,7 +42,7 @@ func (j *JwtTokenHolder) VerifyToken(ctx context.Context, token string, uid stri
 	// 解析token
 	tok, err := j.token.ParseToken(token)
 	if err != nil {
-		return fmt.Errorf(err.Error())
+		return err
 	}
 
 	// token不合法

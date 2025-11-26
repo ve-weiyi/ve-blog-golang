@@ -12,6 +12,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/permissionx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/tokenx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/docs"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/stomphook"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/middleware"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
@@ -24,6 +25,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
+	"github.com/ve-weiyi/ve-blog-golang/stompws/logws"
+	"github.com/ve-weiyi/ve-blog-golang/stompws/server/client"
 )
 
 type ServiceContext struct {
@@ -43,6 +46,8 @@ type ServiceContext struct {
 	Uploader         oss.OSS
 	TokenHolder      tokenx.TokenHolder
 	PermissionHolder permissionx.PermissionHolder
+
+	StompHubServer *client.StompHubServer
 
 	AdminToken   rest.Middleware
 	Permission   rest.Middleware
@@ -83,6 +88,15 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		panic(err)
 	}
 
+	hub := client.NewStompHubServer(
+		client.WithEventHooks(
+			stomphook.NewChatRoomEventHook(),
+			stomphook.NewOnlineEventHook(),
+		),
+		client.WithAuthenticator(stomphook.NewJwtAuthenticator(th)),
+		client.WithLogger(logws.NewDefaultLogger()),
+	)
+
 	return &ServiceContext{
 		Config:        c,
 		AccountRpc:    accountRpc,
@@ -99,6 +113,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Uploader:         uploader,
 		TokenHolder:      th,
 		PermissionHolder: ph,
+		StompHubServer:   hub,
 
 		AdminToken: middleware.NewAdminTokenMiddleware(th).Handle,
 		Permission: middleware.NewSimpleMiddleware().Handle, // 不使用接口权限控制

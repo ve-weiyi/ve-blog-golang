@@ -82,7 +82,7 @@ func (l *ThirdLoginLogic) ThirdLogin(in *accountrpc.ThirdLoginReq) (*accountrpc.
 func (l *ThirdLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oauth.UserResult) (out *model.TUserOauth, err error) {
 	// 用户未注册,先注册用户
 	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)
-	is, _ := ipx.GetIpSourceByBaidu(ip)
+	is := ipx.GetIpSourceByBaidu(ip)
 
 	// 用户账号
 	user := &model.TUser{
