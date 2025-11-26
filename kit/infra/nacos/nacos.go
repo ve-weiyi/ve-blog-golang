@@ -6,6 +6,7 @@ import (
 
 	"github.com/nacos-group/nacos-sdk-go/v2/clients"
 	"github.com/nacos-group/nacos-sdk-go/v2/common/constant"
+	"github.com/nacos-group/nacos-sdk-go/v2/common/logger"
 	"github.com/nacos-group/nacos-sdk-go/v2/vo"
 )
 
@@ -24,7 +25,7 @@ type NacosConfig struct {
 
 // 初始化Nacos配置并监听变化
 func LoadConfigFromNacos(option *NacosConfig, callback func(content string)) error {
-	fmt.Println("Initializing Nacos config from file:", option.NacosHost)
+	logger.GetLogger().Info("Initializing Nacos config from file:", option.NacosHost)
 	// 1. 创建Nacos客户端配置
 	serverConfigs := []constant.ServerConfig{
 		{
@@ -41,7 +42,7 @@ func LoadConfigFromNacos(option *NacosConfig, callback func(content string)) err
 		NotLoadCacheAtStart: true,
 		LogDir:              path.Join(option.NacosRuntimeDir, "logs"),
 		CacheDir:            path.Join(option.NacosRuntimeDir, "cache"),
-		LogLevel:            "debug",
+		LogLevel:            "info",
 	}
 
 	// 2. 创建Nacos配置客户端
@@ -72,16 +73,15 @@ func LoadConfigFromNacos(option *NacosConfig, callback func(content string)) err
 		DataId: option.NacosDataID,
 		Group:  option.NacosGroup,
 		OnChange: func(namespace, group, dataId, data string) {
-			fmt.Printf("Nacos config changed: dataId=%s, group=%s\n", dataId, group)
+			logger.GetLogger().Info("Nacos config changed: dataId=%s, group=%s\n", dataId, group)
 			// 重新解析变更后的配置到原指针
 			callback(content)
-			fmt.Println("Nacos config updated successfully")
 		},
 	})
 	if err != nil {
 		return fmt.Errorf("failed to listen Nacos config changes: %w", err)
 	}
 
-	fmt.Println("Nacos config initialization completed")
+	logger.GetLogger().Info("Nacos config initialization completed")
 	return nil // 返回指针，外部持有后会同步更新
 }

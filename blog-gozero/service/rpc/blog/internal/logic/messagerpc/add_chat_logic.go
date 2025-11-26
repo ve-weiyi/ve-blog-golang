@@ -38,8 +38,8 @@ func (l *AddChatLogic) AddChat(in *messagerpc.AddChatReq) (*messagerpc.ChatDetai
 		Type:       in.Type,
 		Content:    in.Content,
 		Status:     in.Status,
-		CreatedAt:  time.UnixMilli(in.CreatedAt),
-		UpdatedAt:  time.UnixMilli(in.UpdatedAt),
+		CreatedAt:  time.Unix(in.CreatedAt, 0),
+		UpdatedAt:  time.Unix(in.CreatedAt, 0),
 	}
 
 	_, err := l.svcCtx.TChatModel.Insert(l.ctx, entity)
@@ -55,10 +55,10 @@ func convertChatOut(in *model.TChat) (out *messagerpc.ChatDetails) {
 		Id:         in.Id,
 		UserId:     in.UserId,
 		TerminalId: in.TerminalId,
-		IpAddress:  in.IpAddress,
-		IpSource:   in.IpSource,
 		Nickname:   in.Nickname,
 		Avatar:     in.Avatar,
+		IpAddress:  in.IpAddress,
+		IpSource:   in.IpSource,
 		Type:       in.Type,
 		Content:    in.Content,
 		Status:     in.Status,
