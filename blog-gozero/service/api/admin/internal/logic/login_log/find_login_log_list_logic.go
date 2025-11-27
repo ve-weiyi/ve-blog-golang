@@ -28,10 +28,12 @@ func NewFindLoginLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 func (l *FindLoginLogListLogic) FindLoginLogList(req *types.LoginLogQuery) (resp *types.PageResp, err error) {
 	in := &syslogrpc.FindLoginLogListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
-		Sorts:    req.Sorts,
-		UserId:   req.UserId,
+		Paginate: &syslogrpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
+		UserId: req.UserId,
 	}
 
 	out, err := l.svcCtx.SyslogRpc.FindLoginLogList(l.ctx, in)
@@ -57,14 +59,14 @@ func (l *FindLoginLogListLogic) FindLoginLogList(req *types.LoginLogQuery) (resp
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
 }
 
-func ConvertLoginLogTypes(in *syslogrpc.LoginLogDetails, usm map[string]*types.UserInfoVO) (out *types.LoginLogBackVO) {
+func ConvertLoginLogTypes(in *syslogrpc.LoginLogDetailsResp, usm map[string]*types.UserInfoVO) (out *types.LoginLogBackVO) {
 	out = &types.LoginLogBackVO{
 		Id:        in.Id,
 		UserId:    in.UserId,

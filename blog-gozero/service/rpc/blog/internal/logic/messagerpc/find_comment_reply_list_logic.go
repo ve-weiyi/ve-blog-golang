@@ -2,8 +2,8 @@ package messagerpclogic
 
 import (
 	"context"
-	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/messagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -33,43 +33,40 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(in *messagerpc.FindComm
 		return nil, err
 	}
 
-	var list []*messagerpc.CommentDetails
+	var list []*messagerpc.CommentDetailsResp
 	for _, v := range records {
 		list = append(list, convertCommentOut(v))
 	}
 
 	return &messagerpc.FindCommentReplyListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &messagerpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
 	}, nil
 }
 
 func convertCommentReplyQuery(in *messagerpc.FindCommentReplyListReq) (page int, size int, sorts string, conditions string, params []any) {
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-	if sorts == "" {
-		sorts = "id desc"
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+	}
+
+	if in.ParentId != 0 {
+		opts = append(opts, query.WithCondition("parent_id = ?", in.ParentId))
 	}
 
 	if in.Type != 0 {
-		conditions += " type = ?"
-		params = append(params, in.Type)
+		opts = append(opts, query.WithCondition("type = ?", in.Type))
 	}
 
 	if in.TopicId != 0 {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += " topic_id = ?"
-		params = append(params, in.TopicId)
+		opts = append(opts, query.WithCondition("topic_id = ?", in.TopicId))
 	}
 
-	if conditions != "" {
-		conditions += " and "
-	}
-	conditions += " parent_id = ?"
-	params = append(params, in.ParentId)
-
-	return
+	return query.NewQueryBuilder(opts...).Build()
 }

@@ -2,12 +2,11 @@ package accountrpclogic
 
 import (
 	"context"
-	"strings"
 
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 )
@@ -41,58 +40,45 @@ func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accou
 	}
 
 	resp := &accountrpc.FindUserListResp{}
-	resp.Total = total
+	resp.Pagination = &accountrpc.PageResp{
+		Page:     int64(page),
+		PageSize: int64(size),
+		Total:    total,
+	}
 	resp.List = list
 
 	return resp, nil
 }
 
 func convertUserQuery(in *accountrpc.FindUserListReq) (page int, size int, sorts string, conditions string, params []interface{}) {
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-	if sorts == "" {
-		sorts = "id desc"
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.Username != "" {
-		conditions += "username like ?"
-		params = append(params, "%"+in.Username+"%")
+		opts = append(opts, query.WithCondition("username like ?", "%"+in.Username+"%"))
 	}
 
 	if in.Nickname != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += "nickname like ?"
-		params = append(params, "%"+in.Nickname+"%")
+		opts = append(opts, query.WithCondition("nickname like ?", "%"+in.Nickname+"%"))
 	}
 
 	if in.Email != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += "email like ?"
-		params = append(params, "%"+in.Email+"%")
+		opts = append(opts, query.WithCondition("email like ?", "%"+in.Email+"%"))
 	}
 
 	if in.Status != 0 {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += "status = ?"
-		params = append(params, in.Status)
+		opts = append(opts, query.WithCondition("status = ?", in.Status))
 	}
 
 	if len(in.UserIds) != 0 {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += "user_id in (?)"
-		params = append(params, in.UserIds)
+		opts = append(opts, query.WithCondition("user_id in (?)", in.UserIds))
 	}
 
-	return page, size, sorts, conditions, params
+	return query.NewQueryBuilder(opts...).Build()
 }
 
 func convertUserOut(in *model.TUser) (out *accountrpc.User) {

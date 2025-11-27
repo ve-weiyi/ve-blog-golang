@@ -24,7 +24,7 @@ func NewGetCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetCom
 }
 
 // 查询评论
-func (l *GetCommentLogic) GetComment(in *messagerpc.IdReq) (*messagerpc.CommentDetails, error) {
+func (l *GetCommentLogic) GetComment(in *messagerpc.IdReq) (*messagerpc.CommentDetailsResp, error) {
 	entity, err := l.svcCtx.TCommentModel.FindById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err

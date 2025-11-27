@@ -28,8 +28,11 @@ func NewFindCategoryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 func (l *FindCategoryListLogic) FindCategoryList(req *types.CategoryQueryReq) (resp *types.PageResp, err error) {
 	in := &articlerpc.FindCategoryListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
+		Paginate: &articlerpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
 	}
 	out, err := l.svcCtx.ArticleRpc.FindCategoryList(l.ctx, in)
 	if err != nil {
@@ -38,8 +41,13 @@ func (l *FindCategoryListLogic) FindCategoryList(req *types.CategoryQueryReq) (r
 
 	list := make([]*types.Category, 0)
 	for _, v := range out.List {
-		m := ConvertCategoryTypes(v)
-		list = append(list, m)
+		list = append(list, &types.Category{
+			Id:           v.Id,
+			CategoryName: v.CategoryName,
+			ArticleCount: v.ArticleCount,
+			CreatedAt:    v.CreatedAt,
+			UpdatedAt:    v.UpdatedAt,
+		})
 	}
 
 	_, err = l.svcCtx.SyslogRpc.AddVisitLog(l.ctx, &syslogrpc.VisitLogNewReq{
@@ -50,19 +58,9 @@ func (l *FindCategoryListLogic) FindCategoryList(req *types.CategoryQueryReq) (r
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = req.Page
-	resp.PageSize = req.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
-}
-
-func ConvertCategoryTypes(in *articlerpc.CategoryDetails) (out *types.Category) {
-	return &types.Category{
-		Id:           in.Id,
-		CategoryName: in.CategoryName,
-		ArticleCount: in.ArticleCount,
-		CreatedAt:    in.CreatedAt,
-		UpdatedAt:    in.UpdatedAt,
-	}
 }

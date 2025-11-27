@@ -24,7 +24,7 @@ func NewSyncMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Sync
 }
 
 // 同步菜单列表
-func (l *SyncMenuListLogic) SyncMenuList(in *permissionrpc.SyncMenuReq) (*permissionrpc.BatchResp, error) {
+func (l *SyncMenuListLogic) SyncMenuList(in *permissionrpc.SyncMenuListReq) (*permissionrpc.BatchResp, error) {
 	go l.syncMenuList(in)
 
 	return &permissionrpc.BatchResp{
@@ -32,7 +32,7 @@ func (l *SyncMenuListLogic) SyncMenuList(in *permissionrpc.SyncMenuReq) (*permis
 	}, nil
 }
 
-func (l *SyncMenuListLogic) syncMenuList(in *permissionrpc.SyncMenuReq) {
+func (l *SyncMenuListLogic) syncMenuList(in *permissionrpc.SyncMenuListReq) {
 	// 使用后台上下文，服务返回后仍然可以继续执行
 	ctx := context.Background()
 

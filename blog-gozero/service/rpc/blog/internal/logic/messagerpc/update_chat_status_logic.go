@@ -24,7 +24,7 @@ func NewUpdateChatStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 // 更新聊天记录状态
-func (l *UpdateChatStatusLogic) UpdateChatStatus(in *messagerpc.UpdateChatStatusReq) (*messagerpc.ChatDetails, error) {
+func (l *UpdateChatStatusLogic) UpdateChatStatus(in *messagerpc.UpdateChatStatusReq) (*messagerpc.ChatDetailsResp, error) {
 	entity, err := l.svcCtx.TChatModel.FindById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err

@@ -24,13 +24,13 @@ func NewResourceRpcServer(svcCtx *svc.ServiceContext) *ResourceRpcServer {
 }
 
 // 创建照片
-func (s *ResourceRpcServer) AddPhoto(ctx context.Context, in *resourcerpc.PhotoNewReq) (*resourcerpc.PhotoDetails, error) {
+func (s *ResourceRpcServer) AddPhoto(ctx context.Context, in *resourcerpc.PhotoNewReq) (*resourcerpc.PhotoDetailsResp, error) {
 	l := resourcerpclogic.NewAddPhotoLogic(ctx, s.svcCtx)
 	return l.AddPhoto(in)
 }
 
 // 更新照片
-func (s *ResourceRpcServer) UpdatePhoto(ctx context.Context, in *resourcerpc.PhotoNewReq) (*resourcerpc.PhotoDetails, error) {
+func (s *ResourceRpcServer) UpdatePhoto(ctx context.Context, in *resourcerpc.PhotoNewReq) (*resourcerpc.PhotoDetailsResp, error) {
 	l := resourcerpclogic.NewUpdatePhotoLogic(ctx, s.svcCtx)
 	return l.UpdatePhoto(in)
 }
@@ -54,13 +54,13 @@ func (s *ResourceRpcServer) FindPhotoList(ctx context.Context, in *resourcerpc.F
 }
 
 // 创建相册
-func (s *ResourceRpcServer) AddAlbum(ctx context.Context, in *resourcerpc.AlbumNewReq) (*resourcerpc.AlbumDetails, error) {
+func (s *ResourceRpcServer) AddAlbum(ctx context.Context, in *resourcerpc.AlbumNewReq) (*resourcerpc.AlbumDetailsResp, error) {
 	l := resourcerpclogic.NewAddAlbumLogic(ctx, s.svcCtx)
 	return l.AddAlbum(in)
 }
 
 // 更新相册
-func (s *ResourceRpcServer) UpdateAlbum(ctx context.Context, in *resourcerpc.AlbumNewReq) (*resourcerpc.AlbumDetails, error) {
+func (s *ResourceRpcServer) UpdateAlbum(ctx context.Context, in *resourcerpc.AlbumNewReq) (*resourcerpc.AlbumDetailsResp, error) {
 	l := resourcerpclogic.NewUpdateAlbumLogic(ctx, s.svcCtx)
 	return l.UpdateAlbum(in)
 }
@@ -72,7 +72,7 @@ func (s *ResourceRpcServer) UpdateAlbumDelete(ctx context.Context, in *resourcer
 }
 
 // 获取相册
-func (s *ResourceRpcServer) GetAlbum(ctx context.Context, in *resourcerpc.IdReq) (*resourcerpc.AlbumDetails, error) {
+func (s *ResourceRpcServer) GetAlbum(ctx context.Context, in *resourcerpc.IdReq) (*resourcerpc.AlbumDetailsResp, error) {
 	l := resourcerpclogic.NewGetAlbumLogic(ctx, s.svcCtx)
 	return l.GetAlbum(in)
 }
@@ -90,13 +90,13 @@ func (s *ResourceRpcServer) FindAlbumList(ctx context.Context, in *resourcerpc.F
 }
 
 // 创建页面
-func (s *ResourceRpcServer) AddPage(ctx context.Context, in *resourcerpc.PageNewReq) (*resourcerpc.PageDetails, error) {
+func (s *ResourceRpcServer) AddPage(ctx context.Context, in *resourcerpc.PageNewReq) (*resourcerpc.PageDetailsResp, error) {
 	l := resourcerpclogic.NewAddPageLogic(ctx, s.svcCtx)
 	return l.AddPage(in)
 }
 
 // 更新页面
-func (s *ResourceRpcServer) UpdatePage(ctx context.Context, in *resourcerpc.PageNewReq) (*resourcerpc.PageDetails, error) {
+func (s *ResourceRpcServer) UpdatePage(ctx context.Context, in *resourcerpc.PageNewReq) (*resourcerpc.PageDetailsResp, error) {
 	l := resourcerpclogic.NewUpdatePageLogic(ctx, s.svcCtx)
 	return l.UpdatePage(in)
 }

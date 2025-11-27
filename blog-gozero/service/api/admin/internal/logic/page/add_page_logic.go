@@ -26,40 +26,29 @@ func NewAddPageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPageLo
 }
 
 func (l *AddPageLogic) AddPage(req *types.PageNewReq) (resp *types.PageBackVO, err error) {
-	in := ConvertPagePb(req)
+	in := &resourcerpc.PageNewReq{
+		Id:             req.Id,
+		PageName:       req.PageName,
+		PageLabel:      req.PageLabel,
+		PageCover:      req.PageCover,
+		IsCarousel:     req.IsCarousel,
+		CarouselCovers: req.CarouselCovers,
+	}
+
 	out, err := l.svcCtx.ResourceRpc.AddPage(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	resp = ConvertPageTypes(out)
+	resp = &types.PageBackVO{
+		Id:             out.Id,
+		PageName:       out.PageName,
+		PageLabel:      out.PageLabel,
+		PageCover:      out.PageCover,
+		IsCarousel:     out.IsCarousel,
+		CarouselCovers: out.CarouselCovers,
+		CreatedAt:      out.CreatedAt,
+		UpdatedAt:      out.UpdatedAt,
+	}
 	return resp, nil
-}
-
-func ConvertPagePb(in *types.PageNewReq) (out *resourcerpc.PageNewReq) {
-	out = &resourcerpc.PageNewReq{
-		Id:             in.Id,
-		PageName:       in.PageName,
-		PageLabel:      in.PageLabel,
-		PageCover:      in.PageCover,
-		IsCarousel:     in.IsCarousel,
-		CarouselCovers: in.CarouselCovers,
-	}
-
-	return
-}
-
-func ConvertPageTypes(in *resourcerpc.PageDetails) (out *types.PageBackVO) {
-	out = &types.PageBackVO{
-		Id:             in.Id,
-		PageName:       in.PageName,
-		PageLabel:      in.PageLabel,
-		PageCover:      in.PageCover,
-		IsCarousel:     in.IsCarousel,
-		CarouselCovers: in.CarouselCovers,
-		CreatedAt:      in.CreatedAt,
-		UpdatedAt:      in.UpdatedAt,
-	}
-
-	return
 }

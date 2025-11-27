@@ -45,7 +45,10 @@ func (s *OnlineUserService) CleanExpired(ctx context.Context) error {
 }
 
 // 获取在线用户 ID 列表（先清理，再返回）
-func (s *OnlineUserService) GetOnlineUsers(ctx context.Context, offset, limit int64) ([]string, error) {
+func (s *OnlineUserService) GetOnlineUsers(ctx context.Context, page, pageSize int64) ([]string, error) {
+	offset := (page - 1) * pageSize
+	limit := pageSize
+
 	if err := s.CleanExpired(ctx); err != nil {
 		return nil, err
 	}

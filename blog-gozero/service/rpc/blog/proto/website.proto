@@ -7,30 +7,27 @@ package websiterpc;
 // 生成 golang 代码后的包名
 option go_package = "./websiterpc";
 
-message EmptyReq {
-}
-
-message EmptyResp {
-}
-
-message IdReq {
-  int64 id = 1;
-}
-
+//==================== 通用消息 ====================
 message IdsReq {
   repeated int64 ids = 1;
-}
-
-message UserIdReq {
-  string user_id = 1;
 }
 
 message BatchResp {
   int64 success_count = 1;
 }
 
-message CountResp {
-  int64 count = 1;
+// 分页请求
+message PageReq {
+  int64 page = 1;      // 页码
+  int64 page_size = 2; // 每页大小
+  repeated string sorts = 3; // 排序字段
+}
+
+// 分页响应
+message PageResp {
+  int64 page = 1;      // 页码
+  int64 page_size = 2; // 每页大小
+  int64 total = 3;     // 总数
 }
 
 /************** blog 友链管理 **************/
@@ -42,7 +39,7 @@ message FriendNewReq {
   string link_intro = 5;// 链接介绍
 }
 
-message FriendDetails {
+message FriendDetailsResp {
   int64 id = 1;// id
   string link_name = 2;// 链接名
   string link_avatar = 3;// 链接头像
@@ -53,22 +50,23 @@ message FriendDetails {
 }
 
 message FindFriendListReq {
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string link_name = 4;// 链接名
+  PageReq paginate = 1;    // 分页参数
+  string link_name = 2;// 链接名
 }
 
 message FindFriendListResp {
-  repeated FriendDetails list = 1;
-  int64 total = 2;
+  PageResp pagination = 1; // 分页信息
+  repeated FriendDetailsResp list = 2;
 }
 
 /************** blog 网站管理 **************/
 
 message VisitDailyStatistics {
-  string date = 1;
-  int64 count = 2;
+  string date = 1; // 日期
+  int64 count = 2; // 数量
+}
+
+message AnalysisVisitReq{
 }
 
 message AnalysisVisitResp{
@@ -98,16 +96,16 @@ message FindVisitTrendResp {
 
 service WebsiteRpc {
   // 用户日浏览量分析
-  rpc AnalysisVisit(EmptyReq) returns(AnalysisVisitResp);
+  rpc AnalysisVisit(AnalysisVisitReq) returns(AnalysisVisitResp);
   // 添加用户访问记录
   rpc AddVisit(AddVisitReq) returns(AddVisitResp);
   // 查询用户访问趋势
   rpc FindVisitTrend(FindVisitTrendReq) returns(FindVisitTrendResp);
 
   // 创建友链
-  rpc AddFriend(FriendNewReq) returns(FriendDetails);
+  rpc AddFriend(FriendNewReq) returns(FriendDetailsResp);
   // 更新友链
-  rpc UpdateFriend(FriendNewReq) returns(FriendDetails);
+  rpc UpdateFriend(FriendNewReq) returns(FriendDetailsResp);
   // 删除友链
   rpc DeleteFriend(IdsReq) returns(BatchResp);
   // 查询友链列表

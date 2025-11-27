@@ -27,8 +27,11 @@ func NewFindPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 func (l *FindPageListLogic) FindPageList(req *types.PageQueryReq) (resp *types.PageResp, err error) {
 	in := &resourcerpc.FindPageListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
+		Paginate: &resourcerpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
 	}
 	out, err := l.svcCtx.ResourceRpc.FindPageList(l.ctx, in)
 	if err != nil {
@@ -37,25 +40,21 @@ func (l *FindPageListLogic) FindPageList(req *types.PageQueryReq) (resp *types.P
 
 	list := make([]*types.Page, 0)
 	for _, v := range out.List {
-		list = append(list, ConvertPageTypes(v))
+		list = append(list, &types.Page{
+			Id:         v.Id,
+			PageName:   v.PageName,
+			PageLabel:  v.PageLabel,
+			PageCover:  v.PageCover,
+			IsCarousel: v.IsCarousel,
+			CreatedAt:  v.CreatedAt,
+			UpdatedAt:  v.UpdatedAt,
+		})
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
-}
-
-func ConvertPageTypes(in *resourcerpc.PageDetails) *types.Page {
-	return &types.Page{
-		Id:         in.Id,
-		PageName:   in.PageName,
-		PageLabel:  in.PageLabel,
-		PageCover:  in.PageCover,
-		IsCarousel: in.IsCarousel,
-		CreatedAt:  in.CreatedAt,
-		UpdatedAt:  in.UpdatedAt,
-	}
 }

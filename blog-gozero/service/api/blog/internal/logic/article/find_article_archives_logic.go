@@ -28,9 +28,11 @@ func NewFindArticleArchivesLogic(ctx context.Context, svcCtx *svc.ServiceContext
 
 func (l *FindArticleArchivesLogic) FindArticleArchives(req *types.ArticleArchivesQueryReq) (resp *types.PageResp, err error) {
 	in := &articlerpc.FindArticleListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
-		Sorts:    []string{"created_at desc"},
+		Paginate: &articlerpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    []string{"created_at desc"},
+		},
 		IsDelete: constant.ArticleIsDeleteNo,
 		Status:   constant.ArticleStatusPublic,
 	}
@@ -47,9 +49,9 @@ func (l *FindArticleArchivesLogic) FindArticleArchives(req *types.ArticleArchive
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = req.Page
-	resp.PageSize = req.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return
 }

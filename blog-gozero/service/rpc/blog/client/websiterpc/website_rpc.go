@@ -16,33 +16,31 @@ import (
 type (
 	AddVisitReq          = websiterpc.AddVisitReq
 	AddVisitResp         = websiterpc.AddVisitResp
+	AnalysisVisitReq     = websiterpc.AnalysisVisitReq
 	AnalysisVisitResp    = websiterpc.AnalysisVisitResp
 	BatchResp            = websiterpc.BatchResp
-	CountResp            = websiterpc.CountResp
-	EmptyReq             = websiterpc.EmptyReq
-	EmptyResp            = websiterpc.EmptyResp
 	FindFriendListReq    = websiterpc.FindFriendListReq
 	FindFriendListResp   = websiterpc.FindFriendListResp
 	FindVisitTrendReq    = websiterpc.FindVisitTrendReq
 	FindVisitTrendResp   = websiterpc.FindVisitTrendResp
-	FriendDetails        = websiterpc.FriendDetails
+	FriendDetailsResp    = websiterpc.FriendDetailsResp
 	FriendNewReq         = websiterpc.FriendNewReq
-	IdReq                = websiterpc.IdReq
 	IdsReq               = websiterpc.IdsReq
-	UserIdReq            = websiterpc.UserIdReq
+	PageReq              = websiterpc.PageReq
+	PageResp             = websiterpc.PageResp
 	VisitDailyStatistics = websiterpc.VisitDailyStatistics
 
 	WebsiteRpc interface {
 		// 用户日浏览量分析
-		AnalysisVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error)
+		AnalysisVisit(ctx context.Context, in *AnalysisVisitReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error)
 		// 添加用户访问记录
 		AddVisit(ctx context.Context, in *AddVisitReq, opts ...grpc.CallOption) (*AddVisitResp, error)
 		// 查询用户访问趋势
 		FindVisitTrend(ctx context.Context, in *FindVisitTrendReq, opts ...grpc.CallOption) (*FindVisitTrendResp, error)
 		// 创建友链
-		AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error)
+		AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetailsResp, error)
 		// 更新友链
-		UpdateFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error)
+		UpdateFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetailsResp, error)
 		// 删除友链
 		DeleteFriend(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询友链列表
@@ -61,7 +59,7 @@ func NewWebsiteRpc(cli zrpc.Client) WebsiteRpc {
 }
 
 // 用户日浏览量分析
-func (m *defaultWebsiteRpc) AnalysisVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error) {
+func (m *defaultWebsiteRpc) AnalysisVisit(ctx context.Context, in *AnalysisVisitReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error) {
 	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
 	return client.AnalysisVisit(ctx, in, opts...)
 }
@@ -79,13 +77,13 @@ func (m *defaultWebsiteRpc) FindVisitTrend(ctx context.Context, in *FindVisitTre
 }
 
 // 创建友链
-func (m *defaultWebsiteRpc) AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error) {
+func (m *defaultWebsiteRpc) AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetailsResp, error) {
 	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
 	return client.AddFriend(ctx, in, opts...)
 }
 
 // 更新友链
-func (m *defaultWebsiteRpc) UpdateFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error) {
+func (m *defaultWebsiteRpc) UpdateFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetailsResp, error) {
 	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
 	return client.UpdateFriend(ctx, in, opts...)
 }

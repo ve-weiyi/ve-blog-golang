@@ -50,7 +50,7 @@ func (l *GetUserApisLogic) GetUserApis(req *types.EmptyReq) (resp *types.UserApi
 	return
 }
 
-func convertUserApi(req *permissionrpc.ApiDetails) (out *types.UserApi) {
+func convertUserApi(req *permissionrpc.ApiDetailsResp) (out *types.UserApi) {
 	children := make([]*types.UserApi, 0)
 	for _, v := range req.Children {
 		m := convertUserApi(v)

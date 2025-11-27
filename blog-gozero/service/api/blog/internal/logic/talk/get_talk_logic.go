@@ -46,8 +46,8 @@ func (l *GetTalkLogic) GetTalk(req *types.IdReq) (resp *types.Talk, err error) {
 	}
 
 	// 查询评论量
-	counts, err := l.svcCtx.MessageRpc.FindCommentReplyCounts(l.ctx, &messagerpc.IdsReq{
-		Ids: []int64{out.Id},
+	counts, err := l.svcCtx.MessageRpc.FindCommentReplyCounts(l.ctx, &messagerpc.FindCommentReplyCountsReq{
+		TopicIds: []int64{out.Id},
 	})
 	if err != nil {
 		return nil, err

@@ -25,7 +25,7 @@ func NewGetRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetRema
 }
 
 // 查询留言
-func (l *GetRemarkLogic) GetRemark(in *messagerpc.IdReq) (*messagerpc.RemarkDetails, error) {
+func (l *GetRemarkLogic) GetRemark(in *messagerpc.IdReq) (*messagerpc.RemarkDetailsResp, error) {
 	entity, err := l.svcCtx.TRemarkModel.FindById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err

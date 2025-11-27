@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -31,11 +32,15 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 		return nil, err
 	}
 
-	offset := (in.Page - 1) * in.PageSize
-	limit := in.PageSize
-
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+	}
+	page, size, _, _, _ := query.NewQueryBuilder(opts...).Build()
 	// 查找在线用户
-	uids, err := l.svcCtx.OnlineUserService.GetOnlineUsers(l.ctx, offset, limit)
+	uids, err := l.svcCtx.OnlineUserService.GetOnlineUsers(l.ctx, in.Paginate.Page, in.Paginate.PageSize)
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +87,11 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 	}
 
 	resp := &accountrpc.FindUserInfoListResp{}
-	resp.Total = total
+	resp.Pagination = &accountrpc.PageResp{
+		Page:     int64(page),
+		PageSize: int64(size),
+		Total:    total,
+	}
 	resp.List = list
 
 	return resp, nil

@@ -2,8 +2,8 @@ package talkrpclogic
 
 import (
 	"context"
-	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -33,29 +33,32 @@ func (l *FindTalkListLogic) FindTalkList(in *talkrpc.FindTalkListReq) (*talkrpc.
 		return nil, err
 	}
 
-	var list []*talkrpc.TalkDetails
+	var list []*talkrpc.TalkDetailsResp
 	for _, v := range records {
 		list = append(list, convertTalkOut(v))
 	}
 
 	return &talkrpc.FindTalkListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &talkrpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
 	}, nil
 }
 
 func convertTalkQuery(in *talkrpc.FindTalkListReq) (page int, size int, sorts string, conditions string, params []any) {
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-	if sorts == "" {
-		sorts = "id desc"
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.Status != 0 {
-		conditions += " status = ?"
-		params = append(params, in.Status)
+		opts = append(opts, query.WithCondition("status = ?", in.Status))
 	}
 
-	return
+	return query.NewQueryBuilder(opts...).Build()
 }

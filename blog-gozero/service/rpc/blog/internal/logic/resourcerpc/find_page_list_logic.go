@@ -2,8 +2,8 @@ package resourcerpclogic
 
 import (
 	"context"
-	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/resourcerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -33,26 +33,32 @@ func (l *FindPageListLogic) FindPageList(in *resourcerpc.FindPageListReq) (*reso
 		return nil, err
 	}
 
-	var list []*resourcerpc.PageDetails
+	var list []*resourcerpc.PageDetailsResp
 	for _, v := range records {
 		list = append(list, convertPageOut(v))
 	}
 
 	return &resourcerpc.FindPageListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &resourcerpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
 	}, nil
 }
 
 func convertPageQuery(in *resourcerpc.FindPageListReq) (page int, size int, sorts string, conditions string, params []any) {
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-
-	if in.PageName != "" {
-		conditions += "page_name like ?"
-		params = append(params, "%"+in.PageName+"%")
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
 
-	return
+	if in.PageName != "" {
+		opts = append(opts, query.WithCondition("page_name like ?", "%"+in.PageName+"%"))
+	}
+
+	return query.NewQueryBuilder(opts...).Build()
 }

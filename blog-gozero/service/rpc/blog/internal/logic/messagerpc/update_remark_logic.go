@@ -25,7 +25,7 @@ func NewUpdateRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 }
 
 // 更新留言
-func (l *UpdateRemarkLogic) UpdateRemark(in *messagerpc.RemarkUpdateReq) (*messagerpc.RemarkDetails, error) {
+func (l *UpdateRemarkLogic) UpdateRemark(in *messagerpc.RemarkUpdateReq) (*messagerpc.RemarkDetailsResp, error) {
 	entity, err := l.svcCtx.TRemarkModel.FindById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err

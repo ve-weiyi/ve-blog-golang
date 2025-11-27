@@ -50,7 +50,7 @@ func (l *FindUserRolesLogic) FindUserRoles(in *permissionrpc.UserIdReq) (*permis
 		return nil, err
 	}
 
-	var list []*permissionrpc.RoleDetails
+	var list []*permissionrpc.RoleDetailsResp
 	for _, v := range rs {
 		list = append(list, convertRoleOut(v))
 	}

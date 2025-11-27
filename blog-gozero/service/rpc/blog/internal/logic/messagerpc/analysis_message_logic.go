@@ -24,7 +24,7 @@ func NewAnalysisMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *A
 }
 
 // 消息数据分析
-func (l *AnalysisMessageLogic) AnalysisMessage(in *messagerpc.EmptyReq) (*messagerpc.AnalysisMessageResp, error) {
+func (l *AnalysisMessageLogic) AnalysisMessage(in *messagerpc.AnalysisMessageReq) (*messagerpc.AnalysisMessageResp, error) {
 	rc, err := l.svcCtx.TRemarkModel.FindCount(l.ctx, "")
 	if err != nil {
 		return nil, err

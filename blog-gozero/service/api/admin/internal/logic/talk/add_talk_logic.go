@@ -30,8 +30,15 @@ func NewAddTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddTalkLo
 }
 
 func (l *AddTalkLogic) AddTalk(req *types.TalkNewReq) (resp *types.TalkBackVO, err error) {
-	in := ConvertTalkPb(req)
-	in.UserId = cast.ToString(l.ctx.Value(restx.HeaderUid))
+	in := &talkrpc.TalkNewReq{
+		Id:      req.Id,
+		UserId:  cast.ToString(l.ctx.Value(restx.HeaderUid)),
+		Content: req.Content,
+		ImgList: req.ImgList,
+		IsTop:   req.IsTop,
+		Status:  req.Status,
+	}
+
 	out, err := l.svcCtx.TalkRpc.AddTalk(l.ctx, in)
 	if err != nil {
 		return nil, err
@@ -41,20 +48,7 @@ func (l *AddTalkLogic) AddTalk(req *types.TalkNewReq) (resp *types.TalkBackVO, e
 	return resp, nil
 }
 
-func ConvertTalkPb(in *types.TalkNewReq) (out *talkrpc.TalkNewReq) {
-	out = &talkrpc.TalkNewReq{
-		Id:      in.Id,
-		UserId:  "",
-		Content: in.Content,
-		ImgList: in.ImgList,
-		IsTop:   in.IsTop,
-		Status:  in.Status,
-	}
-
-	return
-}
-
-func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[string]*types.UserInfoVO) (out *types.TalkBackVO) {
+func ConvertTalkTypes(in *talkrpc.TalkDetailsResp, usm map[string]*types.UserInfoVO) (out *types.TalkBackVO) {
 	out = &types.TalkBackVO{
 		Id:           in.Id,
 		UserId:       in.UserId,

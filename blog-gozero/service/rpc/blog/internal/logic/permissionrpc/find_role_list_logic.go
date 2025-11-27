@@ -6,6 +6,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
@@ -27,32 +28,33 @@ func NewFindRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 分页获取角色列表
 func (l *FindRoleListLogic) FindRoleList(in *permissionrpc.FindRoleListReq) (*permissionrpc.FindRoleListResp, error) {
-	var (
-		page       int
-		size       int
-		sorts      string
-		conditions string
-		params     []interface{}
-	)
-
-	page = int(in.Page)
-	size = int(in.PageSize)
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+	}
+	page, size, sorts, conditions, params := query.NewQueryBuilder(opts...).Build()
 
 	result, _, err := l.svcCtx.TRoleModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	var root permissionrpc.RoleDetails
+	var root permissionrpc.RoleDetailsResp
 	root.Children = appendRoleChildren(&root, result)
 
 	return &permissionrpc.FindRoleListResp{
-		List:  root.Children,
-		Total: int64(len(root.Children)),
+		List: root.Children,
+		Pagination: &permissionrpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    int64(len(root.Children)),
+		},
 	}, nil
 }
 
-func appendRoleChildren(root *permissionrpc.RoleDetails, list []*model.TRole) (leafs []*permissionrpc.RoleDetails) {
+func appendRoleChildren(root *permissionrpc.RoleDetailsResp, list []*model.TRole) (leafs []*permissionrpc.RoleDetailsResp) {
 	for _, item := range list {
 		if item.ParentId == root.Id {
 			leaf := convertRoleOut(item)

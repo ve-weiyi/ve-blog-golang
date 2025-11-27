@@ -2,9 +2,9 @@ package syslogrpclogic
 
 import (
 	"context"
-	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -34,54 +34,46 @@ func (l *FindUploadLogListLogic) FindUploadLogList(in *syslogrpc.FindUploadLogLi
 		return nil, err
 	}
 
-	var list []*syslogrpc.UploadLogDetails
+	var list []*syslogrpc.UploadLogDetailsResp
 	for _, v := range records {
 		list = append(list, convertUploadLogOut(v))
 	}
 
 	return &syslogrpc.FindUploadLogListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &syslogrpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
 	}, nil
 }
 
 func convertUploadLogQuery(in *syslogrpc.FindUploadLogListReq) (page int, size int, sorts string, conditions string, params []any) {
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-	if sorts == "" {
-		sorts = "id desc"
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.FilePath != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += " file_path like ?"
-		params = append(params, in.FilePath+"%")
+		opts = append(opts, query.WithCondition("file_path like ?", in.FilePath+"%"))
 	}
 
 	if in.FileName != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += " file_name like ?"
-		params = append(params, in.FileName+"%")
+		opts = append(opts, query.WithCondition("file_name like ?", in.FileName+"%"))
 	}
 
 	if in.FileType != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += " file_type = ?"
-		params = append(params, in.FileType)
+		opts = append(opts, query.WithCondition("file_type = ?", in.FileType))
 	}
 
-	return
+	return query.NewQueryBuilder(opts...).Build()
 }
 
-func convertUploadLogOut(in *model.TUploadLog) (out *syslogrpc.UploadLogDetails) {
-	out = &syslogrpc.UploadLogDetails{
+func convertUploadLogOut(in *model.TUploadLog) (out *syslogrpc.UploadLogDetailsResp) {
+	out = &syslogrpc.UploadLogDetailsResp{
 		Id:        in.Id,
 		UserId:    in.UserId,
 		FilePath:  in.FilePath,

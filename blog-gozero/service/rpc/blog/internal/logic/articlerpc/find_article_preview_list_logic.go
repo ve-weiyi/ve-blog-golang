@@ -41,7 +41,11 @@ func (l *FindArticlePreviewListLogic) FindArticlePreviewList(in *articlerpc.Find
 	}
 
 	return &articlerpc.FindArticlePreviewListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &articlerpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
 	}, nil
 }

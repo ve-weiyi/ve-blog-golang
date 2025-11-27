@@ -2,9 +2,9 @@ package syslogrpclogic
 
 import (
 	"context"
-	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -34,54 +34,46 @@ func (l *FindVisitLogListLogic) FindVisitLogList(in *syslogrpc.FindVisitLogListR
 		return nil, err
 	}
 
-	var list []*syslogrpc.VisitLogDetails
+	var list []*syslogrpc.VisitLogDetailsResp
 	for _, v := range records {
 		list = append(list, convertVisitLogOut(v))
 	}
 
 	return &syslogrpc.FindVisitLogListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &syslogrpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
 	}, nil
 }
 
 func convertVisitLogQuery(in *syslogrpc.FindVisitLogListReq) (page int, size int, sorts string, conditions string, params []any) {
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-	if sorts == "" {
-		sorts = "id desc"
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.UserId != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += " user_id = ?"
-		params = append(params, in.UserId)
+		opts = append(opts, query.WithCondition("user_id = ?", in.UserId))
 	}
 
 	if in.TerminalId != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += " terminal_id = ?"
-		params = append(params, in.TerminalId)
+		opts = append(opts, query.WithCondition("terminal_id = ?", in.TerminalId))
 	}
 
 	if in.PageName != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += " page like ?"
-		params = append(params, "%"+in.PageName+"%")
+		opts = append(opts, query.WithCondition("page like ?", "%"+in.PageName+"%"))
 	}
 
-	return
+	return query.NewQueryBuilder(opts...).Build()
 }
 
-func convertVisitLogOut(in *model.TVisitLog) (out *syslogrpc.VisitLogDetails) {
-	out = &syslogrpc.VisitLogDetails{
+func convertVisitLogOut(in *model.TVisitLog) (out *syslogrpc.VisitLogDetailsResp) {
+	out = &syslogrpc.VisitLogDetailsResp{
 		Id:         in.Id,
 		UserId:     in.UserId,
 		TerminalId: in.TerminalId,

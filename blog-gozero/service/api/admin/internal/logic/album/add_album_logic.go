@@ -26,41 +26,30 @@ func NewAddAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddAlbum
 }
 
 func (l *AddAlbumLogic) AddAlbum(req *types.AlbumNewReq) (resp *types.AlbumBackVO, err error) {
-	in := ConvertAlbumPb(req)
+	in := &resourcerpc.AlbumNewReq{
+		Id:         req.Id,
+		AlbumName:  req.AlbumName,
+		AlbumDesc:  req.AlbumDesc,
+		AlbumCover: req.AlbumCover,
+		IsDelete:   req.IsDelete,
+		Status:     req.Status,
+	}
+
 	out, err := l.svcCtx.ResourceRpc.AddAlbum(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	resp = ConvertAlbumTypes(out)
+	resp = &types.AlbumBackVO{
+		Id:         out.Id,
+		AlbumName:  out.AlbumName,
+		AlbumDesc:  out.AlbumDesc,
+		AlbumCover: out.AlbumCover,
+		IsDelete:   out.IsDelete,
+		Status:     out.Status,
+		CreatedAt:  out.CreatedAt,
+		UpdatedAt:  out.UpdatedAt,
+		PhotoCount: out.PhotoCount,
+	}
 	return resp, nil
-}
-
-func ConvertAlbumPb(in *types.AlbumNewReq) (out *resourcerpc.AlbumNewReq) {
-	out = &resourcerpc.AlbumNewReq{
-		Id:         in.Id,
-		AlbumName:  in.AlbumName,
-		AlbumDesc:  in.AlbumDesc,
-		AlbumCover: in.AlbumCover,
-		IsDelete:   in.IsDelete,
-		Status:     in.Status,
-	}
-
-	return
-}
-
-func ConvertAlbumTypes(in *resourcerpc.AlbumDetails) (out *types.AlbumBackVO) {
-	out = &types.AlbumBackVO{
-		Id:         in.Id,
-		AlbumName:  in.AlbumName,
-		AlbumDesc:  in.AlbumDesc,
-		AlbumCover: in.AlbumCover,
-		IsDelete:   in.IsDelete,
-		Status:     in.Status,
-		CreatedAt:  in.CreatedAt,
-		UpdatedAt:  in.UpdatedAt,
-		PhotoCount: in.PhotoCount,
-	}
-
-	return
 }

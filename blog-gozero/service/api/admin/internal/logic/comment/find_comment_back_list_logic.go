@@ -3,13 +3,13 @@ package comment
 import (
 	"context"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/messagerpc"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type FindCommentBackListLogic struct {
@@ -29,9 +29,11 @@ func NewFindCommentBackListLogic(ctx context.Context, svcCtx *svc.ServiceContext
 
 func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) (resp *types.PageResp, err error) {
 	in := &messagerpc.FindCommentListReq{
-		Page:       req.Page,
-		PageSize:   req.PageSize,
-		Sorts:      req.Sorts,
+		Paginate: &messagerpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
 		ReplyMsgId: 0,
 		Type:       req.Type,
 	}
@@ -74,14 +76,14 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
 }
 
-func ConvertCommentTypes(in *messagerpc.CommentDetails, usm map[string]*types.UserInfoVO, tsm map[int64]*articlerpc.ArticlePreview) (out *types.CommentBackVO) {
+func ConvertCommentTypes(in *messagerpc.CommentDetailsResp, usm map[string]*types.UserInfoVO, tsm map[int64]*articlerpc.ArticlePreview) (out *types.CommentBackVO) {
 	out = &types.CommentBackVO{
 		Id:             in.Id,
 		Type:           in.Type,

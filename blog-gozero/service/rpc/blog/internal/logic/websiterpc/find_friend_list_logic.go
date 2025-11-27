@@ -2,8 +2,8 @@ package websiterpclogic
 
 import (
 	"context"
-	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -33,29 +33,32 @@ func (l *FindFriendListLogic) FindFriendList(in *websiterpc.FindFriendListReq) (
 		return nil, err
 	}
 
-	var list []*websiterpc.FriendDetails
+	var list []*websiterpc.FriendDetailsResp
 	for _, v := range records {
 		list = append(list, convertFriendOut(v))
 	}
 
 	return &websiterpc.FindFriendListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &websiterpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
 	}, nil
 }
 
 func convertFriendQuery(in *websiterpc.FindFriendListReq) (page int, size int, sorts string, conditions string, params []any) {
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-	if sorts == "" {
-		sorts = "id desc"
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.LinkName != "" {
-		conditions += " link_name like ?"
-		params = append(params, "%"+in.LinkName+"%")
+		opts = append(opts, query.WithCondition("link_name like ?", "%"+in.LinkName+"%"))
 	}
 
-	return
+	return query.NewQueryBuilder(opts...).Build()
 }

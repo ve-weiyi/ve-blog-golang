@@ -36,22 +36,16 @@ func (l *FindPhotoListLogic) FindPhotoList(req *types.PhotoQueryReq) (resp *type
 
 	list := make([]*types.Photo, 0)
 	for _, v := range out.List {
-		m := ConvertPhotoTypes(v)
-		list = append(list, m)
+		list = append(list, &types.Photo{
+			Id:       v.Id,
+			PhotoUrl: v.PhotoSrc,
+		})
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = int64(len(list))
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
-}
-
-func ConvertPhotoTypes(req *resourcerpc.PhotoDetails) (out *types.Photo) {
-
-	return &types.Photo{
-		Id:       req.Id,
-		PhotoUrl: req.PhotoSrc,
-	}
 }

@@ -7,26 +7,26 @@ package accountrpc;
 // 生成 golang 代码后的包名
 option go_package = "./accountrpc";
 
-message EmptyReq {
-}
-
+//==================== 通用消息 ====================
 message EmptyResp {
-}
-
-message IdReq {
-  int64 id = 1;
-}
-
-message IdsReq {
-  repeated int64 ids = 1;
-}
-
-message BatchResp {
-  int64 success_count = 1;
 }
 
 message UserIdReq {
   string user_id = 1;
+}
+
+// 分页请求
+message PageReq {
+  int64 page = 1;      // 页码
+  int64 page_size = 2; // 每页大小
+  repeated string sorts = 3; // 排序字段
+}
+
+// 分页响应
+message PageResp {
+  int64 page = 1;      // 页码
+  int64 page_size = 2; // 每页大小
+  int64 total = 3; // 总数
 }
 /************** auth 登录相关 **************/
 message LoginReq {
@@ -171,11 +171,11 @@ message UpdateUserAvatarReq {
 }
 
 message UpdateUserPasswordReq {
-  string old_password = 1; // 用户id
-  string new_password = 2;
+  string old_password = 1; // 旧密码
+  string new_password = 2; // 新密码
 }
 
-message BindUseEmailReq {
+message BindUserEmailReq {
   string email = 1; // 邮箱
   string verify_code = 2;
 }
@@ -196,7 +196,7 @@ message UnbindUserOauthReq {
 
 message UserOauthInfo {
   string platform = 1;// 平台
-  string open_id = 2;// 授权码
+  string open_id = 2;// 开放id
   string nickname = 3;// 昵称
   string avatar = 4;// 头像
   int64 created_at = 5;// 创建时间
@@ -218,25 +218,23 @@ message AdminResetUserPasswordReq {
 }
 
 message FindUserListReq {
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string username = 13;
-  string nickname = 4;
-  string email = 5;
-  string phone = 6;
-  int64 status = 7;
-  repeated string user_ids = 8;
+  PageReq paginate = 1;    // 分页参数
+  string username = 2;
+  string nickname = 3;
+  string email = 4;
+  string phone = 5;
+  int64 status = 6;
+  repeated string user_ids = 7;
 }
 
 message FindUserListResp{
-  repeated User list = 1;
-  int64 total = 2;
+  PageResp pagination = 1; // 分页信息
+  repeated User list = 2;
 }
 
 message FindUserInfoListResp{
-  repeated UserInfoResp list = 1;
-  int64 total = 2;
+  PageResp pagination = 1; // 分页信息
+  repeated UserInfoResp list = 2;
 }
 
 
@@ -257,10 +255,12 @@ message AnalysisUserAreasResp {
 }
 
 message UserArea {
-  string area = 1;
-  int64 count = 2;
+  string area = 1; // 地区
+  int64 count = 2; // 数量
 }
 
+message GetTouristInfoReq{
+}
 message GetTouristInfoResp {
   string tourist_id = 1;
 }
@@ -309,7 +309,7 @@ service AccountRpc {
 
 
   // 修改用户登录邮箱
-  rpc BindUserEmail(BindUseEmailReq) returns(EmptyResp);
+  rpc BindUserEmail(BindUserEmailReq) returns(EmptyResp);
   // 修改用户登录手机号
   rpc BindUserPhone(BindUserPhoneReq) returns(EmptyResp);
   // 修改用户第三方账号
@@ -336,6 +336,6 @@ service AccountRpc {
   rpc AnalysisUserAreas(AnalysisUserAreasReq) returns(AnalysisUserAreasResp);
 
   // 获取游客身份
-  rpc GetTouristInfo(EmptyReq) returns(GetTouristInfoResp);
+  rpc GetTouristInfo(GetTouristInfoReq) returns(GetTouristInfoResp);
 
 }

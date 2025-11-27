@@ -25,7 +25,7 @@ func NewAddUploadLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddU
 }
 
 // 创建上传记录
-func (l *AddUploadLogLogic) AddUploadLog(in *syslogrpc.UploadLogNewReq) (*syslogrpc.UploadLogDetails, error) {
+func (l *AddUploadLogLogic) AddUploadLog(in *syslogrpc.UploadLogNewReq) (*syslogrpc.UploadLogDetailsResp, error) {
 	entity := &model.TUploadLog{
 		Id:       0,
 		UserId:   in.UserId,

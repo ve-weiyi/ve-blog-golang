@@ -45,7 +45,7 @@ func (l *AddApiLogic) AddApi(req *types.ApiNewReq) (resp *types.ApiBackVO, err e
 	return convertApiTypes(out), nil
 }
 
-func convertApiTypes(req *permissionrpc.ApiDetails) *types.ApiBackVO {
+func convertApiTypes(req *permissionrpc.ApiDetailsResp) *types.ApiBackVO {
 
 	children := make([]*types.ApiBackVO, 0)
 	for _, v := range req.Children {

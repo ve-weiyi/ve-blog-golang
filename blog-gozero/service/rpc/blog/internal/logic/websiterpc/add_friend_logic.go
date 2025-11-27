@@ -25,7 +25,7 @@ func NewAddFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddFrie
 }
 
 // 创建友链
-func (l *AddFriendLogic) AddFriend(in *websiterpc.FriendNewReq) (*websiterpc.FriendDetails, error) {
+func (l *AddFriendLogic) AddFriend(in *websiterpc.FriendNewReq) (*websiterpc.FriendDetailsResp, error) {
 	entity := convertFriendIn(in)
 
 	_, err := l.svcCtx.TFriendModel.Insert(l.ctx, entity)
@@ -50,8 +50,8 @@ func convertFriendIn(in *websiterpc.FriendNewReq) (out *model.TFriend) {
 	return out
 }
 
-func convertFriendOut(in *model.TFriend) (out *websiterpc.FriendDetails) {
-	out = &websiterpc.FriendDetails{
+func convertFriendOut(in *model.TFriend) (out *websiterpc.FriendDetailsResp) {
+	out = &websiterpc.FriendDetailsResp{
 		Id:          in.Id,
 		LinkName:    in.LinkName,
 		LinkAvatar:  in.LinkAvatar,

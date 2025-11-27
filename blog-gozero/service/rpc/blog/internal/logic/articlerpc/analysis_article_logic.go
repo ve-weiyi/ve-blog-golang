@@ -24,7 +24,7 @@ func NewAnalysisArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *A
 }
 
 // 查询文章数量
-func (l *AnalysisArticleLogic) AnalysisArticle(in *articlerpc.EmptyReq) (*articlerpc.AnalysisArticleResp, error) {
+func (l *AnalysisArticleLogic) AnalysisArticle(in *articlerpc.AnalysisArticleReq) (*articlerpc.AnalysisArticleResp, error) {
 	ac, err := l.svcCtx.TArticleModel.FindCount(l.ctx, "")
 	if err != nil {
 		return nil, err
@@ -47,7 +47,7 @@ func (l *AnalysisArticleLogic) AnalysisArticle(in *articlerpc.EmptyReq) (*articl
 		return nil, err
 	}
 
-	cds, err := helper.convertCategoryDetails(cl)
+	cds, err := helper.convertCategoryDetailsResp(cl)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +57,7 @@ func (l *AnalysisArticleLogic) AnalysisArticle(in *articlerpc.EmptyReq) (*articl
 		return nil, err
 	}
 
-	tds, err := helper.convertTagDetails(tl)
+	tds, err := helper.convertTagDetailsResp(tl)
 	if err != nil {
 		return nil, err
 	}

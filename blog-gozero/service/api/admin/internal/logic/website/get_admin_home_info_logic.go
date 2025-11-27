@@ -36,13 +36,13 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 	}
 
 	// 查询文章
-	articles, err := l.svcCtx.ArticleRpc.AnalysisArticle(l.ctx, &articlerpc.EmptyReq{})
+	articles, err := l.svcCtx.ArticleRpc.AnalysisArticle(l.ctx, &articlerpc.AnalysisArticleReq{})
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询消息数量
-	messages, err := l.svcCtx.MessageRpc.AnalysisMessage(l.ctx, &messagerpc.EmptyReq{})
+	messages, err := l.svcCtx.MessageRpc.AnalysisMessage(l.ctx, &messagerpc.AnalysisMessageReq{})
 	if err != nil {
 		return nil, err
 	}

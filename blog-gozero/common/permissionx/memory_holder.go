@@ -3,8 +3,9 @@ package permissionx
 import (
 	"context"
 	"fmt"
-	"log"
 	"sync"
+
+	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
 )
@@ -37,21 +38,21 @@ func (m *MemoryHolder) ReloadPolicy() error {
 }
 
 func (m *MemoryHolder) LoadPolicy() error {
-	log.Println("Reloading permissions...")
+	logx.Info("Reloading permissions...")
 	m.rw.Lock()
 	defer m.rw.Unlock()
-	log.Println("Reloading permissions... done")
+	logx.Info("Reloading permissions... done")
 
 	// 重置所有权限
 	m.policy = make(map[string][]string)
 	m.user = make(map[string][]string)
 
 	var rs = make(map[int64][]int64)
-	var roles = make(map[int64]*permissionrpc.RoleDetails)
-	var apis = make(map[int64]*permissionrpc.ApiDetails)
+	var roles = make(map[int64]*permissionrpc.RoleDetailsResp)
+	var apis = make(map[int64]*permissionrpc.ApiDetailsResp)
 
 	// 收集角色
-	roleList, err := m.pr.FindRoleList(context.Background(), &permissionrpc.FindRoleListReq{})
+	roleList, err := m.pr.FindAllRole(context.Background(), &permissionrpc.FindAllRoleReq{})
 	if err != nil {
 		return err
 	}
@@ -60,7 +61,7 @@ func (m *MemoryHolder) LoadPolicy() error {
 	}
 
 	// 收集资源
-	apiList, err := m.pr.FindAllApi(context.Background(), &permissionrpc.EmptyReq{})
+	apiList, err := m.pr.FindAllApi(context.Background(), &permissionrpc.FindAllApiReq{})
 	if err != nil {
 		return err
 	}

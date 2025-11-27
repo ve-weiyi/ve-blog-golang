@@ -36,12 +36,12 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		return nil, err
 	}
 
-	analysis, err := l.svcCtx.ArticleRpc.AnalysisArticle(l.ctx, &articlerpc.EmptyReq{})
+	analysis, err := l.svcCtx.ArticleRpc.AnalysisArticle(l.ctx, &articlerpc.AnalysisArticleReq{})
 	if err != nil {
 		return nil, err
 	}
 
-	visit, err := l.svcCtx.WebsiteRpc.AnalysisVisit(l.ctx, &websiterpc.EmptyReq{})
+	visit, err := l.svcCtx.WebsiteRpc.AnalysisVisit(l.ctx, &websiterpc.AnalysisVisitReq{})
 	if err != nil {
 		return nil, err
 	}

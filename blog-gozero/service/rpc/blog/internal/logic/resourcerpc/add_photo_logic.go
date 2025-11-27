@@ -25,7 +25,7 @@ func NewAddPhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPhoto
 }
 
 // 创建照片
-func (l *AddPhotoLogic) AddPhoto(in *resourcerpc.PhotoNewReq) (*resourcerpc.PhotoDetails, error) {
+func (l *AddPhotoLogic) AddPhoto(in *resourcerpc.PhotoNewReq) (*resourcerpc.PhotoDetailsResp, error) {
 	entity := convertPhotoIn(in)
 
 	_, err := l.svcCtx.TPhotoModel.Insert(l.ctx, entity)
@@ -49,8 +49,8 @@ func convertPhotoIn(in *resourcerpc.PhotoNewReq) (out *model.TPhoto) {
 	return out
 }
 
-func convertPhotoOut(in *model.TPhoto) (out *resourcerpc.PhotoDetails) {
-	out = &resourcerpc.PhotoDetails{
+func convertPhotoOut(in *model.TPhoto) (out *resourcerpc.PhotoDetailsResp) {
+	out = &resourcerpc.PhotoDetailsResp{
 		Id:        in.Id,
 		AlbumId:   in.AlbumId,
 		PhotoName: in.PhotoName,

@@ -29,7 +29,7 @@ func NewBindUserEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Bin
 }
 
 // 修改用户登录邮箱
-func (l *BindUserEmailLogic) BindUserEmail(in *accountrpc.BindUseEmailReq) (*accountrpc.EmptyResp, error) {
+func (l *BindUserEmailLogic) BindUserEmail(in *accountrpc.BindUserEmailReq) (*accountrpc.EmptyResp, error) {
 	// 校验邮箱格式
 	if !valid.IsEmailValid(in.Email) {
 		return nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "邮箱格式不正确")

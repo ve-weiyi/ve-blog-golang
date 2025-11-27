@@ -24,13 +24,13 @@ func NewArticleRpcServer(svcCtx *svc.ServiceContext) *ArticleRpcServer {
 }
 
 // 分析文章数量
-func (s *ArticleRpcServer) AnalysisArticle(ctx context.Context, in *articlerpc.EmptyReq) (*articlerpc.AnalysisArticleResp, error) {
+func (s *ArticleRpcServer) AnalysisArticle(ctx context.Context, in *articlerpc.AnalysisArticleReq) (*articlerpc.AnalysisArticleResp, error) {
 	l := articlerpclogic.NewAnalysisArticleLogic(ctx, s.svcCtx)
 	return l.AnalysisArticle(in)
 }
 
 // 访问文章
-func (s *ArticleRpcServer) VisitArticle(ctx context.Context, in *articlerpc.IdReq) (*articlerpc.CountResp, error) {
+func (s *ArticleRpcServer) VisitArticle(ctx context.Context, in *articlerpc.IdReq) (*articlerpc.VisitArticleResp, error) {
 	l := articlerpclogic.NewVisitArticleLogic(ctx, s.svcCtx)
 	return l.VisitArticle(in)
 }
@@ -66,7 +66,7 @@ func (s *ArticleRpcServer) DeleteArticle(ctx context.Context, in *articlerpc.Ids
 }
 
 // 查询文章
-func (s *ArticleRpcServer) GetArticle(ctx context.Context, in *articlerpc.IdReq) (*articlerpc.ArticleDetails, error) {
+func (s *ArticleRpcServer) GetArticle(ctx context.Context, in *articlerpc.IdReq) (*articlerpc.ArticleDetailsResp, error) {
 	l := articlerpclogic.NewGetArticleLogic(ctx, s.svcCtx)
 	return l.GetArticle(in)
 }
@@ -102,19 +102,19 @@ func (s *ArticleRpcServer) FindUserLikeArticle(ctx context.Context, in *articler
 }
 
 // 创建文章分类
-func (s *ArticleRpcServer) AddCategory(ctx context.Context, in *articlerpc.CategoryNewReq) (*articlerpc.CategoryDetails, error) {
+func (s *ArticleRpcServer) AddCategory(ctx context.Context, in *articlerpc.CategoryNewReq) (*articlerpc.CategoryPreviewResp, error) {
 	l := articlerpclogic.NewAddCategoryLogic(ctx, s.svcCtx)
 	return l.AddCategory(in)
 }
 
 // 更新文章分类
-func (s *ArticleRpcServer) UpdateCategory(ctx context.Context, in *articlerpc.CategoryNewReq) (*articlerpc.CategoryDetails, error) {
+func (s *ArticleRpcServer) UpdateCategory(ctx context.Context, in *articlerpc.CategoryNewReq) (*articlerpc.CategoryPreviewResp, error) {
 	l := articlerpclogic.NewUpdateCategoryLogic(ctx, s.svcCtx)
 	return l.UpdateCategory(in)
 }
 
 // 查询文章分类
-func (s *ArticleRpcServer) GetCategory(ctx context.Context, in *articlerpc.IdReq) (*articlerpc.CategoryDetails, error) {
+func (s *ArticleRpcServer) GetCategory(ctx context.Context, in *articlerpc.IdReq) (*articlerpc.CategoryDetailsResp, error) {
 	l := articlerpclogic.NewGetCategoryLogic(ctx, s.svcCtx)
 	return l.GetCategory(in)
 }
@@ -132,19 +132,19 @@ func (s *ArticleRpcServer) FindCategoryList(ctx context.Context, in *articlerpc.
 }
 
 // 创建标签
-func (s *ArticleRpcServer) AddTag(ctx context.Context, in *articlerpc.TagNewReq) (*articlerpc.TagDetails, error) {
+func (s *ArticleRpcServer) AddTag(ctx context.Context, in *articlerpc.TagNewReq) (*articlerpc.TagPreviewResp, error) {
 	l := articlerpclogic.NewAddTagLogic(ctx, s.svcCtx)
 	return l.AddTag(in)
 }
 
 // 更新标签
-func (s *ArticleRpcServer) UpdateTag(ctx context.Context, in *articlerpc.TagNewReq) (*articlerpc.TagDetails, error) {
+func (s *ArticleRpcServer) UpdateTag(ctx context.Context, in *articlerpc.TagNewReq) (*articlerpc.TagPreviewResp, error) {
 	l := articlerpclogic.NewUpdateTagLogic(ctx, s.svcCtx)
 	return l.UpdateTag(in)
 }
 
 // 查询标签
-func (s *ArticleRpcServer) GetTag(ctx context.Context, in *articlerpc.IdReq) (*articlerpc.TagDetails, error) {
+func (s *ArticleRpcServer) GetTag(ctx context.Context, in *articlerpc.IdReq) (*articlerpc.TagDetailsResp, error) {
 	l := articlerpclogic.NewGetTagLogic(ctx, s.svcCtx)
 	return l.GetTag(in)
 }

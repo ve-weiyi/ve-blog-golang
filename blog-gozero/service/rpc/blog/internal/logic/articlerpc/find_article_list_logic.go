@@ -35,13 +35,17 @@ func (l *FindArticleListLogic) FindArticleList(in *articlerpc.FindArticleListReq
 		return nil, err
 	}
 
-	list, err := helper.convertArticleDetails(records)
+	list, err := helper.convertArticleDetailsResp(records)
 	if err != nil {
 		return nil, err
 	}
 
 	return &articlerpc.FindArticleListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &articlerpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
 	}, nil
 }

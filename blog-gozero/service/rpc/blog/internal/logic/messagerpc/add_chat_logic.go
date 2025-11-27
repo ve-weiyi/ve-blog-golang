@@ -26,7 +26,7 @@ func NewAddChatLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddChatLo
 }
 
 // 创建聊天记录
-func (l *AddChatLogic) AddChat(in *messagerpc.AddChatReq) (*messagerpc.ChatDetails, error) {
+func (l *AddChatLogic) AddChat(in *messagerpc.AddChatReq) (*messagerpc.ChatDetailsResp, error) {
 	entity := &model.TChat{
 		Id:         0,
 		UserId:     in.UserId,
@@ -50,8 +50,8 @@ func (l *AddChatLogic) AddChat(in *messagerpc.AddChatReq) (*messagerpc.ChatDetai
 	return convertChatOut(entity), nil
 }
 
-func convertChatOut(in *model.TChat) (out *messagerpc.ChatDetails) {
-	out = &messagerpc.ChatDetails{
+func convertChatOut(in *model.TChat) (out *messagerpc.ChatDetailsResp) {
+	out = &messagerpc.ChatDetailsResp{
 		Id:         in.Id,
 		UserId:     in.UserId,
 		TerminalId: in.TerminalId,

@@ -85,7 +85,7 @@ func (l *SyncApiListLogic) SyncApiList(req *types.SyncApiReq) (resp *types.Batch
 		return list[i].Path < list[j].Path
 	})
 
-	in := &permissionrpc.SyncApiReq{
+	in := &permissionrpc.SyncApiListReq{
 		Apis: list,
 	}
 

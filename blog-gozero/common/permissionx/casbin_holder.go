@@ -86,11 +86,11 @@ func (m *CasbinHolder) LoadPolicy() error {
 	m.user = make(map[string][]string)
 
 	var rs = make(map[int64][]int64)
-	var roles = make(map[int64]*permissionrpc.RoleDetails)
-	var apis = make(map[int64]*permissionrpc.ApiDetails)
+	var roles = make(map[int64]*permissionrpc.RoleDetailsResp)
+	var apis = make(map[int64]*permissionrpc.ApiDetailsResp)
 
 	// 收集角色
-	roleList, err := m.pr.FindRoleList(context.Background(), &permissionrpc.FindRoleListReq{})
+	roleList, err := m.pr.FindAllRole(context.Background(), &permissionrpc.FindAllRoleReq{})
 	if err != nil {
 		return err
 	}
@@ -99,7 +99,7 @@ func (m *CasbinHolder) LoadPolicy() error {
 	}
 
 	// 收集资源
-	apiList, err := m.pr.FindAllApi(context.Background(), &permissionrpc.EmptyReq{})
+	apiList, err := m.pr.FindAllApi(context.Background(), &permissionrpc.FindAllApiReq{})
 	if err != nil {
 		return err
 	}

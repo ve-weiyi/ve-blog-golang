@@ -31,9 +31,12 @@ func NewGetUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceCon
 
 func (l *GetUserLoginHistoryListLogic) GetUserLoginHistoryList(req *types.UserLoginHistoryQuery) (resp *types.PageResp, err error) {
 	in := &syslogrpc.FindLoginLogListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
-		UserId:   cast.ToString(l.ctx.Value(restx.HeaderUid)),
+		Paginate: &syslogrpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
+		UserId: cast.ToString(l.ctx.Value(restx.HeaderUid)),
 	}
 
 	out, err := l.svcCtx.SyslogRpc.FindLoginLogList(l.ctx, in)
@@ -43,27 +46,22 @@ func (l *GetUserLoginHistoryListLogic) GetUserLoginHistoryList(req *types.UserLo
 
 	var list []*types.UserLoginHistory
 	for _, v := range out.List {
-		m := ConvertUserLoginHistoryTypes(v)
-		list = append(list, m)
+		list = append(list, &types.UserLoginHistory{
+			Id:        v.Id,
+			LoginType: v.LoginType,
+			Os:        v.Os,
+			Browser:   v.Browser,
+			IpAddress: v.IpAddress,
+			IpSource:  v.IpSource,
+			LoginAt:   v.LoginAt,
+			LogoutAt:  v.LogoutAt,
+		})
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
-}
-
-func ConvertUserLoginHistoryTypes(in *syslogrpc.LoginLogDetails) *types.UserLoginHistory {
-	return &types.UserLoginHistory{
-		Id:        in.Id,
-		LoginType: in.LoginType,
-		Os:        in.Os,
-		Browser:   in.Browser,
-		IpAddress: in.IpAddress,
-		IpSource:  in.IpSource,
-		LoginAt:   in.LoginAt,
-		LogoutAt:  in.LogoutAt,
-	}
 }

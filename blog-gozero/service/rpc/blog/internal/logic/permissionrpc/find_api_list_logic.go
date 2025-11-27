@@ -6,6 +6,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 )
@@ -26,32 +27,21 @@ func NewFindApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 
 // 分页获取接口列表
 func (l *FindApiListLogic) FindApiList(in *permissionrpc.FindApiListReq) (*permissionrpc.FindApiListResp, error) {
-	var (
-		conditions string
-		params     []interface{}
-	)
+	var opts []query.Option
 
 	if in.Name != "" {
-		conditions += "name like ?"
-		params = append(params, "%"+in.Name+"%")
+		opts = append(opts, query.WithCondition("name like ?", "%"+in.Name+"%"))
 	}
 
 	if in.Path != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += "path like ?"
-		params = append(params, "%"+in.Path+"%")
+		opts = append(opts, query.WithCondition("path like ?", "%"+in.Path+"%"))
 	}
 
 	if in.Method != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += "method like ?"
-		params = append(params, "%"+in.Method+"%")
+		opts = append(opts, query.WithCondition("method like ?", "%"+in.Method+"%"))
 	}
 
+	_, _, _, conditions, params := query.NewQueryBuilder(opts...).Build()
 	result, err := l.svcCtx.TApiModel.FindALL(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
@@ -78,7 +68,7 @@ func (l *FindApiListLogic) FindApiList(in *permissionrpc.FindApiListReq) (*permi
 	return out, nil
 }
 
-func appendApiChildren(root *permissionrpc.ApiDetails, list []*model.TApi) (leafs []*permissionrpc.ApiDetails) {
+func appendApiChildren(root *permissionrpc.ApiDetailsResp, list []*model.TApi) (leafs []*permissionrpc.ApiDetailsResp) {
 	for _, item := range list {
 		if item.ParentId == root.Id {
 			leaf := convertApiOut(item)

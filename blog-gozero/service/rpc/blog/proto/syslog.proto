@@ -7,35 +7,34 @@ package syslogrpc;
 // 生成 golang 代码后的包名
 option go_package = "./syslogrpc";
 
-message EmptyReq {
-}
-
+//==================== 通用消息 ====================
 message EmptyResp {
-}
-
-message IdReq {
-  int64 id = 1;
 }
 
 message IdsReq {
   repeated int64 ids = 1;
 }
 
-message UserIdReq {
-  string user_id = 1;
-}
-
-
 message BatchResp {
   int64 success_count = 1;
 }
 
-message CountResp {
-  int64 count = 1;
+// 分页请求
+message PageReq {
+  int64 page = 1;      // 页码
+  int64 page_size = 2; // 每页大小
+  repeated string sorts = 3; // 排序字段
+}
+
+// 分页响应
+message PageResp {
+  int64 page = 1;      // 页码
+  int64 page_size = 2; // 每页大小
+  int64 total = 3;     // 总数
 }
 
 /************** blog 日志管理 **************/
-message LoginLogDetails {
+message LoginLogDetailsResp {
   int64 id = 1;
   string user_id = 2; // 用户id
   string login_type = 3;// 登录类型
@@ -62,19 +61,17 @@ message AddLogoutLogResp{
 }
 
 message FindLoginLogListReq {
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string user_id = 4; // 用户id
+  PageReq paginate = 1;    // 分页参数
+  string user_id = 2; // 用户id
 }
 
 message FindLoginLogListResp {
-  repeated LoginLogDetails list = 1;
-  int64 total = 2;
+  PageResp pagination = 1; // 分页信息
+  repeated LoginLogDetailsResp list = 2;
 }
 
 /************** blog 日志管理 **************/
-message VisitLogDetails {
+message VisitLogDetailsResp {
   int64 id = 1;// 主键id
   string user_id = 2;// 用户id
   string terminal_id = 3;// 设备id
@@ -92,21 +89,19 @@ message VisitLogNewReq {
 }
 
 message FindVisitLogListReq {
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string user_id = 4; // 用户id
-  string terminal_id = 5;// 设备id
-  string page_name = 6;// 访问页面
+  PageReq paginate = 1;    // 分页参数
+  string user_id = 2; // 用户id
+  string terminal_id = 3;// 设备id
+  string page_name = 4;// 访问页面
 }
 
 message FindVisitLogListResp {
-  repeated VisitLogDetails list = 1;
-  int64 total = 2;
+  PageResp pagination = 1; // 分页信息
+  repeated VisitLogDetailsResp list = 2;
 }
 
 /************** blog 日志管理 **************/
-message OperationLogDetails {
+message OperationLogDetailsResp {
   int64 id = 1;// 主键id
   string user_id = 2;// 用户id
   string terminal_id = 3;// 设备id
@@ -140,15 +135,13 @@ message OperationLogNewReq {
 }
 
 message FindOperationLogListReq {
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string keywords = 4; // 关键字
+  PageReq paginate = 1;    // 分页参数
+  string keywords = 2; // 关键字
 }
 
 message FindOperationLogListResp {
-  repeated OperationLogDetails list = 1;
-  int64 total = 2;
+  PageResp pagination = 1; // 分页信息
+  repeated OperationLogDetailsResp list = 2;
 }
 
 
@@ -164,7 +157,7 @@ message UploadLogNewReq {
   string file_url = 8;// 上传路径
 }
 
-message UploadLogDetails {
+message UploadLogDetailsResp {
   int64 id = 1;// id
   string user_id = 2;// 用户id
   string file_path = 3;// 文件路径
@@ -178,17 +171,15 @@ message UploadLogDetails {
 }
 
 message FindUploadLogListReq {
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string file_path = 4;// 文件路径
-  string file_name = 5;// 文件名称
-  string file_type = 6;// 文件类型
+  PageReq paginate = 1;    // 分页参数
+  string file_path = 2;// 文件路径
+  string file_name = 3;// 文件名称
+  string file_type = 4;// 文件类型
 }
 
 message FindUploadLogListResp {
-  repeated UploadLogDetails list = 1;
-  int64 total = 2;
+  PageResp pagination = 1; // 分页信息
+  repeated UploadLogDetailsResp list = 2;
 }
 
 service SyslogRpc {
@@ -217,7 +208,7 @@ service SyslogRpc {
 
 
   // 创建上传记录
-  rpc AddUploadLog(UploadLogNewReq) returns(UploadLogDetails);
+  rpc AddUploadLog(UploadLogNewReq) returns(UploadLogDetailsResp);
   // 批量删除上传记录
   rpc DeletesUploadLog(IdsReq) returns(BatchResp);
   // 查询上传记录列表

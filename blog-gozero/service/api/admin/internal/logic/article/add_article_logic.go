@@ -30,8 +30,20 @@ func NewAddArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddArt
 }
 
 func (l *AddArticleLogic) AddArticle(req *types.ArticleNewReq) (resp *types.ArticleBackVO, err error) {
-	in := ConvertArticlePb(req)
-	in.UserId = cast.ToString(l.ctx.Value(restx.HeaderUid))
+	in := &articlerpc.ArticleNewReq{
+		Id:             req.Id,
+		UserId:         cast.ToString(l.ctx.Value(restx.HeaderUid)),
+		ArticleCover:   req.ArticleCover,
+		ArticleTitle:   req.ArticleTitle,
+		ArticleContent: req.ArticleContent,
+		ArticleType:    req.ArticleType,
+		OriginalUrl:    req.OriginalUrl,
+		IsTop:          req.IsTop,
+		Status:         req.Status,
+		CategoryName:   req.CategoryName,
+		TagNameList:    req.TagNameList,
+	}
+
 	out, err := l.svcCtx.ArticleRpc.AddArticle(l.ctx, in)
 	if err != nil {
 		return nil, err
@@ -42,25 +54,7 @@ func (l *AddArticleLogic) AddArticle(req *types.ArticleNewReq) (resp *types.Arti
 	}, nil
 }
 
-func ConvertArticlePb(in *types.ArticleNewReq) (out *articlerpc.ArticleNewReq) {
-	out = &articlerpc.ArticleNewReq{
-		Id:             in.Id,
-		UserId:         "",
-		ArticleCover:   in.ArticleCover,
-		ArticleTitle:   in.ArticleTitle,
-		ArticleContent: in.ArticleContent,
-		ArticleType:    in.ArticleType,
-		OriginalUrl:    in.OriginalUrl,
-		IsTop:          in.IsTop,
-		Status:         in.Status,
-		CategoryName:   in.CategoryName,
-		TagNameList:    in.TagNameList,
-	}
-
-	return
-}
-
-func ConvertArticleTypes(in *articlerpc.ArticleDetails) (out *types.ArticleBackVO) {
+func ConvertArticleTypes(in *articlerpc.ArticleDetailsResp) (out *types.ArticleBackVO) {
 	out = &types.ArticleBackVO{
 		Id:             in.Id,
 		ArticleCover:   in.ArticleCover,

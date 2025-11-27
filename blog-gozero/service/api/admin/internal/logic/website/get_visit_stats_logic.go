@@ -27,7 +27,7 @@ func NewGetVisitStatsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Get
 
 func (l *GetVisitStatsLogic) GetVisitStats(req *types.EmptyReq) (resp *types.GetVisitStatsResp, err error) {
 	// 查询用户浏览量
-	visit, err := l.svcCtx.WebsiteRpc.AnalysisVisit(l.ctx, &websiterpc.EmptyReq{})
+	visit, err := l.svcCtx.WebsiteRpc.AnalysisVisit(l.ctx, &websiterpc.AnalysisVisitReq{})
 	if err != nil {
 		return nil, err
 	}

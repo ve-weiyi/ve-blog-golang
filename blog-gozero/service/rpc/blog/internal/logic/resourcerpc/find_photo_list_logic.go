@@ -2,8 +2,8 @@ package resourcerpclogic
 
 import (
 	"context"
-	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/resourcerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -33,35 +33,36 @@ func (l *FindPhotoListLogic) FindPhotoList(in *resourcerpc.FindPhotoListReq) (*r
 		return nil, err
 	}
 
-	var list []*resourcerpc.PhotoDetails
+	var list []*resourcerpc.PhotoDetailsResp
 	for _, v := range records {
 		list = append(list, convertPhotoOut(v))
 	}
 
 	return &resourcerpc.FindPhotoListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &resourcerpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
 	}, nil
 }
 
 func convertPhotoQuery(in *resourcerpc.FindPhotoListReq) (page int, size int, sorts string, conditions string, params []any) {
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-	if sorts == "" {
-		sorts = "id desc"
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+	}
+
+	if in.IsDelete != 0 {
+		opts = append(opts, query.WithCondition("is_delete = ?", in.IsDelete))
 	}
 
 	if in.AlbumId != 0 {
-		conditions += " album_id = ?"
-		params = append(params, in.AlbumId)
+		opts = append(opts, query.WithCondition("album_id = ?", in.AlbumId))
 	}
 
-	if conditions != "" {
-		conditions += " and "
-	}
-	conditions += "is_delete = ?"
-	params = append(params, in.IsDelete)
-
-	return
+	return query.NewQueryBuilder(opts...).Build()
 }

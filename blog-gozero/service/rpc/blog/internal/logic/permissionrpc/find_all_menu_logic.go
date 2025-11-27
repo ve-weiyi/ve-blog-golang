@@ -24,7 +24,7 @@ func NewFindAllMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 }
 
 // 查找所有菜单
-func (l *FindAllMenuLogic) FindAllMenu(in *permissionrpc.EmptyReq) (*permissionrpc.FindMenuListResp, error) {
+func (l *FindAllMenuLogic) FindAllMenu(in *permissionrpc.FindAllMenuReq) (*permissionrpc.FindMenuListResp, error) {
 	result, err := l.svcCtx.TMenuModel.FindALL(l.ctx, "")
 	if err != nil {
 		return nil, err
@@ -33,6 +33,11 @@ func (l *FindAllMenuLogic) FindAllMenu(in *permissionrpc.EmptyReq) (*permissionr
 	out := &permissionrpc.FindMenuListResp{}
 	for _, item := range result {
 		out.List = append(out.List, convertMenuOut(item))
+	}
+	out.Pagination = &permissionrpc.PageResp{
+		Page:     1,
+		PageSize: int64(len(result)),
+		Total:    int64(len(result)),
 	}
 
 	return out, nil

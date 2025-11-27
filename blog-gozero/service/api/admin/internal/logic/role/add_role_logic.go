@@ -41,21 +41,15 @@ func (l *AddRoleLogic) AddRole(req *types.RoleNewReq) (resp *types.RoleBackVO, e
 		return nil, err
 	}
 
-	return convertRoleTypes(out), nil
-}
-
-func convertRoleTypes(req *permissionrpc.RoleDetails) *types.RoleBackVO {
-	out := &types.RoleBackVO{
-		Id:          req.Id,
-		ParentId:    req.ParentId,
-		RoleKey:     req.RoleKey,
-		RoleLabel:   req.RoleLabel,
-		RoleComment: req.RoleComment,
-		IsDisable:   req.IsDisable,
-		IsDefault:   req.IsDefault,
-		CreatedAt:   req.CreatedAt,
-		UpdatedAt:   req.UpdatedAt,
-	}
-
-	return out
+	return &types.RoleBackVO{
+		Id:          out.Id,
+		ParentId:    out.ParentId,
+		RoleKey:     out.RoleKey,
+		RoleLabel:   out.RoleLabel,
+		RoleComment: out.RoleComment,
+		IsDisable:   out.IsDisable,
+		IsDefault:   out.IsDefault,
+		CreatedAt:   out.CreatedAt,
+		UpdatedAt:   out.UpdatedAt,
+	}, nil
 }

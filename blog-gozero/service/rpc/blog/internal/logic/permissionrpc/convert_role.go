@@ -20,8 +20,8 @@ func convertRoleIn(in *permissionrpc.RoleNewReq) (out *model.TRole) {
 	return out
 }
 
-func convertRoleOut(in *model.TRole) (out *permissionrpc.RoleDetails) {
-	out = &permissionrpc.RoleDetails{
+func convertRoleOut(in *model.TRole) (out *permissionrpc.RoleDetailsResp) {
+	out = &permissionrpc.RoleDetailsResp{
 		Id:          in.Id,
 		ParentId:    in.ParentId,
 		RoleKey:     in.RoleKey,

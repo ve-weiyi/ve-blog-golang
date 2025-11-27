@@ -28,9 +28,11 @@ func NewFindAlbumListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 
 func (l *FindAlbumListLogic) FindAlbumList(req *types.AlbumQueryReq) (resp *types.PageResp, err error) {
 	in := &resourcerpc.FindAlbumListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
-		Sorts:    req.Sorts,
+		Paginate: &resourcerpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
 	}
 	out, err := l.svcCtx.ResourceRpc.FindAlbumList(l.ctx, in)
 	if err != nil {
@@ -39,8 +41,12 @@ func (l *FindAlbumListLogic) FindAlbumList(req *types.AlbumQueryReq) (resp *type
 
 	list := make([]*types.Album, 0)
 	for _, v := range out.List {
-		m := ConvertAlbumTypes(v)
-		list = append(list, m)
+		list = append(list, &types.Album{
+			Id:         v.Id,
+			AlbumName:  v.AlbumName,
+			AlbumDesc:  v.AlbumDesc,
+			AlbumCover: v.AlbumCover,
+		})
 	}
 
 	_, err = l.svcCtx.SyslogRpc.AddVisitLog(l.ctx, &syslogrpc.VisitLogNewReq{
@@ -51,19 +57,9 @@ func (l *FindAlbumListLogic) FindAlbumList(req *types.AlbumQueryReq) (resp *type
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = int64(len(list))
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
-}
-
-func ConvertAlbumTypes(req *resourcerpc.AlbumDetails) (out *types.Album) {
-
-	return &types.Album{
-		Id:         req.Id,
-		AlbumName:  req.AlbumName,
-		AlbumDesc:  req.AlbumDesc,
-		AlbumCover: req.AlbumCover,
-	}
 }

@@ -28,9 +28,11 @@ func NewFindFriendListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 func (l *FindFriendListLogic) FindFriendList(req *types.FriendQueryReq) (resp *types.PageResp, err error) {
 	in := &websiterpc.FindFriendListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
-		Sorts:    req.Sorts,
+		Paginate: &websiterpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
 	}
 	out, err := l.svcCtx.WebsiteRpc.FindFriendList(l.ctx, in)
 	if err != nil {
@@ -39,7 +41,15 @@ func (l *FindFriendListLogic) FindFriendList(req *types.FriendQueryReq) (resp *t
 
 	list := make([]*types.Friend, 0)
 	for _, v := range out.List {
-		list = append(list, ConvertFriendTypes(v))
+		list = append(list, &types.Friend{
+			Id:          v.Id,
+			LinkName:    v.LinkName,
+			LinkAvatar:  v.LinkAvatar,
+			LinkAddress: v.LinkAddress,
+			LinkIntro:   v.LinkIntro,
+			CreatedAt:   v.CreatedAt,
+			UpdatedAt:   v.UpdatedAt,
+		})
 	}
 
 	_, err = l.svcCtx.SyslogRpc.AddVisitLog(l.ctx, &syslogrpc.VisitLogNewReq{
@@ -50,21 +60,9 @@ func (l *FindFriendListLogic) FindFriendList(req *types.FriendQueryReq) (resp *t
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
-}
-
-func ConvertFriendTypes(req *websiterpc.FriendDetails) (out *types.Friend) {
-	return &types.Friend{
-		Id:          req.Id,
-		LinkName:    req.LinkName,
-		LinkAvatar:  req.LinkAvatar,
-		LinkAddress: req.LinkAddress,
-		LinkIntro:   req.LinkIntro,
-		CreatedAt:   req.CreatedAt,
-		UpdatedAt:   req.UpdatedAt,
-	}
 }

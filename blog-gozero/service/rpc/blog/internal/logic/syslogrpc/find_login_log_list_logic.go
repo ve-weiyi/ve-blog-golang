@@ -2,9 +2,9 @@ package syslogrpclogic
 
 import (
 	"context"
-	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -34,37 +34,38 @@ func (l *FindLoginLogListLogic) FindLoginLogList(in *syslogrpc.FindLoginLogListR
 		return nil, err
 	}
 
-	var list []*syslogrpc.LoginLogDetails
+	var list []*syslogrpc.LoginLogDetailsResp
 	for _, v := range records {
 		list = append(list, convertLoginLogOut(v))
 	}
 
 	return &syslogrpc.FindLoginLogListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &syslogrpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
 	}, nil
 }
 
 func convertLoginLogQuery(in *syslogrpc.FindLoginLogListReq) (page int, size int, sorts string, conditions string, params []any) {
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-	if sorts == "" {
-		sorts = "id desc"
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.UserId != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += " user_id = ?"
-		params = append(params, in.UserId)
+		opts = append(opts, query.WithCondition("user_id = ?", in.UserId))
 	}
-	return
+
+	return query.NewQueryBuilder(opts...).Build()
 }
 
-func convertLoginLogOut(in *model.TLoginLog) (out *syslogrpc.LoginLogDetails) {
-	out = &syslogrpc.LoginLogDetails{
+func convertLoginLogOut(in *model.TLoginLog) (out *syslogrpc.LoginLogDetailsResp) {
+	out = &syslogrpc.LoginLogDetailsResp{
 		Id:        in.Id,
 		UserId:    in.UserId,
 		LoginType: in.LoginType,

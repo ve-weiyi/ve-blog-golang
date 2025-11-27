@@ -26,7 +26,7 @@ func NewAddPageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPageLo
 }
 
 // 创建页面
-func (l *AddPageLogic) AddPage(in *resourcerpc.PageNewReq) (*resourcerpc.PageDetails, error) {
+func (l *AddPageLogic) AddPage(in *resourcerpc.PageNewReq) (*resourcerpc.PageDetailsResp, error) {
 	entity := convertPageIn(in)
 
 	_, err := l.svcCtx.TPageModel.Insert(l.ctx, entity)
@@ -51,8 +51,8 @@ func convertPageIn(in *resourcerpc.PageNewReq) (out *model.TPage) {
 
 }
 
-func convertPageOut(in *model.TPage) (out *resourcerpc.PageDetails) {
-	out = &resourcerpc.PageDetails{
+func convertPageOut(in *model.TPage) (out *resourcerpc.PageDetailsResp) {
+	out = &resourcerpc.PageDetailsResp{
 		Id:             in.Id,
 		PageName:       in.PageName,
 		PageLabel:      in.PageLabel,

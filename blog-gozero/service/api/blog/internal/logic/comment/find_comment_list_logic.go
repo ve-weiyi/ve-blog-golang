@@ -28,9 +28,11 @@ func NewFindCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 
 func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp *types.PageResp, err error) {
 	in := &messagerpc.FindCommentListReq{
-		Page:       req.Page,
-		PageSize:   req.PageSize,
-		Sorts:      req.Sorts,
+		Paginate: &messagerpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
 		TopicId:    req.TopicId,
 		ParentId:   req.ParentId,
 		ReplyMsgId: 0,
@@ -61,9 +63,11 @@ func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp
 		m := ConvertCommentTypes(v, usm)
 		// 查询回复评论
 		reply, _ := l.svcCtx.MessageRpc.FindCommentReplyList(l.ctx, &messagerpc.FindCommentReplyListReq{
-			Page:       1,
-			PageSize:   3,
-			Sorts:      in.Sorts,
+			Paginate: &messagerpc.PageReq{
+				Page:     1,
+				PageSize: 3,
+				Sorts:    []string{"created_at desc"},
+			},
 			TopicId:    req.TopicId,
 			ParentId:   v.Id,
 			ReplyMsgId: 0,
@@ -73,19 +77,19 @@ func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp
 		for _, r := range reply.List {
 			m.CommentReplyList = append(m.CommentReplyList, ConvertCommentReplyTypes(r, usm))
 		}
-		m.ReplyCount = reply.Total
+		m.ReplyCount = reply.Pagination.Total
 		list = append(list, m)
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
 }
 
-func ConvertCommentTypes(in *messagerpc.CommentDetails, usm map[string]*types.UserInfoVO) (out *types.Comment) {
+func ConvertCommentTypes(in *messagerpc.CommentDetailsResp, usm map[string]*types.UserInfoVO) (out *types.Comment) {
 	out = &types.Comment{
 		Id:               in.Id,
 		TopicId:          in.TopicId,
@@ -119,7 +123,7 @@ func ConvertCommentTypes(in *messagerpc.CommentDetails, usm map[string]*types.Us
 	return
 }
 
-func ConvertCommentReplyTypes(req *messagerpc.CommentDetails, usm map[string]*types.UserInfoVO) (out *types.CommentReply) {
+func ConvertCommentReplyTypes(req *messagerpc.CommentDetailsResp, usm map[string]*types.UserInfoVO) (out *types.CommentReply) {
 	out = &types.CommentReply{
 		Id:             req.Id,
 		TopicId:        req.TopicId,

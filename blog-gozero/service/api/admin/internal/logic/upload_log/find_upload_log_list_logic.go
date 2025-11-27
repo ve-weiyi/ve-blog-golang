@@ -28,9 +28,11 @@ func NewFindUploadLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 
 func (l *FindUploadLogListLogic) FindUploadLogList(req *types.UploadLogQuery) (resp *types.PageResp, err error) {
 	in := &syslogrpc.FindUploadLogListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
-		Sorts:    req.Sorts,
+		Paginate: &syslogrpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
 		FilePath: req.FilePath,
 		FileName: req.FileName,
 		FileType: req.FileType,
@@ -59,14 +61,14 @@ func (l *FindUploadLogListLogic) FindUploadLogList(req *types.UploadLogQuery) (r
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
 }
 
-func ConvertUploadLogTypes(in *syslogrpc.UploadLogDetails, usm map[string]*types.UserInfoVO) (out *types.UploadLogBackVO) {
+func ConvertUploadLogTypes(in *syslogrpc.UploadLogDetailsResp, usm map[string]*types.UserInfoVO) (out *types.UploadLogBackVO) {
 	out = &types.UploadLogBackVO{
 		Id:        in.Id,
 		UserId:    in.UserId,

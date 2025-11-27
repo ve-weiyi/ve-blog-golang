@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/messagerpc"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -34,60 +34,45 @@ func (l *FindChatListLogic) FindChatList(in *messagerpc.FindChatListReq) (*messa
 		return nil, err
 	}
 
-	var list []*messagerpc.ChatDetails
+	var list []*messagerpc.ChatDetailsResp
 	for _, v := range records {
 		list = append(list, convertChatOut(v))
 	}
 
 	return &messagerpc.FindChatListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &messagerpc.PageResp{
+			Total: total,
+		},
 	}, nil
 }
 
 func convertChatQuery(in *messagerpc.FindChatListReq) (page int, size int, sorts string, conditions string, params []any) {
-	page = int(1)
-	size = int(in.Limit)
+	opts := []query.Option{
+		query.WithPage(1),
+		query.WithSize(int(in.Limit)),
+		query.WithSorts("created_at desc"),
+	}
 
 	if in.After != 0 {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += "created_at >= ?"
-		params = append(params, time.Unix(in.After, 0))
+		opts = append(opts, query.WithCondition("created_at >= ?", time.Unix(in.After, 0)))
 	}
 
 	if in.Before != 0 {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += "created_at <= ?"
-		params = append(params, time.Unix(in.Before, 0))
+		opts = append(opts, query.WithCondition("created_at <= ?", time.Unix(in.Before, 0)))
 	}
 
 	if in.UserId != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += "user_id = ?"
-		params = append(params, in.UserId)
+		opts = append(opts, query.WithCondition("user_id = ?", in.UserId))
 	}
 
 	if in.Type != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += "type = ?"
-		params = append(params, in.Type)
+		opts = append(opts, query.WithCondition("type = ?", in.Type))
 	}
 
 	if in.Status != 0 {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += "status = ?"
-		params = append(params, in.Status)
+		opts = append(opts, query.WithCondition("status = ?", in.Status))
 	}
 
-	return
+	return query.NewQueryBuilder(opts...).Build()
 }

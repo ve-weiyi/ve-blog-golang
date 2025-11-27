@@ -21,7 +21,7 @@ require (
 	github.com/spf13/cast v1.10.0
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/http-swagger v1.3.4
-	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20251126020110-3eae6e96dd1a
+	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20251205044501-c139cfda10fe
 	github.com/ve-weiyi/ve-blog-golang/stompws v0.0.0-20251126020110-3eae6e96dd1a
 	github.com/zeromicro/go-zero v1.9.3
 	go.opentelemetry.io/otel/sdk v1.38.0

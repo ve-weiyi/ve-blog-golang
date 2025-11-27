@@ -17,8 +17,6 @@ type (
 	AddLogoutLogReq          = syslogrpc.AddLogoutLogReq
 	AddLogoutLogResp         = syslogrpc.AddLogoutLogResp
 	BatchResp                = syslogrpc.BatchResp
-	CountResp                = syslogrpc.CountResp
-	EmptyReq                 = syslogrpc.EmptyReq
 	EmptyResp                = syslogrpc.EmptyResp
 	FindLoginLogListReq      = syslogrpc.FindLoginLogListReq
 	FindLoginLogListResp     = syslogrpc.FindLoginLogListResp
@@ -28,16 +26,16 @@ type (
 	FindUploadLogListResp    = syslogrpc.FindUploadLogListResp
 	FindVisitLogListReq      = syslogrpc.FindVisitLogListReq
 	FindVisitLogListResp     = syslogrpc.FindVisitLogListResp
-	IdReq                    = syslogrpc.IdReq
 	IdsReq                   = syslogrpc.IdsReq
-	LoginLogDetails          = syslogrpc.LoginLogDetails
+	LoginLogDetailsResp      = syslogrpc.LoginLogDetailsResp
 	LoginLogNewReq           = syslogrpc.LoginLogNewReq
-	OperationLogDetails      = syslogrpc.OperationLogDetails
+	OperationLogDetailsResp  = syslogrpc.OperationLogDetailsResp
 	OperationLogNewReq       = syslogrpc.OperationLogNewReq
-	UploadLogDetails         = syslogrpc.UploadLogDetails
+	PageReq                  = syslogrpc.PageReq
+	PageResp                 = syslogrpc.PageResp
+	UploadLogDetailsResp     = syslogrpc.UploadLogDetailsResp
 	UploadLogNewReq          = syslogrpc.UploadLogNewReq
-	UserIdReq                = syslogrpc.UserIdReq
-	VisitLogDetails          = syslogrpc.VisitLogDetails
+	VisitLogDetailsResp      = syslogrpc.VisitLogDetailsResp
 	VisitLogNewReq           = syslogrpc.VisitLogNewReq
 
 	SyslogRpc interface {
@@ -62,7 +60,7 @@ type (
 		// 查询操作记录列表
 		FindOperationLogList(ctx context.Context, in *FindOperationLogListReq, opts ...grpc.CallOption) (*FindOperationLogListResp, error)
 		// 创建上传记录
-		AddUploadLog(ctx context.Context, in *UploadLogNewReq, opts ...grpc.CallOption) (*UploadLogDetails, error)
+		AddUploadLog(ctx context.Context, in *UploadLogNewReq, opts ...grpc.CallOption) (*UploadLogDetailsResp, error)
 		// 批量删除上传记录
 		DeletesUploadLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询上传记录列表
@@ -141,7 +139,7 @@ func (m *defaultSyslogRpc) FindOperationLogList(ctx context.Context, in *FindOpe
 }
 
 // 创建上传记录
-func (m *defaultSyslogRpc) AddUploadLog(ctx context.Context, in *UploadLogNewReq, opts ...grpc.CallOption) (*UploadLogDetails, error) {
+func (m *defaultSyslogRpc) AddUploadLog(ctx context.Context, in *UploadLogNewReq, opts ...grpc.CallOption) (*UploadLogDetailsResp, error) {
 	client := syslogrpc.NewSyslogRpcClient(m.cli.Conn())
 	return client.AddUploadLog(ctx, in, opts...)
 }

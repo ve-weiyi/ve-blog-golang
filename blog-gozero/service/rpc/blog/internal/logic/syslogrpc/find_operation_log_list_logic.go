@@ -2,9 +2,9 @@ package syslogrpclogic
 
 import (
 	"context"
-	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -34,37 +34,38 @@ func (l *FindOperationLogListLogic) FindOperationLogList(in *syslogrpc.FindOpera
 		return nil, err
 	}
 
-	var list []*syslogrpc.OperationLogDetails
+	var list []*syslogrpc.OperationLogDetailsResp
 	for _, v := range records {
 		list = append(list, convertOperationLogOut(v))
 	}
 
 	return &syslogrpc.FindOperationLogListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &syslogrpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
 	}, nil
 }
 
 func convertOperationLogQuery(in *syslogrpc.FindOperationLogListReq) (page int, size int, sorts string, conditions string, params []any) {
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-	if sorts == "" {
-		sorts = "id desc"
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.Keywords != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += " opt_desc = ?"
-		params = append(params, "%"+in.Keywords+"%")
+		opts = append(opts, query.WithCondition("opt_desc = ?", "%"+in.Keywords+"%"))
 	}
-	return
+
+	return query.NewQueryBuilder(opts...).Build()
 }
 
-func convertOperationLogOut(in *model.TOperationLog) (out *syslogrpc.OperationLogDetails) {
-	out = &syslogrpc.OperationLogDetails{
+func convertOperationLogOut(in *model.TOperationLog) (out *syslogrpc.OperationLogDetailsResp) {
+	out = &syslogrpc.OperationLogDetailsResp{
 		Id:             in.Id,
 		UserId:         in.UserId,
 		TerminalId:     in.TerminalId,

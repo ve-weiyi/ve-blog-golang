@@ -46,7 +46,9 @@ func (l *FindArticleRecommendLogic) FindArticleRecommend(req *types.EmptyReq) (r
 	}
 
 	resp = &types.PageResp{}
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return
 }

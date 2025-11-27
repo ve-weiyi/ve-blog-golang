@@ -29,7 +29,7 @@ func NewAddRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRema
 }
 
 // 创建留言
-func (l *AddRemarkLogic) AddRemark(in *messagerpc.RemarkNewReq) (*messagerpc.RemarkDetails, error) {
+func (l *AddRemarkLogic) AddRemark(in *messagerpc.RemarkNewReq) (*messagerpc.RemarkDetailsResp, error) {
 	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
 	tid, _ := rpcutils.GetTerminalIdFromCtx(l.ctx)
 	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)

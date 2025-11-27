@@ -71,7 +71,7 @@ func ConvertMenuPb(in *types.MenuNewReq) (out *permissionrpc.MenuNewReq) {
 	return
 }
 
-func ConvertMenuTypes(in *permissionrpc.MenuDetails) (out *types.MenuBackVO) {
+func ConvertMenuTypes(in *permissionrpc.MenuDetailsResp) (out *types.MenuBackVO) {
 	var children []*types.MenuBackVO
 	if in.Children != nil {
 		for _, v := range in.Children {

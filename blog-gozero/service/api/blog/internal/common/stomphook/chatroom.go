@@ -111,7 +111,7 @@ func (h *ChatRoomEventHook) OnSubscribe(server *client.StompHubServer, c *client
 	out, err := h.MessageRpc.FindChatList(context.Background(), &messagerpc.FindChatListReq{
 		After:   time.Now().Add(-365 * 24 * time.Hour).Unix(),
 		Before:  time.Now().Unix(),
-		Limit:   10,
+		Limit:   0,
 		UserId:  "",
 		Type:    "",
 		Content: "",
@@ -145,9 +145,9 @@ func (h *ChatRoomEventHook) OnSubscribe(server *client.StompHubServer, c *client
 		Type: MessageTypeHistory,
 		Data: jsonconv.AnyToJsonNE(HistoryMessageEvent{
 			List:  list,
-			Page:  0,
-			Size:  10,
-			Total: out.Total,
+			Page:  out.Pagination.Page,
+			Size:  out.Pagination.PageSize,
+			Total: out.Pagination.Total,
 		}),
 		TimeStamp: time.Now().Unix(),
 	}))
