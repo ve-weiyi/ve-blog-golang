@@ -40,8 +40,10 @@ func (l *FindChatListLogic) FindChatList(in *messagerpc.FindChatListReq) (*messa
 	}
 
 	return &messagerpc.FindChatListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &messagerpc.PageResp{
+			Total: total,
+		},
 	}, nil
 }
 

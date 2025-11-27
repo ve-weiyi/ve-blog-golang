@@ -7,9 +7,7 @@ package resourcerpc;
 // 生成 golang 代码后的包名
 option go_package = "./resourcerpc";
 
-message EmptyReq {
-}
-
+//==================== 通用消息 ====================
 message EmptyResp {
 }
 
@@ -21,16 +19,22 @@ message IdsReq {
   repeated int64 ids = 1;
 }
 
-message UserIdReq {
-  string user_id = 1;
-}
-
 message BatchResp {
   int64 success_count = 1;
 }
 
-message CountResp {
-  int64 count = 1;
+// 分页请求
+message PageReq {
+  int64 page = 1;      // 页码
+  int64 page_size = 2; // 每页大小
+  repeated string sorts = 3; // 排序字段
+}
+
+// 分页响应
+message PageResp {
+  int64 page = 1;      // 页码
+  int64 page_size = 2; // 每页大小
+  int64 total = 3;     // 总数
 }
 
 /************** blog 相册管理 **************/
@@ -60,16 +64,14 @@ message UpdatePhotoDeleteReq {
 }
 
 message FindPhotoListReq {
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  int64 album_id = 4; // 相册id
-  int64 is_delete = 5;// 是否删除
+  PageReq paginate = 1;    // 分页参数
+  int64 album_id = 2; // 相册id
+  int64 is_delete = 3;// 是否删除
 }
 
 message FindPhotoListResp {
-  repeated PhotoDetails list = 1;
-  int64 total = 2;
+  PageResp pagination = 1; // 分页信息
+  repeated PhotoDetails list = 2;
 }
 
 message AlbumNewReq {
@@ -99,16 +101,14 @@ message UpdateAlbumDeleteReq {
 }
 
 message FindAlbumListReq {
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string album_name = 4;// 相册名
-  int64 is_delete = 5;// 是否删除
+  PageReq paginate = 1;    // 分页参数
+  string album_name = 2;// 相册名
+  int64 is_delete = 3;// 是否删除
 }
 
 message FindAlbumListResp {
-  repeated AlbumDetails list = 1;
-  int64 total = 2;
+  PageResp pagination = 1; // 分页信息
+  repeated AlbumDetails list = 2;
 }
 
 /************** blog 页面管理 **************/
@@ -133,15 +133,13 @@ message PageDetails {
 }
 
 message FindPageListReq {
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string page_name = 4;// 页面名
+  PageReq paginate = 1;    // 分页参数
+  string page_name = 2;// 页面名
 }
 
 message FindPageListResp {
-  repeated PageDetails list = 1;
-  int64 total = 2;
+  PageResp pagination = 1; // 分页信息
+  repeated PageDetails list = 2;
 }
 
 

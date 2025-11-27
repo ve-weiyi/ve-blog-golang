@@ -15,12 +15,12 @@ import (
 
 type (
 	AddChatReq                 = messagerpc.AddChatReq
+	AnalysisMessageReq         = messagerpc.AnalysisMessageReq
 	AnalysisMessageResp        = messagerpc.AnalysisMessageResp
 	BatchResp                  = messagerpc.BatchResp
 	ChatDetails                = messagerpc.ChatDetails
 	CommentDetails             = messagerpc.CommentDetails
 	CommentNewReq              = messagerpc.CommentNewReq
-	EmptyReq                   = messagerpc.EmptyReq
 	EmptyResp                  = messagerpc.EmptyResp
 	FindChatListReq            = messagerpc.FindChatListReq
 	FindChatListResp           = messagerpc.FindChatListResp
@@ -35,6 +35,8 @@ type (
 	FindRemarkListResp         = messagerpc.FindRemarkListResp
 	IdReq                      = messagerpc.IdReq
 	IdsReq                     = messagerpc.IdsReq
+	PageReq                    = messagerpc.PageReq
+	PageResp                   = messagerpc.PageResp
 	RemarkDetails              = messagerpc.RemarkDetails
 	RemarkNewReq               = messagerpc.RemarkNewReq
 	RemarkUpdateReq            = messagerpc.RemarkUpdateReq
@@ -48,7 +50,7 @@ type (
 
 	MessageRpc interface {
 		// 消息数据分析
-		AnalysisMessage(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisMessageResp, error)
+		AnalysisMessage(ctx context.Context, in *AnalysisMessageReq, opts ...grpc.CallOption) (*AnalysisMessageResp, error)
 		// 创建聊天记录
 		AddChat(ctx context.Context, in *AddChatReq, opts ...grpc.CallOption) (*ChatDetails, error)
 		// 更新聊天记录
@@ -86,7 +88,7 @@ type (
 		// 查询评论回复列表
 		FindCommentReplyList(ctx context.Context, in *FindCommentReplyListReq, opts ...grpc.CallOption) (*FindCommentReplyListResp, error)
 		// 查询评论回复数量
-		FindCommentReplyCounts(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*FindCommentReplyCountsResp, error)
+		FindCommentReplyCounts(ctx context.Context, in *FindCommentReplyCountsReq, opts ...grpc.CallOption) (*FindCommentReplyCountsResp, error)
 		// 更新评论审核状态
 		UpdateCommentReview(ctx context.Context, in *UpdateCommentReviewReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 更新评论
@@ -109,7 +111,7 @@ func NewMessageRpc(cli zrpc.Client) MessageRpc {
 }
 
 // 消息数据分析
-func (m *defaultMessageRpc) AnalysisMessage(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisMessageResp, error) {
+func (m *defaultMessageRpc) AnalysisMessage(ctx context.Context, in *AnalysisMessageReq, opts ...grpc.CallOption) (*AnalysisMessageResp, error) {
 	client := messagerpc.NewMessageRpcClient(m.cli.Conn())
 	return client.AnalysisMessage(ctx, in, opts...)
 }
@@ -223,7 +225,7 @@ func (m *defaultMessageRpc) FindCommentReplyList(ctx context.Context, in *FindCo
 }
 
 // 查询评论回复数量
-func (m *defaultMessageRpc) FindCommentReplyCounts(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*FindCommentReplyCountsResp, error) {
+func (m *defaultMessageRpc) FindCommentReplyCounts(ctx context.Context, in *FindCommentReplyCountsReq, opts ...grpc.CallOption) (*FindCommentReplyCountsResp, error) {
 	client := messagerpc.NewMessageRpcClient(m.cli.Conn())
 	return client.FindCommentReplyCounts(ctx, in, opts...)
 }

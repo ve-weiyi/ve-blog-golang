@@ -17,8 +17,6 @@ type (
 	AlbumDetails         = resourcerpc.AlbumDetails
 	AlbumNewReq          = resourcerpc.AlbumNewReq
 	BatchResp            = resourcerpc.BatchResp
-	CountResp            = resourcerpc.CountResp
-	EmptyReq             = resourcerpc.EmptyReq
 	EmptyResp            = resourcerpc.EmptyResp
 	FindAlbumListReq     = resourcerpc.FindAlbumListReq
 	FindAlbumListResp    = resourcerpc.FindAlbumListResp
@@ -30,11 +28,12 @@ type (
 	IdsReq               = resourcerpc.IdsReq
 	PageDetails          = resourcerpc.PageDetails
 	PageNewReq           = resourcerpc.PageNewReq
+	PageReq              = resourcerpc.PageReq
+	PageResp             = resourcerpc.PageResp
 	PhotoDetails         = resourcerpc.PhotoDetails
 	PhotoNewReq          = resourcerpc.PhotoNewReq
 	UpdateAlbumDeleteReq = resourcerpc.UpdateAlbumDeleteReq
 	UpdatePhotoDeleteReq = resourcerpc.UpdatePhotoDeleteReq
-	UserIdReq            = resourcerpc.UserIdReq
 
 	ResourceRpc interface {
 		// 创建照片

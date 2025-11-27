@@ -29,8 +29,11 @@ func NewFindTalkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 func (l *FindTalkListLogic) FindTalkList(req *types.TalkQueryReq) (resp *types.PageResp, err error) {
 	in := &talkrpc.FindTalkListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
+		Paginate: &talkrpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
 	}
 	out, err := l.svcCtx.TalkRpc.FindTalkList(l.ctx, in)
 	if err != nil {
@@ -51,8 +54,8 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQueryReq) (resp *types.P
 	}
 
 	// 查询评论量
-	counts, err := l.svcCtx.MessageRpc.FindCommentReplyCounts(l.ctx, &messagerpc.IdsReq{
-		Ids: tids,
+	counts, err := l.svcCtx.MessageRpc.FindCommentReplyCounts(l.ctx, &messagerpc.FindCommentReplyCountsReq{
+		TopicIds: tids,
 	})
 	if err != nil {
 		return nil, err
@@ -65,9 +68,9 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQueryReq) (resp *types.P
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
 }

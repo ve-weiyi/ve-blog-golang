@@ -24,7 +24,7 @@ func NewSyncApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SyncA
 }
 
 // 同步接口列表
-func (l *SyncApiListLogic) SyncApiList(in *permissionrpc.SyncApiReq) (*permissionrpc.BatchResp, error) {
+func (l *SyncApiListLogic) SyncApiList(in *permissionrpc.SyncApiListReq) (*permissionrpc.BatchResp, error) {
 	go l.syncApiList(in)
 
 	return &permissionrpc.BatchResp{
@@ -32,7 +32,7 @@ func (l *SyncApiListLogic) SyncApiList(in *permissionrpc.SyncApiReq) (*permissio
 	}, nil
 }
 
-func (l *SyncApiListLogic) syncApiList(in *permissionrpc.SyncApiReq) {
+func (l *SyncApiListLogic) syncApiList(in *permissionrpc.SyncApiListReq) {
 	// 使用后台上下文，服务返回后仍然可以继续执行
 	ctx := context.Background()
 

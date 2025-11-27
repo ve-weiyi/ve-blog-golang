@@ -39,16 +39,20 @@ func (l *FindPhotoListLogic) FindPhotoList(in *resourcerpc.FindPhotoListReq) (*r
 	}
 
 	return &resourcerpc.FindPhotoListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &resourcerpc.PageResp{
+			Page:     in.Paginate.Page,
+			PageSize: in.Paginate.PageSize,
+			Total:    total,
+		},
 	}, nil
 }
 
 func convertPhotoQuery(in *resourcerpc.FindPhotoListReq) (page int, size int, sorts string, conditions string, params []any) {
 	opts := []query.Option{
-		query.WithPage(int(in.Page)),
-		query.WithSize(int(in.PageSize)),
-		query.WithSorts(in.Sorts...),
+		query.WithPage(int(in.Paginate.Page)),
+		query.WithSize(int(in.Paginate.PageSize)),
+		query.WithSorts(in.Paginate.Sorts...),
 		query.WithCondition("is_delete = ?", in.IsDelete),
 	}
 
