@@ -45,9 +45,9 @@ func (l *FindArticleClassifyTagLogic) FindArticleClassifyTag(req *types.ArticleC
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = req.Page
-	resp.PageSize = req.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return
 }

@@ -37,7 +37,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WebsiteRpcClient interface {
 	// 用户日浏览量分析
-	AnalysisVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error)
+	AnalysisVisit(ctx context.Context, in *AnalysisVisitReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error)
 	// 添加用户访问记录
 	AddVisit(ctx context.Context, in *AddVisitReq, opts ...grpc.CallOption) (*AddVisitResp, error)
 	// 查询用户访问趋势
@@ -60,7 +60,7 @@ func NewWebsiteRpcClient(cc grpc.ClientConnInterface) WebsiteRpcClient {
 	return &websiteRpcClient{cc}
 }
 
-func (c *websiteRpcClient) AnalysisVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error) {
+func (c *websiteRpcClient) AnalysisVisit(ctx context.Context, in *AnalysisVisitReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error) {
 	out := new(AnalysisVisitResp)
 	err := c.cc.Invoke(ctx, WebsiteRpc_AnalysisVisit_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -128,7 +128,7 @@ func (c *websiteRpcClient) FindFriendList(ctx context.Context, in *FindFriendLis
 // for forward compatibility
 type WebsiteRpcServer interface {
 	// 用户日浏览量分析
-	AnalysisVisit(context.Context, *EmptyReq) (*AnalysisVisitResp, error)
+	AnalysisVisit(context.Context, *AnalysisVisitReq) (*AnalysisVisitResp, error)
 	// 添加用户访问记录
 	AddVisit(context.Context, *AddVisitReq) (*AddVisitResp, error)
 	// 查询用户访问趋势
@@ -148,7 +148,7 @@ type WebsiteRpcServer interface {
 type UnimplementedWebsiteRpcServer struct {
 }
 
-func (UnimplementedWebsiteRpcServer) AnalysisVisit(context.Context, *EmptyReq) (*AnalysisVisitResp, error) {
+func (UnimplementedWebsiteRpcServer) AnalysisVisit(context.Context, *AnalysisVisitReq) (*AnalysisVisitResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AnalysisVisit not implemented")
 }
 func (UnimplementedWebsiteRpcServer) AddVisit(context.Context, *AddVisitReq) (*AddVisitResp, error) {
@@ -183,7 +183,7 @@ func RegisterWebsiteRpcServer(s grpc.ServiceRegistrar, srv WebsiteRpcServer) {
 }
 
 func _WebsiteRpc_AnalysisVisit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyReq)
+	in := new(AnalysisVisitReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -195,7 +195,7 @@ func _WebsiteRpc_AnalysisVisit_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: WebsiteRpc_AnalysisVisit_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WebsiteRpcServer).AnalysisVisit(ctx, req.(*EmptyReq))
+		return srv.(WebsiteRpcServer).AnalysisVisit(ctx, req.(*AnalysisVisitReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -14,6 +14,7 @@ import (
 )
 
 type (
+	AnalysisArticleReq         = articlerpc.AnalysisArticleReq
 	AnalysisArticleResp        = articlerpc.AnalysisArticleResp
 	ArticleCategory            = articlerpc.ArticleCategory
 	ArticleDailyStatistics     = articlerpc.ArticleDailyStatistics
@@ -25,7 +26,6 @@ type (
 	CategoryDetails            = articlerpc.CategoryDetails
 	CategoryNewReq             = articlerpc.CategoryNewReq
 	CountResp                  = articlerpc.CountResp
-	EmptyReq                   = articlerpc.EmptyReq
 	EmptyResp                  = articlerpc.EmptyResp
 	FindArticleListReq         = articlerpc.FindArticleListReq
 	FindArticleListResp        = articlerpc.FindArticleListResp
@@ -38,6 +38,8 @@ type (
 	GetArticleRelationResp     = articlerpc.GetArticleRelationResp
 	IdReq                      = articlerpc.IdReq
 	IdsReq                     = articlerpc.IdsReq
+	PageReq                    = articlerpc.PageReq
+	PageResp                   = articlerpc.PageResp
 	TagDetails                 = articlerpc.TagDetails
 	TagNewReq                  = articlerpc.TagNewReq
 	UpdateArticleDeleteReq     = articlerpc.UpdateArticleDeleteReq
@@ -46,7 +48,7 @@ type (
 
 	ArticleRpc interface {
 		// 分析文章数量
-		AnalysisArticle(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisArticleResp, error)
+		AnalysisArticle(ctx context.Context, in *AnalysisArticleReq, opts ...grpc.CallOption) (*AnalysisArticleResp, error)
 		// 访问文章
 		VisitArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*CountResp, error)
 		// 创建文章
@@ -105,7 +107,7 @@ func NewArticleRpc(cli zrpc.Client) ArticleRpc {
 }
 
 // 分析文章数量
-func (m *defaultArticleRpc) AnalysisArticle(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisArticleResp, error) {
+func (m *defaultArticleRpc) AnalysisArticle(ctx context.Context, in *AnalysisArticleReq, opts ...grpc.CallOption) (*AnalysisArticleResp, error) {
 	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
 	return client.AnalysisArticle(ctx, in, opts...)
 }

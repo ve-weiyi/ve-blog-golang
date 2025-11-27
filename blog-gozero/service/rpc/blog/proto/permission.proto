@@ -7,9 +7,7 @@ package permissionrpc;
 // 生成 golang 代码后的包名
 option go_package = "./permissionrpc";
 
-message EmptyReq {
-}
-
+//==================== 通用消息 ====================
 message EmptyResp {
 }
 
@@ -24,12 +22,22 @@ message BatchResp {
   int64 success_count = 1;
 }
 
-message CountResp {
-  int64 count = 1;
-}
-
 message UserIdReq {
   string user_id = 1;
+}
+
+// 分页请求
+message PageReq {
+  int64 page = 1;      // 页码
+  int64 page_size = 2; // 每页大小
+  repeated string sorts = 3; // 排序字段
+}
+
+// 分页响应
+message PageResp {
+  int64 page = 1;      // 页码
+  int64 page_size = 2; // 每页大小
+  int64 total = 3;     // 总数
 }
 
 /************** rbac 权限相关 **************/
@@ -102,12 +110,18 @@ message FindMenuListResp {
   repeated MenuDetails list = 1;
 }
 
-message SyncMenuReq {
+message SyncMenuListReq {
   repeated MenuNewReq menus = 1;
 }
 
-message SyncApiReq {
+message SyncApiListReq {
   repeated ApiNewReq apis = 1;
+}
+
+message CleanApiListReq {
+}
+
+message FindAllApiReq {
 }
 
 message RoleNewReq {
@@ -136,8 +150,8 @@ message RoleDetails {
 }
 
 message FindRoleListResp {
-  repeated RoleDetails list = 1;
-  int64 total = 2;
+  PageResp pagination = 1; // 分页信息
+  repeated RoleDetails list = 2;
 }
 
 message RoleResourcesResp {
@@ -162,29 +176,28 @@ message UpdateUserRoleReq {
 }
 
 message FindApiListReq {
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string name = 4;// api名称
-  string path = 5;// api路径
-  string method = 6;// api请求方法
+  string name = 2;// api名称
+  string path = 3;// api路径
+  string method = 4;// api请求方法
 }
 
 message FindMenuListReq {
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string title = 4;// 菜单标题
-  string name = 6;// 路由名字
+  string title = 2;// 菜单标题
+  string name = 3;// 路由名字
 }
 
 message FindRoleListReq {
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string role_key = 4;// 角色名
-  string role_label = 5;// 角色标签
-  int64 is_disable = 6;// 是否禁用  0否 1是
+  PageReq paginate = 1;    // 分页参数
+  string role_key = 2;// 角色名
+  string role_label = 3;// 角色标签
+  int64 is_disable = 4;// 是否禁用  0否 1是
+}
+
+
+message CleanMenuListReq {
+}
+
+message FindAllMenuReq {
 }
 
 service PermissionRpc {
@@ -197,11 +210,11 @@ service PermissionRpc {
   // 查询接口列表
   rpc FindApiList(FindApiListReq) returns(FindApiListResp);
   // 同步接口列表
-  rpc SyncApiList(SyncApiReq) returns(BatchResp);
+  rpc SyncApiList(SyncApiListReq) returns(BatchResp);
   // 清空接口列表
-  rpc CleanApiList(EmptyReq) returns(BatchResp);
+  rpc CleanApiList(CleanApiListReq) returns(BatchResp);
   // 查找所有接口
-  rpc FindAllApi(EmptyReq) returns(FindApiListResp);
+  rpc FindAllApi(FindAllApiReq) returns(FindApiListResp);
 
   // 创建菜单
   rpc AddMenu(MenuNewReq) returns(MenuDetails);
@@ -212,11 +225,11 @@ service PermissionRpc {
   // 查询菜单列表
   rpc FindMenuList(FindMenuListReq) returns(FindMenuListResp);
   // 同步菜单列表
-  rpc SyncMenuList(SyncMenuReq) returns(BatchResp);
+  rpc SyncMenuList(SyncMenuListReq) returns(BatchResp);
   // 清空菜单列表
-  rpc CleanMenuList(EmptyReq) returns(BatchResp);
+  rpc CleanMenuList(CleanMenuListReq) returns(BatchResp);
   // 查找所有菜单
-  rpc FindAllMenu(EmptyReq) returns(FindMenuListResp);
+  rpc FindAllMenu(FindAllMenuReq) returns(FindMenuListResp);
 
 
   // 创建角色

@@ -54,7 +54,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MessageRpcClient interface {
 	// 消息数据分析
-	AnalysisMessage(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisMessageResp, error)
+	AnalysisMessage(ctx context.Context, in *AnalysisMessageReq, opts ...grpc.CallOption) (*AnalysisMessageResp, error)
 	// 创建聊天记录
 	AddChat(ctx context.Context, in *AddChatReq, opts ...grpc.CallOption) (*ChatDetails, error)
 	// 更新聊天记录
@@ -92,7 +92,7 @@ type MessageRpcClient interface {
 	// 查询评论回复列表
 	FindCommentReplyList(ctx context.Context, in *FindCommentReplyListReq, opts ...grpc.CallOption) (*FindCommentReplyListResp, error)
 	// 查询评论回复数量
-	FindCommentReplyCounts(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*FindCommentReplyCountsResp, error)
+	FindCommentReplyCounts(ctx context.Context, in *FindCommentReplyCountsReq, opts ...grpc.CallOption) (*FindCommentReplyCountsResp, error)
 	// 更新评论审核状态
 	UpdateCommentReview(ctx context.Context, in *UpdateCommentReviewReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 更新评论
@@ -111,7 +111,7 @@ func NewMessageRpcClient(cc grpc.ClientConnInterface) MessageRpcClient {
 	return &messageRpcClient{cc}
 }
 
-func (c *messageRpcClient) AnalysisMessage(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisMessageResp, error) {
+func (c *messageRpcClient) AnalysisMessage(ctx context.Context, in *AnalysisMessageReq, opts ...grpc.CallOption) (*AnalysisMessageResp, error) {
 	out := new(AnalysisMessageResp)
 	err := c.cc.Invoke(ctx, MessageRpc_AnalysisMessage_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -282,7 +282,7 @@ func (c *messageRpcClient) FindCommentReplyList(ctx context.Context, in *FindCom
 	return out, nil
 }
 
-func (c *messageRpcClient) FindCommentReplyCounts(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*FindCommentReplyCountsResp, error) {
+func (c *messageRpcClient) FindCommentReplyCounts(ctx context.Context, in *FindCommentReplyCountsReq, opts ...grpc.CallOption) (*FindCommentReplyCountsResp, error) {
 	out := new(FindCommentReplyCountsResp)
 	err := c.cc.Invoke(ctx, MessageRpc_FindCommentReplyCounts_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -332,7 +332,7 @@ func (c *messageRpcClient) FindUserLikeComment(ctx context.Context, in *UserIdRe
 // for forward compatibility
 type MessageRpcServer interface {
 	// 消息数据分析
-	AnalysisMessage(context.Context, *EmptyReq) (*AnalysisMessageResp, error)
+	AnalysisMessage(context.Context, *AnalysisMessageReq) (*AnalysisMessageResp, error)
 	// 创建聊天记录
 	AddChat(context.Context, *AddChatReq) (*ChatDetails, error)
 	// 更新聊天记录
@@ -370,7 +370,7 @@ type MessageRpcServer interface {
 	// 查询评论回复列表
 	FindCommentReplyList(context.Context, *FindCommentReplyListReq) (*FindCommentReplyListResp, error)
 	// 查询评论回复数量
-	FindCommentReplyCounts(context.Context, *IdsReq) (*FindCommentReplyCountsResp, error)
+	FindCommentReplyCounts(context.Context, *FindCommentReplyCountsReq) (*FindCommentReplyCountsResp, error)
 	// 更新评论审核状态
 	UpdateCommentReview(context.Context, *UpdateCommentReviewReq) (*BatchResp, error)
 	// 更新评论
@@ -386,7 +386,7 @@ type MessageRpcServer interface {
 type UnimplementedMessageRpcServer struct {
 }
 
-func (UnimplementedMessageRpcServer) AnalysisMessage(context.Context, *EmptyReq) (*AnalysisMessageResp, error) {
+func (UnimplementedMessageRpcServer) AnalysisMessage(context.Context, *AnalysisMessageReq) (*AnalysisMessageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AnalysisMessage not implemented")
 }
 func (UnimplementedMessageRpcServer) AddChat(context.Context, *AddChatReq) (*ChatDetails, error) {
@@ -443,7 +443,7 @@ func (UnimplementedMessageRpcServer) FindCommentList(context.Context, *FindComme
 func (UnimplementedMessageRpcServer) FindCommentReplyList(context.Context, *FindCommentReplyListReq) (*FindCommentReplyListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindCommentReplyList not implemented")
 }
-func (UnimplementedMessageRpcServer) FindCommentReplyCounts(context.Context, *IdsReq) (*FindCommentReplyCountsResp, error) {
+func (UnimplementedMessageRpcServer) FindCommentReplyCounts(context.Context, *FindCommentReplyCountsReq) (*FindCommentReplyCountsResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindCommentReplyCounts not implemented")
 }
 func (UnimplementedMessageRpcServer) UpdateCommentReview(context.Context, *UpdateCommentReviewReq) (*BatchResp, error) {
@@ -472,7 +472,7 @@ func RegisterMessageRpcServer(s grpc.ServiceRegistrar, srv MessageRpcServer) {
 }
 
 func _MessageRpc_AnalysisMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyReq)
+	in := new(AnalysisMessageReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -484,7 +484,7 @@ func _MessageRpc_AnalysisMessage_Handler(srv interface{}, ctx context.Context, d
 		FullMethod: MessageRpc_AnalysisMessage_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MessageRpcServer).AnalysisMessage(ctx, req.(*EmptyReq))
+		return srv.(MessageRpcServer).AnalysisMessage(ctx, req.(*AnalysisMessageReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -814,7 +814,7 @@ func _MessageRpc_FindCommentReplyList_Handler(srv interface{}, ctx context.Conte
 }
 
 func _MessageRpc_FindCommentReplyCounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdsReq)
+	in := new(FindCommentReplyCountsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -826,7 +826,7 @@ func _MessageRpc_FindCommentReplyCounts_Handler(srv interface{}, ctx context.Con
 		FullMethod: MessageRpc_FindCommentReplyCounts_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MessageRpcServer).FindCommentReplyCounts(ctx, req.(*IdsReq))
+		return srv.(MessageRpcServer).FindCommentReplyCounts(ctx, req.(*FindCommentReplyCountsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

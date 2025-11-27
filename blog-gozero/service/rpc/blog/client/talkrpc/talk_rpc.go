@@ -15,14 +15,14 @@ import (
 
 type (
 	BatchResp        = talkrpc.BatchResp
-	CountResp        = talkrpc.CountResp
-	EmptyReq         = talkrpc.EmptyReq
 	EmptyResp        = talkrpc.EmptyResp
 	FindLikeTalkResp = talkrpc.FindLikeTalkResp
 	FindTalkListReq  = talkrpc.FindTalkListReq
 	FindTalkListResp = talkrpc.FindTalkListResp
 	IdReq            = talkrpc.IdReq
 	IdsReq           = talkrpc.IdsReq
+	PageReq          = talkrpc.PageReq
+	PageResp         = talkrpc.PageResp
 	TalkDetails      = talkrpc.TalkDetails
 	TalkNewReq       = talkrpc.TalkNewReq
 	UserIdReq        = talkrpc.UserIdReq

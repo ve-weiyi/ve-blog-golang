@@ -28,8 +28,11 @@ func NewFindCategoryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 func (l *FindCategoryListLogic) FindCategoryList(req *types.CategoryQueryReq) (resp *types.PageResp, err error) {
 	in := &articlerpc.FindCategoryListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
+		Paginate: &articlerpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
 	}
 	out, err := l.svcCtx.ArticleRpc.FindCategoryList(l.ctx, in)
 	if err != nil {
@@ -50,9 +53,9 @@ func (l *FindCategoryListLogic) FindCategoryList(req *types.CategoryQueryReq) (r
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = req.Page
-	resp.PageSize = req.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
 }

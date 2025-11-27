@@ -39,16 +39,20 @@ func (l *FindFriendListLogic) FindFriendList(in *websiterpc.FindFriendListReq) (
 	}
 
 	return &websiterpc.FindFriendListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &websiterpc.PageResp{
+			Page:     in.Paginate.Page,
+			PageSize: in.Paginate.PageSize,
+			Total:    total,
+		},
 	}, nil
 }
 
 func convertFriendQuery(in *websiterpc.FindFriendListReq) (page int, size int, sorts string, conditions string, params []any) {
 	opts := []query.Option{
-		query.WithPage(int(in.Page)),
-		query.WithSize(int(in.PageSize)),
-		query.WithSorts(in.Sorts...),
+		query.WithPage(int(in.Paginate.Page)),
+		query.WithSize(int(in.Paginate.PageSize)),
+		query.WithSorts(in.Paginate.Sorts...),
 	}
 
 	if in.LinkName != "" {

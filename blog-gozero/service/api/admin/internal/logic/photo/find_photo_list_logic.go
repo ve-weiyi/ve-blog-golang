@@ -27,9 +27,11 @@ func NewFindPhotoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 
 func (l *FindPhotoListLogic) FindPhotoList(req *types.PhotoQuery) (resp *types.PageResp, err error) {
 	in := &resourcerpc.FindPhotoListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
-		Sorts:    req.Sorts,
+		Paginate: &resourcerpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
 		AlbumId:  req.AlbumId,
 		IsDelete: req.IsDelete,
 	}
@@ -46,9 +48,9 @@ func (l *FindPhotoListLogic) FindPhotoList(req *types.PhotoQuery) (resp *types.P
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
 }

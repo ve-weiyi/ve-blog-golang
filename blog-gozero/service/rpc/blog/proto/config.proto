@@ -7,18 +7,7 @@ package configrpc;
 // 生成 golang 代码后的包名
 option go_package = "./configrpc";
 
-message EmptyReq {
-}
 
-message EmptyResp {
-}
-
-message IdReq {
-  int64 id = 1;
-}
-message IdsReq {
-  repeated int64 ids = 1;
-}
 
 /************** blog 网站管理 **************/
 
