@@ -14,7 +14,7 @@ docker run -d \
 -v ./runtime:/app/runtime \
 ghcr.io/ve-weiyi/blog-rpc:latest \
   ./blog \
-  -nacos-ip "veweiyi.cn" \
+  -nacos-host "veweiyi.cn" \
   -nacos-port "8848" \
   -nacos-username "nacos" \
   -nacos-password "nacos" \
@@ -30,7 +30,7 @@ docker run -d \
 -v ./runtime:/app/runtime \
 ghcr.io/ve-weiyi/blog-api:latest \
   ./blog \
-  -nacos-ip "veweiyi.cn" \
+  -nacos-host "veweiyi.cn" \
   -nacos-port "8848" \
   -nacos-username "nacos" \
   -nacos-password "nacos" \
@@ -46,7 +46,7 @@ docker run -d \
 -v ./runtime:/app/runtime \
 ghcr.io/ve-weiyi/admin-api:latest \
   ./admin \
-  -nacos-ip "veweiyi.cn" \
+  -nacos-host "veweiyi.cn" \
   -nacos-port "8848" \
   -nacos-username "nacos" \
   -nacos-password "nacos" \
