@@ -2,8 +2,8 @@ package articlerpclogic
 
 import (
 	"context"
-	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -27,26 +27,18 @@ func NewFindTagListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindT
 // 查询标签数量
 func (l *FindTagListLogic) FindTagList(in *articlerpc.FindTagListReq) (*articlerpc.FindTagListResp, error) {
 	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
-	var (
-		page       int
-		size       int
-		sorts      string
-		conditions string
-		params     []interface{}
-	)
 
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-	if sorts == "" {
-		sorts = "id desc"
+	opts := []query.Option{
+		query.WithPage(int(in.Paginate.Page)),
+		query.WithSize(int(in.Paginate.PageSize)),
+		query.WithSorts(in.Paginate.Sorts...),
 	}
 
 	if in.TagName != "" {
-		conditions += "tag_name like ?"
-		params = append(params, "%"+in.TagName+"%")
+		opts = append(opts, query.WithCondition("tag_name like ?", "%"+in.TagName+"%"))
 	}
 
+	page, size, sorts, conditions, params := query.NewQueryBuilder(opts...).Build()
 	records, total, err := l.svcCtx.TTagModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
@@ -58,7 +50,11 @@ func (l *FindTagListLogic) FindTagList(in *articlerpc.FindTagListReq) (*articler
 	}
 
 	return &articlerpc.FindTagListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &articlerpc.PageResp{
+			Page:     in.Paginate.Page,
+			PageSize: in.Paginate.PageSize,
+			Total:    total,
+		},
 	}, nil
 }

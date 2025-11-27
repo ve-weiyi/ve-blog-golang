@@ -40,7 +40,11 @@ func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accou
 	}
 
 	resp := &accountrpc.FindUserListResp{}
-	resp.Total = total
+	resp.Pagination = &accountrpc.PageResp{
+		Page:     in.Paginate.Page,
+		PageSize: in.Paginate.PageSize,
+		Total:    total,
+	}
 	resp.List = list
 
 	return resp, nil
@@ -48,9 +52,9 @@ func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accou
 
 func convertUserQuery(in *accountrpc.FindUserListReq) (page int, size int, sorts string, conditions string, params []interface{}) {
 	opts := []query.Option{
-		query.WithPage(int(in.Page)),
-		query.WithSize(int(in.PageSize)),
-		query.WithSorts(in.Sorts...),
+		query.WithPage(int(in.Paginate.Page)),
+		query.WithSize(int(in.Paginate.PageSize)),
+		query.WithSorts(in.Paginate.Sorts...),
 	}
 
 	if in.Username != "" {

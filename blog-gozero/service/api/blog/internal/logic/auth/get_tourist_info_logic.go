@@ -26,7 +26,7 @@ func NewGetTouristInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetTouristInfoLogic) GetTouristInfo(req *types.EmptyReq) (resp *types.GetTouristInfoResp, err error) {
-	tourist, err := l.svcCtx.AccountRpc.GetTouristInfo(l.ctx, &accountrpc.EmptyReq{})
+	tourist, err := l.svcCtx.AccountRpc.GetTouristInfo(l.ctx, &accountrpc.GetTouristInfoReq{})
 	if err != nil {
 		return nil, err
 	}

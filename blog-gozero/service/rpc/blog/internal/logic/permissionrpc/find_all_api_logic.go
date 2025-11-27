@@ -24,7 +24,7 @@ func NewFindAllApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindAl
 }
 
 // 查找所有接口
-func (l *FindAllApiLogic) FindAllApi(in *permissionrpc.EmptyReq) (*permissionrpc.FindApiListResp, error) {
+func (l *FindAllApiLogic) FindAllApi(in *permissionrpc.FindAllApiReq) (*permissionrpc.FindApiListResp, error) {
 	result, err := l.svcCtx.TApiModel.FindALL(l.ctx, "")
 	if err != nil {
 		return nil, err

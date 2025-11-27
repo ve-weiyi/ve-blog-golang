@@ -93,7 +93,7 @@ type AccountRpcClient interface {
 	// 修改用户密码
 	UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 修改用户登录邮箱
-	BindUserEmail(ctx context.Context, in *BindUseEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	BindUserEmail(ctx context.Context, in *BindUserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 修改用户登录手机号
 	BindUserPhone(ctx context.Context, in *BindUserPhoneReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 修改用户第三方账号
@@ -115,7 +115,7 @@ type AccountRpcClient interface {
 	// 查询用户分布区域
 	AnalysisUserAreas(ctx context.Context, in *AnalysisUserAreasReq, opts ...grpc.CallOption) (*AnalysisUserAreasResp, error)
 	// 获取游客身份
-	GetTouristInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error)
+	GetTouristInfo(ctx context.Context, in *GetTouristInfoReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error)
 }
 
 type accountRpcClient struct {
@@ -279,7 +279,7 @@ func (c *accountRpcClient) UpdateUserPassword(ctx context.Context, in *UpdateUse
 	return out, nil
 }
 
-func (c *accountRpcClient) BindUserEmail(ctx context.Context, in *BindUseEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (c *accountRpcClient) BindUserEmail(ctx context.Context, in *BindUserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	out := new(EmptyResp)
 	err := c.cc.Invoke(ctx, AccountRpc_BindUserEmail_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -378,7 +378,7 @@ func (c *accountRpcClient) AnalysisUserAreas(ctx context.Context, in *AnalysisUs
 	return out, nil
 }
 
-func (c *accountRpcClient) GetTouristInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error) {
+func (c *accountRpcClient) GetTouristInfo(ctx context.Context, in *GetTouristInfoReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error) {
 	out := new(GetTouristInfoResp)
 	err := c.cc.Invoke(ctx, AccountRpc_GetTouristInfo_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -426,7 +426,7 @@ type AccountRpcServer interface {
 	// 修改用户密码
 	UpdateUserPassword(context.Context, *UpdateUserPasswordReq) (*EmptyResp, error)
 	// 修改用户登录邮箱
-	BindUserEmail(context.Context, *BindUseEmailReq) (*EmptyResp, error)
+	BindUserEmail(context.Context, *BindUserEmailReq) (*EmptyResp, error)
 	// 修改用户登录手机号
 	BindUserPhone(context.Context, *BindUserPhoneReq) (*EmptyResp, error)
 	// 修改用户第三方账号
@@ -448,7 +448,7 @@ type AccountRpcServer interface {
 	// 查询用户分布区域
 	AnalysisUserAreas(context.Context, *AnalysisUserAreasReq) (*AnalysisUserAreasResp, error)
 	// 获取游客身份
-	GetTouristInfo(context.Context, *EmptyReq) (*GetTouristInfoResp, error)
+	GetTouristInfo(context.Context, *GetTouristInfoReq) (*GetTouristInfoResp, error)
 	mustEmbedUnimplementedAccountRpcServer()
 }
 
@@ -507,7 +507,7 @@ func (UnimplementedAccountRpcServer) UpdateUserAvatar(context.Context, *UpdateUs
 func (UnimplementedAccountRpcServer) UpdateUserPassword(context.Context, *UpdateUserPasswordReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserPassword not implemented")
 }
-func (UnimplementedAccountRpcServer) BindUserEmail(context.Context, *BindUseEmailReq) (*EmptyResp, error) {
+func (UnimplementedAccountRpcServer) BindUserEmail(context.Context, *BindUserEmailReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BindUserEmail not implemented")
 }
 func (UnimplementedAccountRpcServer) BindUserPhone(context.Context, *BindUserPhoneReq) (*EmptyResp, error) {
@@ -540,7 +540,7 @@ func (UnimplementedAccountRpcServer) AnalysisUser(context.Context, *AnalysisUser
 func (UnimplementedAccountRpcServer) AnalysisUserAreas(context.Context, *AnalysisUserAreasReq) (*AnalysisUserAreasResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AnalysisUserAreas not implemented")
 }
-func (UnimplementedAccountRpcServer) GetTouristInfo(context.Context, *EmptyReq) (*GetTouristInfoResp, error) {
+func (UnimplementedAccountRpcServer) GetTouristInfo(context.Context, *GetTouristInfoReq) (*GetTouristInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTouristInfo not implemented")
 }
 func (UnimplementedAccountRpcServer) mustEmbedUnimplementedAccountRpcServer() {}
@@ -863,7 +863,7 @@ func _AccountRpc_UpdateUserPassword_Handler(srv interface{}, ctx context.Context
 }
 
 func _AccountRpc_BindUserEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BindUseEmailReq)
+	in := new(BindUserEmailReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -875,7 +875,7 @@ func _AccountRpc_BindUserEmail_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: AccountRpc_BindUserEmail_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountRpcServer).BindUserEmail(ctx, req.(*BindUseEmailReq))
+		return srv.(AccountRpcServer).BindUserEmail(ctx, req.(*BindUserEmailReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1061,7 +1061,7 @@ func _AccountRpc_AnalysisUserAreas_Handler(srv interface{}, ctx context.Context,
 }
 
 func _AccountRpc_GetTouristInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyReq)
+	in := new(GetTouristInfoReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1073,7 +1073,7 @@ func _AccountRpc_GetTouristInfo_Handler(srv interface{}, ctx context.Context, de
 		FullMethod: AccountRpc_GetTouristInfo_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountRpcServer).GetTouristInfo(ctx, req.(*EmptyReq))
+		return srv.(AccountRpcServer).GetTouristInfo(ctx, req.(*GetTouristInfoReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -48,19 +48,19 @@ func (s *PermissionRpcServer) FindApiList(ctx context.Context, in *permissionrpc
 }
 
 // 同步接口列表
-func (s *PermissionRpcServer) SyncApiList(ctx context.Context, in *permissionrpc.SyncApiReq) (*permissionrpc.BatchResp, error) {
+func (s *PermissionRpcServer) SyncApiList(ctx context.Context, in *permissionrpc.SyncApiListReq) (*permissionrpc.BatchResp, error) {
 	l := permissionrpclogic.NewSyncApiListLogic(ctx, s.svcCtx)
 	return l.SyncApiList(in)
 }
 
 // 清空接口列表
-func (s *PermissionRpcServer) CleanApiList(ctx context.Context, in *permissionrpc.EmptyReq) (*permissionrpc.BatchResp, error) {
+func (s *PermissionRpcServer) CleanApiList(ctx context.Context, in *permissionrpc.CleanApiListReq) (*permissionrpc.BatchResp, error) {
 	l := permissionrpclogic.NewCleanApiListLogic(ctx, s.svcCtx)
 	return l.CleanApiList(in)
 }
 
 // 查找所有接口
-func (s *PermissionRpcServer) FindAllApi(ctx context.Context, in *permissionrpc.EmptyReq) (*permissionrpc.FindApiListResp, error) {
+func (s *PermissionRpcServer) FindAllApi(ctx context.Context, in *permissionrpc.FindAllApiReq) (*permissionrpc.FindApiListResp, error) {
 	l := permissionrpclogic.NewFindAllApiLogic(ctx, s.svcCtx)
 	return l.FindAllApi(in)
 }
@@ -90,19 +90,19 @@ func (s *PermissionRpcServer) FindMenuList(ctx context.Context, in *permissionrp
 }
 
 // 同步菜单列表
-func (s *PermissionRpcServer) SyncMenuList(ctx context.Context, in *permissionrpc.SyncMenuReq) (*permissionrpc.BatchResp, error) {
+func (s *PermissionRpcServer) SyncMenuList(ctx context.Context, in *permissionrpc.SyncMenuListReq) (*permissionrpc.BatchResp, error) {
 	l := permissionrpclogic.NewSyncMenuListLogic(ctx, s.svcCtx)
 	return l.SyncMenuList(in)
 }
 
 // 清空菜单列表
-func (s *PermissionRpcServer) CleanMenuList(ctx context.Context, in *permissionrpc.EmptyReq) (*permissionrpc.BatchResp, error) {
+func (s *PermissionRpcServer) CleanMenuList(ctx context.Context, in *permissionrpc.CleanMenuListReq) (*permissionrpc.BatchResp, error) {
 	l := permissionrpclogic.NewCleanMenuListLogic(ctx, s.svcCtx)
 	return l.CleanMenuList(in)
 }
 
 // 查找所有菜单
-func (s *PermissionRpcServer) FindAllMenu(ctx context.Context, in *permissionrpc.EmptyReq) (*permissionrpc.FindMenuListResp, error) {
+func (s *PermissionRpcServer) FindAllMenu(ctx context.Context, in *permissionrpc.FindAllMenuReq) (*permissionrpc.FindMenuListResp, error) {
 	l := permissionrpclogic.NewFindAllMenuLogic(ctx, s.svcCtx)
 	return l.FindAllMenu(in)
 }

@@ -145,9 +145,9 @@ func (h *ChatRoomEventHook) OnSubscribe(server *client.StompHubServer, c *client
 		Type: MessageTypeHistory,
 		Data: jsonconv.AnyToJsonNE(HistoryMessageEvent{
 			List:  list,
-			Page:  0,
-			Size:  10,
-			Total: out.Total,
+			Page:  out.Pagination.Page,
+			Size:  out.Pagination.PageSize,
+			Total: out.Pagination.Total,
 		}),
 		TimeStamp: time.Now().Unix(),
 	}))

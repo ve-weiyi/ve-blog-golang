@@ -27,7 +27,7 @@ func NewAnalysisVisitLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ana
 }
 
 // 用户日浏览量分析
-func (l *AnalysisVisitLogic) AnalysisVisit(in *websiterpc.EmptyReq) (*websiterpc.AnalysisVisitResp, error) {
+func (l *AnalysisVisitLogic) AnalysisVisit(in *websiterpc.AnalysisVisitReq) (*websiterpc.AnalysisVisitResp, error) {
 	day := time.Now().Format("2006-01-02")
 	yesterday := time.Now().AddDate(0, 0, -1).Format("2006-01-02")
 

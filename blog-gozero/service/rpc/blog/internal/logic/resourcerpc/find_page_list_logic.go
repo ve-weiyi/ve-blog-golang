@@ -39,16 +39,20 @@ func (l *FindPageListLogic) FindPageList(in *resourcerpc.FindPageListReq) (*reso
 	}
 
 	return &resourcerpc.FindPageListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &resourcerpc.PageResp{
+			Page:     in.Paginate.Page,
+			PageSize: in.Paginate.PageSize,
+			Total:    total,
+		},
 	}, nil
 }
 
 func convertPageQuery(in *resourcerpc.FindPageListReq) (page int, size int, sorts string, conditions string, params []any) {
 	opts := []query.Option{
-		query.WithPage(int(in.Page)),
-		query.WithSize(int(in.PageSize)),
-		query.WithSorts(in.Sorts...),
+		query.WithPage(int(in.Paginate.Page)),
+		query.WithSize(int(in.Paginate.PageSize)),
+		query.WithSorts(in.Paginate.Sorts...),
 	}
 
 	if in.PageName != "" {
