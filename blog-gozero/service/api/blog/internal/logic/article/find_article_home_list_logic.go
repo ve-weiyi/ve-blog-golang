@@ -28,9 +28,11 @@ func NewFindArticleHomeListLogic(ctx context.Context, svcCtx *svc.ServiceContext
 
 func (l *FindArticleHomeListLogic) FindArticleHomeList(req *types.ArticleHomeQueryReq) (resp *types.PageResp, err error) {
 	in := &articlerpc.FindArticleListReq{
-		Page:         req.Page,
-		PageSize:     req.PageSize,
-		Sorts:        req.Sorts,
+		Paginate: &articlerpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
 		ArticleTitle: req.ArticleTitle,
 		IsDelete:     constant.ArticleIsDeleteNo,
 		Status:       constant.ArticleStatusPublic,
@@ -49,9 +51,9 @@ func (l *FindArticleHomeListLogic) FindArticleHomeList(req *types.ArticleHomeQue
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = req.Page
-	resp.PageSize = req.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return
 }

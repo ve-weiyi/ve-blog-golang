@@ -29,8 +29,11 @@ func NewFindAccountListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 
 func (l *FindAccountListLogic) FindAccountList(req *types.AccountQuery) (resp *types.PageResp, err error) {
 	in := &accountrpc.FindUserListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
+		Paginate: &accountrpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
 		Username: req.Username,
 		Nickname: req.Nickname,
 		Email:    req.Email,
@@ -51,9 +54,9 @@ func (l *FindAccountListLogic) FindAccountList(req *types.AccountQuery) (resp *t
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
 }

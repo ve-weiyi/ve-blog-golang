@@ -20,12 +20,10 @@ type (
 	AnalysisUserAreasResp     = accountrpc.AnalysisUserAreasResp
 	AnalysisUserReq           = accountrpc.AnalysisUserReq
 	AnalysisUserResp          = accountrpc.AnalysisUserResp
-	BatchResp                 = accountrpc.BatchResp
-	BindUseEmailReq           = accountrpc.BindUseEmailReq
+	BindUserEmailReq          = accountrpc.BindUserEmailReq
 	BindUserOauthReq          = accountrpc.BindUserOauthReq
 	BindUserPhoneReq          = accountrpc.BindUserPhoneReq
 	EmailLoginReq             = accountrpc.EmailLoginReq
-	EmptyReq                  = accountrpc.EmptyReq
 	EmptyResp                 = accountrpc.EmptyResp
 	FindUserInfoListResp      = accountrpc.FindUserInfoListResp
 	FindUserListReq           = accountrpc.FindUserListReq
@@ -34,15 +32,16 @@ type (
 	GenerateCaptchaCodeResp   = accountrpc.GenerateCaptchaCodeResp
 	GetOauthAuthorizeUrlReq   = accountrpc.GetOauthAuthorizeUrlReq
 	GetOauthAuthorizeUrlResp  = accountrpc.GetOauthAuthorizeUrlResp
+	GetTouristInfoReq         = accountrpc.GetTouristInfoReq
 	GetTouristInfoResp        = accountrpc.GetTouristInfoResp
 	GetUserOauthInfoResp      = accountrpc.GetUserOauthInfoResp
-	IdReq                     = accountrpc.IdReq
-	IdsReq                    = accountrpc.IdsReq
 	LoginReq                  = accountrpc.LoginReq
 	LoginResp                 = accountrpc.LoginResp
 	LogoffReq                 = accountrpc.LogoffReq
 	LogoutReq                 = accountrpc.LogoutReq
 	LogoutResp                = accountrpc.LogoutResp
+	PageReq                   = accountrpc.PageReq
+	PageResp                  = accountrpc.PageResp
 	PhoneLoginReq             = accountrpc.PhoneLoginReq
 	RegisterReq               = accountrpc.RegisterReq
 	ResetPasswordReq          = accountrpc.ResetPasswordReq
@@ -96,7 +95,7 @@ type (
 		// 修改用户密码
 		UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 修改用户登录邮箱
-		BindUserEmail(ctx context.Context, in *BindUseEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		BindUserEmail(ctx context.Context, in *BindUserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 修改用户登录手机号
 		BindUserPhone(ctx context.Context, in *BindUserPhoneReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 修改用户第三方账号
@@ -118,7 +117,7 @@ type (
 		// 查询用户分布区域
 		AnalysisUserAreas(ctx context.Context, in *AnalysisUserAreasReq, opts ...grpc.CallOption) (*AnalysisUserAreasResp, error)
 		// 获取游客身份
-		GetTouristInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error)
+		GetTouristInfo(ctx context.Context, in *GetTouristInfoReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error)
 	}
 
 	defaultAccountRpc struct {
@@ -235,7 +234,7 @@ func (m *defaultAccountRpc) UpdateUserPassword(ctx context.Context, in *UpdateUs
 }
 
 // 修改用户登录邮箱
-func (m *defaultAccountRpc) BindUserEmail(ctx context.Context, in *BindUseEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (m *defaultAccountRpc) BindUserEmail(ctx context.Context, in *BindUserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
 	return client.BindUserEmail(ctx, in, opts...)
 }
@@ -301,7 +300,7 @@ func (m *defaultAccountRpc) AnalysisUserAreas(ctx context.Context, in *AnalysisU
 }
 
 // 获取游客身份
-func (m *defaultAccountRpc) GetTouristInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error) {
+func (m *defaultAccountRpc) GetTouristInfo(ctx context.Context, in *GetTouristInfoReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
 	return client.GetTouristInfo(ctx, in, opts...)
 }

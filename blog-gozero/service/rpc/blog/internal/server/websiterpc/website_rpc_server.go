@@ -24,7 +24,7 @@ func NewWebsiteRpcServer(svcCtx *svc.ServiceContext) *WebsiteRpcServer {
 }
 
 // 用户日浏览量分析
-func (s *WebsiteRpcServer) AnalysisVisit(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.AnalysisVisitResp, error) {
+func (s *WebsiteRpcServer) AnalysisVisit(ctx context.Context, in *websiterpc.AnalysisVisitReq) (*websiterpc.AnalysisVisitResp, error) {
 	l := websiterpclogic.NewAnalysisVisitLogic(ctx, s.svcCtx)
 	return l.AnalysisVisit(in)
 }

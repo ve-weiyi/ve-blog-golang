@@ -17,8 +17,6 @@ type (
 	AddLogoutLogReq          = syslogrpc.AddLogoutLogReq
 	AddLogoutLogResp         = syslogrpc.AddLogoutLogResp
 	BatchResp                = syslogrpc.BatchResp
-	CountResp                = syslogrpc.CountResp
-	EmptyReq                 = syslogrpc.EmptyReq
 	EmptyResp                = syslogrpc.EmptyResp
 	FindLoginLogListReq      = syslogrpc.FindLoginLogListReq
 	FindLoginLogListResp     = syslogrpc.FindLoginLogListResp
@@ -28,15 +26,15 @@ type (
 	FindUploadLogListResp    = syslogrpc.FindUploadLogListResp
 	FindVisitLogListReq      = syslogrpc.FindVisitLogListReq
 	FindVisitLogListResp     = syslogrpc.FindVisitLogListResp
-	IdReq                    = syslogrpc.IdReq
 	IdsReq                   = syslogrpc.IdsReq
 	LoginLogDetails          = syslogrpc.LoginLogDetails
 	LoginLogNewReq           = syslogrpc.LoginLogNewReq
 	OperationLogDetails      = syslogrpc.OperationLogDetails
 	OperationLogNewReq       = syslogrpc.OperationLogNewReq
+	PageReq                  = syslogrpc.PageReq
+	PageResp                 = syslogrpc.PageResp
 	UploadLogDetails         = syslogrpc.UploadLogDetails
 	UploadLogNewReq          = syslogrpc.UploadLogNewReq
-	UserIdReq                = syslogrpc.UserIdReq
 	VisitLogDetails          = syslogrpc.VisitLogDetails
 	VisitLogNewReq           = syslogrpc.VisitLogNewReq
 

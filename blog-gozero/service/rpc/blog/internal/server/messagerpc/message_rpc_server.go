@@ -24,7 +24,7 @@ func NewMessageRpcServer(svcCtx *svc.ServiceContext) *MessageRpcServer {
 }
 
 // 消息数据分析
-func (s *MessageRpcServer) AnalysisMessage(ctx context.Context, in *messagerpc.EmptyReq) (*messagerpc.AnalysisMessageResp, error) {
+func (s *MessageRpcServer) AnalysisMessage(ctx context.Context, in *messagerpc.AnalysisMessageReq) (*messagerpc.AnalysisMessageResp, error) {
 	l := messagerpclogic.NewAnalysisMessageLogic(ctx, s.svcCtx)
 	return l.AnalysisMessage(in)
 }
@@ -138,7 +138,7 @@ func (s *MessageRpcServer) FindCommentReplyList(ctx context.Context, in *message
 }
 
 // 查询评论回复数量
-func (s *MessageRpcServer) FindCommentReplyCounts(ctx context.Context, in *messagerpc.IdsReq) (*messagerpc.FindCommentReplyCountsResp, error) {
+func (s *MessageRpcServer) FindCommentReplyCounts(ctx context.Context, in *messagerpc.FindCommentReplyCountsReq) (*messagerpc.FindCommentReplyCountsResp, error) {
 	l := messagerpclogic.NewFindCommentReplyCountsLogic(ctx, s.svcCtx)
 	return l.FindCommentReplyCounts(in)
 }
