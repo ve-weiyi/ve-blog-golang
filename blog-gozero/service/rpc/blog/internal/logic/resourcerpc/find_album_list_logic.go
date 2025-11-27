@@ -2,9 +2,9 @@ package resourcerpclogic
 
 import (
 	"context"
-	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/resourcerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -51,25 +51,18 @@ func (l *FindAlbumListLogic) FindAlbumList(in *resourcerpc.FindAlbumListReq) (*r
 }
 
 func convertAlbumQuery(in *resourcerpc.FindAlbumListReq) (page int, size int, sorts string, conditions string, params []any) {
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-	if sorts == "" {
-		sorts = "id desc"
+	opts := []query.Option{
+		query.WithPage(int(in.Page)),
+		query.WithSize(int(in.PageSize)),
+		query.WithSorts(in.Sorts...),
+		query.WithCondition("is_delete = ?", in.IsDelete),
 	}
 
 	if in.AlbumName != "" {
-		conditions += " album_name like ?"
-		params = append(params, "%"+in.AlbumName+"%")
+		opts = append(opts, query.WithCondition("album_name like ?", "%"+in.AlbumName+"%"))
 	}
 
-	if conditions != "" {
-		conditions += " and "
-	}
-	conditions += "is_delete = ?"
-	params = append(params, in.IsDelete)
-
-	return
+	return query.NewQueryBuilder(opts...).Build()
 }
 
 func findPhotoCountGroupAlbum(ctx context.Context, svcCtx *svc.ServiceContext, list []*model.TAlbum, isDelete int64) (acm map[int64]int, err error) {
