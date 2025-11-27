@@ -2,9 +2,9 @@ package messagerpclogic
 
 import (
 	"context"
-	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/messagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -47,33 +47,22 @@ func (l *FindCommentListLogic) FindCommentList(in *messagerpc.FindCommentListReq
 }
 
 func convertCommentQuery(in *messagerpc.FindCommentListReq) (page int, size int, sorts string, conditions string, params []any) {
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-	if sorts == "" {
-		sorts = "id desc"
+	opts := []query.Option{
+		query.WithPage(int(in.Page)),
+		query.WithSize(int(in.PageSize)),
+		query.WithSorts(in.Sorts...),
+		query.WithCondition("parent_id = ?", in.ParentId),
 	}
 
 	if in.Type != 0 {
-		conditions += " type = ?"
-		params = append(params, in.Type)
+		opts = append(opts, query.WithCondition("type = ?", in.Type))
 	}
 
 	if in.TopicId != 0 {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += " topic_id = ?"
-		params = append(params, in.TopicId)
+		opts = append(opts, query.WithCondition("topic_id = ?", in.TopicId))
 	}
 
-	if conditions != "" {
-		conditions += " and "
-	}
-	conditions += " parent_id = ?"
-	params = append(params, in.ParentId)
-
-	return
+	return query.NewQueryBuilder(opts...).Build()
 }
 
 func convertCommentOut(in *model.TComment) (out *messagerpc.CommentDetails) {

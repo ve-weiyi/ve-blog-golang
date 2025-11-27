@@ -2,9 +2,9 @@ package syslogrpclogic
 
 import (
 	"context"
-	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -46,38 +46,25 @@ func (l *FindUploadLogListLogic) FindUploadLogList(in *syslogrpc.FindUploadLogLi
 }
 
 func convertUploadLogQuery(in *syslogrpc.FindUploadLogListReq) (page int, size int, sorts string, conditions string, params []any) {
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-	if sorts == "" {
-		sorts = "id desc"
+	opts := []query.Option{
+		query.WithPage(int(in.Page)),
+		query.WithSize(int(in.PageSize)),
+		query.WithSorts(in.Sorts...),
 	}
 
 	if in.FilePath != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += " file_path like ?"
-		params = append(params, in.FilePath+"%")
+		opts = append(opts, query.WithCondition("file_path like ?", in.FilePath+"%"))
 	}
 
 	if in.FileName != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += " file_name like ?"
-		params = append(params, in.FileName+"%")
+		opts = append(opts, query.WithCondition("file_name like ?", in.FileName+"%"))
 	}
 
 	if in.FileType != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += " file_type = ?"
-		params = append(params, in.FileType)
+		opts = append(opts, query.WithCondition("file_type = ?", in.FileType))
 	}
 
-	return
+	return query.NewQueryBuilder(opts...).Build()
 }
 
 func convertUploadLogOut(in *model.TUploadLog) (out *syslogrpc.UploadLogDetails) {

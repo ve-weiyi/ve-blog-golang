@@ -2,9 +2,9 @@ package syslogrpclogic
 
 import (
 	"context"
-	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -46,21 +46,17 @@ func (l *FindOperationLogListLogic) FindOperationLogList(in *syslogrpc.FindOpera
 }
 
 func convertOperationLogQuery(in *syslogrpc.FindOperationLogListReq) (page int, size int, sorts string, conditions string, params []any) {
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-	if sorts == "" {
-		sorts = "id desc"
+	opts := []query.Option{
+		query.WithPage(int(in.Page)),
+		query.WithSize(int(in.PageSize)),
+		query.WithSorts(in.Sorts...),
 	}
 
 	if in.Keywords != "" {
-		if conditions != "" {
-			conditions += " and "
-		}
-		conditions += " opt_desc = ?"
-		params = append(params, "%"+in.Keywords+"%")
+		opts = append(opts, query.WithCondition("opt_desc = ?", "%"+in.Keywords+"%"))
 	}
-	return
+
+	return query.NewQueryBuilder(opts...).Build()
 }
 
 func convertOperationLogOut(in *model.TOperationLog) (out *syslogrpc.OperationLogDetails) {

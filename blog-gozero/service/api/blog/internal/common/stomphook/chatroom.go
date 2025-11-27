@@ -111,7 +111,7 @@ func (h *ChatRoomEventHook) OnSubscribe(server *client.StompHubServer, c *client
 	out, err := h.MessageRpc.FindChatList(context.Background(), &messagerpc.FindChatListReq{
 		After:   time.Now().Add(-365 * 24 * time.Hour).Unix(),
 		Before:  time.Now().Unix(),
-		Limit:   10,
+		Limit:   0,
 		UserId:  "",
 		Type:    "",
 		Content: "",
