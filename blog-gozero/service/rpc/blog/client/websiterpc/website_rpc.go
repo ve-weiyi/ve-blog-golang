@@ -16,25 +16,23 @@ import (
 type (
 	AddVisitReq          = websiterpc.AddVisitReq
 	AddVisitResp         = websiterpc.AddVisitResp
+	AnalysisVisitReq     = websiterpc.AnalysisVisitReq
 	AnalysisVisitResp    = websiterpc.AnalysisVisitResp
 	BatchResp            = websiterpc.BatchResp
-	CountResp            = websiterpc.CountResp
-	EmptyReq             = websiterpc.EmptyReq
-	EmptyResp            = websiterpc.EmptyResp
 	FindFriendListReq    = websiterpc.FindFriendListReq
 	FindFriendListResp   = websiterpc.FindFriendListResp
 	FindVisitTrendReq    = websiterpc.FindVisitTrendReq
 	FindVisitTrendResp   = websiterpc.FindVisitTrendResp
 	FriendDetails        = websiterpc.FriendDetails
 	FriendNewReq         = websiterpc.FriendNewReq
-	IdReq                = websiterpc.IdReq
 	IdsReq               = websiterpc.IdsReq
-	UserIdReq            = websiterpc.UserIdReq
+	PageReq              = websiterpc.PageReq
+	PageResp             = websiterpc.PageResp
 	VisitDailyStatistics = websiterpc.VisitDailyStatistics
 
 	WebsiteRpc interface {
 		// 用户日浏览量分析
-		AnalysisVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error)
+		AnalysisVisit(ctx context.Context, in *AnalysisVisitReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error)
 		// 添加用户访问记录
 		AddVisit(ctx context.Context, in *AddVisitReq, opts ...grpc.CallOption) (*AddVisitResp, error)
 		// 查询用户访问趋势
@@ -61,7 +59,7 @@ func NewWebsiteRpc(cli zrpc.Client) WebsiteRpc {
 }
 
 // 用户日浏览量分析
-func (m *defaultWebsiteRpc) AnalysisVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error) {
+func (m *defaultWebsiteRpc) AnalysisVisit(ctx context.Context, in *AnalysisVisitReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error) {
 	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
 	return client.AnalysisVisit(ctx, in, opts...)
 }

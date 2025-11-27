@@ -99,7 +99,7 @@ func (m *CasbinHolder) LoadPolicy() error {
 	}
 
 	// 收集资源
-	apiList, err := m.pr.FindAllApi(context.Background(), &permissionrpc.EmptyReq{})
+	apiList, err := m.pr.FindAllApi(context.Background(), &permissionrpc.FindAllApiReq{})
 	if err != nil {
 		return err
 	}

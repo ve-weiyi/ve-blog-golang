@@ -126,7 +126,7 @@ func (s *AccountRpcServer) UpdateUserPassword(ctx context.Context, in *accountrp
 }
 
 // 修改用户登录邮箱
-func (s *AccountRpcServer) BindUserEmail(ctx context.Context, in *accountrpc.BindUseEmailReq) (*accountrpc.EmptyResp, error) {
+func (s *AccountRpcServer) BindUserEmail(ctx context.Context, in *accountrpc.BindUserEmailReq) (*accountrpc.EmptyResp, error) {
 	l := accountrpclogic.NewBindUserEmailLogic(ctx, s.svcCtx)
 	return l.BindUserEmail(in)
 }
@@ -192,7 +192,7 @@ func (s *AccountRpcServer) AnalysisUserAreas(ctx context.Context, in *accountrpc
 }
 
 // 获取游客身份
-func (s *AccountRpcServer) GetTouristInfo(ctx context.Context, in *accountrpc.EmptyReq) (*accountrpc.GetTouristInfoResp, error) {
+func (s *AccountRpcServer) GetTouristInfo(ctx context.Context, in *accountrpc.GetTouristInfoReq) (*accountrpc.GetTouristInfoResp, error) {
 	l := accountrpclogic.NewGetTouristInfoLogic(ctx, s.svcCtx)
 	return l.GetTouristInfo(in)
 }

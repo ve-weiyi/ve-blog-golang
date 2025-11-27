@@ -31,11 +31,8 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 		return nil, err
 	}
 
-	offset := (in.Page - 1) * in.PageSize
-	limit := in.PageSize
-
 	// 查找在线用户
-	uids, err := l.svcCtx.OnlineUserService.GetOnlineUsers(l.ctx, offset, limit)
+	uids, err := l.svcCtx.OnlineUserService.GetOnlineUsers(l.ctx, in.Paginate.Page, in.Paginate.PageSize)
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +79,11 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 	}
 
 	resp := &accountrpc.FindUserInfoListResp{}
-	resp.Total = total
+	resp.Pagination = &accountrpc.PageResp{
+		Page:     in.Paginate.Page,
+		PageSize: in.Paginate.PageSize,
+		Total:    total,
+	}
 	resp.List = list
 
 	return resp, nil

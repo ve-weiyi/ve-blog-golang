@@ -24,7 +24,7 @@ func NewArticleRpcServer(svcCtx *svc.ServiceContext) *ArticleRpcServer {
 }
 
 // 分析文章数量
-func (s *ArticleRpcServer) AnalysisArticle(ctx context.Context, in *articlerpc.EmptyReq) (*articlerpc.AnalysisArticleResp, error) {
+func (s *ArticleRpcServer) AnalysisArticle(ctx context.Context, in *articlerpc.AnalysisArticleReq) (*articlerpc.AnalysisArticleResp, error) {
 	l := articlerpclogic.NewAnalysisArticleLogic(ctx, s.svcCtx)
 	return l.AnalysisArticle(in)
 }

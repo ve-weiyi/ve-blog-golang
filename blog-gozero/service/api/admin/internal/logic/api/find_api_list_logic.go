@@ -27,11 +27,9 @@ func NewFindApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 
 func (l *FindApiListLogic) FindApiList(req *types.ApiQuery) (resp *types.PageResp, err error) {
 	in := &permissionrpc.FindApiListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
-		Name:     req.Name,
-		Path:     req.Path,
-		Method:   req.Method,
+		Name:   req.Name,
+		Path:   req.Path,
+		Method: req.Method,
 	}
 
 	out, err := l.svcCtx.PermissionRpc.FindApiList(l.ctx, in)
@@ -46,8 +44,8 @@ func (l *FindApiListLogic) FindApiList(req *types.ApiQuery) (resp *types.PageRes
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
+	resp.Page = 0
+	resp.PageSize = int64(len(list))
 	resp.Total = int64(len(list))
 	resp.List = list
 	return resp, nil

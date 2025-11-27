@@ -14,12 +14,8 @@ import (
 )
 
 type (
-	EmptyReq       = configrpc.EmptyReq
-	EmptyResp      = configrpc.EmptyResp
 	FindConfigReq  = configrpc.FindConfigReq
 	FindConfigResp = configrpc.FindConfigResp
-	IdReq          = configrpc.IdReq
-	IdsReq         = configrpc.IdsReq
 	SaveConfigReq  = configrpc.SaveConfigReq
 	SaveConfigResp = configrpc.SaveConfigResp
 

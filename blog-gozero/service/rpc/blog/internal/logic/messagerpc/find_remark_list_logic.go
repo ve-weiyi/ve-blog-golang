@@ -2,9 +2,9 @@ package messagerpclogic
 
 import (
 	"context"
-	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/messagerpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
@@ -28,18 +28,12 @@ func NewFindRemarkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 查询留言列表
 func (l *FindRemarkListLogic) FindRemarkList(in *messagerpc.FindRemarkListReq) (*messagerpc.FindRemarkListResp, error) {
-	var (
-		page       int
-		size       int
-		sorts      string
-		conditions string
-		params     []interface{}
-	)
-
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-
+	opts := []query.Option{
+		query.WithPage(int(in.Paginate.Page)),
+		query.WithSize(int(in.Paginate.PageSize)),
+		query.WithSorts(in.Paginate.Sorts...),
+	}
+	page, size, sorts, conditions, params := query.NewQueryBuilder(opts...).Build()
 	records, total, err := l.svcCtx.TRemarkModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
@@ -51,8 +45,12 @@ func (l *FindRemarkListLogic) FindRemarkList(in *messagerpc.FindRemarkListReq) (
 	}
 
 	return &messagerpc.FindRemarkListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &messagerpc.PageResp{
+			Page:     in.Paginate.Page,
+			PageSize: in.Paginate.PageSize,
+			Total:    total,
+		},
 	}, nil
 }
 

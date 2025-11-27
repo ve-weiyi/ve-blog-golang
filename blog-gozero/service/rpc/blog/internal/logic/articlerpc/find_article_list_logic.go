@@ -41,7 +41,11 @@ func (l *FindArticleListLogic) FindArticleList(in *articlerpc.FindArticleListReq
 	}
 
 	return &articlerpc.FindArticleListResp{
-		List:  list,
-		Total: total,
+		List: list,
+		Pagination: &articlerpc.PageResp{
+			Page:     in.Paginate.Page,
+			PageSize: in.Paginate.PageSize,
+			Total:    total,
+		},
 	}, nil
 }

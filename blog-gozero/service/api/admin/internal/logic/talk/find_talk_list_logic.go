@@ -28,10 +28,12 @@ func NewFindTalkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 func (l *FindTalkListLogic) FindTalkList(req *types.TalkQuery) (resp *types.PageResp, err error) {
 	in := &talkrpc.FindTalkListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
-		Sorts:    req.Sorts,
-		Status:   req.Status,
+		Paginate: &talkrpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
+		Status: req.Status,
 	}
 
 	out, err := l.svcCtx.TalkRpc.FindTalkList(l.ctx, in)
@@ -57,9 +59,9 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQuery) (resp *types.Page
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
 }

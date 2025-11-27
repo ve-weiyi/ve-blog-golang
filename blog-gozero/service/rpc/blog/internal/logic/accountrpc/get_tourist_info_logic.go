@@ -31,7 +31,7 @@ func NewGetTouristInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 // 获取游客身份
-func (l *GetTouristInfoLogic) GetTouristInfo(in *accountrpc.EmptyReq) (*accountrpc.GetTouristInfoResp, error) {
+func (l *GetTouristInfoLogic) GetTouristInfo(in *accountrpc.GetTouristInfoReq) (*accountrpc.GetTouristInfoResp, error) {
 	ip, err := rpcutils.GetRemoteIPFromCtx(l.ctx)
 	if err != nil {
 		return nil, err

@@ -7,9 +7,9 @@ package articlerpc;
 // 生成 golang 代码后的包名
 option go_package = "./articlerpc";
 
-message EmptyReq {
-}
 
+
+//==================== 通用消息 ====================
 message EmptyResp {
 }
 
@@ -31,6 +31,20 @@ message CountResp {
 
 message UserIdReq {
   string user_id = 1;
+}
+
+// 分页请求
+message PageReq {
+  int64 page = 1;      // 页码
+  int64 page_size = 2; // 每页大小
+  repeated string sorts = 3; // 排序字段
+}
+
+// 分页响应
+message PageResp {
+  int64 page = 1;      // 页码
+  int64 page_size = 2; // 每页大小
+  int64 total = 3;     // 总数
 }
 
 /************** article 相关 **************/
@@ -105,27 +119,25 @@ message UpdateArticleTopReq{
 }
 
 message FindArticleListReq{
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string article_title = 4;// 标题
-  int64 article_type = 5;// 文章类型 1原创 2转载 3翻译
-  string category_name = 6;// 分类名
-  string tag_name = 7;// 标签名
-  int64 is_top = 9;// 是否置顶 1是
-  int64 is_delete = 10;// 是否删除 1是
-  int64 status = 11;// 状态值 1公开 2私密 3草稿 4已删除
-  repeated int64 ids = 12; //文章id列表
+  PageReq paginate = 1;    // 分页参数
+  string article_title = 2;// 标题
+  int64 article_type = 3;// 文章类型 1原创 2转载 3翻译
+  string category_name = 4;// 分类名
+  string tag_name = 5;// 标签名
+  int64 is_top = 6;// 是否置顶 1是
+  int64 is_delete = 7;// 是否删除 1是
+  int64 status = 8;// 状态值 1公开 2私密 3草稿 4已删除
+  repeated int64 ids = 9; //文章id列表
 }
 
 message FindArticleListResp {
-  repeated ArticleDetails list = 1;
-  int64 total = 2;
+  PageResp pagination = 1; // 分页信息
+  repeated ArticleDetails list = 2;
 }
 
 message FindArticlePreviewListResp{
-  repeated ArticlePreview list = 1;
-  int64 total = 2;
+  PageResp pagination = 1; // 分页信息
+  repeated ArticlePreview list = 2;
 }
 
 message FindLikeArticleResp{
@@ -146,14 +158,12 @@ message CategoryDetails {
 }
 
 message FindCategoryListReq{
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string category_name = 4;
+  PageReq paginate = 1;    // 分页参数
+  string category_name = 2;
 }
 
 message FindCategoryListResp {
-  int64 total = 1;
+  PageResp pagination = 1; // 分页信息
   repeated CategoryDetails list = 2;
 }
 
@@ -171,20 +181,21 @@ message TagDetails {
 }
 
 message FindTagListReq{
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string tag_name = 4;// 标签名
+  PageReq paginate = 1;    // 分页参数
+  string tag_name = 2;// 标签名
 }
 
 message FindTagListResp {
-  int64 total = 1;
+  PageResp pagination = 1; // 分页信息
   repeated TagDetails list = 2;
 }
 
 message ArticleDailyStatistics{
-  string date = 1;
-  int64 count = 2;
+  string date = 1; // 日期
+  int64 count = 2; // 数量
+}
+
+message AnalysisArticleReq{
 }
 
 message AnalysisArticleResp{
@@ -209,7 +220,7 @@ message GetArticleRelationResp {
 // article服务
 service ArticleRpc {
   // 分析文章数量
-  rpc AnalysisArticle(EmptyReq) returns(AnalysisArticleResp);
+  rpc AnalysisArticle(AnalysisArticleReq) returns(AnalysisArticleResp);
   // 访问文章
   rpc VisitArticle(IdReq) returns(CountResp);
 
