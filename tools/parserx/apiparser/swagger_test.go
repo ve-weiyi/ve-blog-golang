@@ -36,7 +36,7 @@ func Test_Load(t *testing.T) {
 func Test_ParseAst(t *testing.T) {
 	p := swag.New()
 
-	p.ParseAPIMultiSearchDir([]string{"/Users/weiyi/Github/ve-blog-golang/server/api/blog/controller"}, "/Users/weiyi/Github/ve-blog-golang/server/main.go", 2)
+	p.ParseAPIMultiSearchDir([]string{"/Users/weiyi/Github/ve-blog-golang/server/api/blog/handler"}, "/Users/weiyi/Github/ve-blog-golang/server/main.go", 2)
 
 	swagger := p.GetSwagger()
 	fmt.Printf("Spec loaded: %v\n", jsonconv.AnyToJsonIndent(swagger))

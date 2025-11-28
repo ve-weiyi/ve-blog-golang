@@ -90,10 +90,11 @@ ve-blog 是一个现代化的全栈博客系统，采用 Go 语言开发后端�
 
 ```
 ve-blog-golang/
-├── blog-gin/         # Gin 框架实现（示例）
-├── blog-gozero/      # Go-zero 微服务实现
-├── kit/              # 通用工具包
-├── tools/            # 代码生成工具
+├── blog-gin/         # Gin 框架实现（示例，仅有框架目录无logic实现）
+├── blog-gozero/      # Go-zero 微服务实现（完整实现）
+├── kit/              # 通用工具包。封装一些常用工具类
+├── stompws/          # 聊天室封装。使用Websocket协议通讯，消息内容使用stomp格式
+├── tools/            # 代码生成工具。快速生成gin框架代码
 └── deploy/           # 部署配置
 ```
 
