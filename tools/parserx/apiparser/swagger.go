@@ -2,6 +2,9 @@ package apiparser
 
 import (
 	"encoding/json"
+	"fmt"
+	"sort"
+	"strings"
 
 	"github.com/go-openapi/loads"
 	"github.com/go-openapi/spec"
@@ -12,7 +15,6 @@ import (
 type SwaggerOption func(*SwaggerParser)
 
 type SwaggerParser struct {
-	Base string
 }
 
 func NewSwaggerParser(opts ...SwaggerOption) ApiParser {
@@ -31,7 +33,7 @@ func (s *SwaggerParser) ParseApi(filename string) (out *aspec.ApiSpec, err error
 
 	out = &aspec.ApiSpec{
 		Service: aspec.Service{
-			Name:   swagger.Info.Title,
+			Name:   swagger.Host,
 			Groups: gps,
 		},
 		Types: tps,
@@ -94,7 +96,7 @@ func getGroupsFromSwag(sp *spec.Swagger) []aspec.Group {
 					})
 				case "body":
 					if parameter.Schema != nil {
-						req.RawName = parameter.Schema.Ref.String()
+						req.RawName = strings.TrimPrefix(parameter.Schema.Ref.String(), "#/definitions/")
 					}
 				default:
 				}
@@ -103,7 +105,8 @@ func getGroupsFromSwag(sp *spec.Swagger) []aspec.Group {
 			if r.Responses != nil {
 				for _, response := range r.Responses.StatusCodeResponses {
 					if response.Schema != nil {
-						resp.RawName = response.Schema.Ref.String()
+						data := response.Schema.Properties["data"]
+						resp.RawName = strings.TrimPrefix(data.Ref.String(), "#/definitions/")
 					}
 				}
 			}
@@ -154,14 +157,14 @@ func getTypesFromSwag(sp *spec.Swagger) []aspec.Type {
 				ms = append(ms, aspec.Member{
 					Name:     n,
 					Type:     convertSchema(m),
-					Tag:      "",
-					Comment:  "",
+					Tag:      fmt.Sprintf("`json:%v`", n),
+					Comment:  fmt.Sprintf("// %v", m.Description),
 					Docs:     make(aspec.Doc, 0),
 					IsInline: false,
 				})
 			}
 
-			model := &aspec.DefineStruct{
+			model := aspec.DefineStruct{
 				RawName: k,
 				Members: ms,
 				Docs:    nil,
@@ -172,23 +175,59 @@ func getTypesFromSwag(sp *spec.Swagger) []aspec.Type {
 
 	}
 
+	sort.Slice(types, func(i, j int) bool {
+		return types[i].Name() < types[j].Name()
+	})
+
 	return types
 }
 
 func convertSchema(in spec.Schema) aspec.Type {
-	var tp aspec.Type
-	if len(in.Type) == 1 {
-		it := in.Type[0]
-		switch it {
-		case "object":
-
-		default: // string、int
-			tp = aspec.PrimitiveType{
-				RawName: it,
-			}
+	if ref := in.Ref.String(); ref != "" {
+		if len(ref) > 14 && ref[:14] == "#/definitions/" {
+			ref = ref[14:]
 		}
-
+		return aspec.DefineStruct{RawName: ref}
 	}
 
-	return tp
+	if len(in.Type) != 1 {
+		return aspec.InterfaceType{RawName: "interface{}"}
+	}
+
+	switch in.Type[0] {
+	case "array":
+		if in.Items != nil && in.Items.Schema != nil {
+			elemType := convertSchema(*in.Items.Schema)
+			return aspec.ArrayType{
+				RawName: "[]" + elemType.Name(),
+				Value:   elemType,
+			}
+		}
+		return aspec.ArrayType{RawName: "[]interface{}"}
+
+	case "object":
+		if len(in.Properties) > 0 {
+			var ms []aspec.Member
+			for n, m := range in.Properties {
+				ms = append(ms, aspec.Member{
+					Name: n,
+					Type: convertSchema(m),
+				})
+			}
+			return aspec.DefineStruct{Members: ms}
+		}
+		return aspec.InterfaceType{RawName: "interface{}"}
+
+	default:
+		return aspec.PrimitiveType{RawName: convertSwagTypeToGoType(in.Type[0])}
+	}
+}
+
+func convertSwagTypeToGoType(t string) string {
+	switch t {
+	case "integer":
+		return "int64"
+	default:
+		return t
+	}
 }

@@ -9,15 +9,15 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "https://swagger.io/terms/",
+        "termsOfService": "https://github.com/ve-weiyi/ve-blog-golang/blog-gin",
         "contact": {
             "name": "API Support",
-            "url": "https://www.swagger.io/support/",
+            "url": "https://github.com/ve-weiy",
             "email": "support@swagger.io"
         },
         "license": {
-            "name": "Apache 2.0",
-            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
         },
         "version": "{{.Version}}"
     },
@@ -43,7 +43,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.AccountQuery"
+                            "$ref": "#/definitions/types.AccountQuery"
                         }
                     }
                 ],
@@ -59,7 +59,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -88,7 +88,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.AccountQuery"
+                            "$ref": "#/definitions/types.AccountQuery"
                         }
                     }
                 ],
@@ -104,7 +104,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -133,7 +133,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.GetUserAreaStatsReq"
+                            "$ref": "#/definitions/types.GetUserAreaStatsReq"
                         }
                     }
                 ],
@@ -149,7 +149,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.GetUserAreaStatsResp"
+                                            "$ref": "#/definitions/types.GetUserAreaStatsResp"
                                         }
                                     }
                                 }
@@ -178,7 +178,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UpdateAccountPasswordReq"
+                            "$ref": "#/definitions/types.UpdateAccountPasswordReq"
                         }
                     }
                 ],
@@ -194,7 +194,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -223,7 +223,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UpdateAccountRolesReq"
+                            "$ref": "#/definitions/types.UpdateAccountRolesReq"
                         }
                     }
                 ],
@@ -239,7 +239,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -268,7 +268,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UpdateAccountStatusReq"
+                            "$ref": "#/definitions/types.UpdateAccountStatusReq"
                         }
                     }
                 ],
@@ -284,7 +284,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -313,7 +313,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
                         }
                     }
                 ],
@@ -329,7 +329,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.AdminHomeInfo"
+                                            "$ref": "#/definitions/types.AdminHomeInfo"
                                         }
                                     }
                                 }
@@ -358,7 +358,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
                         }
                     }
                 ],
@@ -374,7 +374,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.AboutMeVO"
+                                            "$ref": "#/definitions/types.AboutMeVO"
                                         }
                                     }
                                 }
@@ -403,7 +403,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
                         }
                     }
                 ],
@@ -419,7 +419,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.GetVisitStatsResp"
+                                            "$ref": "#/definitions/types.GetVisitStatsResp"
                                         }
                                     }
                                 }
@@ -448,7 +448,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.GetVisitTrendReq"
+                            "$ref": "#/definitions/types.GetVisitTrendReq"
                         }
                     }
                 ],
@@ -464,7 +464,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.GetVisitTrendResp"
+                                            "$ref": "#/definitions/types.GetVisitTrendResp"
                                         }
                                     }
                                 }
@@ -493,7 +493,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
                         }
                     }
                 ],
@@ -509,7 +509,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.WebsiteConfigVO"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.WebsiteConfigVO"
                                         }
                                     }
                                 }
@@ -538,7 +538,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
                         }
                     }
                 ],
@@ -554,7 +554,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.Server"
+                                            "$ref": "#/definitions/types.Server"
                                         }
                                     }
                                 }
@@ -583,7 +583,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.AboutMeVO"
+                            "$ref": "#/definitions/types.AboutMeVO"
                         }
                     }
                 ],
@@ -599,7 +599,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -628,7 +628,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.WebsiteConfigVO"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.WebsiteConfigVO"
                         }
                     }
                 ],
@@ -644,7 +644,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -673,7 +673,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.AlbumNewReq"
+                            "$ref": "#/definitions/types.AlbumNewReq"
                         }
                     }
                 ],
@@ -689,7 +689,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.AlbumBackVO"
+                                            "$ref": "#/definitions/types.AlbumBackVO"
                                         }
                                     }
                                 }
@@ -718,7 +718,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq"
                         }
                     }
                 ],
@@ -734,7 +734,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -763,7 +763,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.AlbumQuery"
+                            "$ref": "#/definitions/types.AlbumQuery"
                         }
                     }
                 ],
@@ -779,7 +779,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -808,7 +808,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdReq"
                         }
                     }
                 ],
@@ -824,7 +824,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.AlbumBackVO"
+                                            "$ref": "#/definitions/types.AlbumBackVO"
                                         }
                                     }
                                 }
@@ -853,7 +853,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.PreDeleteAlbumReq"
+                            "$ref": "#/definitions/types.PreDeleteAlbumReq"
                         }
                     }
                 ],
@@ -869,7 +869,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -898,7 +898,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.AlbumNewReq"
+                            "$ref": "#/definitions/types.AlbumNewReq"
                         }
                     }
                 ],
@@ -914,7 +914,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.AlbumBackVO"
+                                            "$ref": "#/definitions/types.AlbumBackVO"
                                         }
                                     }
                                 }
@@ -943,7 +943,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ApiNewReq"
+                            "$ref": "#/definitions/types.ApiNewReq"
                         }
                     }
                 ],
@@ -959,7 +959,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ApiBackVO"
+                                            "$ref": "#/definitions/types.ApiBackVO"
                                         }
                                     }
                                 }
@@ -988,7 +988,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
                         }
                     }
                 ],
@@ -1004,7 +1004,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -1033,7 +1033,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq"
                         }
                     }
                 ],
@@ -1049,7 +1049,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -1078,7 +1078,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ApiQuery"
+                            "$ref": "#/definitions/types.ApiQuery"
                         }
                     }
                 ],
@@ -1094,7 +1094,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -1123,7 +1123,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.SyncApiReq"
+                            "$ref": "#/definitions/types.SyncApiReq"
                         }
                     }
                 ],
@@ -1139,7 +1139,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -1168,7 +1168,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ApiNewReq"
+                            "$ref": "#/definitions/types.ApiNewReq"
                         }
                     }
                 ],
@@ -1184,7 +1184,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ApiBackVO"
+                                            "$ref": "#/definitions/types.ApiBackVO"
                                         }
                                     }
                                 }
@@ -1213,7 +1213,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ArticleNewReq"
+                            "$ref": "#/definitions/types.ArticleNewReq"
                         }
                     }
                 ],
@@ -1229,7 +1229,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ArticleBackVO"
+                                            "$ref": "#/definitions/types.ArticleBackVO"
                                         }
                                     }
                                 }
@@ -1258,7 +1258,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdReq"
                         }
                     }
                 ],
@@ -1274,7 +1274,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -1303,7 +1303,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq"
                         }
                     }
                 ],
@@ -1319,7 +1319,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -1348,7 +1348,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ArticleQuery"
+                            "$ref": "#/definitions/types.ArticleQuery"
                         }
                     }
                 ],
@@ -1364,7 +1364,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -1393,7 +1393,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdReq"
                         }
                     }
                 ],
@@ -1409,7 +1409,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ArticleBackVO"
+                                            "$ref": "#/definitions/types.ArticleBackVO"
                                         }
                                     }
                                 }
@@ -1438,7 +1438,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ArticleRecycleReq"
+                            "$ref": "#/definitions/types.ArticleRecycleReq"
                         }
                     }
                 ],
@@ -1454,7 +1454,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -1483,7 +1483,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ArticleTopReq"
+                            "$ref": "#/definitions/types.ArticleTopReq"
                         }
                     }
                 ],
@@ -1499,7 +1499,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -1528,7 +1528,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ArticleNewReq"
+                            "$ref": "#/definitions/types.ArticleNewReq"
                         }
                     }
                 ],
@@ -1544,7 +1544,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ArticleBackVO"
+                                            "$ref": "#/definitions/types.ArticleBackVO"
                                         }
                                     }
                                 }
@@ -1573,7 +1573,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CategoryNewReq"
+                            "$ref": "#/definitions/types.CategoryNewReq"
                         }
                     }
                 ],
@@ -1589,7 +1589,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.CategoryBackVO"
+                                            "$ref": "#/definitions/types.CategoryBackVO"
                                         }
                                     }
                                 }
@@ -1618,7 +1618,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq"
                         }
                     }
                 ],
@@ -1634,7 +1634,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -1663,7 +1663,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CategoryQuery"
+                            "$ref": "#/definitions/types.CategoryQuery"
                         }
                     }
                 ],
@@ -1679,7 +1679,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -1708,7 +1708,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CategoryNewReq"
+                            "$ref": "#/definitions/types.CategoryNewReq"
                         }
                     }
                 ],
@@ -1724,7 +1724,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.CategoryBackVO"
+                                            "$ref": "#/definitions/types.CategoryBackVO"
                                         }
                                     }
                                 }
@@ -1753,7 +1753,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq"
                         }
                     }
                 ],
@@ -1769,7 +1769,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -1798,7 +1798,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CommentQuery"
+                            "$ref": "#/definitions/types.CommentQuery"
                         }
                     }
                 ],
@@ -1814,7 +1814,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -1843,7 +1843,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CommentReviewReq"
+                            "$ref": "#/definitions/types.CommentReviewReq"
                         }
                     }
                 ],
@@ -1859,7 +1859,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -1888,7 +1888,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmailLoginReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmailLoginReq"
                         }
                     }
                 ],
@@ -1904,7 +1904,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.LoginResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.LoginResp"
                                         }
                                     }
                                 }
@@ -1933,7 +1933,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.FriendNewReq"
+                            "$ref": "#/definitions/types.FriendNewReq"
                         }
                     }
                 ],
@@ -1949,7 +1949,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.FriendBackVO"
+                                            "$ref": "#/definitions/types.FriendBackVO"
                                         }
                                     }
                                 }
@@ -1978,7 +1978,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq"
                         }
                     }
                 ],
@@ -1994,7 +1994,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -2023,7 +2023,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.FriendQuery"
+                            "$ref": "#/definitions/types.FriendQuery"
                         }
                     }
                 ],
@@ -2039,7 +2039,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -2068,7 +2068,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.FriendNewReq"
+                            "$ref": "#/definitions/types.FriendNewReq"
                         }
                     }
                 ],
@@ -2084,7 +2084,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.FriendBackVO"
+                                            "$ref": "#/definitions/types.FriendBackVO"
                                         }
                                     }
                                 }
@@ -2113,7 +2113,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetCaptchaCodeReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.GetCaptchaCodeReq"
                         }
                     }
                 ],
@@ -2129,7 +2129,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetCaptchaCodeResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.GetCaptchaCodeResp"
                                         }
                                     }
                                 }
@@ -2158,7 +2158,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetOauthAuthorizeUrlReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.GetOauthAuthorizeUrlReq"
                         }
                     }
                 ],
@@ -2174,7 +2174,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetOauthAuthorizeUrlResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.GetOauthAuthorizeUrlResp"
                                         }
                                     }
                                 }
@@ -2203,7 +2203,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
                         }
                     }
                 ],
@@ -2219,7 +2219,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetTouristInfoResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.GetTouristInfoResp"
                                         }
                                     }
                                 }
@@ -2248,7 +2248,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.LoginReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.LoginReq"
                         }
                     }
                 ],
@@ -2264,7 +2264,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.LoginResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.LoginResp"
                                         }
                                     }
                                 }
@@ -2293,7 +2293,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq"
                         }
                     }
                 ],
@@ -2309,7 +2309,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -2338,7 +2338,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
                         }
                     }
                 ],
@@ -2354,7 +2354,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -2383,7 +2383,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
                         }
                     }
                 ],
@@ -2399,7 +2399,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -2428,7 +2428,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.MenuNewReq"
+                            "$ref": "#/definitions/types.MenuNewReq"
                         }
                     }
                 ],
@@ -2444,7 +2444,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.MenuBackVO"
+                                            "$ref": "#/definitions/types.MenuBackVO"
                                         }
                                     }
                                 }
@@ -2473,7 +2473,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
                         }
                     }
                 ],
@@ -2489,7 +2489,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -2518,7 +2518,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq"
                         }
                     }
                 ],
@@ -2534,7 +2534,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -2563,7 +2563,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.MenuQuery"
+                            "$ref": "#/definitions/types.MenuQuery"
                         }
                     }
                 ],
@@ -2579,7 +2579,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -2608,7 +2608,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.SyncMenuReq"
+                            "$ref": "#/definitions/types.SyncMenuReq"
                         }
                     }
                 ],
@@ -2624,7 +2624,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -2653,7 +2653,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.MenuNewReq"
+                            "$ref": "#/definitions/types.MenuNewReq"
                         }
                     }
                 ],
@@ -2669,7 +2669,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.MenuBackVO"
+                                            "$ref": "#/definitions/types.MenuBackVO"
                                         }
                                     }
                                 }
@@ -2698,7 +2698,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq"
                         }
                     }
                 ],
@@ -2714,7 +2714,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -2743,7 +2743,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.OperationLogQuery"
+                            "$ref": "#/definitions/types.OperationLogQuery"
                         }
                     }
                 ],
@@ -2759,7 +2759,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -2788,7 +2788,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.PageNewReq"
+                            "$ref": "#/definitions/types.PageNewReq"
                         }
                     }
                 ],
@@ -2804,7 +2804,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.PageBackVO"
+                                            "$ref": "#/definitions/types.PageBackVO"
                                         }
                                     }
                                 }
@@ -2833,7 +2833,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdReq"
                         }
                     }
                 ],
@@ -2849,7 +2849,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -2878,7 +2878,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageQueryReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageQueryReq"
                         }
                     }
                 ],
@@ -2894,7 +2894,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -2923,7 +2923,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.PageNewReq"
+                            "$ref": "#/definitions/types.PageNewReq"
                         }
                     }
                 ],
@@ -2939,7 +2939,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.PageBackVO"
+                                            "$ref": "#/definitions/types.PageBackVO"
                                         }
                                     }
                                 }
@@ -2968,7 +2968,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PhoneLoginReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PhoneLoginReq"
                         }
                     }
                 ],
@@ -2984,7 +2984,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.LoginResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.LoginResp"
                                         }
                                     }
                                 }
@@ -3013,7 +3013,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.PhotoNewReq"
+                            "$ref": "#/definitions/types.PhotoNewReq"
                         }
                     }
                 ],
@@ -3029,7 +3029,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.PhotoBackVO"
+                                            "$ref": "#/definitions/types.PhotoBackVO"
                                         }
                                     }
                                 }
@@ -3058,7 +3058,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq"
                         }
                     }
                 ],
@@ -3074,7 +3074,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -3103,7 +3103,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.PhotoQuery"
+                            "$ref": "#/definitions/types.PhotoQuery"
                         }
                     }
                 ],
@@ -3119,7 +3119,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -3148,7 +3148,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.PreDeletePhotoReq"
+                            "$ref": "#/definitions/types.PreDeletePhotoReq"
                         }
                     }
                 ],
@@ -3164,7 +3164,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -3193,7 +3193,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.PhotoNewReq"
+                            "$ref": "#/definitions/types.PhotoNewReq"
                         }
                     }
                 ],
@@ -3209,7 +3209,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.PhotoBackVO"
+                                            "$ref": "#/definitions/types.PhotoBackVO"
                                         }
                                     }
                                 }
@@ -3228,7 +3228,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Common"
+                    "AdminApi"
                 ],
                 "summary": "\"ping\"",
                 "parameters": [
@@ -3238,7 +3238,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PingReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PingReq"
                         }
                     }
                 ],
@@ -3254,7 +3254,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PingResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PingResp"
                                         }
                                     }
                                 }
@@ -3283,7 +3283,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.RegisterReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.RegisterReq"
                         }
                     }
                 ],
@@ -3299,7 +3299,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -3328,7 +3328,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq"
                         }
                     }
                 ],
@@ -3344,7 +3344,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -3373,7 +3373,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.RemarkQuery"
+                            "$ref": "#/definitions/types.RemarkQuery"
                         }
                     }
                 ],
@@ -3389,7 +3389,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -3418,7 +3418,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.RemarkReviewReq"
+                            "$ref": "#/definitions/types.RemarkReviewReq"
                         }
                     }
                 ],
@@ -3434,7 +3434,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -3463,7 +3463,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ResetPasswordReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.ResetPasswordReq"
                         }
                     }
                 ],
@@ -3479,7 +3479,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -3508,7 +3508,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.RoleNewReq"
+                            "$ref": "#/definitions/types.RoleNewReq"
                         }
                     }
                 ],
@@ -3524,7 +3524,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.RoleBackVO"
+                                            "$ref": "#/definitions/types.RoleBackVO"
                                         }
                                     }
                                 }
@@ -3553,7 +3553,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq"
                         }
                     }
                 ],
@@ -3569,7 +3569,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -3598,7 +3598,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.RoleQuery"
+                            "$ref": "#/definitions/types.RoleQuery"
                         }
                     }
                 ],
@@ -3614,7 +3614,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -3643,7 +3643,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdReq"
                         }
                     }
                 ],
@@ -3659,7 +3659,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.RoleResourcesResp"
+                                            "$ref": "#/definitions/types.RoleResourcesResp"
                                         }
                                     }
                                 }
@@ -3688,7 +3688,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.RoleNewReq"
+                            "$ref": "#/definitions/types.RoleNewReq"
                         }
                     }
                 ],
@@ -3704,7 +3704,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.RoleBackVO"
+                                            "$ref": "#/definitions/types.RoleBackVO"
                                         }
                                     }
                                 }
@@ -3733,7 +3733,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UpdateRoleApisReq"
+                            "$ref": "#/definitions/types.UpdateRoleApisReq"
                         }
                     }
                 ],
@@ -3749,7 +3749,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -3778,7 +3778,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UpdateRoleMenusReq"
+                            "$ref": "#/definitions/types.UpdateRoleMenusReq"
                         }
                     }
                 ],
@@ -3794,7 +3794,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -3823,7 +3823,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.SendEmailVerifyCodeReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.SendEmailVerifyCodeReq"
                         }
                     }
                 ],
@@ -3839,7 +3839,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -3868,7 +3868,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.SendPhoneVerifyCodeReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.SendPhoneVerifyCodeReq"
                         }
                     }
                 ],
@@ -3884,7 +3884,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -3913,7 +3913,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.TagNewReq"
+                            "$ref": "#/definitions/types.TagNewReq"
                         }
                     }
                 ],
@@ -3929,7 +3929,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.TagBackVO"
+                                            "$ref": "#/definitions/types.TagBackVO"
                                         }
                                     }
                                 }
@@ -3958,7 +3958,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq"
                         }
                     }
                 ],
@@ -3974,7 +3974,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -4003,7 +4003,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.TagQuery"
+                            "$ref": "#/definitions/types.TagQuery"
                         }
                     }
                 ],
@@ -4019,7 +4019,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -4048,7 +4048,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.TagNewReq"
+                            "$ref": "#/definitions/types.TagNewReq"
                         }
                     }
                 ],
@@ -4064,7 +4064,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.TagBackVO"
+                                            "$ref": "#/definitions/types.TagBackVO"
                                         }
                                     }
                                 }
@@ -4093,7 +4093,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.TalkNewReq"
+                            "$ref": "#/definitions/types.TalkNewReq"
                         }
                     }
                 ],
@@ -4109,7 +4109,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.TalkBackVO"
+                                            "$ref": "#/definitions/types.TalkBackVO"
                                         }
                                     }
                                 }
@@ -4138,7 +4138,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdReq"
                         }
                     }
                 ],
@@ -4154,7 +4154,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -4183,7 +4183,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.TalkQuery"
+                            "$ref": "#/definitions/types.TalkQuery"
                         }
                     }
                 ],
@@ -4199,7 +4199,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -4228,7 +4228,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdReq"
                         }
                     }
                 ],
@@ -4244,7 +4244,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.TalkBackVO"
+                                            "$ref": "#/definitions/types.TalkBackVO"
                                         }
                                     }
                                 }
@@ -4273,7 +4273,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.TalkNewReq"
+                            "$ref": "#/definitions/types.TalkNewReq"
                         }
                     }
                 ],
@@ -4289,7 +4289,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.TalkBackVO"
+                                            "$ref": "#/definitions/types.TalkBackVO"
                                         }
                                     }
                                 }
@@ -4318,7 +4318,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ThirdLoginReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.ThirdLoginReq"
                         }
                     }
                 ],
@@ -4334,7 +4334,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.LoginResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.LoginResp"
                                         }
                                     }
                                 }
@@ -4363,7 +4363,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.DeletesUploadFileReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.DeletesUploadFileReq"
                         }
                     }
                 ],
@@ -4379,7 +4379,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -4408,7 +4408,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ListUploadFileReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.ListUploadFileReq"
                         }
                     }
                 ],
@@ -4424,7 +4424,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -4453,7 +4453,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.MultiUploadFileReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.MultiUploadFileReq"
                         }
                     }
                 ],
@@ -4471,7 +4471,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.FileInfoVO"
+                                                "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.FileInfoVO"
                                             }
                                         }
                                     }
@@ -4501,7 +4501,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UploadFileReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UploadFileReq"
                         }
                     }
                 ],
@@ -4517,7 +4517,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.FileInfoVO"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.FileInfoVO"
                                         }
                                     }
                                 }
@@ -4546,7 +4546,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq"
                         }
                     }
                 ],
@@ -4562,7 +4562,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -4591,7 +4591,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.DeleteUserBindThirdPartyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.DeleteUserBindThirdPartyReq"
                         }
                     }
                 ],
@@ -4607,7 +4607,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -4636,7 +4636,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.LoginLogQuery"
+                            "$ref": "#/definitions/types.LoginLogQuery"
                         }
                     }
                 ],
@@ -4652,7 +4652,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -4681,7 +4681,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UploadLogQuery"
+                            "$ref": "#/definitions/types.UploadLogQuery"
                         }
                     }
                 ],
@@ -4697,7 +4697,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -4726,7 +4726,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
                         }
                     }
                 ],
@@ -4742,7 +4742,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.UserApisResp"
+                                            "$ref": "#/definitions/types.UserApisResp"
                                         }
                                     }
                                 }
@@ -4771,7 +4771,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
                         }
                     }
                 ],
@@ -4787,7 +4787,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UserInfoResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UserInfoResp"
                                         }
                                     }
                                 }
@@ -4816,7 +4816,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UserLoginHistoryQuery"
+                            "$ref": "#/definitions/types.UserLoginHistoryQuery"
                         }
                     }
                 ],
@@ -4832,7 +4832,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -4861,7 +4861,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
                         }
                     }
                 ],
@@ -4877,7 +4877,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.UserMenusResp"
+                                            "$ref": "#/definitions/types.UserMenusResp"
                                         }
                                     }
                                 }
@@ -4906,7 +4906,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
                         }
                     }
                 ],
@@ -4922,7 +4922,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.UserRolesResp"
+                                            "$ref": "#/definitions/types.UserRolesResp"
                                         }
                                     }
                                 }
@@ -4951,7 +4951,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserAvatarReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UpdateUserAvatarReq"
                         }
                     }
                 ],
@@ -4967,7 +4967,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -4996,7 +4996,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserBindEmailReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UpdateUserBindEmailReq"
                         }
                     }
                 ],
@@ -5012,7 +5012,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -5041,7 +5041,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserBindPhoneReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UpdateUserBindPhoneReq"
                         }
                     }
                 ],
@@ -5057,7 +5057,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -5086,7 +5086,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserBindThirdPartyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UpdateUserBindThirdPartyReq"
                         }
                     }
                 ],
@@ -5102,7 +5102,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -5131,7 +5131,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserInfoReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UpdateUserInfoReq"
                         }
                     }
                 ],
@@ -5147,7 +5147,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -5176,7 +5176,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserPasswordReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UpdateUserPasswordReq"
                         }
                     }
                 ],
@@ -5192,7 +5192,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -5221,7 +5221,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq"
                         }
                     }
                 ],
@@ -5237,7 +5237,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
                                         }
                                     }
                                 }
@@ -5266,7 +5266,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.VisitLogQuery"
+                            "$ref": "#/definitions/types.VisitLogQuery"
                         }
                     }
                 ],
@@ -5282,7 +5282,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -5326,7 +5326,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.AlbumQueryReq"
+                            "$ref": "#/definitions/types.AlbumQueryReq"
                         }
                     }
                 ],
@@ -5342,7 +5342,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -5371,7 +5371,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.PhotoQueryReq"
+                            "$ref": "#/definitions/types.PhotoQueryReq"
                         }
                     }
                 ],
@@ -5387,7 +5387,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -5416,7 +5416,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.IdReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.IdReq"
                         }
                     }
                 ],
@@ -5432,7 +5432,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.Album"
+                                            "$ref": "#/definitions/types.Album"
                                         }
                                     }
                                 }
@@ -5461,7 +5461,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ArticleArchivesQueryReq"
+                            "$ref": "#/definitions/types.ArticleArchivesQueryReq"
                         }
                     }
                 ],
@@ -5477,7 +5477,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -5506,7 +5506,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ArticleClassifyQueryReq"
+                            "$ref": "#/definitions/types.ArticleClassifyQueryReq"
                         }
                     }
                 ],
@@ -5522,7 +5522,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -5551,7 +5551,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ArticleClassifyQueryReq"
+                            "$ref": "#/definitions/types.ArticleClassifyQueryReq"
                         }
                     }
                 ],
@@ -5567,7 +5567,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -5596,7 +5596,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.IdReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.IdReq"
                         }
                     }
                 ],
@@ -5612,7 +5612,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ArticleDetails"
+                                            "$ref": "#/definitions/types.ArticleDetails"
                                         }
                                     }
                                 }
@@ -5641,7 +5641,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ArticleHomeQueryReq"
+                            "$ref": "#/definitions/types.ArticleHomeQueryReq"
                         }
                     }
                 ],
@@ -5657,7 +5657,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -5686,7 +5686,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyReq"
                         }
                     }
                 ],
@@ -5702,7 +5702,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -5731,7 +5731,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.IdReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.IdReq"
                         }
                     }
                 ],
@@ -5747,7 +5747,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -5776,7 +5776,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.GetBlogHomeInfoReq"
+                            "$ref": "#/definitions/types.GetBlogHomeInfoReq"
                         }
                     }
                 ],
@@ -5792,7 +5792,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.GetBlogHomeInfoResp"
+                                            "$ref": "#/definitions/types.GetBlogHomeInfoResp"
                                         }
                                     }
                                 }
@@ -5821,7 +5821,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.GetAboutMeReq"
+                            "$ref": "#/definitions/types.GetAboutMeReq"
                         }
                     }
                 ],
@@ -5837,7 +5837,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.GetAboutMeResp"
+                                            "$ref": "#/definitions/types.GetAboutMeResp"
                                         }
                                     }
                                 }
@@ -5866,7 +5866,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CategoryQueryReq"
+                            "$ref": "#/definitions/types.CategoryQueryReq"
                         }
                     }
                 ],
@@ -5882,7 +5882,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -5911,7 +5911,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CommentNewReq"
+                            "$ref": "#/definitions/types.CommentNewReq"
                         }
                     }
                 ],
@@ -5927,7 +5927,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.Comment"
+                                            "$ref": "#/definitions/types.Comment"
                                         }
                                     }
                                 }
@@ -5956,7 +5956,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CommentQueryReq"
+                            "$ref": "#/definitions/types.CommentQueryReq"
                         }
                     }
                 ],
@@ -5972,7 +5972,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -6001,7 +6001,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CommentQueryReq"
+                            "$ref": "#/definitions/types.CommentQueryReq"
                         }
                     }
                 ],
@@ -6017,7 +6017,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -6046,7 +6046,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CommentQueryReq"
+                            "$ref": "#/definitions/types.CommentQueryReq"
                         }
                     }
                 ],
@@ -6062,7 +6062,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -6091,7 +6091,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.IdReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.IdReq"
                         }
                     }
                 ],
@@ -6107,7 +6107,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -6136,7 +6136,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UpdateCommentReq"
+                            "$ref": "#/definitions/types.UpdateCommentReq"
                         }
                     }
                 ],
@@ -6152,7 +6152,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.Comment"
+                                            "$ref": "#/definitions/types.Comment"
                                         }
                                     }
                                 }
@@ -6181,7 +6181,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmailLoginReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmailLoginReq"
                         }
                     }
                 ],
@@ -6197,7 +6197,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.LoginResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.LoginResp"
                                         }
                                     }
                                 }
@@ -6226,7 +6226,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.FriendQueryReq"
+                            "$ref": "#/definitions/types.FriendQueryReq"
                         }
                     }
                 ],
@@ -6242,7 +6242,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -6271,7 +6271,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetCaptchaCodeReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.GetCaptchaCodeReq"
                         }
                     }
                 ],
@@ -6287,7 +6287,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetCaptchaCodeResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.GetCaptchaCodeResp"
                                         }
                                     }
                                 }
@@ -6316,7 +6316,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetOauthAuthorizeUrlReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.GetOauthAuthorizeUrlReq"
                         }
                     }
                 ],
@@ -6332,7 +6332,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetOauthAuthorizeUrlResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.GetOauthAuthorizeUrlResp"
                                         }
                                     }
                                 }
@@ -6361,7 +6361,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyReq"
                         }
                     }
                 ],
@@ -6377,7 +6377,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetTouristInfoResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.GetTouristInfoResp"
                                         }
                                     }
                                 }
@@ -6406,7 +6406,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.LoginReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.LoginReq"
                         }
                     }
                 ],
@@ -6422,7 +6422,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.LoginResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.LoginResp"
                                         }
                                     }
                                 }
@@ -6451,7 +6451,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyReq"
                         }
                     }
                 ],
@@ -6467,7 +6467,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -6496,7 +6496,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyReq"
                         }
                     }
                 ],
@@ -6512,7 +6512,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -6541,7 +6541,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageQueryReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageQueryReq"
                         }
                     }
                 ],
@@ -6557,7 +6557,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -6586,7 +6586,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PhoneLoginReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PhoneLoginReq"
                         }
                     }
                 ],
@@ -6602,7 +6602,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.LoginResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.LoginResp"
                                         }
                                     }
                                 }
@@ -6621,7 +6621,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Common"
+                    "BlogApi"
                 ],
                 "summary": "\"ping\"",
                 "parameters": [
@@ -6631,7 +6631,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PingReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PingReq"
                         }
                     }
                 ],
@@ -6647,7 +6647,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PingResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PingResp"
                                         }
                                     }
                                 }
@@ -6676,7 +6676,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.RegisterReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.RegisterReq"
                         }
                     }
                 ],
@@ -6692,7 +6692,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -6721,7 +6721,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.RemarkNewReq"
+                            "$ref": "#/definitions/types.RemarkNewReq"
                         }
                     }
                 ],
@@ -6737,7 +6737,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.Remark"
+                                            "$ref": "#/definitions/types.Remark"
                                         }
                                     }
                                 }
@@ -6766,7 +6766,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.RemarkQueryReq"
+                            "$ref": "#/definitions/types.RemarkQueryReq"
                         }
                     }
                 ],
@@ -6782,7 +6782,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -6811,7 +6811,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ResetPasswordReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.ResetPasswordReq"
                         }
                     }
                 ],
@@ -6827,7 +6827,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -6856,7 +6856,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.SendEmailVerifyCodeReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.SendEmailVerifyCodeReq"
                         }
                     }
                 ],
@@ -6872,7 +6872,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -6901,7 +6901,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.SendPhoneVerifyCodeReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.SendPhoneVerifyCodeReq"
                         }
                     }
                 ],
@@ -6917,7 +6917,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -6946,7 +6946,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.TagQueryReq"
+                            "$ref": "#/definitions/types.TagQueryReq"
                         }
                     }
                 ],
@@ -6962,7 +6962,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -6991,7 +6991,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.TalkQueryReq"
+                            "$ref": "#/definitions/types.TalkQueryReq"
                         }
                     }
                 ],
@@ -7007,7 +7007,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -7036,7 +7036,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.IdReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.IdReq"
                         }
                     }
                 ],
@@ -7052,7 +7052,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.Talk"
+                                            "$ref": "#/definitions/types.Talk"
                                         }
                                     }
                                 }
@@ -7081,7 +7081,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.IdReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.IdReq"
                         }
                     }
                 ],
@@ -7097,7 +7097,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -7126,7 +7126,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ThirdLoginReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.ThirdLoginReq"
                         }
                     }
                 ],
@@ -7142,7 +7142,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.LoginResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.LoginResp"
                                         }
                                     }
                                 }
@@ -7171,7 +7171,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.DeletesUploadFileReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.DeletesUploadFileReq"
                         }
                     }
                 ],
@@ -7187,7 +7187,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.BatchResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.BatchResp"
                                         }
                                     }
                                 }
@@ -7216,7 +7216,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ListUploadFileReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.ListUploadFileReq"
                         }
                     }
                 ],
@@ -7232,7 +7232,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -7261,7 +7261,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.MultiUploadFileReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.MultiUploadFileReq"
                         }
                     }
                 ],
@@ -7279,7 +7279,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.FileInfoVO"
+                                                "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.FileInfoVO"
                                             }
                                         }
                                     }
@@ -7309,7 +7309,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UploadFileReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UploadFileReq"
                         }
                     }
                 ],
@@ -7325,7 +7325,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.FileInfoVO"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.FileInfoVO"
                                         }
                                     }
                                 }
@@ -7354,7 +7354,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.DeleteUserBindThirdPartyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.DeleteUserBindThirdPartyReq"
                         }
                     }
                 ],
@@ -7370,7 +7370,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -7399,7 +7399,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyReq"
                         }
                     }
                 ],
@@ -7415,7 +7415,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoResp"
                                         }
                                     }
                                 }
@@ -7444,7 +7444,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyReq"
                         }
                     }
                 ],
@@ -7460,7 +7460,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.UserLikeResp"
+                                            "$ref": "#/definitions/types.UserLikeResp"
                                         }
                                     }
                                 }
@@ -7489,7 +7489,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserAvatarReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UpdateUserAvatarReq"
                         }
                     }
                 ],
@@ -7505,7 +7505,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -7534,7 +7534,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserBindEmailReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UpdateUserBindEmailReq"
                         }
                     }
                 ],
@@ -7550,7 +7550,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -7579,7 +7579,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserBindPhoneReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UpdateUserBindPhoneReq"
                         }
                     }
                 ],
@@ -7595,7 +7595,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -7624,7 +7624,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserBindThirdPartyReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UpdateUserBindThirdPartyReq"
                         }
                     }
                 ],
@@ -7640,7 +7640,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -7669,7 +7669,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserInfoReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UpdateUserInfoReq"
                         }
                     }
                 ],
@@ -7685,7 +7685,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -7714,7 +7714,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserPasswordReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UpdateUserPasswordReq"
                         }
                     }
                 ],
@@ -7730,7 +7730,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -7757,2752 +7757,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "dto.AboutMeVO": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.AccountQuery": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "nickname": {
-                    "type": "string"
-                },
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "status": {
-                    "description": "状态: -1删除 0正常 1禁用",
-                    "type": "integer"
-                },
-                "user_ids": {
-                    "description": "用户ID",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.AdminHomeInfo": {
-            "type": "object",
-            "properties": {
-                "article_count": {
-                    "description": "文章量",
-                    "type": "integer"
-                },
-                "article_statistics": {
-                    "description": "文章提交统计",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.ArticleStatisticsVO"
-                    }
-                },
-                "article_view_ranks": {
-                    "description": "文章浏览量排行",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.ArticleViewVO"
-                    }
-                },
-                "category_list": {
-                    "description": "分类列表",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.CategoryVO"
-                    }
-                },
-                "remark_count": {
-                    "description": "留言量",
-                    "type": "integer"
-                },
-                "tag_list": {
-                    "description": "标签列表",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.TagVO"
-                    }
-                },
-                "user_count": {
-                    "description": "用户量",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.Album": {
-            "type": "object",
-            "properties": {
-                "album_cover": {
-                    "description": "相册封面",
-                    "type": "string"
-                },
-                "album_desc": {
-                    "description": "相册描述",
-                    "type": "string"
-                },
-                "album_name": {
-                    "description": "相册名",
-                    "type": "string"
-                },
-                "id": {
-                    "description": "主键",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.AlbumBackVO": {
-            "type": "object",
-            "properties": {
-                "album_cover": {
-                    "description": "相册封面",
-                    "type": "string"
-                },
-                "album_desc": {
-                    "description": "相册描述",
-                    "type": "string"
-                },
-                "album_name": {
-                    "description": "相册名",
-                    "type": "string"
-                },
-                "created_at": {
-                    "description": "创建时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "主键",
-                    "type": "integer"
-                },
-                "is_delete": {
-                    "description": "是否删除",
-                    "type": "integer"
-                },
-                "photo_count": {
-                    "description": "照片数量",
-                    "type": "integer"
-                },
-                "status": {
-                    "description": "状态值 1公开 2私密",
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.AlbumNewReq": {
-            "type": "object",
-            "properties": {
-                "album_cover": {
-                    "description": "相册封面",
-                    "type": "string"
-                },
-                "album_desc": {
-                    "description": "相册描述",
-                    "type": "string"
-                },
-                "album_name": {
-                    "description": "相册名",
-                    "type": "string"
-                },
-                "id": {
-                    "description": "主键",
-                    "type": "integer"
-                },
-                "is_delete": {
-                    "description": "是否删除",
-                    "type": "integer"
-                },
-                "status": {
-                    "description": "状态值 1公开 2私密",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.AlbumQuery": {
-            "type": "object",
-            "properties": {
-                "album_name": {
-                    "description": "相册名",
-                    "type": "string"
-                },
-                "is_delete": {
-                    "description": "是否删除",
-                    "type": "integer"
-                },
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.AlbumQueryReq": {
-            "type": "object",
-            "properties": {
-                "page": {
-                    "type": "integer"
-                },
-                "page_size": {
-                    "type": "integer"
-                },
-                "sorts": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.ApiBackVO": {
-            "type": "object",
-            "properties": {
-                "children": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.ApiBackVO"
-                    }
-                },
-                "created_at": {
-                    "description": "创建时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "主键id",
-                    "type": "integer"
-                },
-                "is_disable": {
-                    "description": "是否禁用 0否 1是",
-                    "type": "integer"
-                },
-                "method": {
-                    "description": "api请求方法",
-                    "type": "string"
-                },
-                "name": {
-                    "description": "api名称",
-                    "type": "string"
-                },
-                "parent_id": {
-                    "description": "分组id",
-                    "type": "integer"
-                },
-                "path": {
-                    "description": "api路径",
-                    "type": "string"
-                },
-                "traceable": {
-                    "description": "是否追溯操作记录 0需要，1是",
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.ApiNewReq": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "description": "主键id",
-                    "type": "integer"
-                },
-                "is_disable": {
-                    "description": "是否禁用 0否 1是",
-                    "type": "integer"
-                },
-                "method": {
-                    "description": "api请求方法",
-                    "type": "string"
-                },
-                "name": {
-                    "description": "api名称",
-                    "type": "string"
-                },
-                "parent_id": {
-                    "description": "分组id",
-                    "type": "integer"
-                },
-                "path": {
-                    "description": "api路径",
-                    "type": "string"
-                },
-                "traceable": {
-                    "description": "是否追溯操作记录 0需要，1是",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.ApiQuery": {
-            "type": "object",
-            "properties": {
-                "method": {
-                    "description": "api请求方法",
-                    "type": "string"
-                },
-                "name": {
-                    "description": "api名称",
-                    "type": "string"
-                },
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "path": {
-                    "description": "api路径",
-                    "type": "string"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.ArticleArchivesQueryReq": {
-            "type": "object",
-            "properties": {
-                "page": {
-                    "type": "integer"
-                },
-                "page_size": {
-                    "type": "integer"
-                },
-                "sorts": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.ArticleBackVO": {
-            "type": "object",
-            "properties": {
-                "article_content": {
-                    "description": "内容",
-                    "type": "string"
-                },
-                "article_cover": {
-                    "description": "文章缩略图",
-                    "type": "string"
-                },
-                "article_title": {
-                    "description": "标题",
-                    "type": "string"
-                },
-                "article_type": {
-                    "description": "文章类型 1原创 2转载 3翻译",
-                    "type": "integer"
-                },
-                "category_name": {
-                    "description": "文章分类名",
-                    "type": "string"
-                },
-                "created_at": {
-                    "description": "发表时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "文章ID",
-                    "type": "integer"
-                },
-                "is_delete": {
-                    "description": "是否删除",
-                    "type": "integer"
-                },
-                "is_top": {
-                    "description": "是否置顶",
-                    "type": "integer"
-                },
-                "like_count": {
-                    "description": "点赞量",
-                    "type": "integer"
-                },
-                "original_url": {
-                    "description": "原文链接",
-                    "type": "string"
-                },
-                "status": {
-                    "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
-                    "type": "integer"
-                },
-                "tag_name_list": {
-                    "description": "文章标签列表",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                },
-                "views_count": {
-                    "description": "浏览量",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.ArticleClassifyQueryReq": {
-            "type": "object",
-            "properties": {
-                "classify_name": {
-                    "description": "分类名",
-                    "type": "string"
-                },
-                "page": {
-                    "type": "integer"
-                },
-                "page_size": {
-                    "type": "integer"
-                },
-                "sorts": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.ArticleDetails": {
-            "type": "object",
-            "properties": {
-                "article_content": {
-                    "description": "内容",
-                    "type": "string"
-                },
-                "article_cover": {
-                    "description": "文章缩略图",
-                    "type": "string"
-                },
-                "article_title": {
-                    "description": "标题",
-                    "type": "string"
-                },
-                "article_type": {
-                    "description": "文章类型",
-                    "type": "integer"
-                },
-                "author": {
-                    "description": "作者",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO"
-                        }
-                    ]
-                },
-                "category_name": {
-                    "description": "文章分类名",
-                    "type": "string"
-                },
-                "created_at": {
-                    "description": "发表时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "文章ID",
-                    "type": "integer"
-                },
-                "is_top": {
-                    "description": "是否置顶",
-                    "type": "integer"
-                },
-                "last_article": {
-                    "description": "上一篇文章",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/dto.ArticlePreview"
-                        }
-                    ]
-                },
-                "like_count": {
-                    "description": "点赞量",
-                    "type": "integer"
-                },
-                "newest_article_list": {
-                    "description": "最新文章列表",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.ArticlePreview"
-                    }
-                },
-                "next_article": {
-                    "description": "下一篇文章",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/dto.ArticlePreview"
-                        }
-                    ]
-                },
-                "original_url": {
-                    "description": "原文链接",
-                    "type": "string"
-                },
-                "recommend_article_list": {
-                    "description": "推荐文章列表",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.ArticlePreview"
-                    }
-                },
-                "status": {
-                    "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
-                    "type": "integer"
-                },
-                "tag_name_list": {
-                    "description": "文章标签列表",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                },
-                "views_count": {
-                    "description": "浏览量",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.ArticleHomeQueryReq": {
-            "type": "object",
-            "properties": {
-                "article_title": {
-                    "description": "标题",
-                    "type": "string"
-                },
-                "page": {
-                    "type": "integer"
-                },
-                "page_size": {
-                    "type": "integer"
-                },
-                "sorts": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.ArticleNewReq": {
-            "type": "object",
-            "properties": {
-                "article_content": {
-                    "description": "内容",
-                    "type": "string"
-                },
-                "article_cover": {
-                    "description": "文章缩略图",
-                    "type": "string"
-                },
-                "article_title": {
-                    "description": "标题",
-                    "type": "string"
-                },
-                "article_type": {
-                    "description": "文章类型 1原创 2转载 3翻译",
-                    "type": "integer"
-                },
-                "category_name": {
-                    "description": "文章分类名",
-                    "type": "string"
-                },
-                "id": {
-                    "description": "id",
-                    "type": "integer"
-                },
-                "is_top": {
-                    "description": "是否置顶",
-                    "type": "integer"
-                },
-                "original_url": {
-                    "description": "原文链接",
-                    "type": "string"
-                },
-                "status": {
-                    "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
-                    "type": "integer"
-                },
-                "tag_name_list": {
-                    "description": "文章标签列表",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.ArticlePreview": {
-            "type": "object",
-            "properties": {
-                "article_cover": {
-                    "description": "文章缩略图",
-                    "type": "string"
-                },
-                "article_title": {
-                    "description": "标题",
-                    "type": "string"
-                },
-                "created_at": {
-                    "description": "创建时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "文章ID",
-                    "type": "integer"
-                },
-                "like_count": {
-                    "description": "点赞量",
-                    "type": "integer"
-                },
-                "views_count": {
-                    "description": "浏览量",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.ArticleQuery": {
-            "type": "object",
-            "properties": {
-                "article_title": {
-                    "description": "标题",
-                    "type": "string"
-                },
-                "article_type": {
-                    "description": "文章类型 1原创 2转载 3翻译",
-                    "type": "integer"
-                },
-                "category_name": {
-                    "description": "文章分类名",
-                    "type": "string"
-                },
-                "is_delete": {
-                    "description": "是否删除",
-                    "type": "integer"
-                },
-                "is_top": {
-                    "description": "是否置顶",
-                    "type": "integer"
-                },
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "status": {
-                    "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
-                    "type": "integer"
-                },
-                "tag_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.ArticleRecycleReq": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "description": "文章ID",
-                    "type": "integer"
-                },
-                "is_delete": {
-                    "description": "是否删除",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.ArticleStatisticsVO": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "description": "数量",
-                    "type": "integer"
-                },
-                "date": {
-                    "description": "日期",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.ArticleTopReq": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "description": "文章ID",
-                    "type": "integer"
-                },
-                "is_top": {
-                    "description": "是否置顶",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.ArticleViewVO": {
-            "type": "object",
-            "properties": {
-                "article_title": {
-                    "description": "文章标题",
-                    "type": "string"
-                },
-                "id": {
-                    "description": "文章ID",
-                    "type": "integer"
-                },
-                "view_count": {
-                    "description": "浏览量",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.CategoryBackVO": {
-            "type": "object",
-            "properties": {
-                "article_count": {
-                    "type": "integer"
-                },
-                "category_name": {
-                    "description": "分类名",
-                    "type": "string"
-                },
-                "created_at": {
-                    "description": "创建时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.CategoryNewReq": {
-            "type": "object",
-            "properties": {
-                "category_name": {
-                    "description": "分类名",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.CategoryQuery": {
-            "type": "object",
-            "properties": {
-                "category_name": {
-                    "description": "分类名",
-                    "type": "string"
-                },
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.CategoryQueryReq": {
-            "type": "object",
-            "properties": {
-                "category_name": {
-                    "description": "分类名",
-                    "type": "string"
-                },
-                "page": {
-                    "type": "integer"
-                },
-                "page_size": {
-                    "type": "integer"
-                },
-                "sorts": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.CategoryVO": {
-            "type": "object",
-            "properties": {
-                "article_count": {
-                    "description": "文章数量",
-                    "type": "integer"
-                },
-                "category_name": {
-                    "description": "分类名",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.Comment": {
-            "type": "object",
-            "properties": {
-                "comment_content": {
-                    "description": "评论内容",
-                    "type": "string"
-                },
-                "comment_reply_list": {
-                    "description": "评论回复列表",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.CommentReply"
-                    }
-                },
-                "created_at": {
-                    "description": "评论时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "评论id",
-                    "type": "integer"
-                },
-                "like_count": {
-                    "description": "点赞数",
-                    "type": "integer"
-                },
-                "parent_id": {
-                    "description": "父评论id",
-                    "type": "integer"
-                },
-                "reply_count": {
-                    "description": "回复量",
-                    "type": "integer"
-                },
-                "reply_msg_id": {
-                    "description": "会话id",
-                    "type": "integer"
-                },
-                "reply_user": {
-                    "description": "被回复评论用户",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO"
-                        }
-                    ]
-                },
-                "reply_user_id": {
-                    "description": "被回复用户id",
-                    "type": "string"
-                },
-                "topic_id": {
-                    "description": "主题id",
-                    "type": "integer"
-                },
-                "type": {
-                    "description": "评论类型 1.文章 2.友链 3.说说",
-                    "type": "integer"
-                },
-                "user": {
-                    "description": "评论用户",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO"
-                        }
-                    ]
-                },
-                "user_id": {
-                    "description": "用户id",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.CommentNewReq": {
-            "type": "object",
-            "properties": {
-                "comment_content": {
-                    "description": "评论内容",
-                    "type": "string"
-                },
-                "parent_id": {
-                    "description": "父评论id",
-                    "type": "integer"
-                },
-                "reply_msg_id": {
-                    "description": "会话id",
-                    "type": "integer"
-                },
-                "reply_user_id": {
-                    "description": "回复用户id",
-                    "type": "string"
-                },
-                "status": {
-                    "description": "状态 0.正常 1.已编辑 2.已删除",
-                    "type": "integer"
-                },
-                "topic_id": {
-                    "description": "主题id",
-                    "type": "integer"
-                },
-                "type": {
-                    "description": "评论类型 1.文章 2.友链 3.说说",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.CommentQuery": {
-            "type": "object",
-            "properties": {
-                "avatar": {
-                    "description": "用户头像",
-                    "type": "string"
-                },
-                "is_review": {
-                    "type": "integer"
-                },
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "type": {
-                    "description": "评论类型 1.文章 2.友链 3.说说",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.CommentQueryReq": {
-            "type": "object",
-            "properties": {
-                "page": {
-                    "type": "integer"
-                },
-                "page_size": {
-                    "type": "integer"
-                },
-                "parent_id": {
-                    "description": "父评论id",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "topic_id": {
-                    "description": "主题id",
-                    "type": "integer"
-                },
-                "type": {
-                    "description": "评论类型 1.文章 2.友链 3.说说",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.CommentReply": {
-            "type": "object",
-            "properties": {
-                "comment_content": {
-                    "description": "评论内容",
-                    "type": "string"
-                },
-                "created_at": {
-                    "description": "评论时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "评论id",
-                    "type": "integer"
-                },
-                "like_count": {
-                    "description": "点赞数",
-                    "type": "integer"
-                },
-                "parent_id": {
-                    "description": "父评论id",
-                    "type": "integer"
-                },
-                "reply_msg_id": {
-                    "description": "会话id",
-                    "type": "integer"
-                },
-                "reply_user": {
-                    "description": "被回复评论用户",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO"
-                        }
-                    ]
-                },
-                "reply_user_id": {
-                    "description": "被回复用户id",
-                    "type": "string"
-                },
-                "topic_id": {
-                    "description": "主题id",
-                    "type": "integer"
-                },
-                "type": {
-                    "description": "评论类型 1.文章 2.友链 3.说说",
-                    "type": "integer"
-                },
-                "user": {
-                    "description": "用户信息",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO"
-                        }
-                    ]
-                },
-                "user_id": {
-                    "description": "用户id",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.CommentReviewReq": {
-            "type": "object",
-            "properties": {
-                "ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "is_review": {
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.FriendBackVO": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "description": "创建时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "id",
-                    "type": "integer"
-                },
-                "link_address": {
-                    "description": "链接地址",
-                    "type": "string"
-                },
-                "link_avatar": {
-                    "description": "链接头像",
-                    "type": "string"
-                },
-                "link_intro": {
-                    "description": "链接介绍",
-                    "type": "string"
-                },
-                "link_name": {
-                    "description": "链接名",
-                    "type": "string"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.FriendNewReq": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "description": "id",
-                    "type": "integer"
-                },
-                "link_address": {
-                    "description": "链接地址",
-                    "type": "string"
-                },
-                "link_avatar": {
-                    "description": "链接头像",
-                    "type": "string"
-                },
-                "link_intro": {
-                    "description": "链接介绍",
-                    "type": "string"
-                },
-                "link_name": {
-                    "description": "链接名",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.FriendQuery": {
-            "type": "object",
-            "properties": {
-                "link_name": {
-                    "description": "链接名",
-                    "type": "string"
-                },
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.FriendQueryReq": {
-            "type": "object",
-            "properties": {
-                "page": {
-                    "type": "integer"
-                },
-                "page_size": {
-                    "type": "integer"
-                },
-                "sorts": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.GetAboutMeReq": {
-            "type": "object"
-        },
-        "dto.GetAboutMeResp": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.GetBlogHomeInfoReq": {
-            "type": "object"
-        },
-        "dto.GetBlogHomeInfoResp": {
-            "type": "object",
-            "properties": {
-                "article_count": {
-                    "description": "文章数量",
-                    "type": "integer"
-                },
-                "category_count": {
-                    "description": "分类数量",
-                    "type": "integer"
-                },
-                "page_list": {
-                    "description": "页面列表",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.PageVO"
-                    }
-                },
-                "tag_count": {
-                    "description": "标签数量",
-                    "type": "integer"
-                },
-                "total_page_view_count": {
-                    "description": "总浏览量",
-                    "type": "integer"
-                },
-                "total_user_view_count": {
-                    "description": "总服务量",
-                    "type": "integer"
-                },
-                "website_config": {
-                    "description": "网站配置",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.WebsiteConfigVO"
-                        }
-                    ]
-                }
-            }
-        },
-        "dto.GetUserAreaStatsReq": {
-            "type": "object",
-            "properties": {
-                "user_type": {
-                    "description": "用户类型: 0注册用户 1游客",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.GetUserAreaStatsResp": {
-            "type": "object",
-            "properties": {
-                "tourist_areas": {
-                    "description": "游客分布地区",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.UserAreaVO"
-                    }
-                },
-                "user_areas": {
-                    "description": "用户分布地区",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.UserAreaVO"
-                    }
-                }
-            }
-        },
-        "dto.GetVisitStatsResp": {
-            "type": "object",
-            "properties": {
-                "pv_growth_rate": {
-                    "description": "同比增长率（相对于昨天同一时间段的增长率）",
-                    "type": "number"
-                },
-                "today_pv_count": {
-                    "description": "今日浏览量(PV)",
-                    "type": "integer"
-                },
-                "today_uv_count": {
-                    "description": "今日访客数(UV)",
-                    "type": "integer"
-                },
-                "total_pv_count": {
-                    "description": "总浏览量",
-                    "type": "integer"
-                },
-                "total_uv_count": {
-                    "description": "总访客数",
-                    "type": "integer"
-                },
-                "uv_growth_rate": {
-                    "description": "访客数同比增长率（相对于昨天同一时间段的增长率）",
-                    "type": "number"
-                }
-            }
-        },
-        "dto.GetVisitTrendReq": {
-            "type": "object",
-            "properties": {
-                "end_date": {
-                    "description": "结束日期",
-                    "type": "string"
-                },
-                "start_date": {
-                    "description": "开始日期",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.GetVisitTrendResp": {
-            "type": "object",
-            "properties": {
-                "visit_trend": {
-                    "description": "访客数和浏览量趋势",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.VisitTrendVO"
-                    }
-                }
-            }
-        },
-        "dto.LoginLogQuery": {
-            "type": "object",
-            "properties": {
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "user_id": {
-                    "description": "用户id",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.MenuBackVO": {
-            "type": "object",
-            "properties": {
-                "always_show": {
-                    "description": "是否一直显示菜单",
-                    "type": "integer"
-                },
-                "children": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.MenuBackVO"
-                    }
-                },
-                "component": {
-                    "description": "Layout组件",
-                    "type": "string"
-                },
-                "created_at": {
-                    "description": "创建时间",
-                    "type": "integer"
-                },
-                "icon": {
-                    "description": "菜单图标",
-                    "type": "string"
-                },
-                "id": {
-                    "description": "主键",
-                    "type": "integer"
-                },
-                "is_disable": {
-                    "description": "是否禁用",
-                    "type": "integer"
-                },
-                "is_hidden": {
-                    "description": "是否隐藏",
-                    "type": "integer"
-                },
-                "keep_alive": {
-                    "description": "是否缓存",
-                    "type": "integer"
-                },
-                "name": {
-                    "description": "路由名字",
-                    "type": "string"
-                },
-                "params": {
-                    "description": "参数",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.MenuMetaParams"
-                    }
-                },
-                "parent_id": {
-                    "description": "父id",
-                    "type": "integer"
-                },
-                "path": {
-                    "description": "路由地址",
-                    "type": "string"
-                },
-                "perm": {
-                    "description": "权限标识",
-                    "type": "string"
-                },
-                "rank": {
-                    "description": "排序",
-                    "type": "integer"
-                },
-                "redirect": {
-                    "description": "路由重定向",
-                    "type": "string"
-                },
-                "title": {
-                    "description": "菜单标题",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "菜单类型（0代表目录、1代表菜单、2代表按钮、3代表外链）",
-                    "type": "string"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.MenuMetaParams": {
-            "type": "object",
-            "properties": {
-                "key": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.MenuNewReq": {
-            "type": "object",
-            "properties": {
-                "always_show": {
-                    "description": "是否一直显示菜单",
-                    "type": "integer"
-                },
-                "children": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.MenuNewReq"
-                    }
-                },
-                "component": {
-                    "description": "Layout组件",
-                    "type": "string"
-                },
-                "icon": {
-                    "description": "菜单图标",
-                    "type": "string"
-                },
-                "id": {
-                    "description": "主键",
-                    "type": "integer"
-                },
-                "is_disable": {
-                    "description": "是否禁用",
-                    "type": "integer"
-                },
-                "is_hidden": {
-                    "description": "是否隐藏",
-                    "type": "integer"
-                },
-                "keep_alive": {
-                    "description": "是否缓存",
-                    "type": "integer"
-                },
-                "name": {
-                    "description": "路由名字",
-                    "type": "string"
-                },
-                "params": {
-                    "description": "参数",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.MenuMetaParams"
-                    }
-                },
-                "parent_id": {
-                    "description": "父id",
-                    "type": "integer"
-                },
-                "path": {
-                    "description": "路由地址",
-                    "type": "string"
-                },
-                "perm": {
-                    "description": "权限标识",
-                    "type": "string"
-                },
-                "rank": {
-                    "description": "排序",
-                    "type": "integer"
-                },
-                "redirect": {
-                    "description": "路由重定向",
-                    "type": "string"
-                },
-                "title": {
-                    "description": "菜单标题",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "菜单类型（0代表目录、1代表菜单、2代表按钮、3代表外链）",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.MenuQuery": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "description": "路由名字",
-                    "type": "string"
-                },
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "title": {
-                    "description": "菜单标题",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.OperationLogQuery": {
-            "type": "object",
-            "properties": {
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.PageBackVO": {
-            "type": "object",
-            "properties": {
-                "carousel_covers": {
-                    "description": "轮播封面",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "created_at": {
-                    "description": "创建时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "页面id",
-                    "type": "integer"
-                },
-                "is_carousel": {
-                    "description": "是否轮播",
-                    "type": "integer"
-                },
-                "page_cover": {
-                    "description": "页面封面",
-                    "type": "string"
-                },
-                "page_label": {
-                    "description": "页面标签",
-                    "type": "string"
-                },
-                "page_name": {
-                    "description": "页面名",
-                    "type": "string"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.PageNewReq": {
-            "type": "object",
-            "properties": {
-                "carousel_covers": {
-                    "description": "轮播封面",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "id": {
-                    "description": "页面id",
-                    "type": "integer"
-                },
-                "is_carousel": {
-                    "description": "是否轮播",
-                    "type": "integer"
-                },
-                "page_cover": {
-                    "description": "页面封面",
-                    "type": "string"
-                },
-                "page_label": {
-                    "description": "页面标签",
-                    "type": "string"
-                },
-                "page_name": {
-                    "description": "页面名",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.PageVO": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "description": "页面ID",
-                    "type": "integer"
-                },
-                "is_carousel": {
-                    "description": "是否轮播",
-                    "type": "integer"
-                },
-                "page_cover": {
-                    "description": "页面封面",
-                    "type": "string"
-                },
-                "page_label": {
-                    "description": "页面标签",
-                    "type": "string"
-                },
-                "page_name": {
-                    "description": "页面名称",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.PhotoBackVO": {
-            "type": "object",
-            "properties": {
-                "album_id": {
-                    "description": "相册id",
-                    "type": "integer"
-                },
-                "created_at": {
-                    "description": "创建时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "主键",
-                    "type": "integer"
-                },
-                "is_delete": {
-                    "description": "是否删除",
-                    "type": "integer"
-                },
-                "photo_desc": {
-                    "description": "照片描述",
-                    "type": "string"
-                },
-                "photo_name": {
-                    "description": "照片名",
-                    "type": "string"
-                },
-                "photo_src": {
-                    "description": "照片地址",
-                    "type": "string"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.PhotoNewReq": {
-            "type": "object",
-            "properties": {
-                "album_id": {
-                    "description": "相册id",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "主键",
-                    "type": "integer"
-                },
-                "is_delete": {
-                    "description": "是否删除",
-                    "type": "integer"
-                },
-                "photo_desc": {
-                    "description": "照片描述",
-                    "type": "string"
-                },
-                "photo_name": {
-                    "description": "照片名",
-                    "type": "string"
-                },
-                "photo_src": {
-                    "description": "照片地址",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.PhotoQuery": {
-            "type": "object",
-            "properties": {
-                "album_id": {
-                    "description": "相册id",
-                    "type": "integer"
-                },
-                "is_delete": {
-                    "description": "是否删除",
-                    "type": "integer"
-                },
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.PhotoQueryReq": {
-            "type": "object",
-            "properties": {
-                "album_id": {
-                    "description": "相册ID",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.PreDeleteAlbumReq": {
-            "type": "object",
-            "properties": {
-                "ids": {
-                    "description": "主键",
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "is_delete": {
-                    "description": "是否删除",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.PreDeletePhotoReq": {
-            "type": "object",
-            "properties": {
-                "ids": {
-                    "description": "主键",
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "is_delete": {
-                    "description": "是否删除",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.Remark": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "description": "发布时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "主键id",
-                    "type": "integer"
-                },
-                "ip_address": {
-                    "description": "用户ip",
-                    "type": "string"
-                },
-                "ip_source": {
-                    "description": "用户地址",
-                    "type": "string"
-                },
-                "is_review": {
-                    "description": "是否审核",
-                    "type": "integer"
-                },
-                "message_content": {
-                    "description": "留言内容",
-                    "type": "string"
-                },
-                "terminal_id": {
-                    "description": "终端id",
-                    "type": "string"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                },
-                "user": {
-                    "description": "用户信息",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO"
-                        }
-                    ]
-                },
-                "user_id": {
-                    "description": "用户id",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.RemarkNewReq": {
-            "type": "object",
-            "properties": {
-                "message_content": {
-                    "description": "留言内容",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.RemarkQuery": {
-            "type": "object",
-            "properties": {
-                "is_review": {
-                    "description": "是否审核",
-                    "type": "integer"
-                },
-                "nickname": {
-                    "description": "昵称",
-                    "type": "string"
-                },
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.RemarkQueryReq": {
-            "type": "object",
-            "properties": {
-                "page": {
-                    "type": "integer"
-                },
-                "page_size": {
-                    "type": "integer"
-                },
-                "sorts": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.RemarkReviewReq": {
-            "type": "object",
-            "properties": {
-                "ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "is_review": {
-                    "description": "是否审核",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.RoleBackVO": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "description": "创建时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "主键id",
-                    "type": "integer"
-                },
-                "is_default": {
-                    "description": "是否默认角色 0否 1是",
-                    "type": "integer"
-                },
-                "is_disable": {
-                    "description": "是否禁用  0否 1是",
-                    "type": "integer"
-                },
-                "parent_id": {
-                    "description": "父角色id",
-                    "type": "integer"
-                },
-                "role_comment": {
-                    "description": "角色备注",
-                    "type": "string"
-                },
-                "role_key": {
-                    "description": "角色名",
-                    "type": "string"
-                },
-                "role_label": {
-                    "description": "角色标签",
-                    "type": "string"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.RoleNewReq": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "description": "主键id",
-                    "type": "integer"
-                },
-                "is_default": {
-                    "description": "是否默认角色 0否 1是",
-                    "type": "integer"
-                },
-                "is_disable": {
-                    "description": "是否禁用  0否 1是",
-                    "type": "integer"
-                },
-                "parent_id": {
-                    "description": "父角色id",
-                    "type": "integer"
-                },
-                "role_comment": {
-                    "description": "角色备注",
-                    "type": "string"
-                },
-                "role_key": {
-                    "description": "角色名",
-                    "type": "string"
-                },
-                "role_label": {
-                    "description": "角色标签",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.RoleQuery": {
-            "type": "object",
-            "properties": {
-                "is_disable": {
-                    "description": "是否禁用  0否 1是",
-                    "type": "integer"
-                },
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "role_key": {
-                    "description": "角色名",
-                    "type": "string"
-                },
-                "role_label": {
-                    "description": "角色标签",
-                    "type": "string"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.RoleResourcesResp": {
-            "type": "object",
-            "properties": {
-                "api_ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "menu_ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "role_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.Server": {
-            "type": "object",
-            "properties": {
-                "cpu": {},
-                "disk": {},
-                "os": {},
-                "ram": {}
-            }
-        },
-        "dto.SyncApiReq": {
-            "type": "object"
-        },
-        "dto.SyncMenuReq": {
-            "type": "object",
-            "properties": {
-                "menus": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.MenuNewReq"
-                    }
-                }
-            }
-        },
-        "dto.TagBackVO": {
-            "type": "object",
-            "properties": {
-                "article_count": {
-                    "description": "文章数量",
-                    "type": "integer"
-                },
-                "created_at": {
-                    "description": "创建时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "标签ID",
-                    "type": "integer"
-                },
-                "tag_name": {
-                    "description": "标签名",
-                    "type": "string"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.TagNewReq": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "tag_name": {
-                    "description": "标签名",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.TagQuery": {
-            "type": "object",
-            "properties": {
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "tag_name": {
-                    "description": "标签名",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.TagQueryReq": {
-            "type": "object",
-            "properties": {
-                "page": {
-                    "type": "integer"
-                },
-                "page_size": {
-                    "type": "integer"
-                },
-                "sorts": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "tag_name": {
-                    "description": "标签名",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.TagVO": {
-            "type": "object",
-            "properties": {
-                "article_count": {
-                    "description": "文章数量",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "标签ID",
-                    "type": "integer"
-                },
-                "tag_name": {
-                    "description": "标签名",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.Talk": {
-            "type": "object",
-            "properties": {
-                "comment_count": {
-                    "description": "评论量",
-                    "type": "integer"
-                },
-                "content": {
-                    "description": "评论内容",
-                    "type": "string"
-                },
-                "created_at": {
-                    "description": "创建时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "说说ID",
-                    "type": "integer"
-                },
-                "img_list": {
-                    "description": "图片URL列表",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "is_top": {
-                    "description": "是否置顶",
-                    "type": "integer"
-                },
-                "like_count": {
-                    "description": "点赞量",
-                    "type": "integer"
-                },
-                "status": {
-                    "description": "状态 1.公开 2.私密",
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                },
-                "user": {
-                    "description": "用户信息",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO"
-                        }
-                    ]
-                },
-                "user_id": {
-                    "description": "用户ID",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.TalkBackVO": {
-            "type": "object",
-            "properties": {
-                "comment_count": {
-                    "description": "评论量",
-                    "type": "integer"
-                },
-                "content": {
-                    "description": "说说内容",
-                    "type": "string"
-                },
-                "created_at": {
-                    "description": "创建时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "说说ID",
-                    "type": "integer"
-                },
-                "img_list": {
-                    "description": "图片URL列表",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "is_top": {
-                    "description": "是否置顶",
-                    "type": "integer"
-                },
-                "like_count": {
-                    "description": "点赞量",
-                    "type": "integer"
-                },
-                "status": {
-                    "description": "状态 1.公开 2.私密",
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                },
-                "user": {
-                    "description": "用户信息",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UserInfoVO"
-                        }
-                    ]
-                },
-                "user_id": {
-                    "description": "用户ID",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.TalkNewReq": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "description": "说说内容",
-                    "type": "string"
-                },
-                "id": {
-                    "description": "说说ID",
-                    "type": "integer"
-                },
-                "img_list": {
-                    "description": "图片URL列表",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "is_top": {
-                    "description": "是否置顶",
-                    "type": "integer"
-                },
-                "status": {
-                    "description": "状态 1.公开 2.私密",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.TalkQuery": {
-            "type": "object",
-            "properties": {
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "status": {
-                    "description": "状态 1.公开 2.私密",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.TalkQueryReq": {
-            "type": "object",
-            "properties": {
-                "page": {
-                    "type": "integer"
-                },
-                "page_size": {
-                    "type": "integer"
-                },
-                "sorts": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.UpdateAccountPasswordReq": {
-            "type": "object",
-            "properties": {
-                "password": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.UpdateAccountRolesReq": {
-            "type": "object",
-            "properties": {
-                "role_ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.UpdateAccountStatusReq": {
-            "type": "object",
-            "properties": {
-                "status": {
-                    "description": "状态: -1删除 0正常 1禁用",
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.UpdateCommentReq": {
-            "type": "object",
-            "properties": {
-                "comment_content": {
-                    "description": "评论内容",
-                    "type": "string"
-                },
-                "id": {
-                    "description": "主键",
-                    "type": "integer"
-                },
-                "reply_user_id": {
-                    "description": "回复用户id",
-                    "type": "string"
-                },
-                "status": {
-                    "description": "状态 0.正常 1.已编辑 2.已删除",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.UpdateRoleApisReq": {
-            "type": "object",
-            "properties": {
-                "api_ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "role_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.UpdateRoleMenusReq": {
-            "type": "object",
-            "properties": {
-                "menu_ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "role_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.UploadLogQuery": {
-            "type": "object",
-            "properties": {
-                "file_name": {
-                    "description": "文件名称",
-                    "type": "string"
-                },
-                "file_path": {
-                    "description": "文件路径",
-                    "type": "string"
-                },
-                "file_type": {
-                    "description": "文件类型",
-                    "type": "string"
-                },
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.UserApi": {
-            "type": "object",
-            "properties": {
-                "children": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.UserApi"
-                    }
-                },
-                "created_at": {
-                    "description": "创建时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "主键id",
-                    "type": "integer"
-                },
-                "method": {
-                    "description": "api请求方法",
-                    "type": "string"
-                },
-                "name": {
-                    "description": "api名称",
-                    "type": "string"
-                },
-                "parent_id": {
-                    "description": "父id",
-                    "type": "integer"
-                },
-                "path": {
-                    "description": "api路径",
-                    "type": "string"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.UserApisResp": {
-            "type": "object",
-            "properties": {
-                "list": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.UserApi"
-                    }
-                }
-            }
-        },
-        "dto.UserAreaVO": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.UserLikeResp": {
-            "type": "object",
-            "properties": {
-                "article_like_set": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "comment_like_set": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "talk_like_set": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                }
-            }
-        },
-        "dto.UserLoginHistoryQuery": {
-            "type": "object",
-            "properties": {
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.UserMenu": {
-            "type": "object",
-            "properties": {
-                "children": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.UserMenu"
-                    }
-                },
-                "component": {
-                    "description": "Layout组件",
-                    "type": "string"
-                },
-                "created_at": {
-                    "description": "创建时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "主键",
-                    "type": "integer"
-                },
-                "meta": {
-                    "description": "meta配置",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/dto.UserMenuMeta"
-                        }
-                    ]
-                },
-                "name": {
-                    "description": "路由名字",
-                    "type": "string"
-                },
-                "parent_id": {
-                    "description": "父id",
-                    "type": "integer"
-                },
-                "path": {
-                    "description": "路由地址",
-                    "type": "string"
-                },
-                "redirect": {
-                    "description": "路由重定向",
-                    "type": "string"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.UserMenuMeta": {
-            "type": "object",
-            "properties": {
-                "affix": {
-                    "type": "boolean"
-                },
-                "alwaysShow": {
-                    "type": "boolean"
-                },
-                "breadcrumb": {
-                    "type": "boolean"
-                },
-                "hidden": {
-                    "type": "boolean"
-                },
-                "icon": {
-                    "type": "string"
-                },
-                "keepAlive": {
-                    "type": "boolean"
-                },
-                "title": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.UserMenusResp": {
-            "type": "object",
-            "properties": {
-                "list": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.UserMenu"
-                    }
-                }
-            }
-        },
-        "dto.UserRole": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "description": "主键id",
-                    "type": "integer"
-                },
-                "parent_id": {
-                    "description": "父id",
-                    "type": "integer"
-                },
-                "role_comment": {
-                    "description": "角色备注",
-                    "type": "string"
-                },
-                "role_key": {
-                    "description": "角色名",
-                    "type": "string"
-                },
-                "role_label": {
-                    "description": "角色标签",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.UserRolesResp": {
-            "type": "object",
-            "properties": {
-                "list": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.UserRole"
-                    }
-                }
-            }
-        },
-        "dto.VisitLogQuery": {
-            "type": "object",
-            "properties": {
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_name": {
-                    "description": "页面",
-                    "type": "string"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "terminal_id": {
-                    "description": "终端id",
-                    "type": "string"
-                },
-                "user_id": {
-                    "description": "用户id",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.VisitTrendVO": {
-            "type": "object",
-            "properties": {
-                "date": {
-                    "description": "日期",
-                    "type": "string"
-                },
-                "pv_count": {
-                    "description": "浏览量",
-                    "type": "integer"
-                },
-                "uv_count": {
-                    "description": "访客数",
-                    "type": "integer"
-                }
-            }
-        },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp": {
             "type": "object",
             "properties": {
                 "success_count": {
@@ -10510,7 +7765,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.DeleteUserBindThirdPartyReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.DeleteUserBindThirdPartyReq": {
             "type": "object",
             "properties": {
                 "platform": {
@@ -10519,7 +7774,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.DeletesUploadFileReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.DeletesUploadFileReq": {
             "type": "object",
             "properties": {
                 "file_paths": {
@@ -10531,7 +7786,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmailLoginReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmailLoginReq": {
             "type": "object",
             "properties": {
                 "captcha_code": {
@@ -10552,13 +7807,13 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq": {
             "type": "object"
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyResp": {
             "type": "object"
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.FileInfoVO": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.FileInfoVO": {
             "type": "object",
             "properties": {
                 "file_name": {
@@ -10587,7 +7842,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetCaptchaCodeReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.GetCaptchaCodeReq": {
             "type": "object",
             "properties": {
                 "height": {
@@ -10600,7 +7855,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetCaptchaCodeResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.GetCaptchaCodeResp": {
             "type": "object",
             "properties": {
                 "captcha_base64": {
@@ -10617,7 +7872,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetOauthAuthorizeUrlReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.GetOauthAuthorizeUrlReq": {
             "type": "object",
             "properties": {
                 "platform": {
@@ -10630,7 +7885,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetOauthAuthorizeUrlResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.GetOauthAuthorizeUrlResp": {
             "type": "object",
             "properties": {
                 "authorize_url": {
@@ -10639,7 +7894,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetTouristInfoResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.GetTouristInfoResp": {
             "type": "object",
             "properties": {
                 "tourist_id": {
@@ -10648,7 +7903,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdReq": {
             "type": "object",
             "properties": {
                 "id": {
@@ -10656,7 +7911,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.IdsReq": {
             "type": "object",
             "properties": {
                 "ids": {
@@ -10667,7 +7922,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ListUploadFileReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.ListUploadFileReq": {
             "type": "object",
             "properties": {
                 "file_path": {
@@ -10680,7 +7935,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.LoginReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.LoginReq": {
             "type": "object",
             "properties": {
                 "captcha_code": {
@@ -10699,15 +7954,15 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.LoginResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.LoginResp": {
             "type": "object",
             "properties": {
                 "token": {
-                    "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.Token"
+                    "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.Token"
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.MultiUploadFileReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.MultiUploadFileReq": {
             "type": "object",
             "properties": {
                 "file_path": {
@@ -10721,7 +7976,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageQueryReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageQueryReq": {
             "type": "object",
             "properties": {
                 "page": {
@@ -10745,7 +8000,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp": {
             "type": "object",
             "properties": {
                 "list": {},
@@ -10760,7 +8015,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PhoneLoginReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PhoneLoginReq": {
             "type": "object",
             "properties": {
                 "phone": {
@@ -10773,10 +8028,10 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PingReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PingReq": {
             "type": "object"
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PingResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PingResp": {
             "type": "object",
             "properties": {
                 "description": {
@@ -10802,7 +8057,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.RegisterReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.RegisterReq": {
             "type": "object",
             "properties": {
                 "confirm_password": {
@@ -10825,7 +8080,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ResetPasswordReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.ResetPasswordReq": {
             "type": "object",
             "properties": {
                 "confirm_password": {
@@ -10844,7 +8099,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.RewardQrCode": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.RewardQrCode": {
             "type": "object",
             "properties": {
                 "alipay_qr_code": {
@@ -10857,7 +8112,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.SendEmailVerifyCodeReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.SendEmailVerifyCodeReq": {
             "type": "object",
             "properties": {
                 "email": {
@@ -10870,7 +8125,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.SendPhoneVerifyCodeReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.SendPhoneVerifyCodeReq": {
             "type": "object",
             "properties": {
                 "phone": {
@@ -10883,7 +8138,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.SocialAccountInfo": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.SocialAccountInfo": {
             "type": "object",
             "properties": {
                 "enabled": {
@@ -10904,7 +8159,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ThirdLoginReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.ThirdLoginReq": {
             "type": "object",
             "properties": {
                 "code": {
@@ -10917,7 +8172,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ThirdPlatformInfo": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.ThirdPlatformInfo": {
             "type": "object",
             "properties": {
                 "authorize_url": {
@@ -10938,7 +8193,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.Token": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.Token": {
             "type": "object",
             "properties": {
                 "access_token": {
@@ -10971,7 +8226,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserAvatarReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UpdateUserAvatarReq": {
             "type": "object",
             "properties": {
                 "avatar": {
@@ -10980,7 +8235,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserBindEmailReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UpdateUserBindEmailReq": {
             "type": "object",
             "properties": {
                 "email": {
@@ -10993,7 +8248,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserBindPhoneReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UpdateUserBindPhoneReq": {
             "type": "object",
             "properties": {
                 "phone": {
@@ -11006,7 +8261,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserBindThirdPartyReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UpdateUserBindThirdPartyReq": {
             "type": "object",
             "properties": {
                 "code": {
@@ -11023,7 +8278,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserInfoReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UpdateUserInfoReq": {
             "type": "object",
             "properties": {
                 "gender": {
@@ -11044,7 +8299,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserPasswordReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UpdateUserPasswordReq": {
             "type": "object",
             "properties": {
                 "confirm_password": {
@@ -11061,7 +8316,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UploadFileReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UploadFileReq": {
             "type": "object",
             "properties": {
                 "file": {
@@ -11073,7 +8328,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UserInfoResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UserInfoResp": {
             "type": "object",
             "properties": {
                 "avatar": {
@@ -11123,7 +8378,7 @@ const docTemplate = `{
                 "third_party": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UserThirdPartyInfo"
+                        "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UserThirdPartyInfo"
                     }
                 },
                 "user_id": {
@@ -11140,7 +8395,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UserInfoVO": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UserInfoVO": {
             "type": "object",
             "properties": {
                 "avatar": {
@@ -11169,7 +8424,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UserThirdPartyInfo": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UserThirdPartyInfo": {
             "type": "object",
             "properties": {
                 "avatar": {
@@ -11194,7 +8449,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.WebsiteConfigVO": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.WebsiteConfigVO": {
             "type": "object",
             "properties": {
                 "admin_url": {
@@ -11205,7 +8460,7 @@ const docTemplate = `{
                     "description": "打赏二维码",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.RewardQrCode"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.RewardQrCode"
                         }
                     ]
                 },
@@ -11213,14 +8468,14 @@ const docTemplate = `{
                     "description": "用户第三方登录列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ThirdPlatformInfo"
+                        "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.ThirdPlatformInfo"
                     }
                 },
                 "social_url_list": {
                     "description": "作者社交地址列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.SocialAccountInfo"
+                        "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.SocialAccountInfo"
                     }
                 },
                 "tourist_avatar": {
@@ -11235,7 +8490,7 @@ const docTemplate = `{
                     "description": "网站功能",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.WebsiteFeature"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.WebsiteFeature"
                         }
                     ]
                 },
@@ -11243,7 +8498,7 @@ const docTemplate = `{
                     "description": "网站信息",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.WebsiteInfo"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.WebsiteInfo"
                         }
                     ]
                 },
@@ -11253,7 +8508,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.WebsiteFeature": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.WebsiteFeature": {
             "type": "object",
             "properties": {
                 "is_chat_room": {
@@ -11282,7 +8537,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.WebsiteInfo": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.WebsiteInfo": {
             "type": "object",
             "properties": {
                 "website_author": {
@@ -11315,7 +8570,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.BatchResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.BatchResp": {
             "type": "object",
             "properties": {
                 "success_count": {
@@ -11323,7 +8578,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.DeleteUserBindThirdPartyReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.DeleteUserBindThirdPartyReq": {
             "type": "object",
             "properties": {
                 "platform": {
@@ -11332,7 +8587,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.DeletesUploadFileReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.DeletesUploadFileReq": {
             "type": "object",
             "properties": {
                 "file_paths": {
@@ -11344,7 +8599,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmailLoginReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmailLoginReq": {
             "type": "object",
             "properties": {
                 "captcha_code": {
@@ -11365,13 +8620,13 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyReq": {
             "type": "object"
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp": {
             "type": "object"
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.FileInfoVO": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.FileInfoVO": {
             "type": "object",
             "properties": {
                 "file_name": {
@@ -11400,7 +8655,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetCaptchaCodeReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.GetCaptchaCodeReq": {
             "type": "object",
             "properties": {
                 "height": {
@@ -11413,7 +8668,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetCaptchaCodeResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.GetCaptchaCodeResp": {
             "type": "object",
             "properties": {
                 "captcha_base64": {
@@ -11430,7 +8685,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetOauthAuthorizeUrlReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.GetOauthAuthorizeUrlReq": {
             "type": "object",
             "properties": {
                 "platform": {
@@ -11443,7 +8698,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetOauthAuthorizeUrlResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.GetOauthAuthorizeUrlResp": {
             "type": "object",
             "properties": {
                 "authorize_url": {
@@ -11452,7 +8707,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetTouristInfoResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.GetTouristInfoResp": {
             "type": "object",
             "properties": {
                 "tourist_id": {
@@ -11461,7 +8716,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.IdReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.IdReq": {
             "type": "object",
             "properties": {
                 "id": {
@@ -11469,7 +8724,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ListUploadFileReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.ListUploadFileReq": {
             "type": "object",
             "properties": {
                 "file_path": {
@@ -11482,7 +8737,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.LoginReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.LoginReq": {
             "type": "object",
             "properties": {
                 "captcha_code": {
@@ -11501,15 +8756,15 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.LoginResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.LoginResp": {
             "type": "object",
             "properties": {
                 "token": {
-                    "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.Token"
+                    "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.Token"
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.MultiUploadFileReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.MultiUploadFileReq": {
             "type": "object",
             "properties": {
                 "file_path": {
@@ -11523,7 +8778,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageQueryReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageQueryReq": {
             "type": "object",
             "properties": {
                 "page": {
@@ -11540,7 +8795,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp": {
             "type": "object",
             "properties": {
                 "list": {},
@@ -11555,7 +8810,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PhoneLoginReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PhoneLoginReq": {
             "type": "object",
             "properties": {
                 "phone": {
@@ -11568,10 +8823,10 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PingReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PingReq": {
             "type": "object"
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PingResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PingResp": {
             "type": "object",
             "properties": {
                 "description": {
@@ -11597,7 +8852,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.RegisterReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.RegisterReq": {
             "type": "object",
             "properties": {
                 "confirm_password": {
@@ -11620,7 +8875,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ResetPasswordReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.ResetPasswordReq": {
             "type": "object",
             "properties": {
                 "confirm_password": {
@@ -11639,7 +8894,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.RewardQrCode": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.RewardQrCode": {
             "type": "object",
             "properties": {
                 "alipay_qr_code": {
@@ -11652,7 +8907,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.SendEmailVerifyCodeReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.SendEmailVerifyCodeReq": {
             "type": "object",
             "properties": {
                 "email": {
@@ -11665,7 +8920,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.SendPhoneVerifyCodeReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.SendPhoneVerifyCodeReq": {
             "type": "object",
             "properties": {
                 "phone": {
@@ -11678,7 +8933,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.SocialAccountInfo": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.SocialAccountInfo": {
             "type": "object",
             "properties": {
                 "enabled": {
@@ -11699,7 +8954,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ThirdLoginReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.ThirdLoginReq": {
             "type": "object",
             "properties": {
                 "code": {
@@ -11712,7 +8967,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ThirdPlatformInfo": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.ThirdPlatformInfo": {
             "type": "object",
             "properties": {
                 "authorize_url": {
@@ -11733,7 +8988,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.Token": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.Token": {
             "type": "object",
             "properties": {
                 "access_token": {
@@ -11766,7 +9021,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserAvatarReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UpdateUserAvatarReq": {
             "type": "object",
             "properties": {
                 "avatar": {
@@ -11775,7 +9030,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserBindEmailReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UpdateUserBindEmailReq": {
             "type": "object",
             "properties": {
                 "email": {
@@ -11788,7 +9043,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserBindPhoneReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UpdateUserBindPhoneReq": {
             "type": "object",
             "properties": {
                 "phone": {
@@ -11801,7 +9056,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserBindThirdPartyReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UpdateUserBindThirdPartyReq": {
             "type": "object",
             "properties": {
                 "code": {
@@ -11818,7 +9073,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserInfoReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UpdateUserInfoReq": {
             "type": "object",
             "properties": {
                 "gender": {
@@ -11839,7 +9094,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserPasswordReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UpdateUserPasswordReq": {
             "type": "object",
             "properties": {
                 "confirm_password": {
@@ -11856,7 +9111,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UploadFileReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UploadFileReq": {
             "type": "object",
             "properties": {
                 "file": {
@@ -11868,7 +9123,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoResp": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoResp": {
             "type": "object",
             "properties": {
                 "avatar": {
@@ -11906,7 +9161,7 @@ const docTemplate = `{
                 "third_party": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserThirdPartyInfo"
+                        "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserThirdPartyInfo"
                     }
                 },
                 "user_id": {
@@ -11923,7 +9178,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserInfoVO": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoVO": {
             "type": "object",
             "properties": {
                 "avatar": {
@@ -11952,7 +9207,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UserThirdPartyInfo": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserThirdPartyInfo": {
             "type": "object",
             "properties": {
                 "avatar": {
@@ -11977,7 +9232,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.WebsiteConfigVO": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.WebsiteConfigVO": {
             "type": "object",
             "properties": {
                 "admin_url": {
@@ -11988,7 +9243,7 @@ const docTemplate = `{
                     "description": "打赏二维码",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.RewardQrCode"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.RewardQrCode"
                         }
                     ]
                 },
@@ -11996,14 +9251,14 @@ const docTemplate = `{
                     "description": "用户第三方登录列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ThirdPlatformInfo"
+                        "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.ThirdPlatformInfo"
                     }
                 },
                 "social_url_list": {
                     "description": "作者社交地址列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.SocialAccountInfo"
+                        "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.SocialAccountInfo"
                     }
                 },
                 "tourist_avatar": {
@@ -12018,7 +9273,7 @@ const docTemplate = `{
                     "description": "网站功能",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.WebsiteFeature"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.WebsiteFeature"
                         }
                     ]
                 },
@@ -12026,7 +9281,7 @@ const docTemplate = `{
                     "description": "网站信息",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.WebsiteInfo"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.WebsiteInfo"
                         }
                     ]
                 },
@@ -12036,7 +9291,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.WebsiteFeature": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.WebsiteFeature": {
             "type": "object",
             "properties": {
                 "is_chat_room": {
@@ -12065,7 +9320,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.WebsiteInfo": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.WebsiteInfo": {
             "type": "object",
             "properties": {
                 "website_author": {
@@ -12112,6 +9367,2751 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "types.AboutMeVO": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                }
+            }
+        },
+        "types.AccountQuery": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "description": "状态: -1删除 0正常 1禁用",
+                    "type": "integer"
+                },
+                "user_ids": {
+                    "description": "用户ID",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "types.AdminHomeInfo": {
+            "type": "object",
+            "properties": {
+                "article_count": {
+                    "description": "文章量",
+                    "type": "integer"
+                },
+                "article_statistics": {
+                    "description": "文章提交统计",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.ArticleStatisticsVO"
+                    }
+                },
+                "article_view_ranks": {
+                    "description": "文章浏览量排行",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.ArticleViewVO"
+                    }
+                },
+                "category_list": {
+                    "description": "分类列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.CategoryVO"
+                    }
+                },
+                "remark_count": {
+                    "description": "留言量",
+                    "type": "integer"
+                },
+                "tag_list": {
+                    "description": "标签列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.TagVO"
+                    }
+                },
+                "user_count": {
+                    "description": "用户量",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.Album": {
+            "type": "object",
+            "properties": {
+                "album_cover": {
+                    "description": "相册封面",
+                    "type": "string"
+                },
+                "album_desc": {
+                    "description": "相册描述",
+                    "type": "string"
+                },
+                "album_name": {
+                    "description": "相册名",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.AlbumBackVO": {
+            "type": "object",
+            "properties": {
+                "album_cover": {
+                    "description": "相册封面",
+                    "type": "string"
+                },
+                "album_desc": {
+                    "description": "相册描述",
+                    "type": "string"
+                },
+                "album_name": {
+                    "description": "相册名",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "主键",
+                    "type": "integer"
+                },
+                "is_delete": {
+                    "description": "是否删除",
+                    "type": "integer"
+                },
+                "photo_count": {
+                    "description": "照片数量",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "状态值 1公开 2私密",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.AlbumNewReq": {
+            "type": "object",
+            "properties": {
+                "album_cover": {
+                    "description": "相册封面",
+                    "type": "string"
+                },
+                "album_desc": {
+                    "description": "相册描述",
+                    "type": "string"
+                },
+                "album_name": {
+                    "description": "相册名",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键",
+                    "type": "integer"
+                },
+                "is_delete": {
+                    "description": "是否删除",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "状态值 1公开 2私密",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.AlbumQuery": {
+            "type": "object",
+            "properties": {
+                "album_name": {
+                    "description": "相册名",
+                    "type": "string"
+                },
+                "is_delete": {
+                    "description": "是否删除",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.AlbumQueryReq": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "sorts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.ApiBackVO": {
+            "type": "object",
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.ApiBackVO"
+                    }
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "主键id",
+                    "type": "integer"
+                },
+                "is_disable": {
+                    "description": "是否禁用 0否 1是",
+                    "type": "integer"
+                },
+                "method": {
+                    "description": "api请求方法",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "api名称",
+                    "type": "string"
+                },
+                "parent_id": {
+                    "description": "分组id",
+                    "type": "integer"
+                },
+                "path": {
+                    "description": "api路径",
+                    "type": "string"
+                },
+                "traceable": {
+                    "description": "是否追溯操作记录 0需要，1是",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.ApiNewReq": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "主键id",
+                    "type": "integer"
+                },
+                "is_disable": {
+                    "description": "是否禁用 0否 1是",
+                    "type": "integer"
+                },
+                "method": {
+                    "description": "api请求方法",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "api名称",
+                    "type": "string"
+                },
+                "parent_id": {
+                    "description": "分组id",
+                    "type": "integer"
+                },
+                "path": {
+                    "description": "api路径",
+                    "type": "string"
+                },
+                "traceable": {
+                    "description": "是否追溯操作记录 0需要，1是",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.ApiQuery": {
+            "type": "object",
+            "properties": {
+                "method": {
+                    "description": "api请求方法",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "api名称",
+                    "type": "string"
+                },
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "path": {
+                    "description": "api路径",
+                    "type": "string"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.ArticleArchivesQueryReq": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "sorts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.ArticleBackVO": {
+            "type": "object",
+            "properties": {
+                "article_content": {
+                    "description": "内容",
+                    "type": "string"
+                },
+                "article_cover": {
+                    "description": "文章缩略图",
+                    "type": "string"
+                },
+                "article_title": {
+                    "description": "标题",
+                    "type": "string"
+                },
+                "article_type": {
+                    "description": "文章类型 1原创 2转载 3翻译",
+                    "type": "integer"
+                },
+                "category_name": {
+                    "description": "文章分类名",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "发表时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "文章ID",
+                    "type": "integer"
+                },
+                "is_delete": {
+                    "description": "是否删除",
+                    "type": "integer"
+                },
+                "is_top": {
+                    "description": "是否置顶",
+                    "type": "integer"
+                },
+                "like_count": {
+                    "description": "点赞量",
+                    "type": "integer"
+                },
+                "original_url": {
+                    "description": "原文链接",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
+                    "type": "integer"
+                },
+                "tag_name_list": {
+                    "description": "文章标签列表",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                },
+                "views_count": {
+                    "description": "浏览量",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.ArticleClassifyQueryReq": {
+            "type": "object",
+            "properties": {
+                "classify_name": {
+                    "description": "分类名",
+                    "type": "string"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "sorts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.ArticleDetails": {
+            "type": "object",
+            "properties": {
+                "article_content": {
+                    "description": "内容",
+                    "type": "string"
+                },
+                "article_cover": {
+                    "description": "文章缩略图",
+                    "type": "string"
+                },
+                "article_title": {
+                    "description": "标题",
+                    "type": "string"
+                },
+                "article_type": {
+                    "description": "文章类型",
+                    "type": "integer"
+                },
+                "author": {
+                    "description": "作者",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoVO"
+                        }
+                    ]
+                },
+                "category_name": {
+                    "description": "文章分类名",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "发表时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "文章ID",
+                    "type": "integer"
+                },
+                "is_top": {
+                    "description": "是否置顶",
+                    "type": "integer"
+                },
+                "last_article": {
+                    "description": "上一篇文章",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/types.ArticlePreview"
+                        }
+                    ]
+                },
+                "like_count": {
+                    "description": "点赞量",
+                    "type": "integer"
+                },
+                "newest_article_list": {
+                    "description": "最新文章列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.ArticlePreview"
+                    }
+                },
+                "next_article": {
+                    "description": "下一篇文章",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/types.ArticlePreview"
+                        }
+                    ]
+                },
+                "original_url": {
+                    "description": "原文链接",
+                    "type": "string"
+                },
+                "recommend_article_list": {
+                    "description": "推荐文章列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.ArticlePreview"
+                    }
+                },
+                "status": {
+                    "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
+                    "type": "integer"
+                },
+                "tag_name_list": {
+                    "description": "文章标签列表",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                },
+                "views_count": {
+                    "description": "浏览量",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.ArticleHomeQueryReq": {
+            "type": "object",
+            "properties": {
+                "article_title": {
+                    "description": "标题",
+                    "type": "string"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "sorts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.ArticleNewReq": {
+            "type": "object",
+            "properties": {
+                "article_content": {
+                    "description": "内容",
+                    "type": "string"
+                },
+                "article_cover": {
+                    "description": "文章缩略图",
+                    "type": "string"
+                },
+                "article_title": {
+                    "description": "标题",
+                    "type": "string"
+                },
+                "article_type": {
+                    "description": "文章类型 1原创 2转载 3翻译",
+                    "type": "integer"
+                },
+                "category_name": {
+                    "description": "文章分类名",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "is_top": {
+                    "description": "是否置顶",
+                    "type": "integer"
+                },
+                "original_url": {
+                    "description": "原文链接",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
+                    "type": "integer"
+                },
+                "tag_name_list": {
+                    "description": "文章标签列表",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.ArticlePreview": {
+            "type": "object",
+            "properties": {
+                "article_cover": {
+                    "description": "文章缩略图",
+                    "type": "string"
+                },
+                "article_title": {
+                    "description": "标题",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "文章ID",
+                    "type": "integer"
+                },
+                "like_count": {
+                    "description": "点赞量",
+                    "type": "integer"
+                },
+                "views_count": {
+                    "description": "浏览量",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.ArticleQuery": {
+            "type": "object",
+            "properties": {
+                "article_title": {
+                    "description": "标题",
+                    "type": "string"
+                },
+                "article_type": {
+                    "description": "文章类型 1原创 2转载 3翻译",
+                    "type": "integer"
+                },
+                "category_name": {
+                    "description": "文章分类名",
+                    "type": "string"
+                },
+                "is_delete": {
+                    "description": "是否删除",
+                    "type": "integer"
+                },
+                "is_top": {
+                    "description": "是否置顶",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
+                    "type": "integer"
+                },
+                "tag_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "types.ArticleRecycleReq": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "文章ID",
+                    "type": "integer"
+                },
+                "is_delete": {
+                    "description": "是否删除",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.ArticleStatisticsVO": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "description": "数量",
+                    "type": "integer"
+                },
+                "date": {
+                    "description": "日期",
+                    "type": "string"
+                }
+            }
+        },
+        "types.ArticleTopReq": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "文章ID",
+                    "type": "integer"
+                },
+                "is_top": {
+                    "description": "是否置顶",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.ArticleViewVO": {
+            "type": "object",
+            "properties": {
+                "article_title": {
+                    "description": "文章标题",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "文章ID",
+                    "type": "integer"
+                },
+                "view_count": {
+                    "description": "浏览量",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.CategoryBackVO": {
+            "type": "object",
+            "properties": {
+                "article_count": {
+                    "type": "integer"
+                },
+                "category_name": {
+                    "description": "分类名",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.CategoryNewReq": {
+            "type": "object",
+            "properties": {
+                "category_name": {
+                    "description": "分类名",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "types.CategoryQuery": {
+            "type": "object",
+            "properties": {
+                "category_name": {
+                    "description": "分类名",
+                    "type": "string"
+                },
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.CategoryQueryReq": {
+            "type": "object",
+            "properties": {
+                "category_name": {
+                    "description": "分类名",
+                    "type": "string"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "sorts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.CategoryVO": {
+            "type": "object",
+            "properties": {
+                "article_count": {
+                    "description": "文章数量",
+                    "type": "integer"
+                },
+                "category_name": {
+                    "description": "分类名",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "types.Comment": {
+            "type": "object",
+            "properties": {
+                "comment_content": {
+                    "description": "评论内容",
+                    "type": "string"
+                },
+                "comment_reply_list": {
+                    "description": "评论回复列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.CommentReply"
+                    }
+                },
+                "created_at": {
+                    "description": "评论时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "评论id",
+                    "type": "integer"
+                },
+                "like_count": {
+                    "description": "点赞数",
+                    "type": "integer"
+                },
+                "parent_id": {
+                    "description": "父评论id",
+                    "type": "integer"
+                },
+                "reply_count": {
+                    "description": "回复量",
+                    "type": "integer"
+                },
+                "reply_msg_id": {
+                    "description": "会话id",
+                    "type": "integer"
+                },
+                "reply_user": {
+                    "description": "被回复评论用户",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoVO"
+                        }
+                    ]
+                },
+                "reply_user_id": {
+                    "description": "被回复用户id",
+                    "type": "string"
+                },
+                "topic_id": {
+                    "description": "主题id",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "评论类型 1.文章 2.友链 3.说说",
+                    "type": "integer"
+                },
+                "user": {
+                    "description": "评论用户",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoVO"
+                        }
+                    ]
+                },
+                "user_id": {
+                    "description": "用户id",
+                    "type": "string"
+                }
+            }
+        },
+        "types.CommentNewReq": {
+            "type": "object",
+            "properties": {
+                "comment_content": {
+                    "description": "评论内容",
+                    "type": "string"
+                },
+                "parent_id": {
+                    "description": "父评论id",
+                    "type": "integer"
+                },
+                "reply_msg_id": {
+                    "description": "会话id",
+                    "type": "integer"
+                },
+                "reply_user_id": {
+                    "description": "回复用户id",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "状态 0.正常 1.已编辑 2.已删除",
+                    "type": "integer"
+                },
+                "topic_id": {
+                    "description": "主题id",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "评论类型 1.文章 2.友链 3.说说",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.CommentQuery": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "description": "用户头像",
+                    "type": "string"
+                },
+                "is_review": {
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "type": {
+                    "description": "评论类型 1.文章 2.友链 3.说说",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.CommentQueryReq": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "parent_id": {
+                    "description": "父评论id",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "topic_id": {
+                    "description": "主题id",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "评论类型 1.文章 2.友链 3.说说",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.CommentReply": {
+            "type": "object",
+            "properties": {
+                "comment_content": {
+                    "description": "评论内容",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "评论时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "评论id",
+                    "type": "integer"
+                },
+                "like_count": {
+                    "description": "点赞数",
+                    "type": "integer"
+                },
+                "parent_id": {
+                    "description": "父评论id",
+                    "type": "integer"
+                },
+                "reply_msg_id": {
+                    "description": "会话id",
+                    "type": "integer"
+                },
+                "reply_user": {
+                    "description": "被回复评论用户",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoVO"
+                        }
+                    ]
+                },
+                "reply_user_id": {
+                    "description": "被回复用户id",
+                    "type": "string"
+                },
+                "topic_id": {
+                    "description": "主题id",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "评论类型 1.文章 2.友链 3.说说",
+                    "type": "integer"
+                },
+                "user": {
+                    "description": "用户信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoVO"
+                        }
+                    ]
+                },
+                "user_id": {
+                    "description": "用户id",
+                    "type": "string"
+                }
+            }
+        },
+        "types.CommentReviewReq": {
+            "type": "object",
+            "properties": {
+                "ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "is_review": {
+                    "type": "integer"
+                }
+            }
+        },
+        "types.FriendBackVO": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "link_address": {
+                    "description": "链接地址",
+                    "type": "string"
+                },
+                "link_avatar": {
+                    "description": "链接头像",
+                    "type": "string"
+                },
+                "link_intro": {
+                    "description": "链接介绍",
+                    "type": "string"
+                },
+                "link_name": {
+                    "description": "链接名",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.FriendNewReq": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "link_address": {
+                    "description": "链接地址",
+                    "type": "string"
+                },
+                "link_avatar": {
+                    "description": "链接头像",
+                    "type": "string"
+                },
+                "link_intro": {
+                    "description": "链接介绍",
+                    "type": "string"
+                },
+                "link_name": {
+                    "description": "链接名",
+                    "type": "string"
+                }
+            }
+        },
+        "types.FriendQuery": {
+            "type": "object",
+            "properties": {
+                "link_name": {
+                    "description": "链接名",
+                    "type": "string"
+                },
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.FriendQueryReq": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "sorts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.GetAboutMeReq": {
+            "type": "object"
+        },
+        "types.GetAboutMeResp": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                }
+            }
+        },
+        "types.GetBlogHomeInfoReq": {
+            "type": "object"
+        },
+        "types.GetBlogHomeInfoResp": {
+            "type": "object",
+            "properties": {
+                "article_count": {
+                    "description": "文章数量",
+                    "type": "integer"
+                },
+                "category_count": {
+                    "description": "分类数量",
+                    "type": "integer"
+                },
+                "page_list": {
+                    "description": "页面列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.PageVO"
+                    }
+                },
+                "tag_count": {
+                    "description": "标签数量",
+                    "type": "integer"
+                },
+                "total_page_view_count": {
+                    "description": "总浏览量",
+                    "type": "integer"
+                },
+                "total_user_view_count": {
+                    "description": "总服务量",
+                    "type": "integer"
+                },
+                "website_config": {
+                    "description": "网站配置",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.WebsiteConfigVO"
+                        }
+                    ]
+                }
+            }
+        },
+        "types.GetUserAreaStatsReq": {
+            "type": "object",
+            "properties": {
+                "user_type": {
+                    "description": "用户类型: 0注册用户 1游客",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.GetUserAreaStatsResp": {
+            "type": "object",
+            "properties": {
+                "tourist_areas": {
+                    "description": "游客分布地区",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.UserAreaVO"
+                    }
+                },
+                "user_areas": {
+                    "description": "用户分布地区",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.UserAreaVO"
+                    }
+                }
+            }
+        },
+        "types.GetVisitStatsResp": {
+            "type": "object",
+            "properties": {
+                "pv_growth_rate": {
+                    "description": "同比增长率（相对于昨天同一时间段的增长率）",
+                    "type": "number"
+                },
+                "today_pv_count": {
+                    "description": "今日浏览量(PV)",
+                    "type": "integer"
+                },
+                "today_uv_count": {
+                    "description": "今日访客数(UV)",
+                    "type": "integer"
+                },
+                "total_pv_count": {
+                    "description": "总浏览量",
+                    "type": "integer"
+                },
+                "total_uv_count": {
+                    "description": "总访客数",
+                    "type": "integer"
+                },
+                "uv_growth_rate": {
+                    "description": "访客数同比增长率（相对于昨天同一时间段的增长率）",
+                    "type": "number"
+                }
+            }
+        },
+        "types.GetVisitTrendReq": {
+            "type": "object",
+            "properties": {
+                "end_date": {
+                    "description": "结束日期",
+                    "type": "string"
+                },
+                "start_date": {
+                    "description": "开始日期",
+                    "type": "string"
+                }
+            }
+        },
+        "types.GetVisitTrendResp": {
+            "type": "object",
+            "properties": {
+                "visit_trend": {
+                    "description": "访客数和浏览量趋势",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.VisitTrendVO"
+                    }
+                }
+            }
+        },
+        "types.LoginLogQuery": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "user_id": {
+                    "description": "用户id",
+                    "type": "string"
+                }
+            }
+        },
+        "types.MenuBackVO": {
+            "type": "object",
+            "properties": {
+                "always_show": {
+                    "description": "是否一直显示菜单",
+                    "type": "integer"
+                },
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.MenuBackVO"
+                    }
+                },
+                "component": {
+                    "description": "Layout组件",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "icon": {
+                    "description": "菜单图标",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键",
+                    "type": "integer"
+                },
+                "is_disable": {
+                    "description": "是否禁用",
+                    "type": "integer"
+                },
+                "is_hidden": {
+                    "description": "是否隐藏",
+                    "type": "integer"
+                },
+                "keep_alive": {
+                    "description": "是否缓存",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "路由名字",
+                    "type": "string"
+                },
+                "params": {
+                    "description": "参数",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.MenuMetaParams"
+                    }
+                },
+                "parent_id": {
+                    "description": "父id",
+                    "type": "integer"
+                },
+                "path": {
+                    "description": "路由地址",
+                    "type": "string"
+                },
+                "perm": {
+                    "description": "权限标识",
+                    "type": "string"
+                },
+                "rank": {
+                    "description": "排序",
+                    "type": "integer"
+                },
+                "redirect": {
+                    "description": "路由重定向",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "菜单标题",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "菜单类型（0代表目录、1代表菜单、2代表按钮、3代表外链）",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.MenuMetaParams": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "types.MenuNewReq": {
+            "type": "object",
+            "properties": {
+                "always_show": {
+                    "description": "是否一直显示菜单",
+                    "type": "integer"
+                },
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.MenuNewReq"
+                    }
+                },
+                "component": {
+                    "description": "Layout组件",
+                    "type": "string"
+                },
+                "icon": {
+                    "description": "菜单图标",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键",
+                    "type": "integer"
+                },
+                "is_disable": {
+                    "description": "是否禁用",
+                    "type": "integer"
+                },
+                "is_hidden": {
+                    "description": "是否隐藏",
+                    "type": "integer"
+                },
+                "keep_alive": {
+                    "description": "是否缓存",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "路由名字",
+                    "type": "string"
+                },
+                "params": {
+                    "description": "参数",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.MenuMetaParams"
+                    }
+                },
+                "parent_id": {
+                    "description": "父id",
+                    "type": "integer"
+                },
+                "path": {
+                    "description": "路由地址",
+                    "type": "string"
+                },
+                "perm": {
+                    "description": "权限标识",
+                    "type": "string"
+                },
+                "rank": {
+                    "description": "排序",
+                    "type": "integer"
+                },
+                "redirect": {
+                    "description": "路由重定向",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "菜单标题",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "菜单类型（0代表目录、1代表菜单、2代表按钮、3代表外链）",
+                    "type": "string"
+                }
+            }
+        },
+        "types.MenuQuery": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "路由名字",
+                    "type": "string"
+                },
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "title": {
+                    "description": "菜单标题",
+                    "type": "string"
+                }
+            }
+        },
+        "types.OperationLogQuery": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.PageBackVO": {
+            "type": "object",
+            "properties": {
+                "carousel_covers": {
+                    "description": "轮播封面",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "页面id",
+                    "type": "integer"
+                },
+                "is_carousel": {
+                    "description": "是否轮播",
+                    "type": "integer"
+                },
+                "page_cover": {
+                    "description": "页面封面",
+                    "type": "string"
+                },
+                "page_label": {
+                    "description": "页面标签",
+                    "type": "string"
+                },
+                "page_name": {
+                    "description": "页面名",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.PageNewReq": {
+            "type": "object",
+            "properties": {
+                "carousel_covers": {
+                    "description": "轮播封面",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "description": "页面id",
+                    "type": "integer"
+                },
+                "is_carousel": {
+                    "description": "是否轮播",
+                    "type": "integer"
+                },
+                "page_cover": {
+                    "description": "页面封面",
+                    "type": "string"
+                },
+                "page_label": {
+                    "description": "页面标签",
+                    "type": "string"
+                },
+                "page_name": {
+                    "description": "页面名",
+                    "type": "string"
+                }
+            }
+        },
+        "types.PageVO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "页面ID",
+                    "type": "integer"
+                },
+                "is_carousel": {
+                    "description": "是否轮播",
+                    "type": "integer"
+                },
+                "page_cover": {
+                    "description": "页面封面",
+                    "type": "string"
+                },
+                "page_label": {
+                    "description": "页面标签",
+                    "type": "string"
+                },
+                "page_name": {
+                    "description": "页面名称",
+                    "type": "string"
+                }
+            }
+        },
+        "types.PhotoBackVO": {
+            "type": "object",
+            "properties": {
+                "album_id": {
+                    "description": "相册id",
+                    "type": "integer"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "主键",
+                    "type": "integer"
+                },
+                "is_delete": {
+                    "description": "是否删除",
+                    "type": "integer"
+                },
+                "photo_desc": {
+                    "description": "照片描述",
+                    "type": "string"
+                },
+                "photo_name": {
+                    "description": "照片名",
+                    "type": "string"
+                },
+                "photo_src": {
+                    "description": "照片地址",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.PhotoNewReq": {
+            "type": "object",
+            "properties": {
+                "album_id": {
+                    "description": "相册id",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "主键",
+                    "type": "integer"
+                },
+                "is_delete": {
+                    "description": "是否删除",
+                    "type": "integer"
+                },
+                "photo_desc": {
+                    "description": "照片描述",
+                    "type": "string"
+                },
+                "photo_name": {
+                    "description": "照片名",
+                    "type": "string"
+                },
+                "photo_src": {
+                    "description": "照片地址",
+                    "type": "string"
+                }
+            }
+        },
+        "types.PhotoQuery": {
+            "type": "object",
+            "properties": {
+                "album_id": {
+                    "description": "相册id",
+                    "type": "integer"
+                },
+                "is_delete": {
+                    "description": "是否删除",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.PhotoQueryReq": {
+            "type": "object",
+            "properties": {
+                "album_id": {
+                    "description": "相册ID",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.PreDeleteAlbumReq": {
+            "type": "object",
+            "properties": {
+                "ids": {
+                    "description": "主键",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "is_delete": {
+                    "description": "是否删除",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.PreDeletePhotoReq": {
+            "type": "object",
+            "properties": {
+                "ids": {
+                    "description": "主键",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "is_delete": {
+                    "description": "是否删除",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.Remark": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "description": "发布时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "主键id",
+                    "type": "integer"
+                },
+                "ip_address": {
+                    "description": "用户ip",
+                    "type": "string"
+                },
+                "ip_source": {
+                    "description": "用户地址",
+                    "type": "string"
+                },
+                "is_review": {
+                    "description": "是否审核",
+                    "type": "integer"
+                },
+                "message_content": {
+                    "description": "留言内容",
+                    "type": "string"
+                },
+                "terminal_id": {
+                    "description": "终端id",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                },
+                "user": {
+                    "description": "用户信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoVO"
+                        }
+                    ]
+                },
+                "user_id": {
+                    "description": "用户id",
+                    "type": "string"
+                }
+            }
+        },
+        "types.RemarkNewReq": {
+            "type": "object",
+            "properties": {
+                "message_content": {
+                    "description": "留言内容",
+                    "type": "string"
+                }
+            }
+        },
+        "types.RemarkQuery": {
+            "type": "object",
+            "properties": {
+                "is_review": {
+                    "description": "是否审核",
+                    "type": "integer"
+                },
+                "nickname": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.RemarkQueryReq": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "sorts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.RemarkReviewReq": {
+            "type": "object",
+            "properties": {
+                "ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "is_review": {
+                    "description": "是否审核",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.RoleBackVO": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "主键id",
+                    "type": "integer"
+                },
+                "is_default": {
+                    "description": "是否默认角色 0否 1是",
+                    "type": "integer"
+                },
+                "is_disable": {
+                    "description": "是否禁用  0否 1是",
+                    "type": "integer"
+                },
+                "parent_id": {
+                    "description": "父角色id",
+                    "type": "integer"
+                },
+                "role_comment": {
+                    "description": "角色备注",
+                    "type": "string"
+                },
+                "role_key": {
+                    "description": "角色名",
+                    "type": "string"
+                },
+                "role_label": {
+                    "description": "角色标签",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.RoleNewReq": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "主键id",
+                    "type": "integer"
+                },
+                "is_default": {
+                    "description": "是否默认角色 0否 1是",
+                    "type": "integer"
+                },
+                "is_disable": {
+                    "description": "是否禁用  0否 1是",
+                    "type": "integer"
+                },
+                "parent_id": {
+                    "description": "父角色id",
+                    "type": "integer"
+                },
+                "role_comment": {
+                    "description": "角色备注",
+                    "type": "string"
+                },
+                "role_key": {
+                    "description": "角色名",
+                    "type": "string"
+                },
+                "role_label": {
+                    "description": "角色标签",
+                    "type": "string"
+                }
+            }
+        },
+        "types.RoleQuery": {
+            "type": "object",
+            "properties": {
+                "is_disable": {
+                    "description": "是否禁用  0否 1是",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "role_key": {
+                    "description": "角色名",
+                    "type": "string"
+                },
+                "role_label": {
+                    "description": "角色标签",
+                    "type": "string"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.RoleResourcesResp": {
+            "type": "object",
+            "properties": {
+                "api_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "menu_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "role_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "types.Server": {
+            "type": "object",
+            "properties": {
+                "cpu": {},
+                "disk": {},
+                "os": {},
+                "ram": {}
+            }
+        },
+        "types.SyncApiReq": {
+            "type": "object"
+        },
+        "types.SyncMenuReq": {
+            "type": "object",
+            "properties": {
+                "menus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.MenuNewReq"
+                    }
+                }
+            }
+        },
+        "types.TagBackVO": {
+            "type": "object",
+            "properties": {
+                "article_count": {
+                    "description": "文章数量",
+                    "type": "integer"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "标签ID",
+                    "type": "integer"
+                },
+                "tag_name": {
+                    "description": "标签名",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.TagNewReq": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "tag_name": {
+                    "description": "标签名",
+                    "type": "string"
+                }
+            }
+        },
+        "types.TagQuery": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tag_name": {
+                    "description": "标签名",
+                    "type": "string"
+                }
+            }
+        },
+        "types.TagQueryReq": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "sorts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tag_name": {
+                    "description": "标签名",
+                    "type": "string"
+                }
+            }
+        },
+        "types.TagVO": {
+            "type": "object",
+            "properties": {
+                "article_count": {
+                    "description": "文章数量",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "标签ID",
+                    "type": "integer"
+                },
+                "tag_name": {
+                    "description": "标签名",
+                    "type": "string"
+                }
+            }
+        },
+        "types.Talk": {
+            "type": "object",
+            "properties": {
+                "comment_count": {
+                    "description": "评论量",
+                    "type": "integer"
+                },
+                "content": {
+                    "description": "评论内容",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "说说ID",
+                    "type": "integer"
+                },
+                "img_list": {
+                    "description": "图片URL列表",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "is_top": {
+                    "description": "是否置顶",
+                    "type": "integer"
+                },
+                "like_count": {
+                    "description": "点赞量",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "状态 1.公开 2.私密",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                },
+                "user": {
+                    "description": "用户信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoVO"
+                        }
+                    ]
+                },
+                "user_id": {
+                    "description": "用户ID",
+                    "type": "string"
+                }
+            }
+        },
+        "types.TalkBackVO": {
+            "type": "object",
+            "properties": {
+                "comment_count": {
+                    "description": "评论量",
+                    "type": "integer"
+                },
+                "content": {
+                    "description": "说说内容",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "说说ID",
+                    "type": "integer"
+                },
+                "img_list": {
+                    "description": "图片URL列表",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "is_top": {
+                    "description": "是否置顶",
+                    "type": "integer"
+                },
+                "like_count": {
+                    "description": "点赞量",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "状态 1.公开 2.私密",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                },
+                "user": {
+                    "description": "用户信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UserInfoVO"
+                        }
+                    ]
+                },
+                "user_id": {
+                    "description": "用户ID",
+                    "type": "string"
+                }
+            }
+        },
+        "types.TalkNewReq": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "description": "说说内容",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "说说ID",
+                    "type": "integer"
+                },
+                "img_list": {
+                    "description": "图片URL列表",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "is_top": {
+                    "description": "是否置顶",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "状态 1.公开 2.私密",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.TalkQuery": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "description": "状态 1.公开 2.私密",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.TalkQueryReq": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "sorts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.UpdateAccountPasswordReq": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "types.UpdateAccountRolesReq": {
+            "type": "object",
+            "properties": {
+                "role_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "types.UpdateAccountStatusReq": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "description": "状态: -1删除 0正常 1禁用",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "types.UpdateCommentReq": {
+            "type": "object",
+            "properties": {
+                "comment_content": {
+                    "description": "评论内容",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键",
+                    "type": "integer"
+                },
+                "reply_user_id": {
+                    "description": "回复用户id",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "状态 0.正常 1.已编辑 2.已删除",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.UpdateRoleApisReq": {
+            "type": "object",
+            "properties": {
+                "api_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "role_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "types.UpdateRoleMenusReq": {
+            "type": "object",
+            "properties": {
+                "menu_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "role_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "types.UploadLogQuery": {
+            "type": "object",
+            "properties": {
+                "file_name": {
+                    "description": "文件名称",
+                    "type": "string"
+                },
+                "file_path": {
+                    "description": "文件路径",
+                    "type": "string"
+                },
+                "file_type": {
+                    "description": "文件类型",
+                    "type": "string"
+                },
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.UserApi": {
+            "type": "object",
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.UserApi"
+                    }
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "主键id",
+                    "type": "integer"
+                },
+                "method": {
+                    "description": "api请求方法",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "api名称",
+                    "type": "string"
+                },
+                "parent_id": {
+                    "description": "父id",
+                    "type": "integer"
+                },
+                "path": {
+                    "description": "api路径",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.UserApisResp": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.UserApi"
+                    }
+                }
+            }
+        },
+        "types.UserAreaVO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
+        "types.UserLikeResp": {
+            "type": "object",
+            "properties": {
+                "article_like_set": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "comment_like_set": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "talk_like_set": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "types.UserLoginHistoryQuery": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "types.UserMenu": {
+            "type": "object",
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.UserMenu"
+                    }
+                },
+                "component": {
+                    "description": "Layout组件",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "主键",
+                    "type": "integer"
+                },
+                "meta": {
+                    "description": "meta配置",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/types.UserMenuMeta"
+                        }
+                    ]
+                },
+                "name": {
+                    "description": "路由名字",
+                    "type": "string"
+                },
+                "parent_id": {
+                    "description": "父id",
+                    "type": "integer"
+                },
+                "path": {
+                    "description": "路由地址",
+                    "type": "string"
+                },
+                "redirect": {
+                    "description": "路由重定向",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.UserMenuMeta": {
+            "type": "object",
+            "properties": {
+                "affix": {
+                    "type": "boolean"
+                },
+                "alwaysShow": {
+                    "type": "boolean"
+                },
+                "breadcrumb": {
+                    "type": "boolean"
+                },
+                "hidden": {
+                    "type": "boolean"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "keepAlive": {
+                    "type": "boolean"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "types.UserMenusResp": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.UserMenu"
+                    }
+                }
+            }
+        },
+        "types.UserRole": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "主键id",
+                    "type": "integer"
+                },
+                "parent_id": {
+                    "description": "父id",
+                    "type": "integer"
+                },
+                "role_comment": {
+                    "description": "角色备注",
+                    "type": "string"
+                },
+                "role_key": {
+                    "description": "角色名",
+                    "type": "string"
+                },
+                "role_label": {
+                    "description": "角色标签",
+                    "type": "string"
+                }
+            }
+        },
+        "types.UserRolesResp": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.UserRole"
+                    }
+                }
+            }
+        },
+        "types.VisitLogQuery": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_name": {
+                    "description": "页面",
+                    "type": "string"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "terminal_id": {
+                    "description": "终端id",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "用户id",
+                    "type": "string"
+                }
+            }
+        },
+        "types.VisitTrendVO": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "description": "日期",
+                    "type": "string"
+                },
+                "pv_count": {
+                    "description": "浏览量",
+                    "type": "integer"
+                },
+                "uv_count": {
+                    "description": "访客数",
+                    "type": "integer"
+                }
+            }
         }
     },
     "securityDefinitions": {
@@ -12119,9 +12119,6 @@ const docTemplate = `{
             "type": "apiKey",
             "name": "x-token",
             "in": "header"
-        },
-        "BasicAuth": {
-            "type": "basic"
         }
     }
 }`
@@ -12132,8 +12129,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:9090",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Swagger Example API",
-	Description:      "APP接口鉴权方式：token采用自加密token的方式，自加密token规则：sha256(${x-timestamp}${base_secret}) 生成的加密token，x-timestamp 时间戳需要保持10分钟内",
+	Title:            "ve-blog-golang API",
+	Description:      "ve-blog-golang 博客系统 API 文档",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

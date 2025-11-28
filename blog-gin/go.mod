@@ -19,7 +19,7 @@ require (
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.1
 	github.com/swaggo/swag v1.16.6
-	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20251120024304-1faa82b79994
+	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20251205044501-c139cfda10fe
 	go.opentelemetry.io/otel/sdk v1.38.0
 	go.opentelemetry.io/otel/trace v1.38.0
 	go.uber.org/zap v1.27.1

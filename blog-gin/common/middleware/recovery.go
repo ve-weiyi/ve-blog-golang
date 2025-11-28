@@ -36,7 +36,7 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 				// DumpRequest 以 HTTP/1.x 连线形式返回给定的请求
 				httpRequest, _ := httputil.DumpRequest(c.Request, false)
 				if brokenPipe {
-					logz.Error(c.Request.URL.Path,
+					logz.L().Error(c.Request.URL.Path,
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 					)
@@ -47,13 +47,13 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 				}
 
 				if stack {
-					logz.Error("[Recovery from panic]",
+					logz.L().Error("[Recovery from panic]",
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 						zap.String("stack", string(debug.Stack())), // 返回调用它的goroutine的格式化堆栈跟踪。
 					)
 				} else {
-					logz.Error("[Recovery from panic]",
+					logz.L().Error("[Recovery from panic]",
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 					)

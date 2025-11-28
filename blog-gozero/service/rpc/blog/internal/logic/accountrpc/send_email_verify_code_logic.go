@@ -10,8 +10,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/patternx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/tempx"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -33,7 +33,7 @@ func NewSendEmailVerifyCodeLogic(ctx context.Context, svcCtx *svc.ServiceContext
 // 发送邮件验证码
 func (l *SendEmailVerifyCodeLogic) SendEmailVerifyCode(in *accountrpc.SendEmailVerifyCodeReq) (*accountrpc.EmptyResp, error) {
 	// 校验邮箱格式
-	if !valid.IsEmailValid(in.Email) {
+	if !patternx.IsValidEmail(in.Email) {
 		return nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "邮箱格式不正确")
 	}
 

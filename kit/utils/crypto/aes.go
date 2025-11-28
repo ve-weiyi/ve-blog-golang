@@ -26,12 +26,12 @@ type AES interface {
 // keySize: 16(128-bit), 24(192-bit) 或 32(256-bit)
 func GenerateRandomAESKey(keySize int) ([]byte, error) {
 	if keySize != 16 && keySize != 24 && keySize != 32 {
-		return nil, fmt.Errorf("无效的密钥长度: 必须是16、24或32字节")
+		return nil, fmt.Errorf("invalid key size: must be 16, 24 or 32 bytes")
 	}
 
 	key := make([]byte, keySize)
 	if _, err := rand.Read(key); err != nil {
-		return nil, fmt.Errorf("生成随机密钥失败: %v", err)
+		return nil, fmt.Errorf("failed to generate random key: %v", err)
 	}
 
 	return key, nil

@@ -9,11 +9,24 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 )
 
-//main直接调用
-//静太文件处理
-//staticFileHandler(server)
+// go-zero实现路径通配方式
+func PrefixRoutes(prefix string, handler http.HandlerFunc) []rest.Route {
+	var rt []rest.Route
+	dirLevel := []string{":a", ":b", ":c", ":d", ":e"}
+	for i := 1; i < len(dirLevel); i++ {
+		path := prefix + strings.Join(dirLevel[:i], "/")
+		rt = append(rt,
+			rest.Route{
+				Method:  http.MethodGet,
+				Path:    path,
+				Handler: handler,
+			})
+	}
+	return rt
+}
 
-// 定义函数
+// 静态文件处理
+// staticFileHandler(server)
 func staticFileHandler(server *rest.Server) {
 	//这里注册
 	pattern := "web"
@@ -63,21 +76,6 @@ func staticFileHandler(server *rest.Server) {
 			})
 	}
 
-}
-
-func PrefixRoutes(prefix string, handler http.HandlerFunc) []rest.Route {
-	var rt []rest.Route
-	dirLevel := []string{":a", ":b", ":c", ":d", ":e", ":f"}
-	for i := 1; i < len(dirLevel); i++ {
-		path := prefix + strings.Join(dirLevel[:i], "/")
-		rt = append(rt,
-			rest.Route{
-				Method:  http.MethodGet,
-				Path:    path,
-				Handler: handler,
-			})
-	}
-	return rt
 }
 
 // 不能匹配多级目录

@@ -25,7 +25,7 @@ func NewRedisMqConn(redisAddr, channel string) *RedisMqConn {
 	})
 
 	return &RedisMqConn{
-		Logger:  logz.Default().Sugar(),
+		Logger:  logz.S(),
 		client:  client,
 		channel: channel,
 	}

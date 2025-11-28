@@ -24,7 +24,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
 	"github.com/ve-weiyi/ve-blog-golang/stompws/logws"
 	"github.com/ve-weiyi/ve-blog-golang/stompws/server/client"
 )
@@ -45,7 +44,6 @@ type ServiceContext struct {
 	Redis       *redis.Redis
 	Uploader    oss.OSS
 	TokenHolder tokenx.TokenHolder
-	Hub         *ws.Hub
 
 	StompHubServer *client.StompHubServer
 

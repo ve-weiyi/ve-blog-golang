@@ -1,30 +1,32 @@
 package logz
 
 import (
+	"context"
 	"testing"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/logz/zaplog"
+	"go.opentelemetry.io/otel/sdk/trace"
+	"go.uber.org/zap"
 )
 
-// 同时输出到控制台和文件测试
-func TestGlogConsoleAndFile(t *testing.T) {
-	logs := zaplog.NewZapLogger(1, zaplog.NewConsoleConfig())
-	//logj := zaplog.NewZapLogger(0, zaplog.NewFileConfig())
-	Init(logs)
-
-	Debug("This is a debug message")
-	Info("This is an info message")
-	Warn("This is a warning message")
-	Error("This is an error message")
+func TestZap(t *testing.T) {
+	L().Info("hello world")
 }
 
-// 压力测试
-func BenchmarkExample(b *testing.B) {
-	logs := zaplog.NewZapLogger(0, zaplog.NewConsoleConfig())
-	logj := zaplog.NewZapLogger(0, zaplog.NewFileConfig())
-	for i := 0; i < b.N; i++ {
-		// 在这里执行需要进行压力测试的代码
-		logs.Sugar().Info("hello", i)
-		logj.Sugar().Info("hello", i)
-	}
+func TestTrace(t *testing.T) {
+	ip := "localhost"
+	ctx := context.Background()
+	tracer := trace.NewTracerProvider().Tracer(ip)
+	ctx, span := tracer.Start(ctx, TraceIDKey)
+	defer span.End()
+
+	SetLog(&LogConfig{
+		Level:      "info",
+		Filename:   "./test.log",
+		MaxSize:    100,
+		MaxBackups: 7,
+		MaxAge:     30,
+		Compress:   false,
+	})
+	L().Info("Trace test", zap.String("ip", ip))
+	L().Info("Trace test", WithTraceField(ctx))
 }

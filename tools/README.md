@@ -1,50 +1,116 @@
-# 博客系统代码生成工具
+# Tools - 代码生成工具
 
-## 快速代码生成器 [quickstart](quickstart)
+ve-blog-golang 项目的代码生成工具集，用于自动化生成各类代码文件，提高开发效率。
 
-基于数据库模型自动生成完整的 CRUD 代码，包括：
+## 功能概述
 
-- 路由配置 (router)
-- 控制器代码 (controller)
-- 服务层代码 (service)
-- 数据访问层代码 (repository)
-- 数据模型代码 (model)
+本工具提供三大核心功能：
 
-### 功能特点
+### 1. API 代码生成 (api)
 
-1. 自动生成完整的 CRUD 接口
-2. 支持自定义模板
-3. 自动注册到 Gin 框架
-4. 生成 TypeScript 类型定义
-5. 支持代码注入和修改
+从 `.api` 文件生成 Gin 框架的后端代码，包括：
 
-### 使用说明
+- **types** - 生成数据类型定义文件
+- **logic** - 生成业务逻辑层代码
+- **handler** - 生成控制器层代码
+- **router** - 生成路由配置代码
 
-#### 1. 生成数据模型
+### 2. Model 代码生成 (model)
+
+从数据库或 SQL 文件生成 GORM 模型代码：
+
+- **dsn** - 从数据库连接生成模型（支持线上/本地数据库）
+- **ddl** - 从 SQL DDL 文件生成模型
+
+### 3. Web 前端代码生成 (web)
+
+从 `.api` 文件生成前端 TypeScript 代码：
+
+- **typescript** - 生成 API 接口调用代码和类型定义
+
+## 使用方式
+
+### API 代码生成示例
 
 ```bash
-# 执行生成脚本
-./generate_model.sh
+# 生成 types 文件
+go run main.go api types \
+-f='../blog-gozero/service/api/blog/proto/blog.api' \
+-t='./template/gin' \
+-o='../blog-gin/service/api' \
+-n='%s.go'
 ```
 
-- 根据数据库表结构生成 Go 结构体
-- 自动添加字段标签和注释
+### Model 代码生成示例
+
+```bash
+# 从数据库生成
+go run main.go model dsn \
+-t=./template/go-zero/model.tpl \
+-n='%v_model.go' \
+-o='./runtime/model' \
+-s='root:password@(host:3306)/database?charset=utf8mb4&parseTime=True&loc=Local'
+
+# 从 SQL 文件生成
+go run main.go model ddl \
+-t=./template/go-zero/model.tpl \
+-n='%v_model.go' \
+-o='./runtime/model' \
+-s='./testdata/test.sql'
+```
+
+### TypeScript 代码生成示例
+
+```bash
+go run main.go web typescript \
+-n='%v.ts' \
+-t='./template/web' \
+-o='./runtime/blog/api' \
+-m='api' \
+-i='IApiResponse' \
+-f='../blog-gozero/service/api/blog/proto/blog.api'
+```
+
+## 快捷脚本
+
+项目提供了便捷的生成脚本：
+
+- `generate_gin.sh` - 一键生成 Gin 框架代码
+- `generate_model.sh` - 一键生成数据库模型
+- `generate_typescript.sh` - 一键生成前端 TypeScript 代码
+
+## 目录结构
+
+```
+tools/
+├── cmd/              # 命令行工具实现
+│   ├── api/         # API 代码生成
+│   ├── model/       # Model 代码生成
+│   └── web/         # Web 前端代码生成
+├── parserx/         # 解析器
+│   ├── apiparser/   # API 文件解析器
+│   └── swagparser/  # Swagger 解析器
+├── template/        # 代码模板
+│   ├── gin/        # Gin 框架模板
+│   ├── go-zero/    # Go-zero 框架模板
+│   └── web/        # Web 前端模板
+└── testdata/        # 测试数据
+```
+
+## 参数说明
+
+- `-f` - 输入文件路径
+- `-t` - 模板目录路径
+- `-o` - 输出目录路径
+- `-n` - 输出文件名格式
+- `-c` - 上下文包路径
+- `-s` - 数据库连接字符串或 SQL 文件路径
+- `-m` - 模块名称
+- `-i` - 接口响应类型
+
+## 技术特点
+
+- 基于 Cobra 构建命令行工具
 - 支持自定义模板
-
-#### 2. 生成 TypeScript 类型定义
-
-```bash
-# 执行生成脚本
-./generate_typescript.sh
-```
-
-- 生成前端接口类型定义
-- 生成 API 请求/响应类型
-- 支持自定义类型映射
-
-### 注意事项
-
-1. 生成前请确保数据库连接正常
-2. 建议在生成前备份原有代码
-3. 生成后需要检查并调整生成的代码
-4. 支持自定义模板，可根据项目需求修改
+- 支持多种代码生成场景
+- 提高开发效率，减少重复代码编写

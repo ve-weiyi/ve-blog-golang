@@ -41,8 +41,8 @@ func NewKafkaConsumer(c *KafkaConf) *KafkaConsumer {
 	})
 
 	return &KafkaConsumer{
-		Logger: logz.Default().Sugar(),
 		r:      r,
+		Logger: logz.S(),
 	}
 }
 

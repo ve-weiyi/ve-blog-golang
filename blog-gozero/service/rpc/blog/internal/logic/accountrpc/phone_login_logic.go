@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/patternx"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -30,7 +30,7 @@ func NewPhoneLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PhoneL
 // 手机号登录
 func (l *PhoneLoginLogic) PhoneLogin(in *accountrpc.PhoneLoginReq) (*accountrpc.LoginResp, error) {
 	// 校验参数
-	if !valid.IsPhoneValid(in.Phone) {
+	if !patternx.IsValidPhone(in.Phone) {
 		return nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "手机号格式不正确")
 	}
 

@@ -9,23 +9,27 @@
 
 ```
 .
-├── cmd/              # 项目启动命令
-│   ├── api.go        # API服务启动命令
-│   ├── migrate.go    # 数据库迁移命令
-│   └── root.go       # 根命令
-├── common/           # 项目通用文件
-├── config/           # 配置文件
-├── core/             # 核心运行组件
-├── docs/             # Swagger 文档
-├── initialize/       # 项目初始化
-├── service/          # 服务接口处理逻辑
-│   ├── admin/        # 后台管理服务
-│   └── blog/         # 博客服务
-│       ├── router/   # 路由层
-│       ├── controller/ # 控制器层
-│       ├── service/  # 服务层
-│       └── dto/      # 数据传输对象
-└── svctx/            # 服务上下文，持有项目运行时资源
+├── api/                # API模块目录
+│   ├── admin/          # 管理平台API模块
+│   └── blog/           # 博客平台API模块
+│       ├── handler/    # 请求处理器
+│       ├── logic/      # 业务逻辑层
+│       ├── router/     # 路由定义
+│       └── types/      # 类型定义
+├── cmd/                # 启动命令目录
+│   ├── api.go          # API服务启动命令
+│   ├── migrate.go      # 数据库迁移命令
+│   └── root.go         # 根命令
+├── common/             # 公共工具目录
+│   ├── middleware/     # 中间件组件
+│   ├── request/        # 请求辅助工具
+│   └── response/       # 响应辅助工具
+├── config/             # 配置目录
+├── docs/               # 文档目录
+├── initialize/         # 初始化逻辑目录
+├── svctx/              # 服务上下文目录
+├── config.default.yaml # 默认配置文件
+└── main.go             # 应用入口文件
 ```
 
 ## 环境要求

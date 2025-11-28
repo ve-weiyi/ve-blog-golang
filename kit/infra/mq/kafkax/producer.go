@@ -35,7 +35,7 @@ func NewKafkaProducer(c *KafkaConf) *KafkaProducer {
 
 	return &KafkaProducer{
 		w:      w,
-		Logger: logz.Default().Sugar(),
+		Logger: logz.S(),
 	}
 }
 

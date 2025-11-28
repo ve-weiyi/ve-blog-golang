@@ -50,12 +50,11 @@ type RabbitMQConf struct {
 }
 
 type Zap struct {
-	ServiceName string `json:"service-name,optional" example:"ve-blog-gin"`                   // 服务名称
-	Mode        string `json:"mode,default=console,options=[console,file]" example:"console"` // 日志模式 console-控制台输出，file-文件输出
-	Encoding    string `json:"encoding,default=json,options=[json,plain]" example:"json"`     // 输出格式 json-JSON格式，plain-纯文本格式
-	TimeFormat  string `json:"time-format,optional" example:"2006-01-02T15:04:05.000Z07:00"`  // 时间格式
-	Path        string `json:"path,default=logs" example:"logs"`
-	Level       string `json:"level,default=info,options=[debug,info,error,severe]" example:"info"`
-
-	KeepDays int `json:"keep-days,optional" example:"7"`
+	Level      string `json:"level" example:"debug"`
+	Mode       string `json:"mode" example:"console|file"` // console|file
+	Filename   string `json:"file_name" example:"./runtime/app.log"`
+	MaxSize    int    `json:"max_size" example:"100"`
+	MaxBackups int    `json:"max_backups" example:"3"`
+	MaxAge     int    `json:"max_age" example:"30"`
+	Compress   bool   `json:"compress" example:"true"`
 }
