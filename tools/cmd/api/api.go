@@ -15,22 +15,18 @@ limitations under the License.
 */
 package api
 
-import (
-	"github.com/spf13/cobra"
-)
+import "github.com/spf13/cobra"
 
 func NewRootCmd() *cobra.Command {
-	var rootCmd = &cobra.Command{
-		Use: "api",
-		Run: func(cmd *cobra.Command, args []string) {
-			_ = cmd.Help()
-			return
-		},
+	cmd := &cobra.Command{
+		Use:   "api",
+		Short: "生成 API 相关代码",
 	}
 
-	rootCmd.AddCommand(routerCmd)
-	rootCmd.AddCommand(serviceCmd)
-	rootCmd.AddCommand(controllerCmd)
-	rootCmd.AddCommand(dtoCmd)
-	return rootCmd
+	cmd.AddCommand(routerCmd)
+	cmd.AddCommand(logicCmd)
+	cmd.AddCommand(handlerCmd)
+	cmd.AddCommand(typesCmd)
+
+	return cmd
 }
