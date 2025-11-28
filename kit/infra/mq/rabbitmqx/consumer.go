@@ -30,7 +30,7 @@ func NewRabbitmqConsumer(conn *RabbitmqConn, opts ...ConsumerOption) *RabbitmqCo
 	}
 
 	return &RabbitmqConsumer{
-		Logger: logz.Default().Sugar(),
+		Logger: logz.S(),
 		conn:   conn,
 		opts:   opt,
 	}

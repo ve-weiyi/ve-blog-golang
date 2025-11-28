@@ -40,5 +40,6 @@ test.sql
 test.api
 test.json
 test.txt
+test.sh
 any_test.go
 blog-veweiyi.sql

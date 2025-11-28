@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/patternx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
@@ -17,7 +18,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 )
 
 type RegisterLogic struct {
@@ -37,7 +37,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 // 注册
 func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.LoginResp, error) {
 	// 校验邮箱格式
-	if !valid.IsEmailValid(in.Username) {
+	if !patternx.IsValidEmail(in.Username) {
 		return nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "邮箱格式不正确")
 	}
 

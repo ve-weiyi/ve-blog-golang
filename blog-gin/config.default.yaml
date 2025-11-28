@@ -12,13 +12,13 @@ jwt:
 
 # zap logger configuration
 zap:
-  service-name: ve-blog-gin
-  mode: console
-  encoding: json
-  time-format: 2006-01-02T15:04:05.000Z07:00
-  path: logs
   level: info
-  keep-days: 7
+  mode: console|file
+  file_name: ./runtime/logs/blog.log
+  max_size: 100
+  max_backups: 3
+  max_age: 30
+  compress: true
 
 # mysql connect configuration
 mysql:
