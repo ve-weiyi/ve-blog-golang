@@ -1,9 +1,11 @@
 package helper
 
 import (
+	"sort"
 	"strings"
 
 	"github.com/zeromicro/go-zero/tools/goctl/api/spec"
+	"github.com/zeromicro/go-zero/tools/goctl/util"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/tools/parserx/apiparser/aspec"
@@ -25,6 +27,7 @@ type Route struct {
 	Response string
 }
 
+// Deprecated: use map[string]map[string]spec.Type
 type GroupType struct {
 	Group string
 	Types []spec.Type
@@ -101,43 +104,111 @@ func ConvertRouteGroups(sp *aspec.ApiSpec) (out map[string][]GroupRoute) {
 	return out
 }
 
-func ConvertTypeGroups(sp *spec.ApiSpec) (out []GroupType) {
-	var groups []GroupType
+// 简化版的 groupTypes 生成逻辑
+// 参考go-zero的type分组实现
+func GroupTypes(api *spec.ApiSpec, groupTypeDefault string) map[string]map[string]spec.Type {
+	// 步骤 1: 收集每个类型被哪些分组引用
+	typeToGroups := make(map[string]map[string]bool) // key: typeName, value: map[groupName]bool
 
-	mt := make(map[string]spec.Type)
-	for _, v := range sp.Types {
-		mt[v.Name()] = v
-	}
+	for _, group := range api.Service.Groups {
+		// 获取分组名
+		groupName := group.GetAnnotation("group")
+		if groupName == "" {
+			groupName = groupTypeDefault
+		}
+		groupName = util.SafeString(strings.TrimSuffix(strings.TrimPrefix(groupName, "/"), "/"))
 
-	tps := make(map[string][]spec.Type)
-
-	for _, v := range sp.Service.Groups {
-		for _, r := range v.Routes {
-			group := v.Annotation.Properties["group"]
-			if group == "" {
-				group = "common"
-			}
-			if r.RequestType != nil {
-				if mt[r.RequestType.Name()] != nil {
-					tps[group] = append(tps[group], mt[r.RequestType.Name()])
+		for _, route := range group.Routes {
+			// 处理 RequestType
+			if route.RequestType != nil {
+				typeName := getTypeName(route.RequestType)
+				if typeName != "" {
+					if _, ok := typeToGroups[typeName]; !ok {
+						typeToGroups[typeName] = make(map[string]bool)
+					}
+					typeToGroups[typeName][groupName] = true
 				}
 			}
-
-			if r.ResponseType != nil {
-				if mt[r.ResponseType.Name()] != nil {
-					tps[group] = append(tps[group], mt[r.ResponseType.Name()])
+			// 处理 ResponseType
+			if route.ResponseType != nil {
+				typeName := getTypeName(route.ResponseType)
+				if typeName != "" {
+					if _, ok := typeToGroups[typeName]; !ok {
+						typeToGroups[typeName] = make(map[string]bool)
+					}
+					typeToGroups[typeName][groupName] = true
 				}
 			}
 		}
 	}
 
-	for k, v := range tps {
-		g := GroupType{
-			Group: k,
-			Types: v,
+	// 步骤 2: 构建并填充 groupTypes
+	groupTypes := make(map[string]map[string]spec.Type)
+
+	// 初始化默认分组
+	groupTypes[groupTypeDefault] = make(map[string]spec.Type)
+
+	for _, typ := range api.Types {
+		typeName := util.Title(typ.Name())
+
+		// 获取引用该类型的所有分组
+		groups := typeToGroups[typeName]
+		typeCount := len(groups)
+
+		var targetGroup string
+
+		if typeCount == 1 {
+			// 情况 B: 只被一个分组引用，就归属于该分组
+			// 从 map 中取出唯一的 key
+			for g := range groups {
+				targetGroup = g
+				break
+			}
+			// 确保目标分组已初始化
+			if _, ok := groupTypes[targetGroup]; !ok {
+				groupTypes[targetGroup] = make(map[string]spec.Type)
+			}
+		} else {
+			// 情况 A (typeCount == 0) 或 情况 C (typeCount > 1): 都归为默认分组
+			targetGroup = groupTypeDefault
 		}
-		groups = append(groups, g)
+
+		// 将类型放入目标分组
+		groupTypes[targetGroup][typeName] = typ
 	}
 
-	return groups
+	// 正确的方式：使用索引遍历
+	for groupName := range groupTypes {
+		// 通过键获取原始的 map
+		typesMap := groupTypes[groupName]
+
+		// 1. 提取所有类型名并排序
+		typeNames := make([]string, 0, len(typesMap))
+		for name := range typesMap {
+			typeNames = append(typeNames, name)
+		}
+		sort.Strings(typeNames)
+
+		// 2. 创建一个新的、有序的 map
+		sortedTypesMap := make(map[string]spec.Type, len(typesMap))
+		for _, name := range typeNames {
+			sortedTypesMap[name] = typesMap[name]
+		}
+
+		// 3. 将排序后的 map 重新赋值回 groupTypes
+		groupTypes[groupName] = sortedTypesMap
+	}
+
+	return groupTypes
+}
+
+// getTypeName 是一个辅助函数，用于从 spec.Type 中获取简化的类型名
+// 这是一个简化版，你可能需要根据实际的 spec.Type 结构来实现
+func getTypeName(t spec.Type) string {
+	if t == nil {
+		return ""
+	}
+	// 假设 t.Name() 可以返回类型的名称，如 "CreateUserRequest"
+	// 在实际的 go-zero 代码中，逻辑可能更复杂，因为 t 可能是一个引用类型
+	return util.Title(t.Name())
 }

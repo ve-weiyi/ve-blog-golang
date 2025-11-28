@@ -11,49 +11,36 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/tools/cmd/model/helper"
 )
 
-// migrateCmd represents the migrate command
-type ModelDDLCmd struct {
-	CMD *cobra.Command
-	modelConfig
+var ddlCfg = modelConfig{
+	SqlFile: "test.sql",
+	TplFile: "model.tpl",
+	OutPath: "./",
+	NameAs:  "%s.go",
 }
 
-func NewModelDDLCmd() *ModelDDLCmd {
-	rootCmd := &ModelDDLCmd{}
-	rootCmd.CMD = &cobra.Command{
-		Use: "ddl",
-		Run: func(cmd *cobra.Command, args []string) {
-			rootCmd.RunCommand(cmd, args)
-		},
+func NewModelDDLCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "ddl",
+		Short: "从 SQL DDL 文件生成 Model",
+		RunE:  runModelDDL,
 	}
 
-	rootCmd.init()
-	return rootCmd
+	cmd.Flags().StringVarP(&ddlCfg.SqlFile, "sql-file", "s", ddlCfg.SqlFile, "sql文件")
+	cmd.Flags().StringVarP(&ddlCfg.TplFile, "tpl-file", "t", ddlCfg.TplFile, "模板文件")
+	cmd.Flags().StringVarP(&ddlCfg.OutPath, "out-path", "o", ddlCfg.OutPath, "输出路径")
+	cmd.Flags().StringVarP(&ddlCfg.NameAs, "name-as", "n", ddlCfg.NameAs, "输出名称")
+
+	return cmd
 }
 
-func (s *ModelDDLCmd) init() {
-	s.CMD.PersistentFlags().StringVarP(&s.SqlFile, "sql-file", "s", "test.sql", "sql文件")
-	s.CMD.PersistentFlags().StringVarP(&s.TplFile, "tpl-file", "t", "model.tpl", "模板文件")
-	s.CMD.PersistentFlags().StringVarP(&s.OutPath, "out-path", "o", "./", "输出路径")
-	s.CMD.PersistentFlags().StringVarP(&s.NameAs, "name-as", "n", "%s.go", "输出名称")
-}
+func runModelDDL(cmd *cobra.Command, args []string) error {
+	log.Printf("sql-file: %s, tpl-file: %s, out-path: %s, name-as: %s\n",
+		ddlCfg.SqlFile, ddlCfg.TplFile, ddlCfg.OutPath, ddlCfg.NameAs)
 
-func (s *ModelDDLCmd) RunCommand(cmd *cobra.Command, args []string) {
-	log.Println("run model ddl")
-	log.Println("sql-file:", s.SqlFile)
-	log.Println("tpl-file:", s.TplFile)
-	log.Println("out-path:", s.OutPath)
-	log.Println("name-as:", s.NameAs)
-
-	var tables []*helper.Table
-	var err error
-
-	tables, err = helper.ParseTableFromSql(s.SqlFile)
+	tables, err := helper.ParseTableFromSql(ddlCfg.SqlFile)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
-	err = generateModel(tables, s.modelConfig)
-	if err != nil {
-		panic(err)
-	}
+	return generateModel(tables, ddlCfg)
 }
