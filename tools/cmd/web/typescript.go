@@ -1,6 +1,3 @@
-/*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-*/
 package web
 
 import (
@@ -13,64 +10,47 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/quickstart/invent"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/tools/cmd/web/helper"
 	"github.com/ve-weiyi/ve-blog-golang/tools/parserx/apiparser"
 	"github.com/ve-weiyi/ve-blog-golang/tools/parserx/apiparser/aspec"
-
-	"github.com/ve-weiyi/ve-blog-golang/kit/quickstart/invent"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 )
 
-// typescriptCmd represents the typescript command
 var typescriptCmd = &cobra.Command{
 	Use:   "typescript",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		log.Println("typescript called")
-		RunTypescriptCmd(cmd, args)
-	},
+	Short: "生成 TypeScript API 代码",
+	RunE:  runTypescript,
 }
 
-func RunTypescriptCmd(cmd *cobra.Command, args []string) {
-	RunTypescript(cmdVar)
-}
-
-func RunTypescript(conf *CmdVar) {
-	log.Println("typescript called", jsonconv.AnyToJsonIndent(conf))
-	var err error
+func runTypescript(cmd *cobra.Command, args []string) error {
+	log.Printf("generating TypeScript code from %s\n", cmdVar.VarStringApiFile)
 	var sp *aspec.ApiSpec
-	switch conf.VarStringMode {
+	var err error
+
+	switch cmdVar.VarStringMode {
 	case "api":
-		sp, err = apiparser.NewSpecParser().ParseApi(conf.VarStringApiFile)
+		sp, err = apiparser.NewSpecParser().ParseApi(cmdVar.VarStringApiFile)
 	case "swagger":
-		sp, err = apiparser.NewSwaggerParser().ParseApi(conf.VarStringApiFile)
-	case "ast":
+		sp, err = apiparser.NewSwaggerParser().ParseApi(cmdVar.VarStringApiFile)
+	default:
+		return fmt.Errorf("unsupported mode: %s", cmdVar.VarStringMode)
 	}
 
 	if err != nil {
-		panic(err)
+		return err
 	}
 
-	err = generateApiTs(sp, conf)
-	if err != nil {
-		panic(err)
+	if err = generateApiTs(sp, cmdVar); err != nil {
+		return err
 	}
 
-	err = generateTypesTs(sp, conf)
-	if err != nil {
-		panic(err)
+	if err = generateTypesTs(sp, cmdVar); err != nil {
+		return err
 	}
 
-	//err = generatePermsTs(sp, conf)
-	//if err != nil {
-	//	panic(err)
-	//}
+	log.Println("TypeScript code generated successfully")
+	return nil
 }
 
 func generateApiTs(sp *aspec.ApiSpec, conf *CmdVar) error {

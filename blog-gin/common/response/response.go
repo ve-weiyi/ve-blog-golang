@@ -9,26 +9,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-sql-driver/mysql"
+	"go.opentelemetry.io/otel/trace"
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 )
-
-type EmptyResp struct {
-}
-
-// 批量操作结果
-type BatchResult struct {
-	SuccessCount int64 `json:"success_count"` // 成功数量
-}
-
-// 分页查询结果
-type PageResult struct {
-	List     interface{} `json:"list"`
-	Page     int64       `json:"page"`
-	PageSize int64       `json:"page_size"`
-	Total    int64       `json:"total"`
-}
 
 type Body struct {
 	Code    int64       `json:"code"`
@@ -43,11 +28,13 @@ const (
 )
 
 func Response(c *gin.Context, code int64, msg string, data interface{}) {
+	traceID := trace.SpanContextFromContext(c.Request.Context())
+
 	obj := Body{
 		Code:    code,
 		Message: msg,
 		Data:    data,
-		TraceId: c.Request.Context().Value("X-Trace-ID").(string),
+		TraceId: traceID.TraceID().String(),
 	}
 	c.JSON(http.StatusOK, obj)
 
@@ -56,7 +43,7 @@ func Response(c *gin.Context, code int64, msg string, data interface{}) {
 }
 
 func ResponseOk(c *gin.Context, data interface{}) {
-	Response(c, http.StatusOK, "操作成功", data)
+	Response(c, http.StatusOK, "Operation successful", data)
 }
 
 func ResponseError(c *gin.Context, err error) {
@@ -68,27 +55,27 @@ func ResponseError(c *gin.Context, err error) {
 		return
 
 	case *json.UnmarshalTypeError:
-		Response(c, bizerr.CodeInternalServerError, "json解析错误", e.Error())
+		Response(c, bizerr.CodeInternalServerError, "JSON parsing error", e.Error())
 		return
 
 	case *mysql.MySQLError:
 		switch e.Number {
 		case 1062:
-			Response(c, bizerr.CodeSqlQueryError, "数据已存在", e.Error())
+			Response(c, bizerr.CodeSqlQueryError, "Data already exists", e.Error())
 			return
 		default:
-			Response(c, bizerr.CodeSqlQueryError, "数据库错误", SqlErrorI18n(e))
+			Response(c, bizerr.CodeSqlQueryError, "Database error", SqlErrorI18n(e))
 			return
 		}
 	}
 
 	switch {
 	case errors.Is(err, gorm.ErrRecordNotFound):
-		Response(c, bizerr.CodeSqlQueryError, "数据不存在", err.Error())
+		Response(c, bizerr.CodeSqlQueryError, "Data not found", err.Error())
 		return
 	}
 
-	Response(c, bizerr.CodeInternalServerError, "服务器错误", err.Error())
+	Response(c, bizerr.CodeInternalServerError, "Server error", err.Error())
 }
 
 func ResponseStream(c *gin.Context, data string) {

@@ -13,32 +13,20 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/zeromicro/go-zero/tools/goctl/pkg/golang"
 
-	"github.com/ve-weiyi/ve-blog-golang/tools/cmd/api/helper"
-	"github.com/ve-weiyi/ve-blog-golang/tools/parserx/apiparser"
-
 	"github.com/ve-weiyi/ve-blog-golang/kit/quickstart/invent"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/tools/cmd/api/helper"
+	"github.com/ve-weiyi/ve-blog-golang/tools/parserx/apiparser"
 )
 
-// routerCmd represents the router command
 var routerCmd = &cobra.Command{
 	Use:   "router",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		err := generateRouters(cmdVar)
-		if err != nil {
-			panic(err)
+	Short: "生成 Router 路由代码",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		if err := generateRouters(cmdVar); err != nil {
+			return err
 		}
-		err = generateRoutes(cmdVar)
-		if err != nil {
-			panic(err)
-		}
+		return generateRoutes(cmdVar)
 	},
 }
 
@@ -59,7 +47,7 @@ func generateRouters(cv *CmdVar) error {
 		return err
 	}
 
-	pkg, _ := golang.GetParentPackage(cv.VarStringOutPath)
+	pkg, _, _ := golang.GetParentPackage(cv.VarStringOutPath)
 
 	var groups map[string][]helper.GroupRoute
 	groups = helper.ConvertRouteGroups(sp)
@@ -74,8 +62,8 @@ func generateRouters(cv *CmdVar) error {
 				"Package": "router",
 				"Imports": []string{
 					fmt.Sprintf(`"%s"`, cv.VarContextPackage),
-					fmt.Sprintf(`"%s/dto"`, pkg),
-					fmt.Sprintf(`"%s/controller"`, pkg),
+					fmt.Sprintf(`"%s/types"`, pkg),
+					fmt.Sprintf(`"%s/handler"`, pkg),
 				},
 				"Group":       jsonconv.Case2Camel(k),
 				"GroupRoutes": v,
@@ -108,7 +96,7 @@ func generateRoutes(cv *CmdVar) error {
 		return err
 	}
 
-	pkg, _ := golang.GetParentPackage(cv.VarStringOutPath)
+	pkg, _, _ := golang.GetParentPackage(cv.VarStringOutPath)
 
 	var groups map[string][]helper.GroupRoute
 	groups = helper.ConvertRouteGroups(sp)
