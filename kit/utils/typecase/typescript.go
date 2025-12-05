@@ -1,4 +1,4 @@
-package convertx
+package typecase
 
 import (
 	"strings"

@@ -1,4 +1,4 @@
-package convertx
+package typecase
 
 var commonMysqlDataTypeMapString = map[string]string{
 	// For consistency, all integer types are converted to int64

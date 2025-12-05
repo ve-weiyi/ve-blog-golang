@@ -45,21 +45,20 @@ func EcdsaGenerateSignature(privateKeyStr, hashStr string) (string, error) {
 	// 1. 将16进制字符串转换为字节
 	privateKeyBytes, err := hex.DecodeString(privateKeyStr)
 	if err != nil {
-		fmt.Println("公钥格式错误:", err)
-		return "", err
+		return "", fmt.Errorf("invalid private key format: %v", err)
 	}
 
 	hash, err := hex.DecodeString(hashStr)
 	if err != nil {
-		return "", fmt.Errorf("哈希值格式错误: %v", err)
+		return "", fmt.Errorf("invalid hash format: %v", err)
 	}
 
 	// 检查输入长度
 	if len(privateKeyBytes) != 32 {
-		return "", fmt.Errorf("私钥必须是64字节")
+		return "", fmt.Errorf("private key must be 32 bytes")
 	}
 	if len(hash) != 32 {
-		return "", fmt.Errorf("哈希值必须是32字节")
+		return "", fmt.Errorf("hash must be 32 bytes")
 	}
 
 	// 解析私钥
@@ -88,30 +87,30 @@ func EcdsaVerifySignature(publicKeyStr, hashStr, signatureStr string) (bool, err
 	// 1. 将16进制字符串转换为字节
 	publicKeyBytes, err := hex.DecodeString(publicKeyStr)
 	if err != nil {
-		return false, fmt.Errorf("公钥格式错误: %v", err)
+		return false, fmt.Errorf("invalid public key format: %v", err)
 	}
 
 	hash, err := hex.DecodeString(hashStr)
 	if err != nil {
-		return false, fmt.Errorf("哈希值格式错误: %v", err)
+		return false, fmt.Errorf("invalid hash format: %v", err)
 	}
 
 	signature, err := hex.DecodeString(signatureStr)
 	if err != nil {
-		return false, fmt.Errorf("签名格式错误: %v", err)
+		return false, fmt.Errorf("invalid signature format: %v", err)
 	}
 
 	// 检查输入长度
 	if len(publicKeyBytes) != 64 {
-		return false, fmt.Errorf("公钥必须是64字节")
+		return false, fmt.Errorf("public key must be 64 bytes")
 	}
 
 	if len(hash) != 32 {
-		return false, fmt.Errorf("哈希值必须是32字节")
+		return false, fmt.Errorf("hash must be 32 bytes")
 	}
 
 	if len(signature) != 64 {
-		return false, fmt.Errorf("签名必须是64字节")
+		return false, fmt.Errorf("signature must be 64 bytes")
 	}
 
 	// 创建Ecdsa曲线
@@ -123,7 +122,7 @@ func EcdsaVerifySignature(publicKeyStr, hashStr, signatureStr string) (bool, err
 
 	// 检查点是否在曲线上
 	if !curve.IsOnCurve(x, y) {
-		return false, fmt.Errorf("公钥点不在曲线上")
+		return false, fmt.Errorf("public key point is not on the curve")
 	}
 
 	// 创建公钥对象
