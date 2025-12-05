@@ -39,7 +39,7 @@ message FriendNewReq {
   string link_intro = 5;// 链接介绍
 }
 
-message FriendDetails {
+message FriendDetailsResp {
   int64 id = 1;// id
   string link_name = 2;// 链接名
   string link_avatar = 3;// 链接头像
@@ -56,7 +56,7 @@ message FindFriendListReq {
 
 message FindFriendListResp {
   PageResp pagination = 1; // 分页信息
-  repeated FriendDetails list = 2;
+  repeated FriendDetailsResp list = 2;
 }
 
 /************** blog 网站管理 **************/
@@ -103,9 +103,9 @@ service WebsiteRpc {
   rpc FindVisitTrend(FindVisitTrendReq) returns(FindVisitTrendResp);
 
   // 创建友链
-  rpc AddFriend(FriendNewReq) returns(FriendDetails);
+  rpc AddFriend(FriendNewReq) returns(FriendDetailsResp);
   // 更新友链
-  rpc UpdateFriend(FriendNewReq) returns(FriendDetails);
+  rpc UpdateFriend(FriendNewReq) returns(FriendDetailsResp);
   // 删除友链
   rpc DeleteFriend(IdsReq) returns(BatchResp);
   // 查询友链列表

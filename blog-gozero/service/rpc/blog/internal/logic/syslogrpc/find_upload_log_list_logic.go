@@ -34,7 +34,7 @@ func (l *FindUploadLogListLogic) FindUploadLogList(in *syslogrpc.FindUploadLogLi
 		return nil, err
 	}
 
-	var list []*syslogrpc.UploadLogDetails
+	var list []*syslogrpc.UploadLogDetailsResp
 	for _, v := range records {
 		list = append(list, convertUploadLogOut(v))
 	}
@@ -71,8 +71,8 @@ func convertUploadLogQuery(in *syslogrpc.FindUploadLogListReq) (page int, size i
 	return query.NewQueryBuilder(opts...).Build()
 }
 
-func convertUploadLogOut(in *model.TUploadLog) (out *syslogrpc.UploadLogDetails) {
-	out = &syslogrpc.UploadLogDetails{
+func convertUploadLogOut(in *model.TUploadLog) (out *syslogrpc.UploadLogDetailsResp) {
+	out = &syslogrpc.UploadLogDetailsResp{
 		Id:        in.Id,
 		UserId:    in.UserId,
 		FilePath:  in.FilePath,

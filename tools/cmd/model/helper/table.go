@@ -7,8 +7,8 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/convertx"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/filex"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/typecase"
 )
 
 // 表解析
@@ -48,7 +48,7 @@ type (
 func ParseTableFromSql(sql string) (list []*Table, err error) {
 	n := strings.TrimRight(sql, ".sql")
 
-	f := files.ToAbs(sql)
+	f := filex.ToAbs(sql)
 	tables, err := parser.Parse(f, n, true)
 	if err != nil {
 		return nil, err
@@ -169,7 +169,7 @@ func ConvertColumnToField(col gorm.ColumnType) Field {
 
 	f.Name = col.Name()
 	f.Comment, _ = col.Comment()
-	f.DataType = convertx.ConvertMysqlToGoType(col.DatabaseTypeName())
+	f.DataType = typecase.ConvertMysqlToGoType(col.DatabaseTypeName())
 
 	nullable, ok := col.Nullable()
 	if ok && nullable && f.DataType == "time.Time" {

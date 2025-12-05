@@ -33,7 +33,7 @@ func (l *FindFriendListLogic) FindFriendList(in *websiterpc.FindFriendListReq) (
 		return nil, err
 	}
 
-	var list []*websiterpc.FriendDetails
+	var list []*websiterpc.FriendDetailsResp
 	for _, v := range records {
 		list = append(list, convertFriendOut(v))
 	}

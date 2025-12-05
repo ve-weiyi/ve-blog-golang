@@ -41,7 +41,7 @@ message PageResp {
   int64 total = 3;     // 总数
 }
 /************** blog 聊天记录 **************/
-message ChatDetails {
+message ChatDetailsResp {
   int64 id = 1;// 主键
   string user_id = 2;// 用户id
   string terminal_id = 3;// 设备id
@@ -95,7 +95,7 @@ message FindChatListReq {
 
 message FindChatListResp {
   PageResp pagination = 1; // 分页信息
-  repeated ChatDetails list = 2;
+  repeated ChatDetailsResp list = 2;
 }
 
 /************** blog 留言 **************/
@@ -108,7 +108,7 @@ message RemarkUpdateReq {
   int64 is_review = 8;// 是否审核
 }
 
-message RemarkDetails {
+message RemarkDetailsResp {
   int64 id = 1;// 主键id
   string user_id = 2;// 用户id
   string terminal_id = 3;// 终端id
@@ -128,7 +128,7 @@ message FindRemarkListReq {
 
 message FindRemarkListResp {
   PageResp pagination = 1; // 分页信息
-  repeated RemarkDetails list = 2;
+  repeated RemarkDetailsResp list = 2;
 }
 
 message UpdateRemarkReviewReq{
@@ -153,7 +153,7 @@ message UpdateCommentReq {
   int64 status = 9;// 状态 0.正常 1.已编辑 2.已删除
 }
 
-message CommentDetails {
+message CommentDetailsResp {
   int64 id = 1;// 主键
   string user_id = 2;// 评论用户id
   int64 topic_id = 3;// 主题id
@@ -199,7 +199,7 @@ message FindCommentListReq {
 
 message FindCommentListResp {
   PageResp pagination = 1; // 分页信息
-  repeated CommentDetails list = 2;
+  repeated CommentDetailsResp list = 2;
 }
 
 message FindCommentReplyListReq {
@@ -212,7 +212,7 @@ message FindCommentReplyListReq {
 
 message FindCommentReplyListResp {
   PageResp pagination = 1; // 分页信息
-  repeated CommentDetails list = 2;
+  repeated CommentDetailsResp list = 2;
 }
 
 message FindLikeCommentResp{
@@ -239,40 +239,40 @@ service MessageRpc {
   rpc AnalysisMessage(AnalysisMessageReq) returns(AnalysisMessageResp);
 
   // 创建聊天记录
-  rpc AddChat(AddChatReq) returns(ChatDetails);
+  rpc AddChat(AddChatReq) returns(ChatDetailsResp);
   // 更新聊天记录
-  rpc UpdateChat(UpdateChatReq) returns(ChatDetails);
+  rpc UpdateChat(UpdateChatReq) returns(ChatDetailsResp);
   // 更新聊天记录状态
-  rpc UpdateChatStatus(UpdateChatStatusReq) returns(ChatDetails);
+  rpc UpdateChatStatus(UpdateChatStatusReq) returns(ChatDetailsResp);
   // 删除聊天记录
   rpc DeletesChat(IdsReq) returns(BatchResp);
   // 查询聊天记录
-  rpc GetChat(IdReq) returns(ChatDetails);
+  rpc GetChat(IdReq) returns(ChatDetailsResp);
   // 查询聊天记录列表
   rpc FindChatList(FindChatListReq) returns(FindChatListResp);
 
 
   // 创建留言
-  rpc AddRemark(RemarkNewReq) returns(RemarkDetails);
+  rpc AddRemark(RemarkNewReq) returns(RemarkDetailsResp);
   // 更新留言
-  rpc UpdateRemark(RemarkUpdateReq) returns(RemarkDetails);
+  rpc UpdateRemark(RemarkUpdateReq) returns(RemarkDetailsResp);
   // 删除留言
   rpc DeletesRemark(IdsReq) returns(BatchResp);
   // 查询留言
-  rpc GetRemark(IdReq) returns(RemarkDetails);
+  rpc GetRemark(IdReq) returns(RemarkDetailsResp);
   // 查询留言列表
   rpc FindRemarkList(FindRemarkListReq) returns(FindRemarkListResp);
   // 更新留言审核状态
   rpc UpdateRemarkReview(UpdateRemarkReviewReq) returns(BatchResp);
 
   // 创建评论
-  rpc AddComment(CommentNewReq) returns(CommentDetails);
+  rpc AddComment(CommentNewReq) returns(CommentDetailsResp);
   // 删除评论
   rpc DeletesComment(IdsReq) returns(BatchResp);
   // 更新评论
-  rpc UpdateComment(UpdateCommentReq) returns(CommentDetails);
+  rpc UpdateComment(UpdateCommentReq) returns(CommentDetailsResp);
   // 查询评论
-  rpc GetComment(IdReq) returns(CommentDetails);
+  rpc GetComment(IdReq) returns(CommentDetailsResp);
 
   // 查询评论列表
   rpc FindCommentList(FindCommentListReq) returns(FindCommentListResp);
@@ -284,7 +284,7 @@ service MessageRpc {
   // 更新评论审核状态
   rpc UpdateCommentReview(UpdateCommentReviewReq) returns(BatchResp);
   // 更新评论
-  rpc UpdateCommentContent(UpdateCommentContentReq) returns(CommentDetails);
+  rpc UpdateCommentContent(UpdateCommentContentReq) returns(CommentDetailsResp);
 
   // 点赞评论
   rpc LikeComment(IdReq) returns(EmptyResp);

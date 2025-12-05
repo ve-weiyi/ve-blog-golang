@@ -41,8 +41,12 @@ func (l *FindAlbumListLogic) FindAlbumList(req *types.AlbumQueryReq) (resp *type
 
 	list := make([]*types.Album, 0)
 	for _, v := range out.List {
-		m := ConvertAlbumTypes(v)
-		list = append(list, m)
+		list = append(list, &types.Album{
+			Id:         v.Id,
+			AlbumName:  v.AlbumName,
+			AlbumDesc:  v.AlbumDesc,
+			AlbumCover: v.AlbumCover,
+		})
 	}
 
 	_, err = l.svcCtx.SyslogRpc.AddVisitLog(l.ctx, &syslogrpc.VisitLogNewReq{
@@ -58,14 +62,4 @@ func (l *FindAlbumListLogic) FindAlbumList(req *types.AlbumQueryReq) (resp *type
 	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
-}
-
-func ConvertAlbumTypes(req *resourcerpc.AlbumDetails) (out *types.Album) {
-
-	return &types.Album{
-		Id:         req.Id,
-		AlbumName:  req.AlbumName,
-		AlbumDesc:  req.AlbumDesc,
-		AlbumCover: req.AlbumCover,
-	}
 }

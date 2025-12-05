@@ -34,7 +34,7 @@ func (l *FindCommentListLogic) FindCommentList(in *messagerpc.FindCommentListReq
 		return nil, err
 	}
 
-	var list []*messagerpc.CommentDetails
+	var list []*messagerpc.CommentDetailsResp
 	for _, v := range records {
 		m := convertCommentOut(v)
 		list = append(list, m)
@@ -69,8 +69,8 @@ func convertCommentQuery(in *messagerpc.FindCommentListReq) (page int, size int,
 	return query.NewQueryBuilder(opts...).Build()
 }
 
-func convertCommentOut(in *model.TComment) (out *messagerpc.CommentDetails) {
-	out = &messagerpc.CommentDetails{
+func convertCommentOut(in *model.TComment) (out *messagerpc.CommentDetailsResp) {
+	out = &messagerpc.CommentDetailsResp{
 		Id:             in.Id,
 		UserId:         in.UserId,
 		TopicId:        in.TopicId,

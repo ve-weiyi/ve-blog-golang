@@ -43,7 +43,7 @@ func (l *FindCategoryListLogic) FindCategoryList(in *articlerpc.FindCategoryList
 		return nil, err
 	}
 
-	list, err := helper.convertCategoryDetails(records)
+	list, err := helper.convertCategoryDetailsResp(records)
 	if err != nil {
 		return nil, err
 	}

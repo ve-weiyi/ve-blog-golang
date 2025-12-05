@@ -83,7 +83,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 	return resp, nil
 }
 
-func ConvertCommentTypes(in *messagerpc.CommentDetails, usm map[string]*types.UserInfoVO, tsm map[int64]*articlerpc.ArticlePreview) (out *types.CommentBackVO) {
+func ConvertCommentTypes(in *messagerpc.CommentDetailsResp, usm map[string]*types.UserInfoVO, tsm map[int64]*articlerpc.ArticlePreview) (out *types.CommentBackVO) {
 	out = &types.CommentBackVO{
 		Id:             in.Id,
 		Type:           in.Type,

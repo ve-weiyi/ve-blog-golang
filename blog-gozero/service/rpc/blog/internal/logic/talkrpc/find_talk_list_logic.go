@@ -33,7 +33,7 @@ func (l *FindTalkListLogic) FindTalkList(in *talkrpc.FindTalkListReq) (*talkrpc.
 		return nil, err
 	}
 
-	var list []*talkrpc.TalkDetails
+	var list []*talkrpc.TalkDetailsResp
 	for _, v := range records {
 		list = append(list, convertTalkOut(v))
 	}
