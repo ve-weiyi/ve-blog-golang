@@ -41,7 +41,15 @@ func (l *FindFriendListLogic) FindFriendList(req *types.FriendQueryReq) (resp *t
 
 	list := make([]*types.Friend, 0)
 	for _, v := range out.List {
-		list = append(list, ConvertFriendTypes(v))
+		list = append(list, &types.Friend{
+			Id:          v.Id,
+			LinkName:    v.LinkName,
+			LinkAvatar:  v.LinkAvatar,
+			LinkAddress: v.LinkAddress,
+			LinkIntro:   v.LinkIntro,
+			CreatedAt:   v.CreatedAt,
+			UpdatedAt:   v.UpdatedAt,
+		})
 	}
 
 	_, err = l.svcCtx.SyslogRpc.AddVisitLog(l.ctx, &syslogrpc.VisitLogNewReq{
@@ -57,16 +65,4 @@ func (l *FindFriendListLogic) FindFriendList(req *types.FriendQueryReq) (resp *t
 	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
-}
-
-func ConvertFriendTypes(req *websiterpc.FriendDetails) (out *types.Friend) {
-	return &types.Friend{
-		Id:          req.Id,
-		LinkName:    req.LinkName,
-		LinkAvatar:  req.LinkAvatar,
-		LinkAddress: req.LinkAddress,
-		LinkIntro:   req.LinkIntro,
-		CreatedAt:   req.CreatedAt,
-		UpdatedAt:   req.UpdatedAt,
-	}
 }

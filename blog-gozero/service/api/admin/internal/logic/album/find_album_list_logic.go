@@ -43,8 +43,17 @@ func (l *FindAlbumListLogic) FindAlbumList(req *types.AlbumQuery) (resp *types.P
 
 	var list []*types.AlbumBackVO
 	for _, v := range out.List {
-		m := ConvertAlbumTypes(v)
-		list = append(list, m)
+		list = append(list, &types.AlbumBackVO{
+			Id:         v.Id,
+			AlbumName:  v.AlbumName,
+			AlbumDesc:  v.AlbumDesc,
+			AlbumCover: v.AlbumCover,
+			IsDelete:   v.IsDelete,
+			Status:     v.Status,
+			CreatedAt:  v.CreatedAt,
+			UpdatedAt:  v.UpdatedAt,
+			PhotoCount: v.PhotoCount,
+		})
 	}
 
 	resp = &types.PageResp{}

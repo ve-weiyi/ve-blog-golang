@@ -272,7 +272,7 @@ func (l *ArticleHelperLogic) convertArticlePreviewOut(record *model.TArticle) (o
 	return out
 }
 
-func (l *ArticleHelperLogic) convertArticleDetails(records []*model.TArticle) (out []*articlerpc.ArticleDetails, err error) {
+func (l *ArticleHelperLogic) convertArticleDetailsResp(records []*model.TArticle) (out []*articlerpc.ArticleDetailsResp, err error) {
 	acm, err := l.findCategoryGroupArticle(records)
 	if err != nil {
 		return nil, err
@@ -283,9 +283,9 @@ func (l *ArticleHelperLogic) convertArticleDetails(records []*model.TArticle) (o
 		return nil, err
 	}
 
-	var list []*articlerpc.ArticleDetails
+	var list []*articlerpc.ArticleDetailsResp
 	for _, entity := range records {
-		m := &articlerpc.ArticleDetails{
+		m := &articlerpc.ArticleDetailsResp{
 			Id:             entity.Id,
 			UserId:         entity.UserId,
 			CategoryId:     entity.CategoryId,
@@ -329,16 +329,16 @@ func (l *ArticleHelperLogic) convertArticleDetails(records []*model.TArticle) (o
 	return list, nil
 }
 
-func (l *ArticleHelperLogic) convertCategoryDetails(records []*model.TCategory) (out []*articlerpc.CategoryDetails, err error) {
+func (l *ArticleHelperLogic) convertCategoryDetailsResp(records []*model.TCategory) (out []*articlerpc.CategoryDetailsResp, err error) {
 	acm, err := l.findArticleCountGroupCategory(records)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*articlerpc.CategoryDetails
+	var list []*articlerpc.CategoryDetailsResp
 	for _, entity := range records {
 
-		m := &articlerpc.CategoryDetails{
+		m := &articlerpc.CategoryDetailsResp{
 			Id:           entity.Id,
 			CategoryName: entity.CategoryName,
 			ArticleCount: 0,
@@ -356,15 +356,15 @@ func (l *ArticleHelperLogic) convertCategoryDetails(records []*model.TCategory) 
 	return list, nil
 }
 
-func (l *ArticleHelperLogic) convertTagDetails(records []*model.TTag) (out []*articlerpc.TagDetails, err error) {
+func (l *ArticleHelperLogic) convertTagDetailsResp(records []*model.TTag) (out []*articlerpc.TagDetailsResp, err error) {
 	acm, err := l.findArticleCountGroupTag(records)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*articlerpc.TagDetails
+	var list []*articlerpc.TagDetailsResp
 	for _, entity := range records {
-		m := &articlerpc.TagDetails{
+		m := &articlerpc.TagDetailsResp{
 			Id:           entity.Id,
 			TagName:      entity.TagName,
 			ArticleCount: 0,

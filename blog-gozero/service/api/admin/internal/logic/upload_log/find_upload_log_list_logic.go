@@ -68,7 +68,7 @@ func (l *FindUploadLogListLogic) FindUploadLogList(req *types.UploadLogQuery) (r
 	return resp, nil
 }
 
-func ConvertUploadLogTypes(in *syslogrpc.UploadLogDetails, usm map[string]*types.UserInfoVO) (out *types.UploadLogBackVO) {
+func ConvertUploadLogTypes(in *syslogrpc.UploadLogDetailsResp, usm map[string]*types.UserInfoVO) (out *types.UploadLogBackVO) {
 	out = &types.UploadLogBackVO{
 		Id:        in.Id,
 		UserId:    in.UserId,

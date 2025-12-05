@@ -35,5 +35,15 @@ func (l *GetAlbumLogic) GetAlbum(req *types.IdReq) (resp *types.AlbumBackVO, err
 		return nil, err
 	}
 
-	return ConvertAlbumTypes(out), nil
+	return &types.AlbumBackVO{
+		Id:         out.Id,
+		AlbumName:  out.AlbumName,
+		AlbumDesc:  out.AlbumDesc,
+		AlbumCover: out.AlbumCover,
+		IsDelete:   out.IsDelete,
+		Status:     out.Status,
+		CreatedAt:  out.CreatedAt,
+		UpdatedAt:  out.UpdatedAt,
+		PhotoCount: out.PhotoCount,
+	}, nil
 }

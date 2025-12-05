@@ -63,7 +63,7 @@ type SyslogRpcClient interface {
 	// 查询操作记录列表
 	FindOperationLogList(ctx context.Context, in *FindOperationLogListReq, opts ...grpc.CallOption) (*FindOperationLogListResp, error)
 	// 创建上传记录
-	AddUploadLog(ctx context.Context, in *UploadLogNewReq, opts ...grpc.CallOption) (*UploadLogDetails, error)
+	AddUploadLog(ctx context.Context, in *UploadLogNewReq, opts ...grpc.CallOption) (*UploadLogDetailsResp, error)
 	// 批量删除上传记录
 	DeletesUploadLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询上传记录列表
@@ -168,8 +168,8 @@ func (c *syslogRpcClient) FindOperationLogList(ctx context.Context, in *FindOper
 	return out, nil
 }
 
-func (c *syslogRpcClient) AddUploadLog(ctx context.Context, in *UploadLogNewReq, opts ...grpc.CallOption) (*UploadLogDetails, error) {
-	out := new(UploadLogDetails)
+func (c *syslogRpcClient) AddUploadLog(ctx context.Context, in *UploadLogNewReq, opts ...grpc.CallOption) (*UploadLogDetailsResp, error) {
+	out := new(UploadLogDetailsResp)
 	err := c.cc.Invoke(ctx, SyslogRpc_AddUploadLog_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -220,7 +220,7 @@ type SyslogRpcServer interface {
 	// 查询操作记录列表
 	FindOperationLogList(context.Context, *FindOperationLogListReq) (*FindOperationLogListResp, error)
 	// 创建上传记录
-	AddUploadLog(context.Context, *UploadLogNewReq) (*UploadLogDetails, error)
+	AddUploadLog(context.Context, *UploadLogNewReq) (*UploadLogDetailsResp, error)
 	// 批量删除上传记录
 	DeletesUploadLog(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询上传记录列表
@@ -262,7 +262,7 @@ func (UnimplementedSyslogRpcServer) DeletesOperationLog(context.Context, *IdsReq
 func (UnimplementedSyslogRpcServer) FindOperationLogList(context.Context, *FindOperationLogListReq) (*FindOperationLogListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindOperationLogList not implemented")
 }
-func (UnimplementedSyslogRpcServer) AddUploadLog(context.Context, *UploadLogNewReq) (*UploadLogDetails, error) {
+func (UnimplementedSyslogRpcServer) AddUploadLog(context.Context, *UploadLogNewReq) (*UploadLogDetailsResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddUploadLog not implemented")
 }
 func (UnimplementedSyslogRpcServer) DeletesUploadLog(context.Context, *IdsReq) (*BatchResp, error) {
