@@ -42,13 +42,13 @@ func (s *WebsiteRpcServer) FindVisitTrend(ctx context.Context, in *websiterpc.Fi
 }
 
 // 创建友链
-func (s *WebsiteRpcServer) AddFriend(ctx context.Context, in *websiterpc.FriendNewReq) (*websiterpc.FriendDetails, error) {
+func (s *WebsiteRpcServer) AddFriend(ctx context.Context, in *websiterpc.FriendNewReq) (*websiterpc.FriendDetailsResp, error) {
 	l := websiterpclogic.NewAddFriendLogic(ctx, s.svcCtx)
 	return l.AddFriend(in)
 }
 
 // 更新友链
-func (s *WebsiteRpcServer) UpdateFriend(ctx context.Context, in *websiterpc.FriendNewReq) (*websiterpc.FriendDetails, error) {
+func (s *WebsiteRpcServer) UpdateFriend(ctx context.Context, in *websiterpc.FriendNewReq) (*websiterpc.FriendDetailsResp, error) {
 	l := websiterpclogic.NewUpdateFriendLogic(ctx, s.svcCtx)
 	return l.UpdateFriend(in)
 }

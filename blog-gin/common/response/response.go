@@ -12,7 +12,7 @@ type Body struct {
 	Code    int64       `json:"code"`
 	Message string      `json:"message" `
 	Data    interface{} `json:"data"`
-	TraceId string      `json:"trace_id"`
+	TraceId string      `json:"trace_id,omitempty"`
 }
 
 func Response(c *gin.Context, code int64, msg string, data interface{}) {

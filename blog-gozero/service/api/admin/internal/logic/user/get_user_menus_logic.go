@@ -49,7 +49,7 @@ func (l *GetUserMenusLogic) GetUserMenus(req *types.EmptyReq) (resp *types.UserM
 	return
 }
 
-func ConvertUserMenuTypes(in *permissionrpc.MenuDetails) (out *types.UserMenu) {
+func ConvertUserMenuTypes(in *permissionrpc.MenuDetailsResp) (out *types.UserMenu) {
 	children := make([]*types.UserMenu, 0)
 	if in.Children != nil {
 		for _, v := range in.Children {

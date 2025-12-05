@@ -39,7 +39,7 @@ func (l *AddRemarkLogic) AddRemark(req *types.RemarkNewReq) (resp *types.Remark,
 	return resp, nil
 }
 
-func ConvertRemarkTypes(req *messagerpc.RemarkDetails, usm map[string]*types.UserInfoVO) (out *types.Remark) {
+func ConvertRemarkTypes(req *messagerpc.RemarkDetailsResp, usm map[string]*types.UserInfoVO) (out *types.Remark) {
 	return &types.Remark{
 		Id:             req.Id,
 		UserId:         req.UserId,

@@ -27,7 +27,7 @@ func NewVisitArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Visi
 }
 
 // 访问文章
-func (l *VisitArticleLogic) VisitArticle(in *articlerpc.IdReq) (*articlerpc.CountResp, error) {
+func (l *VisitArticleLogic) VisitArticle(in *articlerpc.IdReq) (*articlerpc.VisitArticleResp, error) {
 	record, err := l.svcCtx.TArticleModel.FindById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
@@ -47,5 +47,5 @@ func (l *VisitArticleLogic) VisitArticle(in *articlerpc.IdReq) (*articlerpc.Coun
 		return nil, err
 	}
 
-	return &articlerpc.CountResp{}, nil
+	return &articlerpc.VisitArticleResp{}, nil
 }

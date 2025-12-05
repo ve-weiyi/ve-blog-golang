@@ -75,7 +75,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQueryReq) (resp *types.P
 	return resp, nil
 }
 
-func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[string]*types.UserInfoVO, csm map[int64]int64) (out *types.Talk) {
+func ConvertTalkTypes(in *talkrpc.TalkDetailsResp, usm map[string]*types.UserInfoVO, csm map[int64]int64) (out *types.Talk) {
 	out = &types.Talk{
 		Id:           in.Id,
 		UserId:       in.UserId,

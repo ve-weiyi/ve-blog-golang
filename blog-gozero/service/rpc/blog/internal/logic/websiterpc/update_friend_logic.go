@@ -25,7 +25,7 @@ func NewUpdateFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 }
 
 // 更新友链
-func (l *UpdateFriendLogic) UpdateFriend(in *websiterpc.FriendNewReq) (*websiterpc.FriendDetails, error) {
+func (l *UpdateFriendLogic) UpdateFriend(in *websiterpc.FriendNewReq) (*websiterpc.FriendDetailsResp, error) {
 	entity := convertFriendIn(in)
 
 	_, err := l.svcCtx.TFriendModel.Save(l.ctx, entity)

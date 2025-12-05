@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/loads"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
@@ -85,7 +86,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	ph := permissionx.NewMemoryHolder(permissionRpc)
 	err = ph.LoadPolicy()
 	if err != nil {
-		panic(err)
+		logx.Infof("load permission policy fail: %v", err)
 	}
 
 	hub := client.NewStompHubServer(

@@ -9,30 +9,30 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindAllApiLogic struct {
+type FindAllRoleLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewFindAllApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindAllApiLogic {
-	return &FindAllApiLogic{
+func NewFindAllRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindAllRoleLogic {
+	return &FindAllRoleLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 查找所有接口
-func (l *FindAllApiLogic) FindAllApi(in *permissionrpc.FindAllApiReq) (*permissionrpc.FindApiListResp, error) {
-	result, err := l.svcCtx.TApiModel.FindALL(l.ctx, "")
+// 查询所有角色
+func (l *FindAllRoleLogic) FindAllRole(in *permissionrpc.FindAllRoleReq) (*permissionrpc.FindRoleListResp, error) {
+	result, err := l.svcCtx.TRoleModel.FindALL(l.ctx, "")
 	if err != nil {
 		return nil, err
 	}
 
-	out := &permissionrpc.FindApiListResp{}
+	out := &permissionrpc.FindRoleListResp{}
 	for _, item := range result {
-		out.List = append(out.List, convertApiOut(item))
+		out.List = append(out.List, convertRoleOut(item))
 	}
 	out.Pagination = &permissionrpc.PageResp{
 		Page:     1,

@@ -41,12 +41,12 @@ func RegisterPingHandlers(r *gin.RouterGroup, svCtx *svctx.ServiceContext) {
 	now := time.Now()
 	// 健康监测
 	r.GET("/version", func(c *gin.Context) {
-		traceID := trace.SpanContextFromContext(c.Request.Context())
+		spanCtx := trace.SpanContextFromContext(c.Request.Context())
 
 		c.JSON(http.StatusOK, gin.H{
 			"version":  svCtx.Config.System.Version,
 			"runtime":  now.String(),
-			"trace_id": traceID.TraceID().String(),
+			"trace_id": spanCtx.TraceID().String(),
 		})
 	})
 }

@@ -44,7 +44,7 @@ func (l *FindTagListLogic) FindTagList(in *articlerpc.FindTagListReq) (*articler
 		return nil, err
 	}
 
-	list, err := helper.convertTagDetails(records)
+	list, err := helper.convertTagDetailsResp(records)
 	if err != nil {
 		return nil, err
 	}

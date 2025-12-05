@@ -40,7 +40,15 @@ func (l *FindPageListLogic) FindPageList(req *types.PageQueryReq) (resp *types.P
 
 	list := make([]*types.Page, 0)
 	for _, v := range out.List {
-		list = append(list, ConvertPageTypes(v))
+		list = append(list, &types.Page{
+			Id:         v.Id,
+			PageName:   v.PageName,
+			PageLabel:  v.PageLabel,
+			PageCover:  v.PageCover,
+			IsCarousel: v.IsCarousel,
+			CreatedAt:  v.CreatedAt,
+			UpdatedAt:  v.UpdatedAt,
+		})
 	}
 
 	resp = &types.PageResp{}
@@ -49,16 +57,4 @@ func (l *FindPageListLogic) FindPageList(req *types.PageQueryReq) (resp *types.P
 	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
-}
-
-func ConvertPageTypes(in *resourcerpc.PageDetails) *types.Page {
-	return &types.Page{
-		Id:         in.Id,
-		PageName:   in.PageName,
-		PageLabel:  in.PageLabel,
-		PageCover:  in.PageCover,
-		IsCarousel: in.IsCarousel,
-		CreatedAt:  in.CreatedAt,
-		UpdatedAt:  in.UpdatedAt,
-	}
 }
