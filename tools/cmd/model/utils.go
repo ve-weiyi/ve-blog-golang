@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/tools/cmd/model/helper"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/quickstart/invent"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/filex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 )
 
@@ -20,7 +20,7 @@ type modelConfig struct {
 }
 
 func generateModel(tables []*helper.Table, conf modelConfig) error {
-	t := files.ToAbs(conf.TplFile)
+	t := filex.ToAbs(conf.TplFile)
 	o := conf.OutPath
 	n := conf.NameAs
 

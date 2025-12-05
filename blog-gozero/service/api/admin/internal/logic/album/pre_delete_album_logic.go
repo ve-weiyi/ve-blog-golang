@@ -35,5 +35,8 @@ func (l *PreDeleteAlbumLogic) PreDeleteAlbum(req *types.PreDeleteAlbumReq) (resp
 		return nil, err
 	}
 
-	return &types.BatchResp{SuccessCount: out.SuccessCount}, nil
+	resp = &types.BatchResp{
+		SuccessCount: out.SuccessCount,
+	}
+	return resp, nil
 }

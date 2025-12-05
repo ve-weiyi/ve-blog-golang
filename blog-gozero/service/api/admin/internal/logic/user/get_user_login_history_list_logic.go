@@ -46,8 +46,16 @@ func (l *GetUserLoginHistoryListLogic) GetUserLoginHistoryList(req *types.UserLo
 
 	var list []*types.UserLoginHistory
 	for _, v := range out.List {
-		m := ConvertUserLoginHistoryTypes(v)
-		list = append(list, m)
+		list = append(list, &types.UserLoginHistory{
+			Id:        v.Id,
+			LoginType: v.LoginType,
+			Os:        v.Os,
+			Browser:   v.Browser,
+			IpAddress: v.IpAddress,
+			IpSource:  v.IpSource,
+			LoginAt:   v.LoginAt,
+			LogoutAt:  v.LogoutAt,
+		})
 	}
 
 	resp = &types.PageResp{}
@@ -56,17 +64,4 @@ func (l *GetUserLoginHistoryListLogic) GetUserLoginHistoryList(req *types.UserLo
 	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
-}
-
-func ConvertUserLoginHistoryTypes(in *syslogrpc.LoginLogDetails) *types.UserLoginHistory {
-	return &types.UserLoginHistory{
-		Id:        in.Id,
-		LoginType: in.LoginType,
-		Os:        in.Os,
-		Browser:   in.Browser,
-		IpAddress: in.IpAddress,
-		IpSource:  in.IpSource,
-		LoginAt:   in.LoginAt,
-		LogoutAt:  in.LogoutAt,
-	}
 }

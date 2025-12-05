@@ -33,10 +33,11 @@ func (l *UpdateCommentLogic) UpdateComment(req *types.UpdateCommentReq) (resp *t
 		Status:         req.Status,
 	}
 
-	_, err = l.svcCtx.MessageRpc.UpdateComment(l.ctx, in)
+	out, err := l.svcCtx.MessageRpc.UpdateComment(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return
+	resp = ConvertCommentTypes(out, nil)
+	return resp, nil
 }

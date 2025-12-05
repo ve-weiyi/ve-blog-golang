@@ -26,40 +26,29 @@ func NewAddPhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPhoto
 }
 
 func (l *AddPhotoLogic) AddPhoto(req *types.PhotoNewReq) (resp *types.PhotoBackVO, err error) {
-	in := ConvertPhotoPb(req)
+	in := &resourcerpc.PhotoNewReq{
+		Id:        req.Id,
+		AlbumId:   req.AlbumId,
+		PhotoName: req.PhotoName,
+		PhotoDesc: req.PhotoDesc,
+		PhotoSrc:  req.PhotoSrc,
+		IsDelete:  req.IsDelete,
+	}
+
 	out, err := l.svcCtx.ResourceRpc.AddPhoto(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	resp = ConvertPhotoTypes(out)
+	resp = &types.PhotoBackVO{
+		Id:        out.Id,
+		AlbumId:   out.AlbumId,
+		PhotoName: out.PhotoName,
+		PhotoDesc: out.PhotoDesc,
+		PhotoSrc:  out.PhotoSrc,
+		IsDelete:  out.IsDelete,
+		CreatedAt: out.CreatedAt,
+		UpdatedAt: out.UpdatedAt,
+	}
 	return resp, nil
-}
-
-func ConvertPhotoPb(in *types.PhotoNewReq) (out *resourcerpc.PhotoNewReq) {
-	out = &resourcerpc.PhotoNewReq{
-		Id:        in.Id,
-		AlbumId:   in.AlbumId,
-		PhotoName: in.PhotoName,
-		PhotoDesc: in.PhotoDesc,
-		PhotoSrc:  in.PhotoSrc,
-		IsDelete:  in.IsDelete,
-	}
-
-	return
-}
-
-func ConvertPhotoTypes(in *resourcerpc.PhotoDetails) (out *types.PhotoBackVO) {
-	out = &types.PhotoBackVO{
-		Id:        in.Id,
-		AlbumId:   in.AlbumId,
-		PhotoName: in.PhotoName,
-		PhotoDesc: in.PhotoDesc,
-		PhotoSrc:  in.PhotoSrc,
-		IsDelete:  in.IsDelete,
-		CreatedAt: in.CreatedAt,
-		UpdatedAt: in.UpdatedAt,
-	}
-
-	return
 }

@@ -65,7 +65,7 @@ func (l *FindRemarkListLogic) FindRemarkList(req *types.RemarkQuery) (resp *type
 	return resp, nil
 }
 
-func ConvertRemarkTypes(in *messagerpc.RemarkDetails, usm map[string]*types.UserInfoVO) (out *types.RemarkBackVO) {
+func ConvertRemarkTypes(in *messagerpc.RemarkDetailsResp, usm map[string]*types.UserInfoVO) (out *types.RemarkBackVO) {
 	out = &types.RemarkBackVO{
 		Id:             in.Id,
 		UserId:         in.UserId,

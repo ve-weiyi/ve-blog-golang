@@ -60,7 +60,12 @@ func ShouldBindQuery(c *gin.Context, req interface{}) error {
 	if !ok {
 		return nil
 	}
-	return isValid.IsValid()
+
+	if err := isValid.IsValid(); err != nil {
+		return bizerr.NewBizError(bizerr.CodeInvalidParam, err.Error())
+	}
+
+	return nil
 }
 
 func ShouldBind(c *gin.Context, req interface{}) error {

@@ -42,8 +42,13 @@ func (l *FindTagListLogic) FindTagList(req *types.TagQuery) (resp *types.PageRes
 
 	var list []*types.TagBackVO
 	for _, v := range out.List {
-		m := ConvertTagTypes(v)
-		list = append(list, m)
+		list = append(list, &types.TagBackVO{
+			Id:           v.Id,
+			TagName:      v.TagName,
+			ArticleCount: v.ArticleCount,
+			CreatedAt:    v.CreatedAt,
+			UpdatedAt:    v.UpdatedAt,
+		})
 	}
 
 	resp = &types.PageResp{}

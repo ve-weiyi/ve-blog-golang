@@ -64,7 +64,7 @@ func (l *FindMenuListLogic) FindMenuList(in *permissionrpc.FindMenuListReq) (*pe
 	return out, nil
 }
 
-func appendMenuChildren(root *permissionrpc.MenuDetails, list []*model.TMenu) (leafs []*permissionrpc.MenuDetails) {
+func appendMenuChildren(root *permissionrpc.MenuDetailsResp, list []*model.TMenu) (leafs []*permissionrpc.MenuDetailsResp) {
 	for _, item := range list {
 		if item.ParentId == root.Id {
 			leaf := convertMenuOut(item)

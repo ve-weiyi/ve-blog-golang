@@ -41,8 +41,13 @@ func (l *FindCategoryListLogic) FindCategoryList(req *types.CategoryQueryReq) (r
 
 	list := make([]*types.Category, 0)
 	for _, v := range out.List {
-		m := ConvertCategoryTypes(v)
-		list = append(list, m)
+		list = append(list, &types.Category{
+			Id:           v.Id,
+			CategoryName: v.CategoryName,
+			ArticleCount: v.ArticleCount,
+			CreatedAt:    v.CreatedAt,
+			UpdatedAt:    v.UpdatedAt,
+		})
 	}
 
 	_, err = l.svcCtx.SyslogRpc.AddVisitLog(l.ctx, &syslogrpc.VisitLogNewReq{
@@ -58,14 +63,4 @@ func (l *FindCategoryListLogic) FindCategoryList(req *types.CategoryQueryReq) (r
 	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
-}
-
-func ConvertCategoryTypes(in *articlerpc.CategoryDetails) (out *types.Category) {
-	return &types.Category{
-		Id:           in.Id,
-		CategoryName: in.CategoryName,
-		ArticleCount: in.ArticleCount,
-		CreatedAt:    in.CreatedAt,
-		UpdatedAt:    in.UpdatedAt,
-	}
 }

@@ -34,7 +34,7 @@ func (l *FindChatListLogic) FindChatList(in *messagerpc.FindChatListReq) (*messa
 		return nil, err
 	}
 
-	var list []*messagerpc.ChatDetails
+	var list []*messagerpc.ChatDetailsResp
 	for _, v := range records {
 		list = append(list, convertChatOut(v))
 	}
