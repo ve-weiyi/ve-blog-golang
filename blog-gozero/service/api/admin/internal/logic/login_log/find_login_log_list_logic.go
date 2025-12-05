@@ -66,7 +66,7 @@ func (l *FindLoginLogListLogic) FindLoginLogList(req *types.LoginLogQuery) (resp
 	return resp, nil
 }
 
-func ConvertLoginLogTypes(in *syslogrpc.LoginLogDetails, usm map[string]*types.UserInfoVO) (out *types.LoginLogBackVO) {
+func ConvertLoginLogTypes(in *syslogrpc.LoginLogDetailsResp, usm map[string]*types.UserInfoVO) (out *types.LoginLogBackVO) {
 	out = &types.LoginLogBackVO{
 		Id:        in.Id,
 		UserId:    in.UserId,

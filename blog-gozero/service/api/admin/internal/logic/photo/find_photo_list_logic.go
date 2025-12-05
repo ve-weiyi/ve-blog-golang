@@ -43,8 +43,16 @@ func (l *FindPhotoListLogic) FindPhotoList(req *types.PhotoQuery) (resp *types.P
 
 	var list []*types.PhotoBackVO
 	for _, v := range out.List {
-		m := ConvertPhotoTypes(v)
-		list = append(list, m)
+		list = append(list, &types.PhotoBackVO{
+			Id:        v.Id,
+			AlbumId:   v.AlbumId,
+			PhotoName: v.PhotoName,
+			PhotoDesc: v.PhotoDesc,
+			PhotoSrc:  v.PhotoSrc,
+			IsDelete:  v.IsDelete,
+			CreatedAt: v.CreatedAt,
+			UpdatedAt: v.UpdatedAt,
+		})
 	}
 
 	resp = &types.PageResp{}

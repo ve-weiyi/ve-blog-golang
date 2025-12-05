@@ -44,8 +44,17 @@ func (l *FindRoleListLogic) FindRoleList(req *types.RoleQuery) (resp *types.Page
 
 	var list []*types.RoleBackVO
 	for _, v := range out.List {
-		m := convertRoleTypes(v)
-		list = append(list, m)
+		list = append(list, &types.RoleBackVO{
+			Id:          v.Id,
+			ParentId:    v.ParentId,
+			RoleKey:     v.RoleKey,
+			RoleLabel:   v.RoleLabel,
+			RoleComment: v.RoleComment,
+			IsDisable:   v.IsDisable,
+			IsDefault:   v.IsDefault,
+			CreatedAt:   v.CreatedAt,
+			UpdatedAt:   v.UpdatedAt,
+		})
 	}
 
 	resp = &types.PageResp{}

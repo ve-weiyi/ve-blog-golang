@@ -41,8 +41,13 @@ func (l *FindTagListLogic) FindTagList(req *types.TagQueryReq) (resp *types.Page
 
 	list := make([]*types.Tag, 0)
 	for _, v := range out.List {
-		m := ConvertTagTypes(v)
-		list = append(list, m)
+		list = append(list, &types.Tag{
+			Id:           v.Id,
+			TagName:      v.TagName,
+			ArticleCount: v.ArticleCount,
+			CreatedAt:    v.CreatedAt,
+			UpdatedAt:    v.UpdatedAt,
+		})
 	}
 
 	_, err = l.svcCtx.SyslogRpc.AddVisitLog(l.ctx, &syslogrpc.VisitLogNewReq{
@@ -58,14 +63,4 @@ func (l *FindTagListLogic) FindTagList(req *types.TagQueryReq) (resp *types.Page
 	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
-}
-
-func ConvertTagTypes(in *articlerpc.TagDetails) (out *types.Tag) {
-	return &types.Tag{
-		Id:           in.Id,
-		TagName:      in.TagName,
-		ArticleCount: in.ArticleCount,
-		CreatedAt:    in.CreatedAt,
-		UpdatedAt:    in.UpdatedAt,
-	}
 }

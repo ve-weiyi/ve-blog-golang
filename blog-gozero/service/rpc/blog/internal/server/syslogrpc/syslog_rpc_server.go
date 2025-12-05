@@ -84,7 +84,7 @@ func (s *SyslogRpcServer) FindOperationLogList(ctx context.Context, in *syslogrp
 }
 
 // 创建上传记录
-func (s *SyslogRpcServer) AddUploadLog(ctx context.Context, in *syslogrpc.UploadLogNewReq) (*syslogrpc.UploadLogDetails, error) {
+func (s *SyslogRpcServer) AddUploadLog(ctx context.Context, in *syslogrpc.UploadLogNewReq) (*syslogrpc.UploadLogDetailsResp, error) {
 	l := syslogrpclogic.NewAddUploadLogLogic(ctx, s.svcCtx)
 	return l.AddUploadLog(in)
 }

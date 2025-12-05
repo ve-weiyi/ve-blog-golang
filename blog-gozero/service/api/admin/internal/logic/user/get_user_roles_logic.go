@@ -41,22 +41,16 @@ func (l *GetUserRolesLogic) GetUserRoles(req *types.EmptyReq) (resp *types.UserR
 
 	var list []*types.UserRole
 	for _, v := range out.List {
-		list = append(list, convertUserRole(v))
+		list = append(list, &types.UserRole{
+			Id:          v.Id,
+			ParentId:    v.ParentId,
+			RoleKey:     v.RoleKey,
+			RoleLabel:   v.RoleLabel,
+			RoleComment: v.RoleComment,
+		})
 	}
 
 	resp = &types.UserRolesResp{}
 	resp.List = list
 	return
-}
-
-func convertUserRole(in *permissionrpc.RoleDetails) (out *types.UserRole) {
-	out = &types.UserRole{
-		Id:          in.Id,
-		ParentId:    in.ParentId,
-		RoleKey:     in.RoleKey,
-		RoleLabel:   in.RoleLabel,
-		RoleComment: in.RoleComment,
-	}
-
-	return out
 }

@@ -68,7 +68,7 @@ func (l *FindVisitLogListLogic) FindVisitLogList(req *types.VisitLogQuery) (resp
 	return resp, nil
 }
 
-func ConvertVisitLogTypes(in *syslogrpc.VisitLogDetails, usm map[string]*types.UserInfoVO) (out *types.VisitLogBackVO) {
+func ConvertVisitLogTypes(in *syslogrpc.VisitLogDetailsResp, usm map[string]*types.UserInfoVO) (out *types.VisitLogBackVO) {
 
 	out = &types.VisitLogBackVO{
 		Id:         in.Id,

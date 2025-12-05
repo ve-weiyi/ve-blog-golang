@@ -61,7 +61,7 @@ func (l *FindUserMenusLogic) FindUserMenus(in *permissionrpc.UserIdReq) (*permis
 		return nil, err
 	}
 
-	var root permissionrpc.MenuDetails
+	var root permissionrpc.MenuDetailsResp
 	root.Children = appendMenuChildren(&root, list)
 
 	out := &permissionrpc.FindMenuListResp{}

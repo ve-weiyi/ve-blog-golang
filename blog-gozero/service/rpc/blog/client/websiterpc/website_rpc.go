@@ -23,7 +23,7 @@ type (
 	FindFriendListResp   = websiterpc.FindFriendListResp
 	FindVisitTrendReq    = websiterpc.FindVisitTrendReq
 	FindVisitTrendResp   = websiterpc.FindVisitTrendResp
-	FriendDetails        = websiterpc.FriendDetails
+	FriendDetailsResp    = websiterpc.FriendDetailsResp
 	FriendNewReq         = websiterpc.FriendNewReq
 	IdsReq               = websiterpc.IdsReq
 	PageReq              = websiterpc.PageReq
@@ -38,9 +38,9 @@ type (
 		// 查询用户访问趋势
 		FindVisitTrend(ctx context.Context, in *FindVisitTrendReq, opts ...grpc.CallOption) (*FindVisitTrendResp, error)
 		// 创建友链
-		AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error)
+		AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetailsResp, error)
 		// 更新友链
-		UpdateFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error)
+		UpdateFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetailsResp, error)
 		// 删除友链
 		DeleteFriend(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询友链列表
@@ -77,13 +77,13 @@ func (m *defaultWebsiteRpc) FindVisitTrend(ctx context.Context, in *FindVisitTre
 }
 
 // 创建友链
-func (m *defaultWebsiteRpc) AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error) {
+func (m *defaultWebsiteRpc) AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetailsResp, error) {
 	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
 	return client.AddFriend(ctx, in, opts...)
 }
 
 // 更新友链
-func (m *defaultWebsiteRpc) UpdateFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error) {
+func (m *defaultWebsiteRpc) UpdateFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetailsResp, error) {
 	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
 	return client.UpdateFriend(ctx, in, opts...)
 }

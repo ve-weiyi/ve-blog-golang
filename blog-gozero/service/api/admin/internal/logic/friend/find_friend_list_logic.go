@@ -42,8 +42,15 @@ func (l *FindFriendListLogic) FindFriendList(req *types.FriendQuery) (resp *type
 
 	var list []*types.FriendBackVO
 	for _, v := range out.List {
-		m := ConvertFriendTypes(v)
-		list = append(list, m)
+		list = append(list, &types.FriendBackVO{
+			Id:          v.Id,
+			LinkName:    v.LinkName,
+			LinkAvatar:  v.LinkAvatar,
+			LinkAddress: v.LinkAddress,
+			LinkIntro:   v.LinkIntro,
+			CreatedAt:   v.CreatedAt,
+			UpdatedAt:   v.UpdatedAt,
+		})
 	}
 
 	resp = &types.PageResp{}

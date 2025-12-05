@@ -89,7 +89,7 @@ func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp
 	return resp, nil
 }
 
-func ConvertCommentTypes(in *messagerpc.CommentDetails, usm map[string]*types.UserInfoVO) (out *types.Comment) {
+func ConvertCommentTypes(in *messagerpc.CommentDetailsResp, usm map[string]*types.UserInfoVO) (out *types.Comment) {
 	out = &types.Comment{
 		Id:               in.Id,
 		TopicId:          in.TopicId,
@@ -123,7 +123,7 @@ func ConvertCommentTypes(in *messagerpc.CommentDetails, usm map[string]*types.Us
 	return
 }
 
-func ConvertCommentReplyTypes(req *messagerpc.CommentDetails, usm map[string]*types.UserInfoVO) (out *types.CommentReply) {
+func ConvertCommentReplyTypes(req *messagerpc.CommentDetailsResp, usm map[string]*types.UserInfoVO) (out *types.CommentReply) {
 	out = &types.CommentReply{
 		Id:             req.Id,
 		TopicId:        req.TopicId,

@@ -33,7 +33,7 @@ func (l *FindPageListLogic) FindPageList(in *resourcerpc.FindPageListReq) (*reso
 		return nil, err
 	}
 
-	var list []*resourcerpc.PageDetails
+	var list []*resourcerpc.PageDetailsResp
 	for _, v := range records {
 		list = append(list, convertPageOut(v))
 	}

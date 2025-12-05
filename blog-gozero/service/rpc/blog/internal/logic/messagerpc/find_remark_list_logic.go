@@ -39,7 +39,7 @@ func (l *FindRemarkListLogic) FindRemarkList(in *messagerpc.FindRemarkListReq) (
 		return nil, err
 	}
 
-	var list []*messagerpc.RemarkDetails
+	var list []*messagerpc.RemarkDetailsResp
 	for _, v := range records {
 		list = append(list, convertRemarkOut(v))
 	}
@@ -54,8 +54,8 @@ func (l *FindRemarkListLogic) FindRemarkList(in *messagerpc.FindRemarkListReq) (
 	}, nil
 }
 
-func convertRemarkOut(in *model.TRemark) (out *messagerpc.RemarkDetails) {
-	out = &messagerpc.RemarkDetails{
+func convertRemarkOut(in *model.TRemark) (out *messagerpc.RemarkDetailsResp) {
+	out = &messagerpc.RemarkDetailsResp{
 		Id:             in.Id,
 		UserId:         in.UserId,
 		TerminalId:     in.TerminalId,

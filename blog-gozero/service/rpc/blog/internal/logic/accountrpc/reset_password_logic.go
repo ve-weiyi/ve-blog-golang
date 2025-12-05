@@ -11,7 +11,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/patternx"
 )
 
 type ResetPasswordLogic struct {
@@ -31,7 +31,7 @@ func NewResetPasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Res
 // 重置密码
 func (l *ResetPasswordLogic) ResetPassword(in *accountrpc.ResetPasswordReq) (*accountrpc.EmptyResp, error) {
 	// 校验邮箱格式
-	if !valid.IsEmailValid(in.Email) {
+	if !patternx.IsValidEmail(in.Email) {
 		return nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "邮箱格式不正确")
 	}
 

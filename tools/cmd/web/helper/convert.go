@@ -4,8 +4,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/convertx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/typecase"
 	"github.com/ve-weiyi/ve-blog-golang/tools/parserx/apiparser/aspec"
 )
 
@@ -31,11 +31,11 @@ func ConvertApiTs(sp *aspec.ApiSpec) map[string][]TsApiGroup {
 			req := "any"
 			resp := "any"
 			if r.RequestType != nil {
-				req = convertx.ConvertGoTypeToTsType(r.RequestType.Name())
+				req = typecase.ConvertGoTypeToTsType(r.RequestType.Name())
 			}
 
 			if r.ResponseType != nil {
-				resp = convertx.ConvertGoTypeToTsType(r.ResponseType.Name())
+				resp = typecase.ConvertGoTypeToTsType(r.ResponseType.Name())
 			}
 
 			// 路径参数
@@ -137,7 +137,7 @@ func convertTypeTs(st aspec.Type) TsType {
 				m := TsTypeField{
 					Comment:  v.Comment,
 					Name:     jsonconv.Case2Snake(v.Name),
-					Type:     convertx.ConvertGoTypeToTsType(v.Type.Name()),
+					Type:     typecase.ConvertGoTypeToTsType(v.Type.Name()),
 					Nullable: strings.HasPrefix(v.Type.Name(), "*") || strings.Contains(v.Tag, "optional"),
 				}
 				tfs = append(tfs, m)

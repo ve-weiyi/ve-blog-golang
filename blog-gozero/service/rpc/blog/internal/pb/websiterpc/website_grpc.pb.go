@@ -43,9 +43,9 @@ type WebsiteRpcClient interface {
 	// 查询用户访问趋势
 	FindVisitTrend(ctx context.Context, in *FindVisitTrendReq, opts ...grpc.CallOption) (*FindVisitTrendResp, error)
 	// 创建友链
-	AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error)
+	AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetailsResp, error)
 	// 更新友链
-	UpdateFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error)
+	UpdateFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetailsResp, error)
 	// 删除友链
 	DeleteFriend(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询友链列表
@@ -87,8 +87,8 @@ func (c *websiteRpcClient) FindVisitTrend(ctx context.Context, in *FindVisitTren
 	return out, nil
 }
 
-func (c *websiteRpcClient) AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error) {
-	out := new(FriendDetails)
+func (c *websiteRpcClient) AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetailsResp, error) {
+	out := new(FriendDetailsResp)
 	err := c.cc.Invoke(ctx, WebsiteRpc_AddFriend_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -96,8 +96,8 @@ func (c *websiteRpcClient) AddFriend(ctx context.Context, in *FriendNewReq, opts
 	return out, nil
 }
 
-func (c *websiteRpcClient) UpdateFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error) {
-	out := new(FriendDetails)
+func (c *websiteRpcClient) UpdateFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetailsResp, error) {
+	out := new(FriendDetailsResp)
 	err := c.cc.Invoke(ctx, WebsiteRpc_UpdateFriend_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -134,9 +134,9 @@ type WebsiteRpcServer interface {
 	// 查询用户访问趋势
 	FindVisitTrend(context.Context, *FindVisitTrendReq) (*FindVisitTrendResp, error)
 	// 创建友链
-	AddFriend(context.Context, *FriendNewReq) (*FriendDetails, error)
+	AddFriend(context.Context, *FriendNewReq) (*FriendDetailsResp, error)
 	// 更新友链
-	UpdateFriend(context.Context, *FriendNewReq) (*FriendDetails, error)
+	UpdateFriend(context.Context, *FriendNewReq) (*FriendDetailsResp, error)
 	// 删除友链
 	DeleteFriend(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询友链列表
@@ -157,10 +157,10 @@ func (UnimplementedWebsiteRpcServer) AddVisit(context.Context, *AddVisitReq) (*A
 func (UnimplementedWebsiteRpcServer) FindVisitTrend(context.Context, *FindVisitTrendReq) (*FindVisitTrendResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindVisitTrend not implemented")
 }
-func (UnimplementedWebsiteRpcServer) AddFriend(context.Context, *FriendNewReq) (*FriendDetails, error) {
+func (UnimplementedWebsiteRpcServer) AddFriend(context.Context, *FriendNewReq) (*FriendDetailsResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddFriend not implemented")
 }
-func (UnimplementedWebsiteRpcServer) UpdateFriend(context.Context, *FriendNewReq) (*FriendDetails, error) {
+func (UnimplementedWebsiteRpcServer) UpdateFriend(context.Context, *FriendNewReq) (*FriendDetailsResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateFriend not implemented")
 }
 func (UnimplementedWebsiteRpcServer) DeleteFriend(context.Context, *IdsReq) (*BatchResp, error) {
