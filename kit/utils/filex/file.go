@@ -1,4 +1,4 @@
-package files
+package filex
 
 import (
 	"fmt"
@@ -81,24 +81,24 @@ func OpenExistFile(fileName string) (*os.File, error) {
 	} else {
 		dir, err := os.Getwd()
 		if err != nil {
-			return nil, fmt.Errorf("获取目录: %v", err)
+			return nil, fmt.Errorf("failed to get directory: %v", err)
 		}
 		src = path.Join(dir, fileName)
 	}
 
 	perm := CheckPermission(src)
 	if perm == true {
-		return nil, fmt.Errorf("无此权限: %s", src)
+		return nil, fmt.Errorf("permission denied: %s", src)
 	}
 
 	err = MkDir(src)
 	if err != nil {
-		return nil, fmt.Errorf("创建文件夹错误: %s, err: %v", src, err)
+		return nil, fmt.Errorf("failed to create directory: %s, err: %v", src, err)
 	}
 
 	f, err := Open(src+fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		return nil, fmt.Errorf("打开文件失败 :%v", err)
+		return nil, fmt.Errorf("failed to open file: %v", err)
 	}
 
 	return f, nil
@@ -158,7 +158,7 @@ func ReadFile(filename string) ([]byte, error) {
 	// 读取文件内容到字符串
 	content, err := os.ReadFile(filename)
 	if err != nil {
-		return nil, fmt.Errorf("无法读取文件:%v", err)
+		return nil, fmt.Errorf("failed to read file: %v", err)
 	}
 
 	return content, nil
