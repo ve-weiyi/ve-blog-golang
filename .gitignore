@@ -25,11 +25,9 @@ yarn-error.log*
 
 *.iml
 *.log
-web/.pnpm-debug.log
-web/pnpm-lock.yaml
-server/config.yaml
 *.sum
 
+bin
 runtime
 default.etcd
 config.yaml

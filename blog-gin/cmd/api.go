@@ -62,11 +62,11 @@ func runApi(cmd *cobra.Command, args []string) error {
 		os.Exit(1)
 	}
 
-	RunWindowsServer(c)
+	RunServer(c)
 	return nil
 }
 
-func RunWindowsServer(c *config.Config) {
+func RunServer(c *config.Config) {
 	// 初始化zap日志库
 	initialize.SetLog(c.Zap)
 
