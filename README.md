@@ -1,12 +1,14 @@
 <div align=center>
 <img src="https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG" width=150" height="150" />
   <h1>ve-blog-golang</h1>
+  <p>🚀 基于 Go-Zero 微服务架构的现代化博客系统</p>
 
-<img src="https://img.shields.io/badge/golang-1.20-blue"/>
-<img src="https://img.shields.io/badge/gin-1.9.0-lightBlue"/>
-<img src="https://img.shields.io/badge/gorm-1.24.7-red"/>
-<img src="https://img.shields.io/badge/redis-9.0.2-brightgreen"/>
-<img src="https://img.shields.io/badge/swagger-v1.5.3-green"/>
+<img src="https://img.shields.io/badge/golang-1.24-blue"/>
+<img src="https://img.shields.io/badge/gin-1.11.0-green"/>
+<img src="https://img.shields.io/badge/gozero-1.9.3-yellow"/>
+<img src="https://img.shields.io/badge/grpc-1.77.0-brightgreen"/>
+<img src="https://img.shields.io/badge/gorm-1.31.1-red"/>
+<img src="https://img.shields.io/badge/redis-9.27.0-purple"/>
 
 </div>
 
@@ -26,11 +28,19 @@
 
 ## 📚 项目简介
 
-ve-blog 是一个现代化的全栈博客系统，采用 Go 语言开发后端，基于微服务架构，提供完整的博客解决方案。
+ve-blog 是一个功能完善的现代化全栈博客系统，后端采用 Go 语言 + Go-Zero 微服务架构，前端使用 Vue3 + TypeScript
+技术栈。系统支持多种登录方式、RBAC 权限管理、文章管理、社交互动等丰富功能，提供完整的企业级博客解决方案。
 
-## 项目预览
+### ✨ 核心亮点
 
-### 1. 项目截图
+- 🏗️ **微服务架构** - 基于 Go-Zero 框架，支持服务注册发现、负载均衡、熔断降级
+- ⚡ **高性能** - Redis 缓存 + 消息队列优化，轻松应对高并发场景
+- 🔐 **安全可靠** - JWT 认证、RBAC 权限控制、数据加密，全方位安全保障
+- 🎨 **功能丰富** - 文章管理、社交互动、数据统计、实时聊天等完整功能
+- 🛠️ **开发友好** - 代码生成工具、Swagger 文档、模块化设计，快速开发
+- 🐳 **一键部署** - Docker Compose 编排，简化部署流程
+
+## 📸 项目预览
 
 ✨  **博客网站**
 
@@ -52,31 +62,77 @@ ve-blog 是一个现代化的全栈博客系统，采用 Go 语言开发后端�
 
 ![img_4.jpg](assets/images/img_4.jpg)
 
-## ✨ 核心特性
+## 🛠️ 技术栈
 
-### 1. 技术栈
+### 后端技术
 
-- **后端**：Golang + Go-zero + gRPC + Gorm + Redis + RabbitMQ + Kafka
-- **前端**：Vue3 + Pinia + TypeScript + Element Plus + Naive UI
-- **部署**：Docker Compose 一键部署
+| 技术       | 说明     | 版本     |
+|----------|--------|--------|
+| Go       | 编程语言   | 1.20+  |
+| Go-Zero  | 微服务框架  | 1.5.3  |
+| Gin      | Web 框架 | 1.9.0  |
+| Gorm     | ORM 框架 | 1.24.7 |
+| gRPC     | RPC 框架 | -      |
+| MySQL    | 关系型数据库 | 8.0+   |
+| Redis    | 缓存数据库  | 6.2+   |
+| RabbitMQ | 消息队列   | -      |
+| Kafka    | 消息队列   | -      |
+| JWT      | 身份认证   | -      |
+| Swagger  | API 文档 | 1.5.3  |
 
-### 2. 系统功能
+### 前端技术
 
-- **用户系统**：支持账号密码、Github、QQ、微信等多种登录方式
-- **权限管理**：基于 RBAC 的权限模型，支持动态权限、菜单和路由
-- **文章管理**：支持 Markdown 编辑器、文章分类、标签、评论、点赞
-- **社交功能**：说说、友链、相册、留言弹幕墙、音乐播放器、聊天室
-- **消息通知**：评论回复邮件提醒、系统消息推送
-- **数据统计**：访问量、用户活跃度、文章阅读量等数据可视化
-- **API 文档**：自动生成 Swagger 接口文档，方便前后端协作
+| 技术           | 说明                |
+|--------------|-------------------|
+| Vue3         | 渐进式 JavaScript 框架 |
+| TypeScript   | JavaScript 超集     |
+| Pinia        | 状态管理              |
+| Element Plus | 后台 UI 组件库         |
+| Naive UI     | 前台 UI 组件库         |
+| Vite         | 构建工具              |
 
-### 3. 技术亮点
+## 🎯 系统功能
 
-- **微服务架构**：采用 go-zero 框架，支持服务注册发现、负载均衡，实现高可用架构
-- **高性能**：使用 Redis 缓存、消息队列优化，支持高并发访问，轻松应对流量高峰
-- **安全性**：JWT 认证、数据加密、权限控制，全方位保障系统安全
-- **可扩展性**：模块化设计，支持功能扩展和定制，满足个性化需求
-- **开发效率**：提供完整的代码生成工具，快速开发新功能
+### 👤 用户系统
+
+- 多种登录方式：账号密码、GitHub、QQ、微信等第三方登录
+- 用户信息管理、头像上传、个人资料编辑
+- 在线用户统计、用户行为追踪
+
+### 🔐 权限管理
+
+- 基于 RBAC 的权限模型
+- 动态权限配置、菜单管理、路由控制
+- 角色管理、用户角色绑定
+
+### 📝 内容管理
+
+- Markdown 编辑器，支持图片上传
+- 文章分类、标签管理
+- 文章评论、点赞、收藏
+- 文章搜索、推荐算法
+
+### 💬 社交互动
+
+- 说说动态发布
+- 友情链接管理
+- 相册管理
+- 留言弹幕墙
+- 音乐播放器
+- WebSocket 实时聊天室（Stomp 协议）
+
+### 📊 数据统计
+
+- 访问量统计（PV/UV）
+- 用户活跃度分析
+- 文章阅读量排行
+- 数据可视化大屏
+
+### 🔔 消息通知
+
+- 评论回复邮件提醒
+- 系统消息推送
+- 站内信通知
 
 ## 📁 项目源码
 
@@ -90,33 +146,55 @@ ve-blog 是一个现代化的全栈博客系统，采用 Go 语言开发后端�
 
 ```
 ve-blog-golang/
-├── blog-gin/         # Gin 框架实现（示例，仅有框架目录无logic实现）
-├── blog-gozero/      # Go-zero 微服务实现（完整实现）
-├── kit/              # 通用工具包。封装一些常用工具类
-├── stompws/          # 聊天室封装。使用Websocket协议通讯，消息内容使用stomp格式
-├── tools/            # 代码生成工具。快速生成gin框架代码
-└── deploy/           # 部署配置
+├── blog-gin/              # Gin 框架实现（示例参考）
+├── blog-gozero/           # Go-Zero 微服务实现（主要实现）
+│   ├── service/
+│   │   ├── api/          # API 网关层
+│   │   │   ├── blog/     # 前台接口服务
+│   │   │   └── admin/    # 后台接口服务
+│   │   └── rpc/          # RPC 服务层
+│   │       └── blog/     # 业务逻辑服务
+│   ├── model/            # 数据模型
+│   └── common/           # 公共模块
+├── kit/                   # 通用工具包
+│   ├── utils/            # 工具函数
+│   ├── middleware/       # 中间件
+│   └── infra/            # 基础设施
+├── stompws/              # WebSocket 聊天室（Stomp 协议）
+├── tools/                # 代码生成工具
+└── deploy/               # 部署配置文件
+    ├── docker/           # Docker 配置
+    └── k8s/              # Kubernetes 配置
 ```
 
 ## ⚙️ 环境要求
 
-- Go 1.20+
-- MySQL 8.0+
-- Redis 6.2+
-- Docker & Docker Compose
+### 必需环境
 
-## 🔧 开发工具
+- **Go**: 1.20 或更高版本
+- **MySQL**: 8.0 或更高版本
+- **Redis**: 6.2 或更高版本
+- **Node.js**: 16+ (前端项目)
+- **pnpm**: 8+ (前端包管理)
 
-- IDE: Intellij IDEA Ultimate
-- 数据库: Navicat
-- Redis: Another Redis Desktop Manager
-- 容器: Docker Desktop
+### 可选环境
 
-## 🛠️ 快速开始
+- **Docker**: 20.10+ (容器化部署)
+- **Docker Compose**: 2.0+ (服务编排)
+- **RabbitMQ**: 3.9+ (消息队列)
+- **Kafka**: 2.8+ (消息队列)
 
-### 项目启动
+### 推荐开发工具
 
-**运行接口服务**
+- **IDE**: GoLand / VS Code
+- **数据库管理**: Navicat / DBeaver
+- **Redis 管理**: Another Redis Desktop Manager
+- **API 测试**: Postman / Apifox
+- **容器管理**: Docker Desktop
+
+## 🚀 快速开始
+
+### **运行接口服务**
 ```bash
 # 克隆项目
 git clone https://github.com/ve-weiyi/ve-blog-golang.git
@@ -124,18 +202,20 @@ git clone https://github.com/ve-weiyi/ve-blog-golang.git
 # 进入项目目录
 cd ve-blog-golang/blog-gozero
 
-# 安装依赖
+# 安装 Go 依赖
 go mod tidy
 
-# 启动rpc服务
+# 启动 RPC 服务
 go run service/rpc/blog/blog.go -f service/rpc/blog/etc/blog.yaml
 
-# 启动前台接口服务
+# 启动前台 API 服务
 go run service/api/blog/blog.go -f service/api/blog/etc/blog.yaml
 
-# 启动后台接口服务
+# 启动后台 API 服务
 go run service/api/admin/admin.go -f service/api/admin/etc/admin.yaml
 ```
+
+### **运行前端服务**
 
 **运行前台服务**
 
@@ -169,26 +249,50 @@ pnpm install
 pnpm run dev
 ```
 
-**本地运行**
+### 访问系统
 
-- 前台网站服务地址：`http://localhost:9420`
-- 后台网站服务地址：`http://localhost:9421`
-- 前台接口文档地址：`http://localhost:9090/blog-api/v1/swagger/index.html`
-- 后台接口文档地址：`http://localhost:9091/admin-api/v1/swagger/index.html`
+| 服务        | 地址                                                    | 说明         |
+|-----------|-------------------------------------------------------|------------|
+| 前台网站      | http://localhost:9420                                 | 博客前台展示     |
+| 后台管理      | http://localhost:9421                                 | 博客后台管理     |
+| 前台 API 文档 | http://localhost:9090/blog-api/v1/swagger/index.html  | Swagger 文档 |
+| 后台 API 文档 | http://localhost:9091/admin-api/v1/swagger/index.html | Swagger 文档 |
 
-## 📈 后续计划
+## Docker 部署（可选）
 
-- [x] 使用Stomp协议+Websocket协议实现聊天室功能
-- [ ] 用户评论邮件提醒
-- [ ] 集成 ElasticSearch 搜索引擎
-- [ ] 添加 Prometheus 监控
-- [ ] 集成 ChatGPT 聊天功能
-- [ ] 优化性能监控
-- [ ] 增加更多社交功能
+```bash
+# 使用 Docker Compose 一键启动
+cd deploy/docker
+docker-compose up -d
+```
+
+## 📈 开发路线
+
+### 已完成 ✅
+
+- [x] Swagger API 文档
+- [x] Go-Zero 微服务架构搭建
+- [x] 用户认证与授权系统
+- [x] RBAC 权限管理
+- [x] 文章管理系统
+- [x] WebSocket 实时聊天室（Stomp 协议）
+
+### 进行中 🚧
+
+- [ ] 用户评论邮件提醒功能
+- [ ] 性能监控优化
+
+### 计划中 📋
+
+- [ ] 集成 ElasticSearch 全文搜索
+- [ ] 添加 Prometheus + Grafana 监控
+- [ ] 集成 AI 聊天功能（ChatGPT）
+- [ ] 支持 Kubernetes 部署
+- [ ] 增加更多社交互动功能
 
 ## 🤝 参与贡献
 
-欢迎提交 Issue 和 Pull Request，一起完善项目！您的参与将帮助我们打造更好的博客系统。
+欢迎提交 Issue 和 Pull Request！您的参与将帮助我们打造更好的博客系统。
 
 1. Fork 本仓库
 2. 创建功能分支：`git checkout -b feature/your-feature`
@@ -196,27 +300,47 @@ pnpm run dev
 4. 推送到分支：`git push origin feature/your-feature`
 5. 提交 Pull Request
 
+请遵循 [Conventional Commits](https://www.conventionalcommits.org/) 规范：
+
+- `feat`: 新功能
+- `fix`: 修复 Bug
+- `docs`: 文档更新
+- `style`: 代码格式调整
+- `refactor`: 代码重构
+- `test`: 测试相关
+- `chore`: 构建/工具链相关
+
 ## 📄 开源协议
 
-本项目采用 MIT 协议开源，请遵守开源协议。
+本项目基于 [MIT License](LICENSE) 开源协议，可自由使用、修改和分发。
 
 ## 🙏 致谢
 
-感谢以下项目的启发：
+感谢以下优秀开源项目的启发和参考：
 
-- [风丶宇的博客(已删库)](https://github.com/X1192176811/blog)
-- [阿冬的个人博客](https://github.com/ttkican/Blog)
-- [vue3-element-admin](https://github.com/youlaitech/vue3-element-admin)
+- [风丶宇的博客](https://github.com/X1192176811/blog) - 项目灵感来源
+- [阿冬的个人博客](https://github.com/ttkican/Blog) - UI 设计参考
+- [vue3-element-admin](https://github.com/youlaitech/vue3-element-admin) - 后台管理参考
+- [Go-Zero](https://github.com/zeromicro/go-zero) - 微服务框架
 
-## 其他
+## 💬 联系作者
 
-### 作者联系方式：
+如果你在使用过程中遇到问题，欢迎通过以下方式联系作者，很很乐意解答您的问题：
 
-* qq 791422171
-* 微信 wy791422171
+- 📧 **提交 Issue**: [GitHub Issues](https://github.com/ve-weiyi/ve-blog-golang/issues)
+- 💬 **QQ**: 791422171
+- 📱 **微信**: wy791422171
 
-### 作者留言
+## ⚠️ 注意事项
 
-- 遇到问题可以提 issue，在运行或者搭建过程中遇到问题可以加我好友，很乐意解答。
-- 工作之余持续更新，持续学习新技术。个人项目，写着玩的。
-- 注意！！作者经常强制推送feature分支，会覆盖提交。以master分支功能为准。分支功能和版本发布规则见[VERSION.md](VERSION.md)
+- 本项目为个人学习项目，持续更新中
+- 生产环境使用请充分测试
+- `feature` 分支可能会强制推送，请以 `main/master` 分支为准
+- 欢迎 Star ⭐ 支持，感谢关注！
+
+---
+
+<div align="center">
+  <p>如果这个项目对你有帮助，请给个 ⭐ Star 支持一下！</p>
+  <p>Made with ❤️ by <a href="https://github.com/ve-weiyi">ve-weiyi</a></p>
+</div>

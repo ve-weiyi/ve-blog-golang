@@ -1,99 +1,87 @@
 # Docker 环境搭建指南
 
-## 1. Docker 简介
+## Docker 简介
 
-### 1.1 什么是 Docker？
+Docker 是一个开源的容器化平台，使开发者能够创建、部署和运行应用程序在隔离的环境中。
 
-Docker 是一个开源的容器化平台，它使开发者能够创建、部署和运行应用程序在隔离的环境中（称为"容器"
-）。容器是一种轻量级的虚拟化技术，它共享宿主操作系统的内核，从而更加高效。
+### 核心优势
 
-### 1.2 Docker 的核心优势
+- ✅ **轻量高效**：容器只包含运行应用所需的代码和依赖
+- ✅ **跨平台兼容**：实现"构建一次，随处运行"
+- ✅ **版本控制**：支持镜像版本管理
+- ✅ **隔离安全**：容器间相互隔离，防止资源干扰
 
-- **轻量高效**：容器只包含运行应用所需的代码和依赖
-- **跨平台兼容**：实现"构建一次，随处运行"
-- **版本控制**：支持镜像版本管理
-- **隔离安全**：容器间相互隔离，防止资源干扰
+### 通俗理解
 
-### 1.3 通俗理解
+**传统方式**：
 
-想象你需要运行一个项目，传统方式需要：
-
-- 安装 MySQL
-- 安装 Redis
-- 安装 Java 环境
+- 安装 MySQL、Redis、Java 环境
 - 配置各种环境变量
 - 处理版本兼容问题
 
-使用 Docker 后：
-
+**使用 Docker**：
 - 只需安装 Docker
 - 拉取所需服务的镜像
 - 运行容器即可
-- 无需关心底层环境配置
 
-**比喻**：Docker 就像一个公司，各种服务（MySQL、Redis等）就是不同的团队。需要时"招聘"团队，不需要时"解散"团队，不会对系统产生任何影响。
+💡 **比喻**：Docker 就像一个公司，各种服务（MySQL、Redis等）就是不同的团队。需要时"招聘"团队，不需要时"解散"团队，不会对系统产生任何影响。
 
-## 2. Docker 核心组件
+## 核心概念
 
-### 2.1 镜像（Image）
+| 概念             | 说明                  | 类比     |
+|----------------|---------------------|--------|
+| 镜像（Image）      | 只读的模板，包含应用运行所需的所有内容 | 软件安装包  |
+| 容器（Container）  | 镜像的运行实例，独立的进程环境     | 运行中的程序 |
+| 仓库（Repository） | 存储和分发镜像的地方          | 应用商店   |
 
-- 只读的模板
-- 包含应用程序运行所需的所有内容
-- 可以基于其他镜像创建
+## 安装 Docker
 
-### 2.2 容器（Container）
-
-- 镜像的运行实例
-- 独立的进程环境
-- 包含应用程序和运行环境
-
-### 2.3 仓库（Repository）
-
-- 存储和分发镜像的地方
-- 可以是公共的（如 Docker Hub）
-- 也可以是私有的
-
-## 3. 安装指南
-
-### 3.1 CentOS 7 安装
+### Linux (CentOS/RHEL)
 
 ```bash
-# 更新系统
-sudo yum update
+# 一键安装
+curl -fsSL https://get.docker.com | bash -s docker
 
-# 安装必要工具
-sudo yum install git
-
-# 安装 Docker
-sudo yum install docker
-
-# 安装 Docker Compose
-sudo yum install docker-compose
-
-# 启动 Docker 服务
+# 启动 Docker
 sudo systemctl start docker
 sudo systemctl enable docker
 
 # 验证安装
 docker --version
+docker-compose --version
 ```
 
-### 3.2 Docker Desktop
+### macOS / Windows
 
-Docker Desktop 是官方提供的桌面版，支持：
+下载并安装 [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
-- Windows
-- macOS
 - 提供可视化界面
 - 简化容器管理
+- 自动配置环境
 
-## 4. 基本使用
+## 常用命令
 
-### 4.1 常用命令
+### 镜像管理
 
 ```bash
-# 查看版本
-docker --version
+# 搜索镜像
+docker search mysql
+
+# 拉取镜像
+docker pull mysql:8.0
+
+# 查看镜像
+docker images
+
+# 删除镜像
+docker rmi mysql:8.0
+```
+
+### 容器管理
+
+```bash
+# 运行容器
+docker run -d --name mysql -p 3306:3306 mysql:8.0
 
 # 查看运行中的容器
 docker ps
@@ -101,89 +89,200 @@ docker ps
 # 查看所有容器
 docker ps -a
 
-# 查看镜像
-docker images
+# 停止容器
+docker stop mysql
 
-# 拉取镜像
-docker pull mysql:latest
+# 启动容器
+docker start mysql
 
-# 运行容器
-docker run -d -p 3306:3306 mysql:latest
+# 删除容器
+docker rm mysql
+
+# 查看容器日志
+docker logs mysql
+
+# 进入容器
+docker exec -it mysql bash
 ```
 
-### 4.2 服务安装示例
-
-#### MySQL 安装
+### 系统管理
 
 ```bash
-# 拉取镜像
-docker pull mysql:8.0
+# 查看 Docker 信息
+docker info
 
-# 运行容器
+# 清理无用资源
+docker system prune -a
+
+# 查看资源使用
+docker stats
+```
+
+## 服务安装示例
+
+### MySQL
+
+```bash
 docker run -d \
   --name mysql \
   -p 3306:3306 \
   -e MYSQL_ROOT_PASSWORD=your_password \
-  -v /path/to/data:/var/lib/mysql \
+  -v /data/mysql:/var/lib/mysql \
+  --restart=always \
   mysql:8.0
 ```
 
-#### Redis 安装
+### Redis
 
 ```bash
-# 拉取镜像
-docker pull redis:latest
-
-# 运行容器
 docker run -d \
   --name redis \
   -p 6379:6379 \
-  -v /path/to/data:/data \
-  redis:latest
+  -v /data/redis:/data \
+  --restart=always \
+  redis:latest redis-server --appendonly yes
 ```
 
-## 5. 最佳实践
+### RabbitMQ
 
-### 5.1 数据持久化
+```bash
+docker run -d \
+  --name rabbitmq \
+  -p 5672:5672 \
+  -p 15672:15672 \
+  -e RABBITMQ_DEFAULT_USER=admin \
+  -e RABBITMQ_DEFAULT_PASS=admin \
+  --restart=always \
+  rabbitmq:management
+```
 
-- 使用数据卷挂载
-- 避免容器内存储重要数据
-- 定期备份数据
+## Docker Compose
 
-### 5.2 资源管理
+### 安装
 
-- 限制容器资源使用
-- 监控容器性能
-- 及时清理无用资源
+```bash
+# Linux
+sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 
-### 5.3 安全建议
+# 验证
+docker-compose --version
+```
 
-- 使用官方镜像
-- 定期更新镜像
-- 限制容器权限
-- 使用非 root 用户
+### 使用示例
 
-## 6. 常见问题
+```yaml
+version: '3'
+services:
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - /data/mysql:/var/lib/mysql
+    restart: always
 
-### Q: 容器无法启动怎么办？
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - /data/redis:/data
+    restart: always
+```
 
-A:
+```bash
+# 启动服务
+docker-compose up -d
 
-1. 检查日志：`docker logs <container_id>`
-2. 检查端口冲突
-3. 检查资源限制
-4. 检查配置文件
+# 停止服务
+docker-compose down
 
-### Q: 如何备份容器数据？
+# 查看日志
+docker-compose logs -f
+```
 
-A:
+## 最佳实践
 
-1. 使用数据卷
-2. 定期导出数据
-3. 使用备份工具
+### 1. 数据持久化
 
-## 7. 参考资源
+- ✅ 使用数据卷挂载（`-v`）
+- ✅ 避免容器内存储重要数据
+- ✅ 定期备份数据
+
+### 2. 资源管理
+
+```bash
+# 限制内存和 CPU
+docker run -d \
+  --memory="512m" \
+  --cpus="1.0" \
+  mysql:8.0
+```
+
+### 3. 安全建议
+
+- ✅ 使用官方镜像
+- ✅ 定期更新镜像
+- ✅ 限制容器权限
+- ✅ 使用非 root 用户
+- ✅ 配置防火墙规则
+
+### 4. 网络配置
+
+```bash
+# 创建自定义网络
+docker network create blog-network
+
+# 容器加入网络
+docker run -d --network blog-network --name mysql mysql:8.0
+```
+
+## 常见问题
+
+### 容器无法启动
+
+```bash
+# 查看日志
+docker logs <container_name>
+
+# 检查端口占用
+netstat -tunlp | grep <port>
+
+# 检查资源使用
+docker stats
+```
+
+### 数据备份
+
+```bash
+# 备份容器数据
+docker exec mysql mysqldump -u root -p database > backup.sql
+
+# 备份数据卷
+docker run --rm -v /data/mysql:/backup -v $(pwd):/backup-dest busybox tar czf /backup-dest/mysql-backup.tar.gz /backup
+```
+
+### 清理空间
+
+```bash
+# 清理无用镜像
+docker image prune -a
+
+# 清理无用容器
+docker container prune
+
+# 清理无用数据卷
+docker volume prune
+
+# 清理所有无用资源
+docker system prune -a --volumes
+```
+
+## 参考资料
 
 - [Docker 官方文档](https://docs.docker.com/)
 - [Docker Hub](https://hub.docker.com/)
-- [Docker 中文社区](https://www.docker.org.cn/)
+- [Docker Compose 文档](https://docs.docker.com/compose/)

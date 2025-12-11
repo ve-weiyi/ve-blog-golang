@@ -12,7 +12,7 @@ const docTemplate = `{
         "termsOfService": "https://github.com/ve-weiyi/ve-blog-golang/blog-gin",
         "contact": {
             "name": "API Support",
-            "url": "https://github.com/ve-weiy",
+            "url": "https://github.com/ve-weiyi",
             "email": "support@swagger.io"
         },
         "license": {
