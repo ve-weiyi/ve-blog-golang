@@ -1,181 +1,242 @@
 # MySQL 环境搭建指南
 
-## 1. MySQL 简介
+## MySQL 简介
 
-### 1.1 什么是 MySQL？
+MySQL 是一个开源的关系型数据库管理系统（RDBMS），具有高性能、高可靠性、跨平台等特点。
 
-MySQL 是一个开源的关系型数据库管理系统（RDBMS），具有以下特点：
-
-- 支持标准 SQL 语言
-- 高性能、高可靠性
-- 支持多种存储引擎
-- 跨平台支持
-- 丰富的功能特性
-
-### 1.2 MySQL 的主要用途
-
+**主要用途**：
 - 用户数据存储
-- 日志数据管理
-- 配置信息存储
-- 业务数据存储
-- 数据分析支持
+- 业务数据管理
+- 日志数据存储
+- 配置信息管理
 
-## 2. 安装指南
+## Docker 安装
 
-### 2.1 使用 Docker 安装
-
-创建 `docker-compose.yml` 文件：
+### docker-compose.yml
 
 ```yaml
 version: "3.9"
 
-# 数据持久化配置
 volumes:
-  mysql_data:  # 数据卷名称
+  mysql_data:
 
 services:
   mysql:
-    image: mysql:8.0.34
-    container_name: mysql-server
+    image: mysql:8.0
+    container_name: mysql
     restart: always
     ports:
-      - "3306:3306"  # 主机端口:容器端口
+      - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: 'mysql7914'  # root 用户密码
-      MYSQL_DATABASE: 'blog-veweiyi'    # 初始数据库名
-      MYSQL_USER: 'veweiyi'             # 初始用户名
-      MYSQL_PASSWORD: 'mysql7914'       # 初始用户密码
-      TZ: 'Asia/Shanghai'               # 时区设置
+      MYSQL_ROOT_PASSWORD: 'your_password'
+      MYSQL_DATABASE: 'blog_veweiyi'
+      TZ: 'Asia/Shanghai'
     volumes:
-      - mysql_data:/var/lib/mysql       # 数据持久化
+      - mysql_data:/var/lib/mysql
     command:
-      --character-set-server=utf8mb4    # 字符集设置
-      --collation-server=utf8mb4_general_ci
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --max_connections=1000
 ```
 
-### 2.2 启动 MySQL
+### 启动服务
 
 ```bash
-# 启动服务
-docker-compose -f docker-compose.yaml up -d
+# 启动
+docker-compose up -d
 
-# 查看运行状态
+# 查看状态
 docker-compose ps
 
 # 查看日志
 docker-compose logs -f mysql
 ```
 
-## 3. 基本使用
+## 基本使用
 
-### 3.1 连接数据库
+### 连接数据库
 
 ```bash
 # 进入容器
-docker exec -it mysql-server mysql -u root -p
+docker exec -it mysql mysql -u root -p
 
-# 使用初始用户连接
-docker exec -it mysql-server mysql -u veweiyi -p
+# 直接执行 SQL
+docker exec -it mysql mysql -u root -p -e "SHOW DATABASES;"
 ```
 
-### 3.2 常用命令
+### 常用命令
 
 ```sql
--- 查看所有数据库
+-- 查看数据库
 SHOW DATABASES;
 
--- 使用数据库
-USE blog-veweiyi;
+-- 创建数据库
+CREATE
+DATABASE blog_veweiyi CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- 查看所有表
+-- 使用数据库
+USE
+blog_veweiyi;
+
+-- 查看表
 SHOW TABLES;
 
--- 创建新用户
-CREATE USER 'newuser'@'%' IDENTIFIED BY 'password';
+-- 创建用户
+CREATE
+USER 'blog'@'%' IDENTIFIED BY 'password';
 
 -- 授予权限
-GRANT ALL PRIVILEGES ON blog-veweiyi.* TO 'newuser'@'%';
+GRANT ALL PRIVILEGES ON blog_veweiyi.* TO
+'blog'@'%';
+FLUSH
+PRIVILEGES;
+
+-- 查看用户权限
+SHOW
+GRANTS FOR 'blog'@'%';
 ```
 
-## 4. 数据备份与恢复
+## 数据备份与恢复
 
-### 4.1 备份数据
+### 备份数据
 
 ```bash
 # 备份整个数据库
-docker exec mysql-server mysqldump -u root -p blog-veweiyi > backup.sql
+docker exec mysql mysqldump -u root -p blog_veweiyi > backup.sql
+
+# 备份所有数据库
+docker exec mysql mysqldump -u root -p --all-databases > all_backup.sql
 
 # 备份特定表
-docker exec mysql-server mysqldump -u root -p blog-veweiyi table1 table2 > backup.sql
+docker exec mysql mysqldump -u root -p blog_veweiyi t_user t_article > tables_backup.sql
 ```
 
-### 4.2 恢复数据
+### 恢复数据
 
 ```bash
 # 恢复数据库
-docker exec -i mysql-server mysql -u root -p blog-veweiyi < backup.sql
+docker exec -i mysql mysql -u root -p blog_veweiyi < backup.sql
+
+# 恢复所有数据库
+docker exec -i mysql mysql -u root -p < all_backup.sql
 ```
 
-## 5. 性能优化
+## 性能优化
 
-### 5.1 配置优化
+### 配置优化
 
 ```yaml
-# 在 docker-compose.yml 中添加以下配置
 services:
   mysql:
-    # ... 其他配置 ...
     command:
       --character-set-server=utf8mb4
-      --collation-server=utf8mb4_general_ci
-      --max_connections=1000
-      --innodb_buffer_pool_size=1G
+      --collation-server=utf8mb4_unicode_ci
+      --max_connections=1000              # 最大连接数
+      --innodb_buffer_pool_size=1G        # InnoDB 缓冲池大小
+      --innodb_log_file_size=256M         # 日志文件大小
+      --slow_query_log=1                  # 开启慢查询日志
+      --long_query_time=2                 # 慢查询时间阈值（秒）
 ```
 
-### 5.2 监控建议
+### 监控命令
 
-- 使用 `SHOW STATUS` 监控性能
-- 定期检查慢查询日志
-- 监控连接数和资源使用
+```sql
+-- 查看连接数
+SHOW
+STATUS LIKE 'Threads_connected';
 
-## 6. 安全建议
+-- 查看最大连接数
+SHOW
+VARIABLES LIKE 'max_connections';
 
-### 6.1 基础安全
+-- 查看慢查询
+SHOW
+VARIABLES LIKE 'slow_query%';
 
-- 修改默认 root 密码
-- 限制远程访问
-- 使用强密码策略
-- 定期更新密码
+-- 查看数据库大小
+SELECT table_schema AS 'Database', ROUND(SUM(data_length + index_length) / 1024 / 1024, 2) AS 'Size (MB)'
+FROM information_schema.tables
+GROUP BY table_schema;
+```
 
-### 6.2 数据安全
+## 安全配置
 
-- 定期备份数据
-- 使用数据加密
-- 实施访问控制
-- 监控异常访问
+### 1. 修改 root 密码
 
-## 7. 常见问题
+```sql
+ALTER
+USER 'root'@'localhost' IDENTIFIED BY 'new_password';
+FLUSH
+PRIVILEGES;
+```
 
-### Q: 连接被拒绝怎么办？
+### 2. 限制远程访问
 
-A:
+```sql
+-- 只允许特定 IP 访问
+CREATE
+USER 'blog'@'192.168.1.100' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON blog_veweiyi.* TO
+'blog'@'192.168.1.100';
+```
 
-1. 检查端口映射是否正确
-2. 确认用户权限设置
-3. 检查防火墙设置
-4. 验证密码是否正确
+### 3. 删除匿名用户
 
-### Q: 数据丢失怎么办？
+```sql
+DELETE
+FROM mysql.user
+WHERE User = '';
+FLUSH
+PRIVILEGES;
+```
 
-A:
+### 4. 安全建议
 
-1. 使用备份恢复数据
-2. 检查数据卷挂载
-3. 查看错误日志
-4. 联系技术支持
+- ✅ 使用强密码
+- ✅ 限制远程访问
+- ✅ 定期备份数据
+- ✅ 及时更新版本
+- ✅ 监控异常访问
 
-## 8. 参考资源
+## 常见问题
+
+### 连接被拒绝
+
+```bash
+# 检查容器状态
+docker ps | grep mysql
+
+# 检查端口占用
+netstat -tunlp | grep 3306
+
+# 查看错误日志
+docker logs mysql
+```
+
+### 忘记 root 密码
+
+```bash
+# 停止容器
+docker stop mysql
+
+# 以跳过权限检查方式启动
+docker run -d --name mysql-temp \
+  -e MYSQL_ROOT_PASSWORD=new_password \
+  mysql:8.0
+
+# 重置密码后重启
+docker restart mysql
+```
+
+### 数据库损坏
+
+```bash
+# 检查并修复表
+docker exec -it mysql mysqlcheck -u root -p --auto-repair --all-databases
+```
+
+## 参考资料
 
 - [MySQL 官方文档](https://dev.mysql.com/doc/)
-- [MySQL 中文社区](https://www.mysql.com/cn/)
 - [Docker MySQL 镜像](https://hub.docker.com/_/mysql)
+- [MySQL 性能优化](https://dev.mysql.com/doc/refman/8.0/en/optimization.html)

@@ -1,216 +1,300 @@
 # Redis 环境搭建指南
 
-## 1. Redis 简介
+## Redis 简介
 
-### 1.1 什么是 Redis？
+Redis 是一个开源的内存数据结构存储系统，具有高性能、支持多种数据结构、持久化存储等特点。
 
-Redis 是一个开源的内存数据结构存储系统，具有以下特点：
-
-- 高性能的键值对数据库
-- 支持多种数据结构
-- 持久化存储
-- 主从复制
-- 事务支持
-
-### 1.2 Redis 的主要用途
-
+**主要用途**：
 - 缓存系统
 - 会话管理
 - 消息队列
 - 排行榜系统
-- 实时数据分析
+- 实时计数器
 
-## 2. 安装指南
+## Docker 安装
 
-### 2.1 使用 Docker 安装
-
-创建 `docker-compose.yml` 文件：
+### docker-compose.yml
 
 ```yaml
 version: "3.9"
 
-# 数据持久化配置
 volumes:
-  redis_data:  # 数据卷名称
+  redis_data:
 
 services:
   redis:
     image: redis:7.0
-    container_name: redis-server
+    container_name: redis
     restart: always
     ports:
-      - "6379:6379"  # 主机端口:容器端口
+      - "6379:6379"
     environment:
-      TZ: 'Asia/Shanghai'  # 时区设置
+      TZ: 'Asia/Shanghai'
     volumes:
-      - redis_data:/data  # 数据持久化
-      - ./redis.conf:/usr/local/etc/redis/redis.conf  # 配置文件
-    command: redis-server /usr/local/etc/redis/redis.conf  # 使用自定义配置
+      - redis_data:/data
+    command: redis-server --appendonly yes --requirepass your_password
 ```
 
-### 2.2 Redis 配置文件
-
-创建 `redis.conf` 文件：
-
-```conf
-# 基本配置
-bind 0.0.0.0
-protected-mode yes
-port 6379
-tcp-backlog 511
-timeout 0
-tcp-keepalive 300
-
-# 持久化配置
-save 900 1
-save 300 10
-save 60 10000
-stop-writes-on-bgsave-error yes
-rdbcompression yes
-rdbchecksum yes
-dbfilename dump.rdb
-dir /data
-
-# 安全配置
-requirepass your_password  # 设置密码
-
-# 内存管理
-maxmemory 1gb
-maxmemory-policy allkeys-lru
-```
-
-### 2.3 启动 Redis
+### 启动服务
 
 ```bash
-# 启动服务
-docker-compose -f docker-compose.yaml up -d
+# 启动
+docker-compose up -d
 
-# 查看运行状态
+# 查看状态
 docker-compose ps
 
 # 查看日志
 docker-compose logs -f redis
 ```
 
-## 3. 基本使用
+## 基本使用
 
-### 3.1 连接 Redis
+### 连接 Redis
 
 ```bash
 # 进入容器
-docker exec -it redis-server redis-cli
+docker exec -it redis redis-cli
 
 # 使用密码连接
-docker exec -it redis-server redis-cli -a your_password
+docker exec -it redis redis-cli -a your_password
+
+# 验证密码
+AUTH your_password
 ```
 
-### 3.2 常用命令
+### 常用命令
+
+**键值操作**
 
 ```bash
-# 键值操作
+# 设置键值
 SET key value
+SET key value EX 3600  # 设置过期时间（秒）
+
+# 获取值
 GET key
+
+# 删除键
 DEL key
+
+# 检查键是否存在
 EXISTS key
 
-# 列表操作
-LPUSH list value
-RPUSH list value
+# 设置过期时间
+EXPIRE key 3600
+
+# 查看剩余时间
+TTL key
+```
+
+**字符串操作**
+
+```bash
+# 递增
+INCR counter
+INCRBY counter 10
+
+# 递减
+DECR counter
+DECRBY counter 10
+
+# 追加
+APPEND key value
+```
+
+**列表操作**
+
+```bash
+# 左侧插入
+LPUSH list value1 value2
+
+# 右侧插入
+RPUSH list value1 value2
+
+# 获取列表
+LRANGE list 0 -1
+
+# 弹出元素
 LPOP list
 RPOP list
+```
 
-# 集合操作
-SADD set member
+**集合操作**
+
+```bash
+# 添加成员
+SADD set member1 member2
+
+# 获取所有成员
 SMEMBERS set
-SREM set member
 
-# 哈希操作
-HSET hash field value
-HGET hash field
-HDEL hash field
+# 删除成员
+SREM set member1
+
+# 检查成员
+SISMEMBER set member1
 ```
 
-## 4. 数据持久化
+**哈希操作**
 
-### 4.1 RDB 持久化
+```bash
+# 设置字段
+HSET hash field1 value1 field2 value2
 
-- 自动保存：根据配置的时间间隔保存
-- 手动保存：使用 SAVE 或 BGSAVE 命令
-- 恢复数据：重启 Redis 时自动加载
+# 获取字段
+HGET hash field1
 
-### 4.2 AOF 持久化
+# 获取所有字段
+HGETALL hash
 
-在 `redis.conf` 中添加：
-
-```conf
-appendonly yes
-appendfilename "appendonly.aof"
-appendfsync everysec
+# 删除字段
+HDEL hash field1
 ```
 
-## 5. 性能优化
+**有序集合操作**
 
-### 5.1 配置优化
+```bash
+# 添加成员
+ZADD zset 1 member1 2 member2
 
-```conf
-# 内存管理
-maxmemory 1gb
-maxmemory-policy allkeys-lru
+# 获取成员（按分数排序）
+ZRANGE zset 0 -1 WITHSCORES
 
-# 连接管理
-maxclients 10000
-timeout 0
-
-# 持久化优化
-save 900 1
-save 300 10
-save 60 10000
+# 获取成员分数
+ZSCORE zset member1
 ```
 
-### 5.2 监控建议
+**说明**：
 
-- 使用 INFO 命令监控状态
-- 定期检查内存使用
-- 监控连接数
-- 检查持久化状态
+- `appendonly yes` - 开启 AOF
+- `appendfsync everysec` - 每秒同步一次
 
-## 6. 安全建议
+### 监控命令
 
-### 6.1 基础安全
+```bash
+# 查看信息
+INFO
+INFO memory
+INFO stats
 
-- 设置访问密码
-- 限制网络访问
-- 使用防火墙
-- 定期更新密码
+# 查看慢日志
+SLOWLOG GET 10
 
-### 6.2 数据安全
+# 查看客户端连接
+CLIENT LIST
 
-- 启用持久化
-- 定期备份数据
-- 监控异常访问
-- 实施访问控制
+# 查看键空间
+DBSIZE
 
-## 7. 常见问题
+# 监控命令
+MONITOR
+```
 
-### Q: 连接超时怎么办？
+## 安全配置
 
-A:
+### 1. 设置密码
 
-1. 检查防火墙设置
-2. 确认端口映射
-3. 验证密码是否正确
-4. 检查网络连接
+```bash
+# 临时设置
+CONFIG SET requirepass your_password
 
-### Q: 内存不足怎么办？
+# 永久设置（在 docker-compose.yml 中）
+command: redis-server --requirepass your_password
+```
 
-A:
+### 2. 禁用危险命令
 
-1. 调整 maxmemory 配置
-2. 选择合适的淘汰策略
-3. 优化数据结构使用
-4. 考虑集群部署
+```yaml
+services:
+  redis:
+    command: >
+      redis-server
+      --rename-command FLUSHDB ""
+      --rename-command FLUSHALL ""
+      --rename-command CONFIG ""
+      --requirepass your_password
+```
 
-## 8. 参考资源
+### 3. 安全建议
+
+- ✅ 设置强密码
+- ✅ 限制网络访问
+- ✅ 禁用危险命令
+- ✅ 启用持久化
+- ✅ 定期备份数据
+- ✅ 监控异常访问
+
+## 数据备份与恢复
+
+### 备份数据
+
+```bash
+# 手动触发 RDB 备份
+docker exec redis redis-cli -a your_password BGSAVE
+
+# 复制 RDB 文件
+docker cp redis:/data/dump.rdb ./backup/
+
+# 复制 AOF 文件
+docker cp redis:/data/appendonly.aof ./backup/
+```
+
+### 恢复数据
+
+```bash
+# 停止 Redis
+docker stop redis
+
+# 复制备份文件到数据卷
+docker cp ./backup/dump.rdb redis:/data/
+
+# 启动 Redis
+docker start redis
+```
+
+## 常见问题
+
+### 连接超时
+
+```bash
+# 检查容器状态
+docker ps | grep redis
+
+# 检查端口
+netstat -tunlp | grep 6379
+
+# 测试连接
+redis-cli -h localhost -p 6379 -a your_password ping
+```
+
+### 内存不足
+
+```bash
+# 查看内存使用
+docker exec redis redis-cli -a your_password INFO memory
+
+# 清理过期键
+docker exec redis redis-cli -a your_password --scan --pattern "*" | xargs redis-cli -a your_password DEL
+
+# 手动触发淘汰
+docker exec redis redis-cli -a your_password MEMORY PURGE
+```
+
+### 性能问题
+
+```bash
+# 查看慢日志
+docker exec redis redis-cli -a your_password SLOWLOG GET 10
+
+# 查看统计信息
+docker exec redis redis-cli -a your_password INFO stats
+
+# 实时监控
+docker exec redis redis-cli -a your_password --stat
+```
+
+## 参考资料
 
 - [Redis 官方文档](https://redis.io/documentation)
 - [Redis 中文网](http://www.redis.cn/)

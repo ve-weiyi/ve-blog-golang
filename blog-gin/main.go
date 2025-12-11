@@ -20,7 +20,7 @@ func init() {
 // @description		ve-blog-golang 博客系统 API 文档
 // @termsOfService	https://github.com/ve-weiyi/ve-blog-golang/blog-gin
 // @contact.name	API Support
-// @contact.url		https://github.com/ve-weiy
+// @contact.url		https://github.com/ve-weiyi
 // @contact.email	support@swagger.io
 // @license.name	MIT
 // @license.url		https://opensource.org/licenses/MIT
