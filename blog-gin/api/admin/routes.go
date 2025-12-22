@@ -9,13 +9,13 @@ import (
 // register your handlers here
 func RegisterHandlers(r *gin.RouterGroup, svCtx *svctx.ServiceContext) {
 	router.NewAccountRouter(svCtx).Register(r)
+	router.NewAdminApiRouter(svCtx).Register(r)
 	router.NewAlbumRouter(svCtx).Register(r)
 	router.NewApiRouter(svCtx).Register(r)
 	router.NewArticleRouter(svCtx).Register(r)
 	router.NewAuthRouter(svCtx).Register(r)
 	router.NewCategoryRouter(svCtx).Register(r)
 	router.NewCommentRouter(svCtx).Register(r)
-	router.NewCommonRouter(svCtx).Register(r)
 	router.NewFriendRouter(svCtx).Register(r)
 	router.NewLoginLogRouter(svCtx).Register(r)
 	router.NewMenuRouter(svCtx).Register(r)

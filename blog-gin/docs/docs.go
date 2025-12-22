@@ -3228,7 +3228,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Common"
+                    "AdminApi"
                 ],
                 "summary": "\"ping\"",
                 "parameters": [
@@ -6621,7 +6621,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Common"
+                    "BlogApi"
                 ],
                 "summary": "\"ping\"",
                 "parameters": [

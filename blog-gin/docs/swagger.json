@@ -3221,7 +3221,7 @@
                     "application/json"
                 ],
                 "tags": [
-                  "Common"
+                  "AdminApi"
                 ],
           "summary": "\"ping\"",
                 "parameters": [
@@ -6614,7 +6614,7 @@
             "application/json"
           ],
           "tags": [
-            "Common"
+            "BlogApi"
           ],
           "summary": "\"ping\"",
           "parameters": [

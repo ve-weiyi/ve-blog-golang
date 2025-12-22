@@ -20,7 +20,7 @@ func GinLogger() gin.HandlerFunc {
 		// 视图函数执行完成，统计时间，记录日志
 		cost := time.Since(start)
 
-		logz.Info(path,
+		logz.L().Info(path,
 			zap.Int("status", c.Writer.Status()),                                 // 状态码 eg: 200
 			zap.String("method", c.Request.Method),                               // 请求方法类型 eg: GET
 			zap.String("path", path),                                             // 请求路径 eg: /test

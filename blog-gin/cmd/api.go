@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -12,12 +11,30 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/api"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/config"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gin/initialize"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/logz"
 )
 
-var configOpt = &initialize.LoadConfigOption{
+// API命令参数
+type ApiFlags struct {
+	ConfigMode string // 运行方式 file|nacos
+	ConfigType string // 配置类型（yaml/json等）
+
+	// 本地配置相关
+	LocalPath string // 本地配置文件路径（如config.yaml）
+
+	// Nacos相关配置
+	NacosHost       string // Nacos服务地址
+	NacosPort       uint64 // Nacos服务端口
+	NacosNamespace  string // Nacos命名空间
+	NacosDataID     string // 配置DataID
+	NacosGroup      string // 配置Group
+	NacosRuntimeDir string // Nacos运行时目录
+	NacosUsername   string // Nacos用户名
+	NacosPassword   string // Nacos密码
+}
+
+var apiFlags = &ApiFlags{
 	ConfigMode:      "file",
 	ConfigType:      "yaml",
 	LocalPath:       "config.yaml",
@@ -40,35 +57,62 @@ func NewApiCmd() *cobra.Command {
 	}
 
 	// 配置文件相关
-	cmd.Flags().StringVarP(&configOpt.ConfigMode, "config", "c", configOpt.ConfigMode, "the way of read config file (file|nacos)")
-	cmd.Flags().StringVarP(&configOpt.LocalPath, "filepath", "f", configOpt.LocalPath, "config file path")
+	cmd.Flags().StringVarP(&apiFlags.ConfigMode, "config", "c", apiFlags.ConfigMode, "the way of read config file (file|nacos)")
+	cmd.Flags().StringVarP(&apiFlags.LocalPath, "filepath", "f", apiFlags.LocalPath, "config file path")
 
 	// Nacos 相关
-	cmd.Flags().StringVar(&configOpt.NacosHost, "n-host", configOpt.NacosHost, "the host for nacos")
-	cmd.Flags().Uint64Var(&configOpt.NacosPort, "n-port", configOpt.NacosPort, "the port for nacos")
-	cmd.Flags().StringVar(&configOpt.NacosNamespace, "n-namespace", configOpt.NacosNamespace, "the namespace for nacos")
-	cmd.Flags().StringVar(&configOpt.NacosDataID, "n-data-id", configOpt.NacosDataID, "the DataId for nacos")
-	cmd.Flags().StringVar(&configOpt.NacosGroup, "n-group", configOpt.NacosGroup, "the group for nacos")
-	cmd.Flags().StringVar(&configOpt.NacosUsername, "n-user", configOpt.NacosUsername, "the user for nacos")
-	cmd.Flags().StringVar(&configOpt.NacosPassword, "n-password", configOpt.NacosPassword, "the password for nacos")
+	cmd.Flags().StringVar(&apiFlags.NacosHost, "n-host", apiFlags.NacosHost, "the host for nacos")
+	cmd.Flags().Uint64Var(&apiFlags.NacosPort, "n-port", apiFlags.NacosPort, "the port for nacos")
+	cmd.Flags().StringVar(&apiFlags.NacosNamespace, "n-namespace", apiFlags.NacosNamespace, "the namespace for nacos")
+	cmd.Flags().StringVar(&apiFlags.NacosDataID, "n-data-id", apiFlags.NacosDataID, "the DataId for nacos")
+	cmd.Flags().StringVar(&apiFlags.NacosGroup, "n-group", apiFlags.NacosGroup, "the group for nacos")
+	cmd.Flags().StringVar(&apiFlags.NacosUsername, "n-user", apiFlags.NacosUsername, "the user for nacos")
+	cmd.Flags().StringVar(&apiFlags.NacosPassword, "n-password", apiFlags.NacosPassword, "the password for nacos")
 
 	return cmd
 }
 
 func runApi(cmd *cobra.Command, args []string) error {
-	c, err := initialize.LoadConfig(configOpt)
+	var err error
+	var c *config.Config
+	switch apiFlags.ConfigMode {
+	case "file":
+		c, err = config.LoadConfigFromFile(apiFlags.LocalPath, apiFlags.ConfigType)
+	case "nacos":
+		c, err = config.LoadConfigFromNacos(&config.LoadNacosConfigOption{
+			ConfigType:      apiFlags.ConfigType,
+			NacosHost:       apiFlags.NacosHost,
+			NacosPort:       apiFlags.NacosPort,
+			NacosNamespace:  apiFlags.NacosNamespace,
+			NacosDataID:     apiFlags.NacosDataID,
+			NacosGroup:      apiFlags.NacosGroup,
+			NacosRuntimeDir: apiFlags.NacosRuntimeDir,
+			NacosUsername:   apiFlags.NacosUsername,
+			NacosPassword:   apiFlags.NacosPassword,
+		})
+	default:
+		log.Fatalf("unsupported config file mode: %s", apiFlags.ConfigMode)
+	}
 	if err != nil {
-		log.Printf("failed to initialize config: %v\n", err)
-		os.Exit(1)
+		log.Fatalf("failed to initialize config: %v\n", err)
 	}
 
-	RunServer(c)
+	RunHttpServer(c)
 	return nil
 }
 
-func RunServer(c *config.Config) {
+func RunHttpServer(c *config.Config) {
 	// 初始化zap日志库
-	initialize.SetLog(c.Zap)
+	logz.SetLog(&logz.LogConfig{
+		Level:      c.Zap.Level,
+		Mode:       c.Zap.Mode,
+		Filename:   c.Zap.Filename,
+		MaxSize:    c.Zap.MaxSize,
+		MaxBackups: c.Zap.MaxBackups,
+		MaxAge:     c.Zap.MaxAge,
+		Compress:   c.Zap.Compress,
+	})
+	logz.L().Sugar().Infof("zap log init success. mode:%v, level:%v", c.Zap.Mode, c.Zap.Level)
 
 	ctx := svctx.NewServiceContext(c)
 
@@ -77,7 +121,7 @@ func RunServer(c *config.Config) {
 	engine := gin.Default()
 	api.RegisterRouters(engine, ctx)
 
-	logz.Infof("register router success")
+	logz.L().Sugar().Infof("register router success")
 
 	address := fmt.Sprintf(":%d", c.System.Port)
 	s := &http.Server{
@@ -90,13 +134,13 @@ func RunServer(c *config.Config) {
 	// 保证文本顺序输出
 	// In order to ensure that the text order output can be deleted
 	time.Sleep(10 * time.Microsecond)
-	logz.Infof("run server on http://localhost:%v success", c.System.Port)
+	logz.L().Sugar().Infof("run server on http://localhost:%v success", c.System.Port)
 
 	fmt.Printf(`
 	欢迎使用 ve-blog-golang
 	当前版本: %s
 	微信号：wy791422171 QQ：791422171
-	默认接口文档地址:http://localhost%s/api/v1/swagger/index.html
-`, c.System.Version, address)
+	默认接口文档地址:http://localhost:%v/api/v1/swagger/index.html
+`, c.System.Version, c.System.Port)
 	fmt.Println(s.ListenAndServe().Error())
 }

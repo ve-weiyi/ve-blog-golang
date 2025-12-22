@@ -42,7 +42,7 @@
 | [chatgpt](infra/chatgpt) | ChatGPT 集成 | AI 对话、提示词管理    |
 | [music](infra/music)     | 音乐服务       | 网易云音乐 API 封装   |
 | [logz](infra/logz)       | 日志服务       | Zap 日志封装       |
-| [random](infra/random)   | 随机生成       | UID/UUID 生成    |
+| [random](utils/randomx)  | 随机生成       | UID/UUID 生成    |
 | [biz](infra/biz)         | 业务错误       | 业务异常、HTTP 错误封装 |
 
 ## 🛠️ 代码生成工具 [quickstart](quickstart)

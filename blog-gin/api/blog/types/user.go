@@ -8,6 +8,16 @@ type UpdateUserAvatarReq struct {
 	Avatar string `json:"avatar"` // 头像
 }
 
+type UpdateUserBindEmailReq struct {
+	Email      string `json:"email"`       // 邮箱
+	VerifyCode string `json:"verify_code"` // 验证码
+}
+
+type UpdateUserBindPhoneReq struct {
+	Phone      string `json:"phone"`       // 手机号
+	VerifyCode string `json:"verify_code"` // 验证码
+}
+
 type UpdateUserBindThirdPartyReq struct {
 	Platform string `json:"platform"`       // 平台
 	Code     string `json:"code"`           // 授权码
@@ -36,16 +46,6 @@ type UserInfoResp struct {
 	CreatedAt    int64  `json:"created_at"`    // 创建时间
 	UserInfoExt
 	ThirdParty []*UserThirdPartyInfo `json:"third_party"`
-}
-
-type UpdateUserBindEmailReq struct {
-	Email      string `json:"email"`       // 邮箱
-	VerifyCode string `json:"verify_code"` // 验证码
-}
-
-type UpdateUserBindPhoneReq struct {
-	Phone      string `json:"phone"`       // 手机号
-	VerifyCode string `json:"verify_code"` // 验证码
 }
 
 type UserLikeResp struct {

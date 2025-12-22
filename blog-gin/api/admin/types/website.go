@@ -18,6 +18,11 @@ type GetUserAreaStatsReq struct {
 	UserType int64 `json:"user_type,optional"` // 用户类型: 0注册用户 1游客
 }
 
+type GetUserAreaStatsResp struct {
+	UserAreas    []*UserAreaVO `json:"user_areas"`    // 用户分布地区
+	TouristAreas []*UserAreaVO `json:"tourist_areas"` // 游客分布地区
+}
+
 type GetVisitStatsResp struct {
 	TodayUvCount int64   `json:"today_uv_count"` // 今日访客数(UV)
 	TotalUvCount int64   `json:"total_uv_count"` // 总访客数
@@ -36,6 +41,13 @@ type GetVisitTrendResp struct {
 	VisitTrend []VisitTrendVO `json:"visit_trend"` // 访客数和浏览量趋势
 }
 
+type Server struct {
+	Os   interface{} `json:"os"`
+	Cpu  interface{} `json:"cpu"`
+	Ram  interface{} `json:"ram"`
+	Disk interface{} `json:"disk"`
+}
+
 type WebsiteConfigVO struct {
 	AdminUrl        string               `json:"admin_url"`         // 后台地址
 	WebsocketUrl    string               `json:"websocket_url"`     // websocket地址
@@ -46,16 +58,4 @@ type WebsiteConfigVO struct {
 	RewardQrCode    *RewardQrCode        `json:"reward_qr_code"`    // 打赏二维码
 	SocialLoginList []*ThirdPlatformInfo `json:"social_login_list"` // 用户第三方登录列表
 	SocialUrlList   []*SocialAccountInfo `json:"social_url_list"`   // 作者社交地址列表
-}
-
-type GetUserAreaStatsResp struct {
-	UserAreas    []*UserAreaVO `json:"user_areas"`    // 用户分布地区
-	TouristAreas []*UserAreaVO `json:"tourist_areas"` // 游客分布地区
-}
-
-type Server struct {
-	Os   interface{} `json:"os"`
-	Cpu  interface{} `json:"cpu"`
-	Ram  interface{} `json:"ram"`
-	Disk interface{} `json:"disk"`
 }

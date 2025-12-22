@@ -1,10 +1,5 @@
 package types
 
-type FriendQuery struct {
-	PageQuery
-	LinkName string `json:"link_name,optional"` // 链接名
-}
-
 type FriendBackVO struct {
 	Id          int64  `json:"id,optional"`  // id
 	LinkName    string `json:"link_name"`    // 链接名
@@ -21,4 +16,9 @@ type FriendNewReq struct {
 	LinkAvatar  string `json:"link_avatar"`  // 链接头像
 	LinkAddress string `json:"link_address"` // 链接地址
 	LinkIntro   string `json:"link_intro"`   // 链接介绍
+}
+
+type FriendQuery struct {
+	PageQuery
+	LinkName string `json:"link_name,optional"` // 链接名
 }

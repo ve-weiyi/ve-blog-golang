@@ -1,44 +1,7 @@
 package types
 
-type UserApisResp struct {
-	List []*UserApi `json:"list"`
-}
-
-type UserMenusResp struct {
-	List []*UserMenu `json:"list"`
-}
-
-type UserRolesResp struct {
-	List []*UserRole `json:"list"`
-}
-
 type DeleteUserBindThirdPartyReq struct {
 	Platform string `json:"platform"` // 平台
-}
-
-type UpdateUserPasswordReq struct {
-	OldPassword     string `json:"old_password"`     // 旧密码
-	NewPassword     string `json:"new_password"`     // 新密码
-	ConfirmPassword string `json:"confirm_password"` // 确认密码
-}
-
-type UserInfoResp struct {
-	UserId       string `json:"user_id"`       // 用户id
-	Username     string `json:"username"`      // 用户名
-	Nickname     string `json:"nickname"`      // 用户昵称
-	Avatar       string `json:"avatar"`        // 用户头像
-	Email        string `json:"email"`         // 用户邮箱
-	Phone        string `json:"phone"`         // 用户手机号
-	CreatedAt    int64  `json:"created_at"`    // 创建时间
-	RegisterType string `json:"register_type"` // 注册方式
-	UserInfoExt
-	ThirdParty []*UserThirdPartyInfo `json:"third_party"`
-	Roles      []string              `json:"roles"`
-	Perms      []string              `json:"perms"`
-}
-
-type UserLoginHistoryQuery struct {
-	PageQuery
 }
 
 type UpdateUserAvatarReq struct {
@@ -64,4 +27,41 @@ type UpdateUserBindThirdPartyReq struct {
 type UpdateUserInfoReq struct {
 	Nickname string `json:"nickname"` // 昵称
 	UserInfoExt
+}
+
+type UpdateUserPasswordReq struct {
+	OldPassword     string `json:"old_password"`     // 旧密码
+	NewPassword     string `json:"new_password"`     // 新密码
+	ConfirmPassword string `json:"confirm_password"` // 确认密码
+}
+
+type UserApisResp struct {
+	List []*UserApi `json:"list"`
+}
+
+type UserInfoResp struct {
+	UserId       string `json:"user_id"`       // 用户id
+	Username     string `json:"username"`      // 用户名
+	Nickname     string `json:"nickname"`      // 用户昵称
+	Avatar       string `json:"avatar"`        // 用户头像
+	Email        string `json:"email"`         // 用户邮箱
+	Phone        string `json:"phone"`         // 用户手机号
+	CreatedAt    int64  `json:"created_at"`    // 创建时间
+	RegisterType string `json:"register_type"` // 注册方式
+	UserInfoExt
+	ThirdParty []*UserThirdPartyInfo `json:"third_party"`
+	Roles      []string              `json:"roles"`
+	Perms      []string              `json:"perms"`
+}
+
+type UserLoginHistoryQuery struct {
+	PageQuery
+}
+
+type UserMenusResp struct {
+	List []*UserMenu `json:"list"`
+}
+
+type UserRolesResp struct {
+	List []*UserRole `json:"list"`
 }

@@ -137,21 +137,20 @@ func VisitFile(root string, visitFile func(path string, f os.FileInfo, err error
 }
 
 // 向文件中写入内容
-func WriteFile(filename string, content string) error {
+func WriteFile(filename string, content string) (int, error) {
 	f, err := os.Create(filename)
 	if err != nil {
-		return err
+		return 0, err
 	}
 
 	defer f.Close()
 
-	l, err := f.WriteString(content)
+	n, err := f.WriteString(content)
 	if err != nil {
-		return err
+		return 0, err
 	}
 
-	fmt.Println(l, "bytes written successfully")
-	return nil
+	return n, nil
 }
 
 func ReadFile(filename string) ([]byte, error) {

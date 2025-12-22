@@ -14,7 +14,7 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-type MigrateConfig struct {
+type MigrateFlags struct {
 	initFile string
 	dataFile string
 
@@ -26,7 +26,7 @@ type MigrateConfig struct {
 	Config   string
 }
 
-var migrateCfg = MigrateConfig{
+var migrateFlags = MigrateFlags{
 	initFile: "blog-veweiyi-init.sql",
 	dataFile: "blog-veweiyi-data.sql",
 	Host:     "localhost",
@@ -45,20 +45,20 @@ func NewMigrateCmd() *cobra.Command {
 		RunE:  runMigrate,
 	}
 
-	cmd.Flags().StringVarP(&migrateCfg.initFile, "file", "i", migrateCfg.initFile, "数据库结构sql文件")
-	cmd.Flags().StringVarP(&migrateCfg.dataFile, "data", "d", migrateCfg.dataFile, "数据库初始数据sql文件")
-	cmd.Flags().StringVar(&migrateCfg.Host, "host", migrateCfg.Host, "数据库ip")
-	cmd.Flags().StringVar(&migrateCfg.Port, "port", migrateCfg.Port, "数据库端口")
-	cmd.Flags().StringVar(&migrateCfg.Username, "username", migrateCfg.Username, "账号")
-	cmd.Flags().StringVar(&migrateCfg.Password, "password", migrateCfg.Password, "密码")
-	cmd.Flags().StringVar(&migrateCfg.Dbname, "name", migrateCfg.Dbname, "数据库名称")
-	cmd.Flags().StringVar(&migrateCfg.Config, "config", migrateCfg.Config, "数据库配置")
+	cmd.Flags().StringVarP(&migrateFlags.initFile, "file", "i", migrateFlags.initFile, "数据库结构sql文件")
+	cmd.Flags().StringVarP(&migrateFlags.dataFile, "data", "d", migrateFlags.dataFile, "数据库初始数据sql文件")
+	cmd.Flags().StringVar(&migrateFlags.Host, "host", migrateFlags.Host, "数据库ip")
+	cmd.Flags().StringVar(&migrateFlags.Port, "port", migrateFlags.Port, "数据库端口")
+	cmd.Flags().StringVar(&migrateFlags.Username, "username", migrateFlags.Username, "账号")
+	cmd.Flags().StringVar(&migrateFlags.Password, "password", migrateFlags.Password, "密码")
+	cmd.Flags().StringVar(&migrateFlags.Dbname, "name", migrateFlags.Dbname, "数据库名称")
+	cmd.Flags().StringVar(&migrateFlags.Config, "config", migrateFlags.Config, "数据库配置")
 
 	return cmd
 }
 
 func runMigrate(cmd *cobra.Command, args []string) error {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", migrateCfg.Username, migrateCfg.Password, migrateCfg.Host, migrateCfg.Port, "", migrateCfg.Config)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", migrateFlags.Username, migrateFlags.Password, migrateFlags.Host, migrateFlags.Port, "", migrateFlags.Config)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		//PrepareStmt:            true, // 缓存预编译语句
 		// 外键约束
@@ -81,26 +81,26 @@ func runMigrate(cmd *cobra.Command, args []string) error {
 	log.Println("connected to", dsn)
 
 	// 清空数据库
-	if err = db.Exec(fmt.Sprintf("DROP DATABASE IF EXISTS `%s`", migrateCfg.Dbname)).Error; err != nil {
+	if err = db.Exec(fmt.Sprintf("DROP DATABASE IF EXISTS `%s`", migrateFlags.Dbname)).Error; err != nil {
 		return err
 	}
 
 	// 创建数据库（如果不存在）
-	if err = db.Exec(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS `%s`", migrateCfg.Dbname)).Error; err != nil {
+	if err = db.Exec(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS `%s`", migrateFlags.Dbname)).Error; err != nil {
 		return err
 	}
 
-	if err = db.Exec(fmt.Sprintf("USE `%s`", migrateCfg.Dbname)).Error; err != nil {
+	if err = db.Exec(fmt.Sprintf("USE `%s`", migrateFlags.Dbname)).Error; err != nil {
 		return err
 	}
 
 	// 初始化表
-	if err = execSqlFile(db, migrateCfg.initFile); err != nil {
+	if err = execSqlFile(db, migrateFlags.initFile); err != nil {
 		return err
 	}
 
 	// 导入数据
-	if err = execSqlFile(db, migrateCfg.dataFile); err != nil {
+	if err = execSqlFile(db, migrateFlags.dataFile); err != nil {
 		return err
 	}
 

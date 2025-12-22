@@ -1,16 +1,5 @@
 package types
 
-type AlbumQuery struct {
-	PageQuery
-	AlbumName string `json:"album_name,optional"` // 相册名
-	IsDelete  int64  `json:"is_delete,optional"`  // 是否删除
-}
-
-type PreDeleteAlbumReq struct {
-	Ids      []int64 `json:"ids"`       // 主键
-	IsDelete int64   `json:"is_delete"` // 是否删除
-}
-
 type AlbumBackVO struct {
 	Id         int64  `json:"id,optional"` // 主键
 	AlbumName  string `json:"album_name"`  // 相册名
@@ -30,4 +19,15 @@ type AlbumNewReq struct {
 	AlbumCover string `json:"album_cover"` // 相册封面
 	IsDelete   int64  `json:"is_delete"`   // 是否删除
 	Status     int64  `json:"status"`      // 状态值 1公开 2私密
+}
+
+type AlbumQuery struct {
+	PageQuery
+	AlbumName string `json:"album_name,optional"` // 相册名
+	IsDelete  int64  `json:"is_delete,optional"`  // 是否删除
+}
+
+type PreDeleteAlbumReq struct {
+	Ids      []int64 `json:"ids"`       // 主键
+	IsDelete int64   `json:"is_delete"` // 是否删除
 }

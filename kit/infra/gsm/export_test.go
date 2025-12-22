@@ -12,10 +12,10 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/excel"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/gsm/service/brand"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/gsm/service/device"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/gsm/service/specification"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/excelx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 )
 
@@ -205,7 +205,7 @@ func Test_Export(t *testing.T) {
 	log.Println(err)
 	log.Println(brands)
 
-	ex := excel.NewExcelExporter()
+	ex := excel.excel.NewExcelExporter()
 	for _, b := range brands {
 		ex.NewActiveSheet(b)
 		ex.SetSheetTitle([]any{"品牌", "设备名称", "电池容量", "图片", "设备类型", "设备id", "描述"})

@@ -1,5 +1,9 @@
 package bizerr
 
+const (
+	CodeSuccess = 200
+)
+
 // 错误码定义规则
 const (
 	// 3xx 请求频繁

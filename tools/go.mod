@@ -15,7 +15,6 @@ require (
 	github.com/zeromicro/go-zero v1.9.3
 	github.com/zeromicro/go-zero/tools/goctl v1.9.2
 	gorm.io/driver/mysql v1.6.0
-	gorm.io/gen v0.3.27
 	gorm.io/gorm v1.31.1
 )
 
@@ -96,7 +95,4 @@ require (
 	google.golang.org/protobuf v1.36.10 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	gorm.io/datatypes v1.2.7 // indirect
-	gorm.io/hints v1.1.2 // indirect
-	gorm.io/plugin/dbresolver v1.6.2 // indirect
 )

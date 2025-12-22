@@ -1,7 +1,0 @@
-package types
-
-import (
-
-)
-
-{{.Types}}

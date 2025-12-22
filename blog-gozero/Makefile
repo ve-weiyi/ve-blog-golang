@@ -17,6 +17,10 @@ help:
 deps:
 	go mod tidy
 	go mod download
+# 安装goctl工具
+	go install github.com/zeromicro/go-zero/tools/goctl@latest
+# 安装grpc工具(使用goctl)
+	goctl env check --install --verbose --force
 
 # 启动依赖服务
 docker-up:

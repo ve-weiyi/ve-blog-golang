@@ -4921,7 +4921,7 @@ paths:
                 type: object
       summary: '"ping"'
       tags:
-        - Common
+        - AdminApi
   /admin-api/v1/register:
     post:
       consumes:
@@ -6883,7 +6883,7 @@ paths:
                 type: object
       summary: '"ping"'
       tags:
-        - Common
+        - BlogApi
   /blog-api/v1/register:
     post:
       consumes:
