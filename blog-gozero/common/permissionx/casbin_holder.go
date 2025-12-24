@@ -90,7 +90,12 @@ func (m *CasbinHolder) LoadPolicy() error {
 	var apis = make(map[int64]*permissionrpc.ApiDetailsResp)
 
 	// 收集角色
-	roleList, err := m.pr.FindRoleList(context.Background(), &permissionrpc.FindRoleListReq{})
+	roleList, err := m.pr.FindRoleList(context.Background(), &permissionrpc.FindRoleListReq{
+		Paginate:  &permissionrpc.PageReq{},
+		RoleKey:   "",
+		RoleLabel: "",
+		IsDisable: 0,
+	})
 	if err != nil {
 		return err
 	}
