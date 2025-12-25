@@ -28,10 +28,11 @@ func NewFindRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 分页获取角色列表
 func (l *FindRoleListLogic) FindRoleList(in *permissionrpc.FindRoleListReq) (*permissionrpc.FindRoleListResp, error) {
-	opts := []query.Option{
-		query.WithPage(int(in.Paginate.Page)),
-		query.WithSize(int(in.Paginate.PageSize)),
-		query.WithSorts(in.Paginate.Sorts...),
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
 	page, size, sorts, conditions, params := query.NewQueryBuilder(opts...).Build()
 
@@ -46,8 +47,8 @@ func (l *FindRoleListLogic) FindRoleList(in *permissionrpc.FindRoleListReq) (*pe
 	return &permissionrpc.FindRoleListResp{
 		List: root.Children,
 		Pagination: &permissionrpc.PageResp{
-			Page:     in.Paginate.Page,
-			PageSize: in.Paginate.PageSize,
+			Page:     int64(page),
+			PageSize: int64(size),
 			Total:    int64(len(root.Children)),
 		},
 	}, nil

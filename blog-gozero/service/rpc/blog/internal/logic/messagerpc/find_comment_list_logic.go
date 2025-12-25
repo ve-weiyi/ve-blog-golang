@@ -43,19 +43,23 @@ func (l *FindCommentListLogic) FindCommentList(in *messagerpc.FindCommentListReq
 	return &messagerpc.FindCommentListResp{
 		List: list,
 		Pagination: &messagerpc.PageResp{
-			Page:     in.Paginate.Page,
-			PageSize: in.Paginate.PageSize,
+			Page:     int64(page),
+			PageSize: int64(size),
 			Total:    total,
 		},
 	}, nil
 }
 
 func convertCommentQuery(in *messagerpc.FindCommentListReq) (page int, size int, sorts string, conditions string, params []any) {
-	opts := []query.Option{
-		query.WithPage(int(in.Paginate.Page)),
-		query.WithSize(int(in.Paginate.PageSize)),
-		query.WithSorts(in.Paginate.Sorts...),
-		query.WithCondition("parent_id = ?", in.ParentId),
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+	}
+
+	if in.ParentId != 0 {
+		opts = append(opts, query.WithCondition("parent_id = ?", in.ParentId))
 	}
 
 	if in.Type != 0 {

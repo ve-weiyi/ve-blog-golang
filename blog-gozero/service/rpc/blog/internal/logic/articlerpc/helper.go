@@ -206,10 +206,11 @@ func (l *ArticleHelperLogic) findOrAddTag(name string) (int64, error) {
 }
 
 func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListReq) (page int, size int, sorts string, conditions string, params []any) {
-	opts := []query.Option{
-		query.WithPage(int(in.Paginate.Page)),
-		query.WithSize(int(in.Paginate.PageSize)),
-		query.WithSorts(in.Paginate.Sorts...),
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if len(in.Ids) > 0 {

@@ -41,18 +41,19 @@ func (l *FindTalkListLogic) FindTalkList(in *talkrpc.FindTalkListReq) (*talkrpc.
 	return &talkrpc.FindTalkListResp{
 		List: list,
 		Pagination: &talkrpc.PageResp{
-			Page:     in.Paginate.Page,
-			PageSize: in.Paginate.PageSize,
+			Page:     int64(page),
+			PageSize: int64(size),
 			Total:    total,
 		},
 	}, nil
 }
 
 func convertTalkQuery(in *talkrpc.FindTalkListReq) (page int, size int, sorts string, conditions string, params []any) {
-	opts := []query.Option{
-		query.WithPage(int(in.Paginate.Page)),
-		query.WithSize(int(in.Paginate.PageSize)),
-		query.WithSorts(in.Paginate.Sorts...),
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.Status != 0 {

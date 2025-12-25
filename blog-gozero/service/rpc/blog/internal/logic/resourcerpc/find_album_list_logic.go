@@ -47,19 +47,23 @@ func (l *FindAlbumListLogic) FindAlbumList(in *resourcerpc.FindAlbumListReq) (*r
 	return &resourcerpc.FindAlbumListResp{
 		List: list,
 		Pagination: &resourcerpc.PageResp{
-			Page:     in.Paginate.Page,
-			PageSize: in.Paginate.PageSize,
+			Page:     int64(page),
+			PageSize: int64(size),
 			Total:    total,
 		},
 	}, nil
 }
 
 func convertAlbumQuery(in *resourcerpc.FindAlbumListReq) (page int, size int, sorts string, conditions string, params []any) {
-	opts := []query.Option{
-		query.WithPage(int(in.Paginate.Page)),
-		query.WithSize(int(in.Paginate.PageSize)),
-		query.WithSorts(in.Paginate.Sorts...),
-		query.WithCondition("is_delete = ?", in.IsDelete),
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+	}
+
+	if in.IsDelete != 0 {
+		opts = append(opts, query.WithCondition("is_delete = ?", in.IsDelete))
 	}
 
 	if in.AlbumName != "" {

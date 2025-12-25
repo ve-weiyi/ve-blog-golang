@@ -28,10 +28,11 @@ func NewFindRemarkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 查询留言列表
 func (l *FindRemarkListLogic) FindRemarkList(in *messagerpc.FindRemarkListReq) (*messagerpc.FindRemarkListResp, error) {
-	opts := []query.Option{
-		query.WithPage(int(in.Paginate.Page)),
-		query.WithSize(int(in.Paginate.PageSize)),
-		query.WithSorts(in.Paginate.Sorts...),
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
 	page, size, sorts, conditions, params := query.NewQueryBuilder(opts...).Build()
 	records, total, err := l.svcCtx.TRemarkModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
@@ -47,8 +48,8 @@ func (l *FindRemarkListLogic) FindRemarkList(in *messagerpc.FindRemarkListReq) (
 	return &messagerpc.FindRemarkListResp{
 		List: list,
 		Pagination: &messagerpc.PageResp{
-			Page:     in.Paginate.Page,
-			PageSize: in.Paginate.PageSize,
+			Page:     int64(page),
+			PageSize: int64(size),
 			Total:    total,
 		},
 	}, nil

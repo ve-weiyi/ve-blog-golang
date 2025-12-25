@@ -27,7 +27,7 @@ func NewFindMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 分页获取菜单列表
 func (l *FindMenuListLogic) FindMenuList(in *permissionrpc.FindMenuListReq) (*permissionrpc.FindMenuListResp, error) {
-	opts := []query.Option{}
+	var opts []query.Option
 
 	if in.Name != "" {
 		opts = append(opts, query.WithCondition("name like ?", "%"+in.Name+"%"))

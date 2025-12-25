@@ -27,7 +27,7 @@ func NewFindApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 
 // 分页获取接口列表
 func (l *FindApiListLogic) FindApiList(in *permissionrpc.FindApiListReq) (*permissionrpc.FindApiListResp, error) {
-	opts := []query.Option{}
+	var opts []query.Option
 
 	if in.Name != "" {
 		opts = append(opts, query.WithCondition("name like ?", "%"+in.Name+"%"))

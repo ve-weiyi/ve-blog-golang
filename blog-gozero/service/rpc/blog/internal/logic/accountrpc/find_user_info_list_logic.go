@@ -76,8 +76,8 @@ func (l *FindUserInfoListLogic) FindUserInfoList(in *accountrpc.FindUserListReq)
 
 	resp := &accountrpc.FindUserInfoListResp{}
 	resp.Pagination = &accountrpc.PageResp{
-		Page:     in.Paginate.Page,
-		PageSize: in.Paginate.PageSize,
+		Page:     int64(page),
+		PageSize: int64(size),
 		Total:    total,
 	}
 	resp.List = list

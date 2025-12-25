@@ -28,10 +28,11 @@ func NewFindCategoryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 func (l *FindCategoryListLogic) FindCategoryList(in *articlerpc.FindCategoryListReq) (*articlerpc.FindCategoryListResp, error) {
 	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
 
-	opts := []query.Option{
-		query.WithPage(int(in.Paginate.Page)),
-		query.WithSize(int(in.Paginate.PageSize)),
-		query.WithSorts(in.Paginate.Sorts...),
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
 	if in.CategoryName != "" {
 		opts = append(opts, query.WithCondition("category_name like ?", "%"+in.CategoryName+"%"))
@@ -51,8 +52,8 @@ func (l *FindCategoryListLogic) FindCategoryList(in *articlerpc.FindCategoryList
 	return &articlerpc.FindCategoryListResp{
 		List: list,
 		Pagination: &articlerpc.PageResp{
-			Page:     in.Paginate.Page,
-			PageSize: in.Paginate.PageSize,
+			Page:     int64(page),
+			PageSize: int64(size),
 			Total:    total,
 		},
 	}, nil
