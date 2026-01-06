@@ -25,6 +25,6 @@ func (s *FriendRouter) Register(r *gin.RouterGroup) {
 
 		h := handler.NewFriendController(s.svcCtx)
 		// 分页获取友链列表
-		group.POST("/friend_link/find_friend_list", h.FindFriendList)
+		group.POST("/friend/find_friend_list", h.FindFriendList)
 	}
 }

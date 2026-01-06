@@ -1,6 +1,6 @@
 package types
 
-type RemarkQuery struct {
+type QueryRemarkReq struct {
 	PageQuery
 	Nickname string `json:"nickname,optional"`  // 昵称
 	IsReview int64  `json:"is_review,optional"` // 是否审核

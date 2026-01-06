@@ -26,7 +26,7 @@ func NewFindOperationLogListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 	}
 }
 
-func (l *FindOperationLogListLogic) FindOperationLogList(req *types.OperationLogQuery) (resp *types.PageResp, err error) {
+func (l *FindOperationLogListLogic) FindOperationLogList(req *types.QueryOperationLogReq) (resp *types.PageResp, err error) {
 	in := &syslogrpc.FindOperationLogListReq{
 		Paginate: &syslogrpc.PageReq{
 			Page:     req.Page,

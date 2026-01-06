@@ -41,7 +41,7 @@ type (
 		UserId         string    `json:"user_id" gorm:"column:user_id"`                 // 评论用户id
 		TopicId        int64     `json:"topic_id" gorm:"column:topic_id"`               // 主题id
 		ParentId       int64     `json:"parent_id" gorm:"column:parent_id"`             // 父评论id
-		ReplyMsgId     int64     `json:"reply_msg_id" gorm:"column:reply_msg_id"`       // 回复评论id
+		ReplyId        int64     `json:"reply_id" gorm:"column:reply_id"`               // 回复评论id
 		ReplyUserId    string    `json:"reply_user_id" gorm:"column:reply_user_id"`     // 评论回复用户id
 		CommentContent string    `json:"comment_content" gorm:"column:comment_content"` // 评论内容
 		IpAddress      string    `json:"ip_address" gorm:"column:ip_address"`           // ip地址 127.0.01

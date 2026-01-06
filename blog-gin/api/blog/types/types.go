@@ -38,12 +38,14 @@ type CommentReply struct {
 	Id             int64       `json:"id"`              // 评论id
 	TopicId        int64       `json:"topic_id"`        // 主题id
 	ParentId       int64       `json:"parent_id"`       // 父评论id
-	ReplyMsgId     int64       `json:"reply_msg_id"`    // 会话id
+	ReplyId        int64       `json:"reply_id"`        // 会话id
 	UserId         string      `json:"user_id"`         // 用户id
 	ReplyUserId    string      `json:"reply_user_id"`   // 被回复用户id
 	CommentContent string      `json:"comment_content"` // 评论内容
 	Type           int64       `json:"type"`            // 评论类型 1.文章 2.友链 3.说说
 	CreatedAt      int64       `json:"created_at"`      // 评论时间
+	IpAddress      string      `json:"ip_address"`      // IP地址
+	IpSource       string      `json:"ip_source"`       // IP归属地
 	LikeCount      int64       `json:"like_count"`      // 点赞数
 	User           *UserInfoVO `json:"user"`            // 用户信息
 	ReplyUser      *UserInfoVO `json:"reply_user"`      // 被回复评论用户
@@ -71,12 +73,6 @@ type IdReq struct {
 
 type IdsReq struct {
 	Ids []int64 `json:"ids"`
-}
-
-type MessageEvent struct {
-	Type      int64  `json:"type"`      // 消息类型
-	Data      string `json:"data"`      // 消息内容
-	Timestamp int64  `json:"timestamp"` // 消息时间戳
 }
 
 type Page struct {
@@ -127,13 +123,6 @@ type PingResp struct {
 	RpcStatus   []string `json:"rpc_status"`
 }
 
-type Response struct {
-	Code    int         `json:"code"`
-	Msg     string      `json:"msg"`
-	Data    interface{} `json:"data"`
-	TraceId string      `json:"trace_id"`
-}
-
 type RewardQrCode struct {
 	AlipayQrCode string `json:"alipay_qr_code"` // 支付宝二维码
 	WeixinQrCode string `json:"weixin_qr_code"` // 微信二维码
@@ -178,10 +167,10 @@ type UserInfoExt struct {
 }
 
 type UserInfoVO struct {
-	UserId   string `json:"user_id"`
-	Username string `json:"username"`
-	Avatar   string `json:"avatar"`
-	Nickname string `json:"nickname"`
+	UserId   string `json:"user_id"`  // 用户ID
+	Username string `json:"username"` // 用户名
+	Avatar   string `json:"avatar"`   // 用户头像
+	Nickname string `json:"nickname"` // 用户昵称
 	UserInfoExt
 }
 
@@ -191,6 +180,14 @@ type UserThirdPartyInfo struct {
 	Nickname  string `json:"nickname"`   // 昵称
 	Avatar    string `json:"avatar"`     // 头像
 	CreatedAt int64  `json:"created_at"` // 创建时间
+}
+
+type VisitorInfoVO struct {
+	TerminalId string `json:"terminal_id"` // 终端ID
+	Os         string `json:"os"`          // 操作系统
+	Browser    string `json:"browser"`     // 浏览器
+	IpAddress  string `json:"ip_address"`  // IP地址
+	IpSource   string `json:"ip_source"`   // IP归属地
 }
 
 type WebsiteConfigVO struct {
@@ -207,10 +204,11 @@ type WebsiteConfigVO struct {
 
 type WebsiteFeature struct {
 	IsChatRoom      int64 `json:"is_chat_room"`      // 是否开启聊天室
+	IsAiAssistant   int64 `json:"is_ai_assistant"`   // 是否开启AI助手
+	IsMusicPlayer   int64 `json:"is_music_player"`   // 是否开启音乐播放器
 	IsCommentReview int64 `json:"is_comment_review"` // 是否开启评论审核
 	IsEmailNotice   int64 `json:"is_email_notice"`   // 是否开启邮件通知
 	IsMessageReview int64 `json:"is_message_review"` // 是否开启留言审核
-	IsMusicPlayer   int64 `json:"is_music_player"`   // 是否开启音乐播放器
 	IsReward        int64 `json:"is_reward"`         // 是否开启打赏
 }
 

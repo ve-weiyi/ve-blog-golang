@@ -34,6 +34,15 @@ func (l *FindRemarkListLogic) FindRemarkList(in *messagerpc.FindRemarkListReq) (
 		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
 		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
+
+	if in.Nickname != "" {
+		opts = append(opts, query.WithCondition("nickname like ?", "%"+in.Nickname+"%"))
+	}
+
+	if in.IsReview >= 0 {
+		opts = append(opts, query.WithCondition("is_review = ?", in.IsReview))
+	}
+
 	page, size, sorts, conditions, params := query.NewQueryBuilder(opts...).Build()
 	records, total, err := l.svcCtx.TRemarkModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {

@@ -27,7 +27,7 @@ func NewFindRemarkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 	}
 }
 
-func (l *FindRemarkListLogic) FindRemarkList(req *types.RemarkQueryReq) (resp *types.PageResp, err error) {
+func (l *FindRemarkListLogic) FindRemarkList(req *types.QueryRemarkReq) (resp *types.PageResp, err error) {
 	in := &messagerpc.FindRemarkListReq{
 		Paginate: &messagerpc.PageReq{
 			Page:     req.Page,
@@ -56,7 +56,7 @@ func (l *FindRemarkListLogic) FindRemarkList(req *types.RemarkQueryReq) (resp *t
 		list = append(list, ConvertRemarkTypes(v, usm))
 	}
 
-	_, err = l.svcCtx.SyslogRpc.AddVisitLog(l.ctx, &syslogrpc.VisitLogNewReq{
+	_, err = l.svcCtx.SyslogRpc.AddVisitLog(l.ctx, &syslogrpc.NewVisitLogReq{
 		PageName: "留言",
 	})
 	if err != nil {

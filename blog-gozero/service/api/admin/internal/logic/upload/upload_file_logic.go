@@ -10,9 +10,9 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
+	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizheader"
+	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/oss"
+	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/cryptox"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -41,18 +41,18 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) 
 		return nil, err
 	}
 
-	uid := cast.ToString(l.ctx.Value(restx.HeaderUid))
-	in := &syslogrpc.UploadLogNewReq{
+	uid := cast.ToString(l.ctx.Value(bizheader.HeaderUid))
+	in := &syslogrpc.NewFileLogReq{
 		UserId:   uid,
 		FilePath: req.FilePath,
 		FileName: h.Filename,
 		FileType: filepath.Ext(h.Filename),
 		FileSize: h.Size,
-		FileMd5:  crypto.Md5v(h.Filename, ""),
+		FileMd5:  cryptox.Md5v(h.Filename, ""),
 		FileUrl:  up,
 	}
 
-	out, err := l.svcCtx.SyslogRpc.AddUploadLog(l.ctx, in)
+	out, err := l.svcCtx.SyslogRpc.AddFileLog(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

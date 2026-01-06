@@ -5,8 +5,8 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/api/admin/logic"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/api/admin/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gin/common/request"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gin/common/response"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gin/infra/request"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gin/infra/response"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
 
@@ -18,35 +18,6 @@ func NewWebsiteController(svcCtx *svctx.ServiceContext) *WebsiteController {
 	return &WebsiteController{
 		svcCtx: svcCtx,
 	}
-}
-
-// @Tags		Website
-// @Summary		"获取用户分布地区"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		types.GetUserAreaStatsReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=types.GetUserAreaStatsResp}	"返回信息"
-// @Router		/admin-api/v1/account/get_user_area_stats [POST]
-func (s *WebsiteController) GetUserAreaStats(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *types.GetUserAreaStatsReq
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := logic.NewWebsiteLogic(s.svcCtx).GetUserAreaStats(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	response.ResponseOk(c, data)
 }
 
 // @Tags		Website
@@ -99,6 +70,35 @@ func (s *WebsiteController) GetAboutMe(c *gin.Context) {
 	}
 
 	data, err := logic.NewWebsiteLogic(s.svcCtx).GetAboutMe(reqCtx, req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	response.ResponseOk(c, data)
+}
+
+// @Tags		Website
+// @Summary		"获取用户分布地区"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		types.GetUserAreaStatsReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=types.GetUserAreaStatsResp}	"返回信息"
+// @Router		/admin-api/v1/admin/get_user_area_stats [POST]
+func (s *WebsiteController) GetUserAreaStats(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req *types.GetUserAreaStatsReq
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := logic.NewWebsiteLogic(s.svcCtx).GetUserAreaStats(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

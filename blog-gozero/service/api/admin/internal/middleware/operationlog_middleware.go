@@ -16,9 +16,9 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizheader"
+	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/ipx"
+	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/jsonconv"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 )
@@ -130,9 +130,9 @@ func (m *OperationLogMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc 
 			desc = api.OperationProps.Summary
 		}
 
-		op := &syslogrpc.OperationLogNewReq{
-			UserId:         r.Header.Get(restx.HeaderUid),
-			TerminalId:     r.Header.Get(restx.HeaderXTerminalId),
+		op := &syslogrpc.NewOperationLogReq{
+			UserId:         r.Header.Get(bizheader.HeaderUid),
+			TerminalId:     r.Header.Get(bizheader.HeaderXTerminalId),
 			IpAddress:      ip,
 			IpSource:       is,
 			OptModule:      module,

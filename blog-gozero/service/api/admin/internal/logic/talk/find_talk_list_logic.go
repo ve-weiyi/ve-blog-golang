@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/talkrpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/socialrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,9 +26,9 @@ func NewFindTalkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 	}
 }
 
-func (l *FindTalkListLogic) FindTalkList(req *types.TalkQuery) (resp *types.PageResp, err error) {
-	in := &talkrpc.FindTalkListReq{
-		Paginate: &talkrpc.PageReq{
+func (l *FindTalkListLogic) FindTalkList(req *types.QueryTalkReq) (resp *types.PageResp, err error) {
+	in := &socialrpc.FindTalkListReq{
+		Paginate: &socialrpc.PageReq{
 			Page:     req.Page,
 			PageSize: req.PageSize,
 			Sorts:    req.Sorts,
@@ -36,7 +36,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQuery) (resp *types.Page
 		Status: req.Status,
 	}
 
-	out, err := l.svcCtx.TalkRpc.FindTalkList(l.ctx, in)
+	out, err := l.svcCtx.SocialRpc.FindTalkList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

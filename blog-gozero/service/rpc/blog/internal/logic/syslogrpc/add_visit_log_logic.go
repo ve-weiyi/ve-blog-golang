@@ -9,7 +9,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
+	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/ipx"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,7 +29,7 @@ func NewAddVisitLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddVi
 }
 
 // 创建访问记录
-func (l *AddVisitLogLogic) AddVisitLog(in *syslogrpc.VisitLogNewReq) (*syslogrpc.EmptyResp, error) {
+func (l *AddVisitLogLogic) AddVisitLog(in *syslogrpc.NewVisitLogReq) (*syslogrpc.EmptyResp, error) {
 	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
 	tid, _ := rpcutils.GetTerminalIdFromCtx(l.ctx)
 	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)

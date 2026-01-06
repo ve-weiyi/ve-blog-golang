@@ -26,17 +26,17 @@ func NewFindCommentReplyListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 	}
 }
 
-func (l *FindCommentReplyListLogic) FindCommentReplyList(req *types.CommentQueryReq) (resp *types.PageResp, err error) {
+func (l *FindCommentReplyListLogic) FindCommentReplyList(req *types.QueryCommentReq) (resp *types.PageResp, err error) {
 	in := &messagerpc.FindCommentReplyListReq{
 		Paginate: &messagerpc.PageReq{
 			Page:     req.Page,
 			PageSize: req.PageSize,
 			Sorts:    req.Sorts,
 		},
-		TopicId:    req.TopicId,
-		ParentId:   req.ParentId,
-		ReplyMsgId: 0,
-		Type:       req.Type,
+		TopicId:  req.TopicId,
+		ParentId: req.ParentId,
+		ReplyId:  0,
+		Type:     req.Type,
 	}
 
 	// 查找评论列表

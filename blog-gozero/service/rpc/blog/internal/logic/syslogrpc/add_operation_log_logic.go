@@ -25,7 +25,7 @@ func NewAddOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *A
 }
 
 // 创建操作记录
-func (l *AddOperationLogLogic) AddOperationLog(in *syslogrpc.OperationLogNewReq) (*syslogrpc.EmptyResp, error) {
+func (l *AddOperationLogLogic) AddOperationLog(in *syslogrpc.NewOperationLogReq) (*syslogrpc.EmptyResp, error) {
 	entity := &model.TOperationLog{
 		Id:             0,
 		UserId:         in.UserId,

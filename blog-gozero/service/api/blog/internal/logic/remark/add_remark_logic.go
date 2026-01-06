@@ -25,8 +25,8 @@ func NewAddRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRema
 	}
 }
 
-func (l *AddRemarkLogic) AddRemark(req *types.RemarkNewReq) (resp *types.Remark, err error) {
-	in := &messagerpc.RemarkNewReq{
+func (l *AddRemarkLogic) AddRemark(req *types.NewRemarkReq) (resp *types.Remark, err error) {
+	in := &messagerpc.AddRemarkReq{
 		MessageContent: req.MessageContent,
 	}
 

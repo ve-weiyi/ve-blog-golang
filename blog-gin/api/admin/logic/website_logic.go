@@ -2,7 +2,7 @@ package logic
 
 import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/api/admin/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gin/common/request"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gin/infra/request"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
 
@@ -16,13 +16,6 @@ func NewWebsiteLogic(svcCtx *svctx.ServiceContext) *WebsiteLogic {
 	}
 }
 
-// 获取用户分布地区
-func (s *WebsiteLogic) GetUserAreaStats(reqCtx *request.Context, in *types.GetUserAreaStatsReq) (out *types.GetUserAreaStatsResp, err error) {
-	// todo
-
-	return
-}
-
 // 获取后台首页信息
 func (s *WebsiteLogic) GetAdminHomeInfo(reqCtx *request.Context, in *types.EmptyReq) (out *types.AdminHomeInfo, err error) {
 	// todo
@@ -32,6 +25,13 @@ func (s *WebsiteLogic) GetAdminHomeInfo(reqCtx *request.Context, in *types.Empty
 
 // 获取关于我的信息
 func (s *WebsiteLogic) GetAboutMe(reqCtx *request.Context, in *types.EmptyReq) (out *types.AboutMeVO, err error) {
+	// todo
+
+	return
+}
+
+// 获取用户分布地区
+func (s *WebsiteLogic) GetUserAreaStats(reqCtx *request.Context, in *types.GetUserAreaStatsReq) (out *types.GetUserAreaStatsResp, err error) {
 	// todo
 
 	return

@@ -27,15 +27,15 @@ func NewFindCommentBackListLogic(ctx context.Context, svcCtx *svc.ServiceContext
 	}
 }
 
-func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) (resp *types.PageResp, err error) {
+func (l *FindCommentBackListLogic) FindCommentBackList(req *types.QueryCommentReq) (resp *types.PageResp, err error) {
 	in := &messagerpc.FindCommentListReq{
 		Paginate: &messagerpc.PageReq{
 			Page:     req.Page,
 			PageSize: req.PageSize,
 			Sorts:    req.Sorts,
 		},
-		ReplyMsgId: 0,
-		Type:       req.Type,
+		IsReview: req.IsReview,
+		Type:     req.Type,
 	}
 
 	// 查找评论列表

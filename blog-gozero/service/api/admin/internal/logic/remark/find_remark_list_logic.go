@@ -26,7 +26,7 @@ func NewFindRemarkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 	}
 }
 
-func (l *FindRemarkListLogic) FindRemarkList(req *types.RemarkQuery) (resp *types.PageResp, err error) {
+func (l *FindRemarkListLogic) FindRemarkList(req *types.QueryRemarkReq) (resp *types.PageResp, err error) {
 	in := &messagerpc.FindRemarkListReq{
 		Paginate: &messagerpc.PageReq{
 			Page:     req.Page,

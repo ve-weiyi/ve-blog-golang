@@ -26,21 +26,21 @@ func NewFindCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 	}
 }
 
-func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp *types.PageResp, err error) {
-	in := &messagerpc.FindCommentListReq{
+func (l *FindCommentListLogic) FindCommentList(req *types.QueryCommentReq) (resp *types.PageResp, err error) {
+	in := &messagerpc.FindCommentReplyListReq{
 		Paginate: &messagerpc.PageReq{
 			Page:     req.Page,
 			PageSize: req.PageSize,
 			Sorts:    req.Sorts,
 		},
-		TopicId:    req.TopicId,
-		ParentId:   req.ParentId,
-		ReplyMsgId: 0,
-		Type:       req.Type,
+		TopicId:  req.TopicId,
+		ParentId: req.ParentId,
+		ReplyId:  0,
+		Type:     req.Type,
 	}
 
 	// 查找评论列表
-	out, err := l.svcCtx.MessageRpc.FindCommentList(l.ctx, in)
+	out, err := l.svcCtx.MessageRpc.FindCommentReplyList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -68,10 +68,10 @@ func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp
 				PageSize: 3,
 				Sorts:    []string{"created_at desc"},
 			},
-			TopicId:    req.TopicId,
-			ParentId:   v.Id,
-			ReplyMsgId: 0,
-			Type:       req.Type,
+			TopicId:  req.TopicId,
+			ParentId: v.Id,
+			ReplyId:  0,
+			Type:     req.Type,
 		})
 
 		for _, r := range reply.List {
@@ -94,13 +94,17 @@ func ConvertCommentTypes(in *messagerpc.CommentDetailsResp, usm map[string]*type
 		Id:               in.Id,
 		TopicId:          in.TopicId,
 		ParentId:         in.ParentId,
-		ReplyMsgId:       in.ReplyMsgId,
+		ReplyId:          in.ReplyId,
 		UserId:           in.UserId,
 		ReplyUserId:      in.ReplyUserId,
 		CommentContent:   in.CommentContent,
 		Type:             in.Type,
 		CreatedAt:        in.CreatedAt,
+		IpSource:         in.IpSource,
+		IpAddress:        in.IpAddress,
 		LikeCount:        in.LikeCount,
+		User:             nil,
+		ReplyUser:        nil,
 		ReplyCount:       0,
 		CommentReplyList: make([]*types.CommentReply, 0),
 	}
@@ -123,18 +127,22 @@ func ConvertCommentTypes(in *messagerpc.CommentDetailsResp, usm map[string]*type
 	return
 }
 
-func ConvertCommentReplyTypes(req *messagerpc.CommentDetailsResp, usm map[string]*types.UserInfoVO) (out *types.CommentReply) {
+func ConvertCommentReplyTypes(in *messagerpc.CommentDetailsResp, usm map[string]*types.UserInfoVO) (out *types.CommentReply) {
 	out = &types.CommentReply{
-		Id:             req.Id,
-		TopicId:        req.TopicId,
-		ParentId:       req.ParentId,
-		ReplyMsgId:     req.ReplyMsgId,
-		UserId:         req.UserId,
-		ReplyUserId:    req.ReplyUserId,
-		CommentContent: req.CommentContent,
-		Type:           req.Type,
-		CreatedAt:      req.CreatedAt,
-		LikeCount:      req.LikeCount,
+		Id:             in.Id,
+		TopicId:        in.TopicId,
+		ParentId:       in.ParentId,
+		ReplyId:        in.ReplyId,
+		UserId:         in.UserId,
+		ReplyUserId:    in.ReplyUserId,
+		CommentContent: in.CommentContent,
+		Type:           in.Type,
+		CreatedAt:      in.CreatedAt,
+		IpSource:       in.IpSource,
+		IpAddress:      in.IpAddress,
+		LikeCount:      in.LikeCount,
+		User:           nil,
+		ReplyUser:      nil,
 	}
 
 	// 用户信息

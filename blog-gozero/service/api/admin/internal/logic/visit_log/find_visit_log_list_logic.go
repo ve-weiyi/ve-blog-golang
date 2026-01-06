@@ -26,7 +26,7 @@ func NewFindVisitLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *FindVisitLogListLogic) FindVisitLogList(req *types.VisitLogQuery) (resp *types.PageResp, err error) {
+func (l *FindVisitLogListLogic) FindVisitLogList(req *types.QueryVisitLogReq) (resp *types.PageResp, err error) {
 	in := &syslogrpc.FindVisitLogListReq{
 		Paginate: &syslogrpc.PageReq{
 			Page:     req.Page,
@@ -43,20 +43,31 @@ func (l *FindVisitLogListLogic) FindVisitLogList(req *types.VisitLogQuery) (resp
 		return nil, err
 	}
 
+	// 查询用户信息
 	var uids []string
 	for _, v := range out.List {
 		uids = append(uids, v.UserId)
 	}
 
-	// 查询用户信息
 	usm, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, uids)
+	if err != nil {
+		return nil, err
+	}
+
+	// 查询访客信息
+	var tids []string
+	for _, v := range out.List {
+		tids = append(tids, v.TerminalId)
+	}
+
+	vsm, err := apiutils.GetVisitorInfos(l.ctx, l.svcCtx, tids)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*types.VisitLogBackVO
 	for _, v := range out.List {
-		m := ConvertVisitLogTypes(v, usm)
+		m := ConvertVisitLogTypes(v, usm, vsm)
 		list = append(list, m)
 	}
 
@@ -68,7 +79,7 @@ func (l *FindVisitLogListLogic) FindVisitLogList(req *types.VisitLogQuery) (resp
 	return resp, nil
 }
 
-func ConvertVisitLogTypes(in *syslogrpc.VisitLogDetailsResp, usm map[string]*types.UserInfoVO) (out *types.VisitLogBackVO) {
+func ConvertVisitLogTypes(in *syslogrpc.VisitLogDetailsResp, usm map[string]*types.UserInfoVO, vsm map[string]*types.VisitorInfoVO) (out *types.VisitLogBackVO) {
 
 	out = &types.VisitLogBackVO{
 		Id:         in.Id,
@@ -88,6 +99,14 @@ func ConvertVisitLogTypes(in *syslogrpc.VisitLogDetailsResp, usm map[string]*typ
 		user, ok := usm[in.UserId]
 		if ok && user != nil {
 			out.User = user
+		}
+	}
+
+	// 访客信息
+	if in.TerminalId != "" {
+		visitor, ok := vsm[in.TerminalId]
+		if ok && visitor != nil {
+			out.Visitor = visitor
 		}
 	}
 

@@ -26,19 +26,19 @@ func NewFindCommentRecentListLogic(ctx context.Context, svcCtx *svc.ServiceConte
 	}
 }
 
-func (l *FindCommentRecentListLogic) FindCommentRecentList(req *types.CommentQueryReq) (resp *types.PageResp, err error) {
-	in := &messagerpc.FindCommentListReq{
+func (l *FindCommentRecentListLogic) FindCommentRecentList(req *types.QueryCommentReq) (resp *types.PageResp, err error) {
+	in := &messagerpc.FindCommentReplyListReq{
 		Paginate: &messagerpc.PageReq{
 			Page:     req.Page,
 			PageSize: req.PageSize,
 			Sorts:    req.Sorts,
 		},
-		TopicId:    req.TopicId,
-		ParentId:   req.ParentId,
-		ReplyMsgId: 0,
-		Type:       req.Type,
+		TopicId:  req.TopicId,
+		ParentId: req.ParentId,
+		ReplyId:  0,
+		Type:     req.Type,
 	}
-	out, err := l.svcCtx.MessageRpc.FindCommentList(l.ctx, in)
+	out, err := l.svcCtx.MessageRpc.FindCommentReplyList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

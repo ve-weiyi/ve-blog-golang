@@ -11,7 +11,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
+	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/ipx"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -31,7 +31,7 @@ func NewAddLoginLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddLo
 }
 
 // 创建登录记录
-func (l *AddLoginLogLogic) AddLoginLog(in *syslogrpc.LoginLogNewReq) (*syslogrpc.EmptyResp, error) {
+func (l *AddLoginLogLogic) AddLoginLog(in *syslogrpc.NewLoginLogReq) (*syslogrpc.EmptyResp, error) {
 	app, err := rpcutils.GetAppNameFromCtx(l.ctx)
 	if err != nil {
 		return nil, err

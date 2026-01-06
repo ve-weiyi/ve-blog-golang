@@ -26,12 +26,12 @@ func (s *WebsiteRouter) Register(r *gin.RouterGroup) {
 		group.Use(s.svcCtx.OperationLog)
 
 		h := handler.NewWebsiteController(s.svcCtx)
-		// 获取用户分布地区
-		group.POST("/account/get_user_area_stats", h.GetUserAreaStats)
 		// 获取后台首页信息
 		group.GET("/admin", h.GetAdminHomeInfo)
 		// 获取关于我的信息
 		group.GET("/admin/get_about_me", h.GetAboutMe)
+		// 获取用户分布地区
+		group.POST("/admin/get_user_area_stats", h.GetUserAreaStats)
 		// 获取访客数据分析
 		group.GET("/admin/get_visit_stats", h.GetVisitStats)
 		// 获取访客数据趋势

@@ -42,8 +42,8 @@ func (s *CommentRouter) Register(r *gin.RouterGroup) {
 		// 创建评论
 		group.POST("/comment/add_comment", h.AddComment)
 		// 点赞评论
-		group.POST("/comment/like_comment", h.LikeComment)
+		group.PUT("/comment/like_comment", h.LikeComment)
 		// 更新评论
-		group.POST("/comment/update_comment", h.UpdateComment)
+		group.PUT("/comment/update_comment", h.UpdateComment)
 	}
 }

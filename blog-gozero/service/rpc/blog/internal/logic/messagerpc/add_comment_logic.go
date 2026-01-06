@@ -7,7 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/messagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
+	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/ipx"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +27,7 @@ func NewAddCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCom
 }
 
 // 创建评论
-func (l *AddCommentLogic) AddComment(in *messagerpc.CommentNewReq) (*messagerpc.CommentDetailsResp, error) {
+func (l *AddCommentLogic) AddComment(in *messagerpc.AddCommentReq) (*messagerpc.CommentDetailsResp, error) {
 	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
 	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)
 	is := ipx.GetIpSourceByBaidu(ip)
@@ -37,7 +37,7 @@ func (l *AddCommentLogic) AddComment(in *messagerpc.CommentNewReq) (*messagerpc.
 		UserId:         uid,
 		TopicId:        in.TopicId,
 		ParentId:       in.ParentId,
-		ReplyMsgId:     in.ReplyMsgId,
+		ReplyId:        in.ReplyId,
 		ReplyUserId:    in.ReplyUserId,
 		CommentContent: in.CommentContent,
 		IpAddress:      ip,
