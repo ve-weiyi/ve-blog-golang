@@ -31,7 +31,7 @@ func (s *RemarkLogic) FindRemarkList(reqCtx *request.Context, in *types.QueryRem
 }
 
 // 更新留言
-func (s *RemarkLogic) UpdateRemarkReview(reqCtx *request.Context, in *types.RemarkReviewReq) (out *types.BatchResp, err error) {
+func (s *RemarkLogic) UpdateRemarkStatus(reqCtx *request.Context, in *types.UpdateRemarkStatusReq) (out *types.BatchResp, err error) {
 	// todo
 
 	return

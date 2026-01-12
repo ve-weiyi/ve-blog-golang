@@ -31,7 +31,7 @@ func (s *CommentLogic) FindCommentBackList(reqCtx *request.Context, in *types.Qu
 }
 
 // 更新评论审核状态
-func (s *CommentLogic) UpdateCommentReview(reqCtx *request.Context, in *types.CommentReviewReq) (out *types.BatchResp, err error) {
+func (s *CommentLogic) UpdateCommentStatus(reqCtx *request.Context, in *types.UpdateCommentStatusReq) (out *types.BatchResp, err error) {
 	// todo
 
 	return

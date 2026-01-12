@@ -82,23 +82,23 @@ func (s *RemarkController) FindRemarkList(c *gin.Context) {
 // @Summary		"更新留言"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		types.RemarkReviewReq		true	"请求参数"
+// @Param		data	body		types.UpdateRemarkStatusReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=types.BatchResp}	"返回信息"
 // @Router		/admin-api/v1/remark/update_remark_review [PUT]
-func (s *RemarkController) UpdateRemarkReview(c *gin.Context) {
+func (s *RemarkController) UpdateRemarkStatus(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *types.RemarkReviewReq
+	var req *types.UpdateRemarkStatusReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := logic.NewRemarkLogic(s.svcCtx).UpdateRemarkReview(reqCtx, req)
+	data, err := logic.NewRemarkLogic(s.svcCtx).UpdateRemarkStatus(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

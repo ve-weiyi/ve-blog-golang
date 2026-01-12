@@ -4,18 +4,14 @@ import "base.api"
 
 type (
 	VisitLogBackVO {
-		Id         int64          `json:"id,optional"` // 主键id
-		UserId     string         `json:"user_id"` // 用户id
-		TerminalId string         `json:"terminal_id"` // 终端id
-		PageName   string         `json:"page_name"` // 页面
-		IpAddress  string         `json:"ip_address"` // 操作ip地址
-		IpSource   string         `json:"ip_source"` // 操作ip归属地
-		Os         string         `json:"os"` // 操作系统
-		Browser    string         `json:"browser"` // 浏览器
-		CreatedAt  int64          `json:"created_at"` // 创建时间
-		UpdatedAt  int64          `json:"updated_at"` // 更新时间
-		User       *UserInfoVO    `json:"user"` // 用户信息
-		Visitor    *VisitorInfoVO `json:"visitor"` // 访客信息
+		Id         int64         `json:"id,optional"` // 主键id
+		UserId     string        `json:"user_id"` // 用户id
+		TerminalId string        `json:"terminal_id"` // 终端id
+		PageName   string        `json:"page_name"` // 页面
+		CreatedAt  int64         `json:"created_at"` // 创建时间
+		UpdatedAt  int64         `json:"updated_at"` // 更新时间
+		UserInfo   *UserInfoVO   `json:"user_info"` // 用户信息
+		ClientInfo *ClientInfoVO `json:"client_info"` // 客户端信息
 	}
 	QueryVisitLogReq {
 		PageQuery

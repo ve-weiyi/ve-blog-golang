@@ -54,7 +54,7 @@ func (s *RemarkController) FindRemarkList(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		types.NewRemarkReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=types.Remark}	"返回信息"
+// @Success		200		{object}	response.Body{data=types.EmptyResp}	"返回信息"
 // @Router		/blog-api/v1/remark/add_remark [POST]
 func (s *RemarkController) AddRemark(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)

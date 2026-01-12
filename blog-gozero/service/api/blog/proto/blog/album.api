@@ -22,11 +22,10 @@ type (
 )
 
 @server (
-	tags:       "相册"
-	prefix:     /blog-api/v1
-	group:      album
-	authType:   apiKey
-	middleware: TerminalToken
+	tags:     "相册"
+	prefix:   /blog-api/v1
+	group:    album
+	authType: apiKey
 )
 service blog-api {
 	@doc "获取相册"

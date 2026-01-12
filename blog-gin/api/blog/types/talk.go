@@ -15,5 +15,5 @@ type Talk struct {
 	CommentCount int64       `json:"comment_count"` // 评论量
 	CreatedAt    int64       `json:"created_at"`    // 创建时间
 	UpdatedAt    int64       `json:"updated_at"`    // 更新时间
-	User         *UserInfoVO `json:"user"`          // 用户信息
+	UserInfo     *UserInfoVO `json:"user_info"`     // 用户信息
 }

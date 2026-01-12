@@ -37,19 +37,17 @@ message PageResp {
 message LoginLogDetailsResp {
   int64 id = 1;
   string user_id = 2; // 用户id
-  string login_type = 3;// 登录类型
-  string app_name = 4;// 应用名称
-  string os = 5;// 操作系统
-  string browser = 6;// 浏览器
-  string ip_address = 7;// ip地址
-  string ip_source = 8;// ip归属地
-  int64 login_at = 9;// 登录时间
-  int64 logout_at = 10;// 登出时间
+  string terminal_id = 3;// 终端id
+  string login_type = 4;// 登录类型
+  string app_name = 5;// 应用名称
+  int64 login_at = 6;// 登录时间
+  int64 logout_at = 7;// 登出时间
 }
 
 message NewLoginLogReq {
   string user_id = 2; // 用户id
-  string login_type = 3;// 登录类型
+  string terminal_id = 3;// 终端id
+  string login_type = 4;// 登录类型
 }
 
 message AddLogoutLogReq{
@@ -76,10 +74,6 @@ message VisitLogDetailsResp {
   string user_id = 2;// 用户id
   string terminal_id = 3;// 设备id
   string page_name = 4;// 访问页面
-  string ip_address = 5;// 操作ip地址
-  string ip_source = 6;// 操作ip归属地
-  string os = 7;// 操作系统
-  string browser = 8;// 浏览器
   int64 created_at = 15;// 创建时间
   int64 updated_at = 16;// 更新时间
 }
@@ -105,8 +99,6 @@ message OperationLogDetailsResp {
   int64 id = 1;// 主键id
   string user_id = 2;// 用户id
   string terminal_id = 3;// 设备id
-  string ip_address = 4;// 操作ip地址
-  string ip_source = 5;// 操作ip归属地
   string opt_module = 6;// 操作模块
   string opt_desc = 7;// 操作描述
   string request_uri = 8;// 请求地址
@@ -122,8 +114,6 @@ message OperationLogDetailsResp {
 message NewOperationLogReq {
   string user_id = 2;// 用户id
   string terminal_id = 3;// 设备id
-  string ip_address = 4;// 操作ip地址
-  string ip_source = 5;// 操作ip归属地
   string opt_module = 6;// 操作模块
   string opt_desc = 7;// 操作描述
   string request_uri = 8;// 请求地址
@@ -149,25 +139,27 @@ message FindOperationLogListResp {
 message NewFileLogReq {
   int64 id = 1;// id
   string user_id = 2;// 用户id
-  string file_path = 3;// 文件路径
-  string file_name = 4;// 文件名称
-  string file_type = 5;// 文件类型
-  int64 file_size = 6;// 文件大小
-  string file_md5 = 7;// 文件md5值
-  string file_url = 8;// 上传路径
+  string terminal_id = 3;// 终端id
+  string file_path = 4;// 文件路径
+  string file_name = 5;// 文件名称
+  string file_type = 6;// 文件类型
+  int64 file_size = 7;// 文件大小
+  string file_md5 = 8;// 文件md5值
+  string file_url = 9;// 上传路径
 }
 
 message FileLogDetailsResp {
   int64 id = 1;// id
   string user_id = 2;// 用户id
-  string file_path = 3;// 文件路径
-  string file_name = 4;// 文件名称
-  string file_type = 5;// 文件类型
-  int64 file_size = 6;// 文件大小
-  string file_md5 = 7;// 文件md5值
-  string file_url = 8;// 上传路径
-  int64 created_at = 9;// 创建时间
-  int64 updated_at = 10;// 更新时间
+  string terminal_id = 3;// 终端id
+  string file_path = 4;// 文件路径
+  string file_name = 5;// 文件名称
+  string file_type = 6;// 文件类型
+  int64 file_size = 7;// 文件大小
+  string file_md5 = 8;// 文件md5值
+  string file_url = 9;// 上传路径
+  int64 created_at = 10;// 创建时间
+  int64 updated_at = 11;// 更新时间
 }
 
 message FindFileLogListReq {

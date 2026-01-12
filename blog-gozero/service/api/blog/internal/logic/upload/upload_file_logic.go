@@ -5,12 +5,9 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/spf13/cast"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizheader"
 	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/oss"
 	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/cryptox"
 
@@ -41,9 +38,7 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) 
 		return nil, err
 	}
 
-	uid := cast.ToString(l.ctx.Value(bizheader.HeaderUid))
 	in := &syslogrpc.NewFileLogReq{
-		UserId:   uid,
 		FilePath: req.FilePath,
 		FileName: h.Filename,
 		FileType: filepath.Ext(h.Filename),

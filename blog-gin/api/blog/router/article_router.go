@@ -18,10 +18,9 @@ func NewArticleRouter(svcCtx *svctx.ServiceContext) *ArticleRouter {
 
 func (s *ArticleRouter) Register(r *gin.RouterGroup) {
 	// Article
-	// [TerminalToken]
+	// []
 	{
 		group := r.Group("/blog-api/v1")
-		group.Use(s.svcCtx.TerminalToken)
 
 		h := handler.NewArticleController(s.svcCtx)
 		// 文章归档(时间轴)
@@ -38,10 +37,9 @@ func (s *ArticleRouter) Register(r *gin.RouterGroup) {
 		group.POST("/article/get_article_details", h.GetArticleDetails)
 	}
 	// Article
-	// [TerminalToken UserToken]
+	// [UserToken]
 	{
 		group := r.Group("/blog-api/v1")
-		group.Use(s.svcCtx.TerminalToken)
 		group.Use(s.svcCtx.UserToken)
 
 		h := handler.NewArticleController(s.svcCtx)

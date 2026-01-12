@@ -44,6 +44,6 @@ func (l *UpdateTalkLogic) UpdateTalk(req *types.NewTalkReq) (resp *types.TalkBac
 		return nil, err
 	}
 
-	resp = ConvertTalkTypes(out, nil)
+	resp = ConvertTalkTypes(out)
 	return resp, nil
 }

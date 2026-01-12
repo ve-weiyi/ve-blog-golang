@@ -74,16 +74,17 @@ func convertFileLogQuery(in *syslogrpc.FindFileLogListReq) (page int, size int, 
 
 func convertFileLogOut(in *model.TFileLog) (out *syslogrpc.FileLogDetailsResp) {
 	out = &syslogrpc.FileLogDetailsResp{
-		Id:        in.Id,
-		UserId:    in.UserId,
-		FilePath:  in.FilePath,
-		FileName:  in.FileName,
-		FileType:  in.FileType,
-		FileSize:  in.FileSize,
-		FileMd5:   in.FileMd5,
-		FileUrl:   in.FileUrl,
-		CreatedAt: in.CreatedAt.Unix(),
-		UpdatedAt: in.UpdatedAt.Unix(),
+		Id:         in.Id,
+		UserId:     in.UserId,
+		TerminalId: in.TerminalId,
+		FilePath:   in.FilePath,
+		FileName:   in.FileName,
+		FileType:   in.FileType,
+		FileSize:   in.FileSize,
+		FileMd5:    in.FileMd5,
+		FileUrl:    in.FileUrl,
+		CreatedAt:  in.CreatedAt.Unix(),
+		UpdatedAt:  in.UpdatedAt.Unix(),
 	}
 
 	return out

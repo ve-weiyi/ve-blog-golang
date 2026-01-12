@@ -47,14 +47,13 @@ func (l *GetUserLoginHistoryListLogic) GetUserLoginHistoryList(req *types.QueryU
 	var list []*types.UserLoginHistory
 	for _, v := range out.List {
 		list = append(list, &types.UserLoginHistory{
-			Id:        v.Id,
-			LoginType: v.LoginType,
-			Os:        v.Os,
-			Browser:   v.Browser,
-			IpAddress: v.IpAddress,
-			IpSource:  v.IpSource,
-			LoginAt:   v.LoginAt,
-			LogoutAt:  v.LogoutAt,
+			Id:         v.Id,
+			UserId:     v.UserId,
+			TerminalId: v.TerminalId,
+			LoginType:  v.LoginType,
+			AppName:    v.AppName,
+			LoginAt:    v.LoginAt,
+			LogoutAt:   v.LogoutAt,
 		})
 	}
 

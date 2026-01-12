@@ -114,7 +114,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 func ConnectRedis(c config.RedisConf) (*redis.Redis, error) {
 	address := c.Host + ":" + c.Port
-	client, err := redis.NewRedis(redis.RedisConf{
+	redisClient, err := redis.NewRedis(redis.RedisConf{
 		Host: address,
 		Type: redis.NodeType,
 		Pass: c.Password,
@@ -125,5 +125,5 @@ func ConnectRedis(c config.RedisConf) (*redis.Redis, error) {
 		return nil, fmt.Errorf("redis 连接失败: %v", err)
 	}
 
-	return client, nil
+	return redisClient, nil
 }

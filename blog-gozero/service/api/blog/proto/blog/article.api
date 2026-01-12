@@ -52,11 +52,10 @@ type (
 )
 
 @server (
-	tags:       "文章"
-	prefix:     /blog-api/v1
-	group:      article
-	authType:   apiKey
-	middleware: TerminalToken
+	tags:     "文章"
+	prefix:   /blog-api/v1
+	group:    article
+	authType: apiKey
 )
 service blog-api {
 	@doc "获取首页推荐文章列表"
@@ -89,7 +88,7 @@ service blog-api {
 	prefix:     /blog-api/v1
 	group:      article
 	authType:   apiKey
-	middleware: TerminalToken,UserToken
+	middleware: UserToken
 )
 service blog-api {
 	@doc "点赞文章"

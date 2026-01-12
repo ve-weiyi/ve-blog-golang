@@ -83,7 +83,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	configRpc := configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 	syslogRpc := syslogrpc.NewSyslogRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 
-	ph := permissionx.NewMemoryHolder(permissionRpc)
+	// 使用内存缓存角色-权限，单机部署可用。分布式部署可能出现权限会不同步
+	//ph := permissionx.NewMemoryHolder(permissionRpc)
+
+	// 允许所有操作，不校验权限
+	ph := permissionx.NewAllowAllHolder()
 	err = ph.LoadPolicy()
 	if err != nil {
 		logx.Infof("load permission policy fail: %v", err)
@@ -116,16 +120,15 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		PermissionHolder: ph,
 		StompHubServer:   hub,
 
-		AdminToken: middleware.NewAdminTokenMiddleware(th).Handle,
-		Permission: middleware.NewSimpleMiddleware().Handle, // 不使用接口权限控制
-		//Permission:       middleware.NewPermissionMiddleware(ph).Handle,
+		AdminToken:   middleware.NewAdminTokenMiddleware(th).Handle,
+		Permission:   middleware.NewPermissionMiddleware(ph).Handle,
 		OperationLog: middleware.NewOperationLogMiddleware(doc.Spec(), syslogRpc, permissionRpc).Handle,
 	}
 }
 
 func ConnectRedis(c config.RedisConf) (*redis.Redis, error) {
 	address := c.Host + ":" + c.Port
-	client, err := redis.NewRedis(redis.RedisConf{
+	redisClient, err := redis.NewRedis(redis.RedisConf{
 		Host: address,
 		Type: redis.NodeType,
 		Pass: c.Password,
@@ -136,5 +139,5 @@ func ConnectRedis(c config.RedisConf) (*redis.Redis, error) {
 		return nil, fmt.Errorf("redis 连接失败: %v", err)
 	}
 
-	return client, nil
+	return redisClient, nil
 }

@@ -65,6 +65,7 @@ func main() {
 	server.Use(middlewarex.NewCorsMiddleware().Handle)
 	server.Use(middlewarex.NewCtxMetaMiddleware().Handle)
 	server.Use(middlewarex.NewAntiReplyMiddleware().Handle)
+	server.Use(middlewarex.NewTerminalTokenMiddleware().Handle)
 
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)

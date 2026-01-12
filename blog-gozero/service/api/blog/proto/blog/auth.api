@@ -95,11 +95,10 @@ service blog-api {
 }
 
 @server (
-	tags:       "登录认证"
-	prefix:     /blog-api/v1
-	group:      auth
-	authType:   apiKey
-	middleware: TerminalToken
+	tags:     "登录认证"
+	prefix:   /blog-api/v1
+	group:    auth
+	authType: apiKey
 )
 service blog-api {
 	@doc "登录"
@@ -148,7 +147,7 @@ service blog-api {
 	prefix:     /blog-api/v1
 	group:      auth
 	authType:   apiKey
-	middleware: TerminalToken,UserToken
+	middleware: UserToken
 )
 service blog-api {
 	@doc "登出"

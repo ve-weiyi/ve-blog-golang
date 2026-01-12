@@ -3,12 +3,12 @@ package talk
 import (
 	"context"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/socialrpc"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type FindTalkListLogic struct {
@@ -41,20 +41,35 @@ func (l *FindTalkListLogic) FindTalkList(req *types.QueryTalkReq) (resp *types.P
 		return nil, err
 	}
 
-	var uids []string
-	for _, v := range out.List {
-		uids = append(uids, v.UserId)
-	}
-
-	// 获取用户信息
-	usm, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, uids)
+	// 查询用户信息
+	usm, err := apiutils.BatchQuery(out.List,
+		func(v *socialrpc.TalkDetailsResp) string {
+			return v.UserId
+		},
+		func(ids []string) (map[string]*types.UserInfoVO, error) {
+			return apiutils.GetUserInfos(l.ctx, l.svcCtx, ids)
+		},
+	)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*types.TalkBackVO
 	for _, v := range out.List {
-		m := ConvertTalkTypes(v, usm)
+		m := &types.TalkBackVO{
+			Id:           v.Id,
+			UserId:       v.UserId,
+			Content:      v.Content,
+			ImgList:      v.ImgList,
+			IsTop:        v.IsTop,
+			Status:       v.Status,
+			LikeCount:    v.LikeCount,
+			CommentCount: v.CommentCount,
+			CreatedAt:    v.CreatedAt,
+			UpdatedAt:    v.UpdatedAt,
+			UserInfo:     usm[v.UserId],
+		}
+
 		list = append(list, m)
 	}
 

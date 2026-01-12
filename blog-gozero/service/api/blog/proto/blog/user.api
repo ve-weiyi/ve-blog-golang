@@ -62,7 +62,7 @@ type (
 	prefix:     /blog-api/v1
 	group:      user
 	authType:   apiKey
-	middleware: TerminalToken,UserToken
+	middleware: UserToken
 )
 service blog-api {
 	@doc "获取用户信息"

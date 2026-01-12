@@ -24,7 +24,7 @@ func (s *RemarkLogic) FindRemarkList(reqCtx *request.Context, in *types.QueryRem
 }
 
 // 创建留言
-func (s *RemarkLogic) AddRemark(reqCtx *request.Context, in *types.NewRemarkReq) (out *types.Remark, err error) {
+func (s *RemarkLogic) AddRemark(reqCtx *request.Context, in *types.NewRemarkReq) (out *types.EmptyResp, err error) {
 	// todo
 
 	return

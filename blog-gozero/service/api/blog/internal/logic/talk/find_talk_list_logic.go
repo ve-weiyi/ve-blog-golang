@@ -41,14 +41,19 @@ func (l *FindTalkListLogic) FindTalkList(req *types.QueryTalkReq) (resp *types.P
 	}
 
 	var tids []int64
-	var uids []string
 	for _, v := range out.List {
 		tids = append(tids, v.Id)
-		uids = append(uids, v.UserId)
 	}
 
 	// 查询用户信息
-	usm, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, uids)
+	usm, err := apiutils.BatchQuery(out.List,
+		func(v *socialrpc.TalkDetailsResp) string {
+			return v.UserId
+		},
+		func(ids []string) (map[string]*types.UserInfoVO, error) {
+			return apiutils.GetUserInfos(l.ctx, l.svcCtx, ids)
+		},
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -84,23 +89,10 @@ func ConvertTalkTypes(in *socialrpc.TalkDetailsResp, usm map[string]*types.UserI
 		IsTop:        in.IsTop,
 		Status:       in.Status,
 		LikeCount:    in.LikeCount,
-		CommentCount: 0,
+		CommentCount: csm[in.Id],
 		CreatedAt:    in.CreatedAt,
 		UpdatedAt:    in.UpdatedAt,
-	}
-
-	// 用户信息
-	if out.UserId != "" {
-		user, ok := usm[out.UserId]
-		if ok && user != nil {
-			out.User = user
-		}
-	}
-
-	// 评论量
-	count, ok := csm[out.Id]
-	if ok {
-		out.CommentCount = count
+		UserInfo:     usm[in.UserId],
 	}
 	return
 }

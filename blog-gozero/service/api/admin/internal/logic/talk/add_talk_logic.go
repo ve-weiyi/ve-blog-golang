@@ -44,31 +44,22 @@ func (l *AddTalkLogic) AddTalk(req *types.NewTalkReq) (resp *types.TalkBackVO, e
 		return nil, err
 	}
 
-	resp = ConvertTalkTypes(out, nil)
+	resp = ConvertTalkTypes(out)
 	return resp, nil
 }
 
-func ConvertTalkTypes(in *socialrpc.TalkDetailsResp, usm map[string]*types.UserInfoVO) (out *types.TalkBackVO) {
+func ConvertTalkTypes(v *socialrpc.TalkDetailsResp) (out *types.TalkBackVO) {
 	out = &types.TalkBackVO{
-		Id:           in.Id,
-		UserId:       in.UserId,
-		Content:      in.Content,
-		ImgList:      in.ImgList,
-		IsTop:        in.IsTop,
-		Status:       in.Status,
-		LikeCount:    in.LikeCount,
-		CommentCount: in.CommentCount,
-		CreatedAt:    in.CreatedAt,
-		UpdatedAt:    in.UpdatedAt,
+		Id:           v.Id,
+		UserId:       v.UserId,
+		Content:      v.Content,
+		ImgList:      v.ImgList,
+		IsTop:        v.IsTop,
+		Status:       v.Status,
+		LikeCount:    v.LikeCount,
+		CommentCount: v.CommentCount,
+		CreatedAt:    v.CreatedAt,
+		UpdatedAt:    v.UpdatedAt,
 	}
-
-	// 用户信息
-	if out.UserId != "" {
-		user, ok := usm[out.UserId]
-		if ok && user != nil {
-			out.User = user
-		}
-	}
-
 	return
 }

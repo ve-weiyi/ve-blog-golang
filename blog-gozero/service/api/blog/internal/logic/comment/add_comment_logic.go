@@ -25,7 +25,7 @@ func NewAddCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCom
 	}
 }
 
-func (l *AddCommentLogic) AddComment(req *types.NewCommentReq) (resp *types.Comment, err error) {
+func (l *AddCommentLogic) AddComment(req *types.NewCommentReq) (resp *types.EmptyResp, err error) {
 	in := &messagerpc.AddCommentReq{
 		ParentId:       req.ParentId,
 		TopicId:        req.TopicId,
@@ -35,11 +35,10 @@ func (l *AddCommentLogic) AddComment(req *types.NewCommentReq) (resp *types.Comm
 		Type:           req.Type,
 		Status:         req.Status,
 	}
-	out, err := l.svcCtx.MessageRpc.AddComment(l.ctx, in)
+	_, err = l.svcCtx.MessageRpc.AddComment(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	resp = ConvertCommentTypes(out, nil)
 	return resp, nil
 }

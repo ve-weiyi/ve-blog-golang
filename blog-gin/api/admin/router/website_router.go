@@ -30,6 +30,8 @@ func (s *WebsiteRouter) Register(r *gin.RouterGroup) {
 		group.GET("/admin", h.GetAdminHomeInfo)
 		// 获取关于我的信息
 		group.GET("/admin/get_about_me", h.GetAboutMe)
+		// 获取服务器信息
+		group.GET("/admin/get_system_state", h.GetSystemState)
 		// 获取用户分布地区
 		group.POST("/admin/get_user_area_stats", h.GetUserAreaStats)
 		// 获取访客数据分析
@@ -38,8 +40,6 @@ func (s *WebsiteRouter) Register(r *gin.RouterGroup) {
 		group.POST("/admin/get_visit_trend", h.GetVisitTrend)
 		// 获取网站配置
 		group.GET("/admin/get_website_config", h.GetWebsiteConfig)
-		// 获取服务器信息
-		group.GET("/admin/system_state", h.GetSystemState)
 		// 更新关于我的信息
 		group.PUT("/admin/update_about_me", h.UpdateAboutMe)
 		// 更新网站配置

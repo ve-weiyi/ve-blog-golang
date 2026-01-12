@@ -17,11 +17,10 @@ type (
 )
 
 @server (
-	tags:       "分类"
-	prefix:     /blog-api/v1
-	group:      category
-	authType:   apiKey
-	middleware: TerminalToken
+	tags:     "分类"
+	prefix:   /blog-api/v1
+	group:    category
+	authType: apiKey
 )
 service blog-api {
 	@doc "分页获取文章分类列表"

@@ -12,16 +12,16 @@ import (
 )
 
 // 更新评论审核状态
-func UpdateCommentReviewHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func UpdateCommentStatusHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.CommentReviewReq
+		var req types.UpdateCommentStatusReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := comment.NewUpdateCommentReviewLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateCommentReview(&req)
+		l := comment.NewUpdateCommentStatusLogic(r.Context(), svcCtx)
+		resp, err := l.UpdateCommentStatus(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

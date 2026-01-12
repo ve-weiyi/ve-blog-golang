@@ -1,4 +1,4 @@
-package remark
+package comment
 
 import (
 	"context"
@@ -10,28 +10,28 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type UpdateRemarkReviewLogic struct {
+type UpdateCommentStatusLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-// 更新留言
-func NewUpdateRemarkReviewLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateRemarkReviewLogic {
-	return &UpdateRemarkReviewLogic{
+// 更新评论审核状态
+func NewUpdateCommentStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateCommentStatusLogic {
+	return &UpdateCommentStatusLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *UpdateRemarkReviewLogic) UpdateRemarkReview(req *types.RemarkReviewReq) (resp *types.BatchResp, err error) {
-	in := &messagerpc.UpdateRemarkReviewReq{
-		Ids:      req.Ids,
-		IsReview: req.IsReview,
+func (l *UpdateCommentStatusLogic) UpdateCommentStatus(req *types.UpdateCommentStatusReq) (resp *types.BatchResp, err error) {
+	in := &messagerpc.UpdateCommentStatusReq{
+		Ids:    req.Ids,
+		Status: req.Status,
 	}
 
-	out, err := l.svcCtx.MessageRpc.UpdateRemarkReview(l.ctx, in)
+	out, err := l.svcCtx.MessageRpc.UpdateCommentStatus(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

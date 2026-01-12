@@ -5,13 +5,11 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizheader"
 	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/oss"
 	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/cryptox"
 )
@@ -32,8 +30,6 @@ func NewMultiUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *M
 }
 
 func (l *MultiUploadFileLogic) MultiUploadFile(req *types.MultiUploadFileReq, r *http.Request) (resp []*types.FileInfoVO, err error) {
-	uid := cast.ToString(l.ctx.Value(bizheader.HeaderUid))
-
 	// 获取文件切片
 	files := r.MultipartForm.File["files"]
 	for _, h := range files {
@@ -48,7 +44,6 @@ func (l *MultiUploadFileLogic) MultiUploadFile(req *types.MultiUploadFileReq, r 
 		}
 
 		in := &syslogrpc.NewFileLogReq{
-			UserId:   uid,
 			FilePath: req.FilePath,
 			FileName: h.Filename,
 			FileType: filepath.Ext(h.Filename),

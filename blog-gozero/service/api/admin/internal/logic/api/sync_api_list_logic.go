@@ -55,7 +55,7 @@ func (l *SyncApiListLogic) SyncApiList(req *types.SyncApiReq) (resp *types.Batch
 				case http.MethodDelete:
 					traceable = 1
 				case http.MethodPost:
-					if !strings.Contains(k, "list") {
+					if !strings.Contains(k, "list") && !strings.Contains(k, "get") {
 						traceable = 1
 					}
 				default:

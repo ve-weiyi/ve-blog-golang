@@ -44,30 +44,43 @@ func (l *FindVisitLogListLogic) FindVisitLogList(req *types.QueryVisitLogReq) (r
 	}
 
 	// 查询用户信息
-	var uids []string
-	for _, v := range out.List {
-		uids = append(uids, v.UserId)
-	}
-
-	usm, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, uids)
+	usm, err := apiutils.BatchQuery(out.List,
+		func(v *syslogrpc.VisitLogDetailsResp) string {
+			return v.UserId
+		},
+		func(ids []string) (map[string]*types.UserInfoVO, error) {
+			return apiutils.GetUserInfos(l.ctx, l.svcCtx, ids)
+		},
+	)
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询访客信息
-	var tids []string
-	for _, v := range out.List {
-		tids = append(tids, v.TerminalId)
-	}
-
-	vsm, err := apiutils.GetVisitorInfos(l.ctx, l.svcCtx, tids)
+	vsm, err := apiutils.BatchQuery(out.List,
+		func(v *syslogrpc.VisitLogDetailsResp) string {
+			return v.TerminalId
+		},
+		func(ids []string) (map[string]*types.ClientInfoVO, error) {
+			return apiutils.GetVisitorInfos(l.ctx, l.svcCtx, ids)
+		},
+	)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*types.VisitLogBackVO
 	for _, v := range out.List {
-		m := ConvertVisitLogTypes(v, usm, vsm)
+		m := &types.VisitLogBackVO{
+			Id:         v.Id,
+			UserId:     v.UserId,
+			TerminalId: v.TerminalId,
+			PageName:   v.PageName,
+			CreatedAt:  v.CreatedAt,
+			UpdatedAt:  v.UpdatedAt,
+			UserInfo:   usm[v.UserId],
+			ClientInfo: vsm[v.TerminalId],
+		}
 		list = append(list, m)
 	}
 
@@ -77,38 +90,4 @@ func (l *FindVisitLogListLogic) FindVisitLogList(req *types.QueryVisitLogReq) (r
 	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
-}
-
-func ConvertVisitLogTypes(in *syslogrpc.VisitLogDetailsResp, usm map[string]*types.UserInfoVO, vsm map[string]*types.VisitorInfoVO) (out *types.VisitLogBackVO) {
-
-	out = &types.VisitLogBackVO{
-		Id:         in.Id,
-		UserId:     in.UserId,
-		TerminalId: in.TerminalId,
-		PageName:   in.PageName,
-		IpAddress:  in.IpAddress,
-		IpSource:   in.IpSource,
-		Os:         in.Os,
-		Browser:    in.Browser,
-		CreatedAt:  in.CreatedAt,
-		UpdatedAt:  in.UpdatedAt,
-	}
-
-	// 用户信息
-	if in.UserId != "" {
-		user, ok := usm[in.UserId]
-		if ok && user != nil {
-			out.User = user
-		}
-	}
-
-	// 访客信息
-	if in.TerminalId != "" {
-		visitor, ok := vsm[in.TerminalId]
-		if ok && visitor != nil {
-			out.Visitor = visitor
-		}
-	}
-
-	return out
 }

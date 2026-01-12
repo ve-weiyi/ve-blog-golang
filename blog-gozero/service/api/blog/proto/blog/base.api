@@ -7,9 +7,9 @@ type (
 		Ids []int64 `json:"ids"`
 	}
 	PageQuery {
-		Page     int64    `json:"page,optional"`
-		PageSize int64    `json:"page_size,optional"`
-		Sorts    []string `json:"sorts,optional"`
+		Page     int64    `json:"page,optional"` // 当前页码
+		PageSize int64    `json:"page_size,optional"` // 每页数量
+		Sorts    []string `json:"sorts,optional,default=[]"` // 排序
 	}
 //
 //    PageLimit {
@@ -62,7 +62,7 @@ type (
 		Intro   string `json:"intro,optional"` // 简介
 		Website string `json:"website,optional"` // 网站
 	}
-	VisitorInfoVO {
+	ClientInfoVO {
 		TerminalId string `json:"terminal_id"` // 终端ID
 		Os         string `json:"os"` // 操作系统
 		Browser    string `json:"browser"` // 浏览器

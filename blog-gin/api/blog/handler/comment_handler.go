@@ -112,7 +112,7 @@ func (s *CommentController) FindCommentReplyList(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		types.NewCommentReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=types.Comment}	"返回信息"
+// @Success		200		{object}	response.Body{data=types.EmptyResp}	"返回信息"
 // @Router		/blog-api/v1/comment/add_comment [POST]
 func (s *CommentController) AddComment(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
@@ -170,7 +170,7 @@ func (s *CommentController) LikeComment(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		types.UpdateCommentReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=types.Comment}	"返回信息"
+// @Success		200		{object}	response.Body{data=types.EmptyResp}	"返回信息"
 // @Router		/blog-api/v1/comment/update_comment [PUT]
 func (s *CommentController) UpdateComment(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)

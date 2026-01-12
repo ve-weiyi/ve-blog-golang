@@ -72,11 +72,10 @@ type (
 )
 
 @server (
-	tags:       "网站"
-	prefix:     /blog-api/v1
-	group:      website
-	authType:   apiKey
-	middleware: TerminalToken
+	tags:     "网站"
+	prefix:   /blog-api/v1
+	group:    website
+	authType: apiKey
 )
 service blog-api {
 	@doc "获取博客前台首页信息"

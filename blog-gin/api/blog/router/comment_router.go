@@ -18,10 +18,9 @@ func NewCommentRouter(svcCtx *svctx.ServiceContext) *CommentRouter {
 
 func (s *CommentRouter) Register(r *gin.RouterGroup) {
 	// Comment
-	// [TerminalToken]
+	// []
 	{
 		group := r.Group("/blog-api/v1")
-		group.Use(s.svcCtx.TerminalToken)
 
 		h := handler.NewCommentController(s.svcCtx)
 		// 查询评论列表
@@ -32,10 +31,9 @@ func (s *CommentRouter) Register(r *gin.RouterGroup) {
 		group.POST("/comment/find_comment_reply_list", h.FindCommentReplyList)
 	}
 	// Comment
-	// [TerminalToken UserToken]
+	// [UserToken]
 	{
 		group := r.Group("/blog-api/v1")
-		group.Use(s.svcCtx.TerminalToken)
 		group.Use(s.svcCtx.UserToken)
 
 		h := handler.NewCommentController(s.svcCtx)

@@ -386,7 +386,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					// 更新评论审核状态
 					Method:  http.MethodPut,
 					Path:    "/comment/update_comment_review",
-					Handler: comment.UpdateCommentReviewHandler(serverCtx),
+					Handler: comment.UpdateCommentStatusHandler(serverCtx),
 				},
 			}...,
 		),
@@ -626,7 +626,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					// 更新留言
 					Method:  http.MethodPut,
 					Path:    "/remark/update_remark_review",
-					Handler: remark.UpdateRemarkReviewHandler(serverCtx),
+					Handler: remark.UpdateRemarkStatusHandler(serverCtx),
 				},
 			}...,
 		),
@@ -924,6 +924,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: website.GetAboutMeHandler(serverCtx),
 				},
 				{
+					// 获取服务器信息
+					Method:  http.MethodGet,
+					Path:    "/admin/get_system_state",
+					Handler: website.GetSystemStateHandler(serverCtx),
+				},
+				{
 					// 获取用户分布地区
 					Method:  http.MethodPost,
 					Path:    "/admin/get_user_area_stats",
@@ -946,12 +952,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/admin/get_website_config",
 					Handler: website.GetWebsiteConfigHandler(serverCtx),
-				},
-				{
-					// 获取服务器信息
-					Method:  http.MethodGet,
-					Path:    "/admin/system_state",
-					Handler: website.GetSystemStateHandler(serverCtx),
 				},
 				{
 					// 更新关于我的信息

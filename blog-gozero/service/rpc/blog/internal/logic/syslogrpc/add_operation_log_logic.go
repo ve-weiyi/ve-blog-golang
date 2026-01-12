@@ -30,8 +30,6 @@ func (l *AddOperationLogLogic) AddOperationLog(in *syslogrpc.NewOperationLogReq)
 		Id:             0,
 		UserId:         in.UserId,
 		TerminalId:     in.TerminalId,
-		IpAddress:      in.IpAddress,
-		IpSource:       in.IpSource,
 		OptModule:      in.OptModule,
 		OptDesc:        in.OptDesc,
 		RequestUri:     in.RequestUri,
@@ -40,8 +38,6 @@ func (l *AddOperationLogLogic) AddOperationLog(in *syslogrpc.NewOperationLogReq)
 		ResponseData:   in.ResponseData,
 		ResponseStatus: in.ResponseStatus,
 		Cost:           in.Cost,
-		//CreatedAt:      time.Unix(in.CreatedAt, 0),
-		//UpdatedAt:      time.Unix(in.UpdatedAt, 0),
 	}
 
 	_, err := l.svcCtx.TOperationLogModel.Insert(l.ctx, entity)

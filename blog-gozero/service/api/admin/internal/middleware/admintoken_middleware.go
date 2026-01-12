@@ -25,7 +25,7 @@ func NewAdminTokenMiddleware(verifier tokenx.TokenHolder) *AdminTokenMiddleware 
 
 func (m *AdminTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		logx.Debugf("JwtTokenMiddleware Handle")
+		logx.Debugf("AdminTokenMiddleware Handle")
 		var token string
 		var uid string
 

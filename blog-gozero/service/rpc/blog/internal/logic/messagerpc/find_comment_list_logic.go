@@ -34,13 +34,18 @@ func (l *FindCommentListLogic) FindCommentList(in *messagerpc.FindCommentListReq
 		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
 
+	if in.UserId != "" {
+		opts = append(opts, query.WithCondition("user_id = ?", in.UserId))
+	}
+
+	if in.Status >= 0 {
+		opts = append(opts, query.WithCondition("status = ?", in.Status))
+	}
+
 	if in.Type != 0 {
 		opts = append(opts, query.WithCondition("type = ?", in.Type))
 	}
 
-	if in.IsReview >= 0 {
-		opts = append(opts, query.WithCondition("is_review = ?", in.IsReview))
-	}
 	page, size, sorts, conditions, params := query.NewQueryBuilder(opts...).Build()
 
 	records, total, err := l.svcCtx.TCommentModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
@@ -75,12 +80,9 @@ func convertCommentOut(in *model.TComment) (out *messagerpc.CommentDetailsResp) 
 		CommentContent: in.CommentContent,
 		Type:           in.Type,
 		Status:         in.Status,
-		IsReview:       in.IsReview,
 		CreatedAt:      in.CreatedAt.Unix(),
 		UpdatedAt:      in.UpdatedAt.Unix(),
 		LikeCount:      in.LikeCount,
-		IpAddress:      in.IpAddress,
-		IpSource:       in.IpSource,
 	}
 
 	return out

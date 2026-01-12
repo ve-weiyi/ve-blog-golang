@@ -30,13 +30,10 @@ func NewAddVisitLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddVisit
 
 // 添加用户访问记录
 func (l *AddVisitLogic) AddVisit(in *websiterpc.AddVisitReq) (*websiterpc.AddVisitResp, error) {
-	visitor, err := rpcutils.GetTerminalIdFromCtx(l.ctx)
-	if err != nil {
-		return nil, err
-	}
+	visitor, _ := rpcutils.GetTerminalIdFromCtx(l.ctx)
 
 	day := time.Now().Format("2006-01-02")
-	_, err = l.addUserVisit(day, visitor)
+	_, err := l.addUserVisit(day, visitor)
 	if err != nil {
 		return nil, err
 	}

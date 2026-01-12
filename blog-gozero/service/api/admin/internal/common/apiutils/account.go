@@ -42,7 +42,7 @@ func GetUserInfos(ctx context.Context, svcCtx *svc.ServiceContext, uids []string
 	return usm, err
 }
 
-func GetVisitorInfos(ctx context.Context, svcCtx *svc.ServiceContext, tids []string) (map[string]*types.VisitorInfoVO, error) {
+func GetVisitorInfos(ctx context.Context, svcCtx *svc.ServiceContext, tids []string) (map[string]*types.ClientInfoVO, error) {
 	if len(tids) == 0 {
 		return nil, nil
 	}
@@ -54,9 +54,9 @@ func GetVisitorInfos(ctx context.Context, svcCtx *svc.ServiceContext, tids []str
 		return nil, err
 	}
 
-	vsm := make(map[string]*types.VisitorInfoVO)
+	vsm := make(map[string]*types.ClientInfoVO)
 	for _, v := range vs.List {
-		vsm[v.TerminalId] = &types.VisitorInfoVO{
+		vsm[v.TerminalId] = &types.ClientInfoVO{
 			TerminalId: v.TerminalId,
 			Os:         v.Os,
 			Browser:    v.Browser,

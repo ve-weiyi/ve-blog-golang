@@ -4,14 +4,13 @@ import "base.api"
 
 type (
 	UserLoginHistory {
-		Id        int64  `json:"id,optional"`
-		LoginType string `json:"login_type"` // 登录类型
-		Os        string `json:"os"` // 操作系统
-		Browser   string `json:"browser"` // 浏览器
-		IpAddress string `json:"ip_address"` // IP地址
-		IpSource  string `json:"ip_source"` // IP归属地
-		LoginAt   int64  `json:"login_at"` // 登录时间
-		LogoutAt  int64  `json:"logout_at"` // 登出时间
+		Id         int64  `json:"id,optional"`
+		UserId     string `json:"user_id"` // 用户id
+		TerminalId string `json:"terminal_id"` // 终端id
+		LoginType  string `json:"login_type"` // 登录类型
+		AppName    string `json:"app_name"` // 应用名称
+		LoginAt    int64  `json:"login_at"` // 登录时间
+		LogoutAt   int64  `json:"logout_at"` // 登出时间
 	}
 	QueryUserLoginHistoryReq {
 		PageQuery

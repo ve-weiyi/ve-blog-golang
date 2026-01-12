@@ -29,11 +29,10 @@ type (
 )
 
 @server (
-	tags:       "文件管理"
-	prefix:     /blog-api/v1
-	group:      upload
-	authType:   apiKey
-	middleware: TerminalToken
+	tags:     "文件管理"
+	prefix:   /blog-api/v1
+	group:    upload
+	authType: apiKey
 )
 service blog-api {
 	@doc "获取文件列表"

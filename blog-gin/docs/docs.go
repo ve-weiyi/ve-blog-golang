@@ -114,51 +114,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin-api/v1/account/get_user_area_stats": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Website"
-                ],
-                "summary": "\"获取用户分布地区\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/types.GetUserAreaStatsReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/types.GetUserAreaStatsResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/admin-api/v1/account/update_account_password": {
             "put": {
                 "consumes": [
@@ -384,6 +339,96 @@ const docTemplate = `{
                 }
             }
         },
+        "/admin-api/v1/admin/get_system_state": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Website"
+                ],
+                "summary": "\"获取服务器信息\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/types.Server"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/admin/get_user_area_stats": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Website"
+                ],
+                "summary": "\"获取用户分布地区\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.GetUserAreaStatsReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/types.GetUserAreaStatsResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/admin-api/v1/admin/get_visit_stats": {
             "get": {
                 "consumes": [
@@ -510,51 +555,6 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.WebsiteConfigVO"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/admin-api/v1/admin/system_state": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Website"
-                ],
-                "summary": "\"获取服务器信息\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.EmptyReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/types.Server"
                                         }
                                     }
                                 }
@@ -1843,7 +1843,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/types.CommentReviewReq"
+                            "$ref": "#/definitions/types.UpdateCommentStatusReq"
                         }
                     }
                 ],
@@ -1950,6 +1950,96 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.BatchResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/file_log/find_file_log_list": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FileLog"
+                ],
+                "summary": "\"查询文件日志\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.QueryFileLogReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/file_log/find_login_log_list": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "LoginLog"
+                ],
+                "summary": "\"查询登录日志\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.QueryLoginLogReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
                                         }
                                     }
                                 }
@@ -3463,7 +3553,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/types.RemarkReviewReq"
+                            "$ref": "#/definitions/types.UpdateRemarkStatusReq"
                         }
                     }
                 ],
@@ -4617,96 +4707,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin-api/v1/user/find_file_log_list": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "FileLog"
-                ],
-                "summary": "\"查询文件日志\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/types.QueryFileLogReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/admin-api/v1/user/find_login_log_list": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "LoginLog"
-                ],
-                "summary": "\"查询登录日志\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/types.QueryLoginLogReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.PageResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/admin-api/v1/user/get_user_apis": {
             "get": {
                 "consumes": [
@@ -5487,7 +5487,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/blog-api/v1/article/get_article_archives": {
+        "/blog-api/v1/article/find_article_archives": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5532,7 +5532,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/blog-api/v1/article/get_article_classify_category": {
+        "/blog-api/v1/article/find_article_classify_category": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5577,7 +5577,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/blog-api/v1/article/get_article_classify_tag": {
+        "/blog-api/v1/article/find_article_classify_tag": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5597,6 +5597,96 @@ const docTemplate = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/types.QueryArticleClassifyReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blog-api/v1/article/find_article_home_list": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Article"
+                ],
+                "summary": "\"获取首页文章列表\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.QueryArticleHomeReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blog-api/v1/article/find_article_recommend": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Article"
+                ],
+                "summary": "\"获取首页推荐文章列表\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyReq"
                         }
                     }
                 ],
@@ -5658,96 +5748,6 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/types.ArticleDetails"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/blog-api/v1/article/get_article_home_list": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Article"
-                ],
-                "summary": "\"获取首页文章列表\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/types.QueryArticleHomeReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/blog-api/v1/article/get_article_recommend": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Article"
-                ],
-                "summary": "\"获取首页推荐文章列表\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.PageResp"
                                         }
                                     }
                                 }
@@ -5972,7 +5972,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/types.Comment"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -6197,7 +6197,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/types.Comment"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -6252,7 +6252,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/blog-api/v1/friend_link/find_friend_list": {
+        "/blog-api/v1/friend/find_friend_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -6782,7 +6782,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/types.Remark"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.EmptyResp"
                                         }
                                     }
                                 }
@@ -8156,9 +8156,6 @@ const docTemplate = `{
         "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.QueryCommentReq": {
             "type": "object",
             "properties": {
-                "is_review": {
-                    "type": "integer"
-                },
                 "page": {
                     "description": "当前页码",
                     "type": "integer"
@@ -8174,9 +8171,17 @@ const docTemplate = `{
                         "type": "string"
                     }
                 },
+                "status": {
+                    "description": "状态",
+                    "type": "integer"
+                },
                 "type": {
                     "description": "评论类型 1.文章 2.友链 3.说说",
                     "type": "integer"
+                },
+                "user_id": {
+                    "description": "用户ID",
+                    "type": "string"
                 }
             }
         },
@@ -8259,14 +8264,6 @@ const docTemplate = `{
         "github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.QueryRemarkReq": {
             "type": "object",
             "properties": {
-                "is_review": {
-                    "description": "是否审核",
-                    "type": "integer"
-                },
-                "nickname": {
-                    "description": "昵称",
-                    "type": "string"
-                },
                 "page": {
                     "description": "当前页码",
                     "type": "integer"
@@ -8281,6 +8278,14 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
+                },
+                "status": {
+                    "description": "状态",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "description": "用户ID",
+                    "type": "string"
                 }
             }
         },
@@ -9141,12 +9146,15 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "page": {
+                    "description": "当前页码",
                     "type": "integer"
                 },
                 "page_size": {
+                    "description": "每页数量",
                     "type": "integer"
                 },
                 "sorts": {
+                    "description": "排序",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -9162,12 +9170,15 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "page": {
+                    "description": "当前页码",
                     "type": "integer"
                 },
                 "page_size": {
+                    "description": "每页数量",
                     "type": "integer"
                 },
                 "sorts": {
+                    "description": "排序",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -9179,9 +9190,11 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "page": {
+                    "description": "当前页码",
                     "type": "integer"
                 },
                 "page_size": {
+                    "description": "每页数量",
                     "type": "integer"
                 },
                 "parent_id": {
@@ -9189,6 +9202,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "sorts": {
+                    "description": "排序",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -9208,12 +9222,15 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "page": {
+                    "description": "当前页码",
                     "type": "integer"
                 },
                 "page_size": {
+                    "description": "每页数量",
                     "type": "integer"
                 },
                 "sorts": {
+                    "description": "排序",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -9225,12 +9242,15 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "page": {
+                    "description": "当前页码",
                     "type": "integer"
                 },
                 "page_size": {
+                    "description": "每页数量",
                     "type": "integer"
                 },
                 "sorts": {
+                    "description": "排序",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -9251,12 +9271,15 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "page": {
+                    "description": "当前页码",
                     "type": "integer"
                 },
                 "page_size": {
+                    "description": "每页数量",
                     "type": "integer"
                 },
                 "sorts": {
+                    "description": "排序",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -9268,12 +9291,15 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "page": {
+                    "description": "当前页码",
                     "type": "integer"
                 },
                 "page_size": {
+                    "description": "每页数量",
                     "type": "integer"
                 },
                 "sorts": {
+                    "description": "排序",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -9289,12 +9315,15 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "page": {
+                    "description": "当前页码",
                     "type": "integer"
                 },
                 "page_size": {
+                    "description": "每页数量",
                     "type": "integer"
                 },
                 "sorts": {
+                    "description": "排序",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -10259,169 +10288,6 @@ const docTemplate = `{
         "types.CleanMenuReq": {
             "type": "object"
         },
-        "types.Comment": {
-            "type": "object",
-            "properties": {
-                "comment_content": {
-                    "description": "评论内容",
-                    "type": "string"
-                },
-                "comment_reply_list": {
-                    "description": "评论回复列表",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/types.CommentReply"
-                    }
-                },
-                "created_at": {
-                    "description": "评论时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "评论id",
-                    "type": "integer"
-                },
-                "ip_address": {
-                    "description": "IP地址",
-                    "type": "string"
-                },
-                "ip_source": {
-                    "description": "IP归属地",
-                    "type": "string"
-                },
-                "like_count": {
-                    "description": "点赞数",
-                    "type": "integer"
-                },
-                "parent_id": {
-                    "description": "父评论id",
-                    "type": "integer"
-                },
-                "reply_count": {
-                    "description": "回复量",
-                    "type": "integer"
-                },
-                "reply_id": {
-                    "description": "会话id",
-                    "type": "integer"
-                },
-                "reply_user": {
-                    "description": "被回复评论用户",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoVO"
-                        }
-                    ]
-                },
-                "reply_user_id": {
-                    "description": "被回复用户id",
-                    "type": "string"
-                },
-                "topic_id": {
-                    "description": "主题id",
-                    "type": "integer"
-                },
-                "type": {
-                    "description": "评论类型 1.文章 2.友链 3.说说",
-                    "type": "integer"
-                },
-                "user": {
-                    "description": "评论用户",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoVO"
-                        }
-                    ]
-                },
-                "user_id": {
-                    "description": "用户id",
-                    "type": "string"
-                }
-            }
-        },
-        "types.CommentReply": {
-            "type": "object",
-            "properties": {
-                "comment_content": {
-                    "description": "评论内容",
-                    "type": "string"
-                },
-                "created_at": {
-                    "description": "评论时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "评论id",
-                    "type": "integer"
-                },
-                "ip_address": {
-                    "description": "IP地址",
-                    "type": "string"
-                },
-                "ip_source": {
-                    "description": "IP归属地",
-                    "type": "string"
-                },
-                "like_count": {
-                    "description": "点赞数",
-                    "type": "integer"
-                },
-                "parent_id": {
-                    "description": "父评论id",
-                    "type": "integer"
-                },
-                "reply_id": {
-                    "description": "会话id",
-                    "type": "integer"
-                },
-                "reply_user": {
-                    "description": "被回复评论用户",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoVO"
-                        }
-                    ]
-                },
-                "reply_user_id": {
-                    "description": "被回复用户id",
-                    "type": "string"
-                },
-                "topic_id": {
-                    "description": "主题id",
-                    "type": "integer"
-                },
-                "type": {
-                    "description": "评论类型 1.文章 2.友链 3.说说",
-                    "type": "integer"
-                },
-                "user": {
-                    "description": "用户信息",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoVO"
-                        }
-                    ]
-                },
-                "user_id": {
-                    "description": "用户id",
-                    "type": "string"
-                }
-            }
-        },
-        "types.CommentReviewReq": {
-            "type": "object",
-            "properties": {
-                "ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "is_review": {
-                    "type": "integer"
-                }
-            }
-        },
         "types.FriendBackVO": {
             "type": "object",
             "properties": {
@@ -10830,7 +10696,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "status": {
-                    "description": "状态 0.正常 1.已编辑 2.已删除",
+                    "description": "状态",
                     "type": "integer"
                 },
                 "topic_id": {
@@ -11270,12 +11136,15 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "page": {
+                    "description": "当前页码",
                     "type": "integer"
                 },
                 "page_size": {
+                    "description": "每页数量",
                     "type": "integer"
                 },
                 "sorts": {
+                    "description": "排序",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -11291,12 +11160,15 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "page": {
+                    "description": "当前页码",
                     "type": "integer"
                 },
                 "page_size": {
+                    "description": "每页数量",
                     "type": "integer"
                 },
                 "sorts": {
+                    "description": "排序",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -11312,12 +11184,15 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "page": {
+                    "description": "当前页码",
                     "type": "integer"
                 },
                 "page_size": {
+                    "description": "每页数量",
                     "type": "integer"
                 },
                 "sorts": {
+                    "description": "排序",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -11588,70 +11463,6 @@ const docTemplate = `{
                 }
             }
         },
-        "types.Remark": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "description": "发布时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "主键id",
-                    "type": "integer"
-                },
-                "ip_address": {
-                    "description": "IP地址",
-                    "type": "string"
-                },
-                "ip_source": {
-                    "description": "IP归属地",
-                    "type": "string"
-                },
-                "is_review": {
-                    "description": "是否审核",
-                    "type": "integer"
-                },
-                "message_content": {
-                    "description": "留言内容",
-                    "type": "string"
-                },
-                "terminal_id": {
-                    "description": "终端id",
-                    "type": "string"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                },
-                "user": {
-                    "description": "用户信息",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoVO"
-                        }
-                    ]
-                },
-                "user_id": {
-                    "description": "用户id",
-                    "type": "string"
-                }
-            }
-        },
-        "types.RemarkReviewReq": {
-            "type": "object",
-            "properties": {
-                "ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "is_review": {
-                    "description": "是否审核",
-                    "type": "integer"
-                }
-            }
-        },
         "types.RoleBackVO": {
             "type": "object",
             "properties": {
@@ -11820,17 +11631,17 @@ const docTemplate = `{
                     "description": "更新时间",
                     "type": "integer"
                 },
-                "user": {
+                "user_id": {
+                    "description": "用户ID",
+                    "type": "string"
+                },
+                "user_info": {
                     "description": "用户信息",
                     "allOf": [
                         {
                             "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_blog_types.UserInfoVO"
                         }
                     ]
-                },
-                "user_id": {
-                    "description": "用户ID",
-                    "type": "string"
                 }
             }
         },
@@ -11876,17 +11687,17 @@ const docTemplate = `{
                     "description": "更新时间",
                     "type": "integer"
                 },
-                "user": {
+                "user_id": {
+                    "description": "用户ID",
+                    "type": "string"
+                },
+                "user_info": {
                     "description": "用户信息",
                     "allOf": [
                         {
                             "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_api_admin_types.UserInfoVO"
                         }
                     ]
-                },
-                "user_id": {
-                    "description": "用户ID",
-                    "type": "string"
                 }
             }
         },
@@ -11985,7 +11796,22 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "status": {
-                    "description": "状态 0.正常 1.已编辑 2.已删除",
+                    "description": "状态",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.UpdateCommentStatusReq": {
+            "type": "object",
+            "properties": {
+                "ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "status": {
+                    "description": "状态",
                     "type": "integer"
                 }
             }
@@ -12002,6 +11828,21 @@ const docTemplate = `{
                 },
                 "is_delete": {
                     "description": "是否删除",
+                    "type": "integer"
+                }
+            }
+        },
+        "types.UpdateRemarkStatusReq": {
+            "type": "object",
+            "properties": {
+                "ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "status": {
+                    "description": "状态",
                     "type": "integer"
                 }
             }

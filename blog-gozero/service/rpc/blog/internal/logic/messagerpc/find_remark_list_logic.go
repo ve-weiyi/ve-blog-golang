@@ -35,12 +35,12 @@ func (l *FindRemarkListLogic) FindRemarkList(in *messagerpc.FindRemarkListReq) (
 		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
 	}
 
-	if in.Nickname != "" {
-		opts = append(opts, query.WithCondition("nickname like ?", "%"+in.Nickname+"%"))
+	if in.UserId != "" {
+		opts = append(opts, query.WithCondition("user_id = ?", in.UserId))
 	}
 
-	if in.IsReview >= 0 {
-		opts = append(opts, query.WithCondition("is_review = ?", in.IsReview))
+	if in.Status >= 0 {
+		opts = append(opts, query.WithCondition("status = ?", in.Status))
 	}
 
 	page, size, sorts, conditions, params := query.NewQueryBuilder(opts...).Build()
@@ -70,9 +70,7 @@ func convertRemarkOut(in *model.TRemark) (out *messagerpc.RemarkDetailsResp) {
 		UserId:         in.UserId,
 		TerminalId:     in.TerminalId,
 		MessageContent: in.MessageContent,
-		IpAddress:      in.IpAddress,
-		IpSource:       in.IpSource,
-		IsReview:       in.IsReview,
+		Status:         in.Status,
 		CreatedAt:      in.CreatedAt.Unix(),
 		UpdatedAt:      in.UpdatedAt.Unix(),
 	}

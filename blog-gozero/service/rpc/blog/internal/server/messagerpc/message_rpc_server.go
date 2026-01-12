@@ -41,12 +41,6 @@ func (s *MessageRpcServer) UpdateChat(ctx context.Context, in *messagerpc.Update
 	return l.UpdateChat(in)
 }
 
-// 更新聊天记录状态
-func (s *MessageRpcServer) UpdateChatStatus(ctx context.Context, in *messagerpc.UpdateChatStatusReq) (*messagerpc.ChatDetailsResp, error) {
-	l := messagerpclogic.NewUpdateChatStatusLogic(ctx, s.svcCtx)
-	return l.UpdateChatStatus(in)
-}
-
 // 查询聊天记录
 func (s *MessageRpcServer) GetChat(ctx context.Context, in *messagerpc.IdReq) (*messagerpc.ChatDetailsResp, error) {
 	l := messagerpclogic.NewGetChatLogic(ctx, s.svcCtx)
@@ -95,10 +89,10 @@ func (s *MessageRpcServer) FindRemarkList(ctx context.Context, in *messagerpc.Fi
 	return l.FindRemarkList(in)
 }
 
-// 更新留言审核状态
-func (s *MessageRpcServer) UpdateRemarkReview(ctx context.Context, in *messagerpc.UpdateRemarkReviewReq) (*messagerpc.BatchResp, error) {
-	l := messagerpclogic.NewUpdateRemarkReviewLogic(ctx, s.svcCtx)
-	return l.UpdateRemarkReview(in)
+// 更新留言状态
+func (s *MessageRpcServer) UpdateRemarkStatus(ctx context.Context, in *messagerpc.UpdateRemarkStatusReq) (*messagerpc.BatchResp, error) {
+	l := messagerpclogic.NewUpdateRemarkStatusLogic(ctx, s.svcCtx)
+	return l.UpdateRemarkStatus(in)
 }
 
 // 创建评论
@@ -143,16 +137,10 @@ func (s *MessageRpcServer) FindCommentReplyCounts(ctx context.Context, in *messa
 	return l.FindCommentReplyCounts(in)
 }
 
-// 更新评论审核状态
-func (s *MessageRpcServer) UpdateCommentReview(ctx context.Context, in *messagerpc.UpdateCommentReviewReq) (*messagerpc.BatchResp, error) {
-	l := messagerpclogic.NewUpdateCommentReviewLogic(ctx, s.svcCtx)
-	return l.UpdateCommentReview(in)
-}
-
-// 更新评论内容
-func (s *MessageRpcServer) UpdateCommentContent(ctx context.Context, in *messagerpc.UpdateCommentContentReq) (*messagerpc.CommentDetailsResp, error) {
-	l := messagerpclogic.NewUpdateCommentContentLogic(ctx, s.svcCtx)
-	return l.UpdateCommentContent(in)
+// 更新评论状态
+func (s *MessageRpcServer) UpdateCommentStatus(ctx context.Context, in *messagerpc.UpdateCommentStatusReq) (*messagerpc.BatchResp, error) {
+	l := messagerpclogic.NewUpdateCommentStatusLogic(ctx, s.svcCtx)
+	return l.UpdateCommentStatus(in)
 }
 
 // 点赞评论

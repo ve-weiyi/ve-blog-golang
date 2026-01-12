@@ -9,24 +9,24 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type UpdateCommentReviewLogic struct {
+type UpdateRemarkStatusLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewUpdateCommentReviewLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateCommentReviewLogic {
-	return &UpdateCommentReviewLogic{
+func NewUpdateRemarkStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateRemarkStatusLogic {
+	return &UpdateRemarkStatusLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 更新评论审核状态
-func (l *UpdateCommentReviewLogic) UpdateCommentReview(in *messagerpc.UpdateCommentReviewReq) (*messagerpc.BatchResp, error) {
-	rows, err := l.svcCtx.TCommentModel.Updates(l.ctx, map[string]interface{}{
-		"is_review": in.IsReview,
+// 更新留言状态
+func (l *UpdateRemarkStatusLogic) UpdateRemarkStatus(in *messagerpc.UpdateRemarkStatusReq) (*messagerpc.BatchResp, error) {
+	rows, err := l.svcCtx.TRemarkModel.Updates(l.ctx, map[string]interface{}{
+		"status": in.Status,
 	}, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err

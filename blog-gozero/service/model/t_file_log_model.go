@@ -37,16 +37,17 @@ type (
 
 	// 表字段定义
 	TFileLog struct {
-		Id        int64     `json:"id" gorm:"column:id"`                 // id
-		UserId    string    `json:"user_id" gorm:"column:user_id"`       // 用户id
-		FilePath  string    `json:"file_path" gorm:"column:file_path"`   // 文件路径
-		FileName  string    `json:"file_name" gorm:"column:file_name"`   // 文件名称
-		FileType  string    `json:"file_type" gorm:"column:file_type"`   // 文件类型
-		FileSize  int64     `json:"file_size" gorm:"column:file_size"`   // 文件大小
-		FileMd5   string    `json:"file_md5" gorm:"column:file_md5"`     // 文件md5值
-		FileUrl   string    `json:"file_url" gorm:"column:file_url"`     // 上传路径
-		CreatedAt time.Time `json:"created_at" gorm:"column:created_at"` // 创建时间
-		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"` // 更新时间
+		Id         int64     `json:"id" gorm:"column:id"`                   // id
+		UserId     string    `json:"user_id" gorm:"column:user_id"`         // 用户id
+		TerminalId string    `json:"terminal_id" gorm:"column:terminal_id"` // 设备id
+		FilePath   string    `json:"file_path" gorm:"column:file_path"`     // 文件路径
+		FileName   string    `json:"file_name" gorm:"column:file_name"`     // 文件名称
+		FileType   string    `json:"file_type" gorm:"column:file_type"`     // 文件类型
+		FileSize   int64     `json:"file_size" gorm:"column:file_size"`     // 文件大小
+		FileMd5    string    `json:"file_md5" gorm:"column:file_md5"`       // 文件md5值
+		FileUrl    string    `json:"file_url" gorm:"column:file_url"`       // 上传路径
+		CreatedAt  time.Time `json:"created_at" gorm:"column:created_at"`   // 创建时间
+		UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at"`   // 更新时间
 	}
 
 	// 接口实现

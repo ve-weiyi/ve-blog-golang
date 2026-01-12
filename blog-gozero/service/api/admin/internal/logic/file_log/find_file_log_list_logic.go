@@ -43,21 +43,48 @@ func (l *FindFileLogListLogic) FindFileLogList(req *types.QueryFileLogReq) (resp
 		return nil, err
 	}
 
-	var uids []string
-	for _, v := range out.List {
-		uids = append(uids, v.UserId)
+	// 获取用户信息
+	usm, err := apiutils.BatchQuery(out.List,
+		func(v *syslogrpc.FileLogDetailsResp) string {
+			return v.UserId
+		},
+		func(ids []string) (map[string]*types.UserInfoVO, error) {
+			return apiutils.GetUserInfos(l.ctx, l.svcCtx, ids)
+		},
+	)
+	if err != nil {
+		return nil, err
 	}
 
-	// 获取用户信息
-	usm, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, uids)
+	// 查询访客信息
+	vsm, err := apiutils.BatchQuery(out.List,
+		func(v *syslogrpc.FileLogDetailsResp) string {
+			return v.TerminalId
+		},
+		func(ids []string) (map[string]*types.ClientInfoVO, error) {
+			return apiutils.GetVisitorInfos(l.ctx, l.svcCtx, ids)
+		},
+	)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*types.FileLogBackVO
 	for _, v := range out.List {
-		m := ConvertFileLogTypes(v, usm)
-		list = append(list, m)
+		list = append(list, &types.FileLogBackVO{
+			Id:         v.Id,
+			UserId:     v.UserId,
+			FilePath:   v.FilePath,
+			FileName:   v.FileName,
+			FileType:   v.FileType,
+			FileSize:   v.FileSize,
+			FileMd5:    v.FileMd5,
+			FileUrl:    v.FileUrl,
+			CreatedAt:  v.CreatedAt,
+			UpdatedAt:  v.UpdatedAt,
+			UserInfo:   usm[v.UserId],
+			ClientInfo: vsm[v.TerminalId],
+		})
 	}
 
 	resp = &types.PageResp{}
@@ -66,29 +93,4 @@ func (l *FindFileLogListLogic) FindFileLogList(req *types.QueryFileLogReq) (resp
 	resp.Total = out.Pagination.Total
 	resp.List = list
 	return resp, nil
-}
-
-func ConvertFileLogTypes(in *syslogrpc.FileLogDetailsResp, usm map[string]*types.UserInfoVO) (out *types.FileLogBackVO) {
-	out = &types.FileLogBackVO{
-		Id:        in.Id,
-		UserId:    in.UserId,
-		FilePath:  in.FilePath,
-		FileName:  in.FileName,
-		FileType:  in.FileType,
-		FileSize:  in.FileSize,
-		FileMd5:   in.FileMd5,
-		FileUrl:   in.FileUrl,
-		CreatedAt: in.CreatedAt,
-		UpdatedAt: in.UpdatedAt,
-	}
-
-	// 用户信息
-	if in.UserId != "" {
-		user, ok := usm[in.UserId]
-		if ok && user != nil {
-			out.Creator = user
-		}
-	}
-
-	return
 }

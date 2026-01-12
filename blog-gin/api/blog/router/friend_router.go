@@ -18,10 +18,9 @@ func NewFriendRouter(svcCtx *svctx.ServiceContext) *FriendRouter {
 
 func (s *FriendRouter) Register(r *gin.RouterGroup) {
 	// Friend
-	// [TerminalToken]
+	// []
 	{
 		group := r.Group("/blog-api/v1")
-		group.Use(s.svcCtx.TerminalToken)
 
 		h := handler.NewFriendController(s.svcCtx)
 		// 分页获取友链列表

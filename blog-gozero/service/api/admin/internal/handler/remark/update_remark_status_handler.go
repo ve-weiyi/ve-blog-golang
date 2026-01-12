@@ -12,16 +12,16 @@ import (
 )
 
 // 更新留言
-func UpdateRemarkReviewHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func UpdateRemarkStatusHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.RemarkReviewReq
+		var req types.UpdateRemarkStatusReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := remark.NewUpdateRemarkReviewLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateRemarkReview(&req)
+		l := remark.NewUpdateRemarkStatusLogic(r.Context(), svcCtx)
+		resp, err := l.UpdateRemarkStatus(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

@@ -82,23 +82,23 @@ func (s *CommentController) FindCommentBackList(c *gin.Context) {
 // @Summary		"更新评论审核状态"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		types.CommentReviewReq		true	"请求参数"
+// @Param		data	body		types.UpdateCommentStatusReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=types.BatchResp}	"返回信息"
 // @Router		/admin-api/v1/comment/update_comment_review [PUT]
-func (s *CommentController) UpdateCommentReview(c *gin.Context) {
+func (s *CommentController) UpdateCommentStatus(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *types.CommentReviewReq
+	var req *types.UpdateCommentStatusReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := logic.NewCommentLogic(s.svcCtx).UpdateCommentReview(reqCtx, req)
+	data, err := logic.NewCommentLogic(s.svcCtx).UpdateCommentStatus(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

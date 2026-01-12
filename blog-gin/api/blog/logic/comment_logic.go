@@ -38,7 +38,7 @@ func (s *CommentLogic) FindCommentReplyList(reqCtx *request.Context, in *types.Q
 }
 
 // 创建评论
-func (s *CommentLogic) AddComment(reqCtx *request.Context, in *types.NewCommentReq) (out *types.Comment, err error) {
+func (s *CommentLogic) AddComment(reqCtx *request.Context, in *types.NewCommentReq) (out *types.EmptyResp, err error) {
 	// todo
 
 	return
@@ -52,7 +52,7 @@ func (s *CommentLogic) LikeComment(reqCtx *request.Context, in *types.IdReq) (ou
 }
 
 // 更新评论
-func (s *CommentLogic) UpdateComment(reqCtx *request.Context, in *types.UpdateCommentReq) (out *types.Comment, err error) {
+func (s *CommentLogic) UpdateComment(reqCtx *request.Context, in *types.UpdateCommentReq) (out *types.EmptyResp, err error) {
 	// todo
 
 	return

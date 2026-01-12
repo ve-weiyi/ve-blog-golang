@@ -18,11 +18,10 @@ type (
 )
 
 @server (
-	tags:       "友链"
-	prefix:     /blog-api/v1
-	group:      friend
-	authType:   apiKey
-	middleware: TerminalToken
+	tags:     "友链"
+	prefix:   /blog-api/v1
+	group:    friend
+	authType: apiKey
 )
 service blog-api {
 	@doc "分页获取友链列表"
