@@ -122,7 +122,7 @@ func (m *OperationLogMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc 
 			desc = api.OperationProps.Summary
 		}
 
-		op := &syslogrpc.NewOperationLogReq{
+		op := &syslogrpc.AddOperationLogReq{
 			UserId:         r.Header.Get(bizheader.HeaderUid),
 			TerminalId:     r.Header.Get(bizheader.HeaderXTerminalId),
 			OptModule:      module,

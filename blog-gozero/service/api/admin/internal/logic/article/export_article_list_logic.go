@@ -39,7 +39,7 @@ func (l *ExportArticleListLogic) ExportArticleList(req *types.IdsReq) (resp *typ
 
 	var list []*types.ArticleBackVO
 	for _, v := range out.List {
-		m := ConvertArticleTypes(v)
+		m := convertArticleTypes(v)
 		list = append(list, m)
 	}
 

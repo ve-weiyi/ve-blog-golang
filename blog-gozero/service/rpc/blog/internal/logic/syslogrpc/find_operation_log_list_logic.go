@@ -34,7 +34,7 @@ func (l *FindOperationLogListLogic) FindOperationLogList(in *syslogrpc.FindOpera
 		return nil, err
 	}
 
-	var list []*syslogrpc.OperationLogDetailsResp
+	var list []*syslogrpc.OperationLog
 	for _, v := range records {
 		list = append(list, convertOperationLogOut(v))
 	}
@@ -64,8 +64,8 @@ func convertOperationLogQuery(in *syslogrpc.FindOperationLogListReq) (page int, 
 	return query.NewQueryBuilder(opts...).Build()
 }
 
-func convertOperationLogOut(in *model.TOperationLog) (out *syslogrpc.OperationLogDetailsResp) {
-	out = &syslogrpc.OperationLogDetailsResp{
+func convertOperationLogOut(in *model.TOperationLog) (out *syslogrpc.OperationLog) {
+	out = &syslogrpc.OperationLog{
 		Id:             in.Id,
 		UserId:         in.UserId,
 		TerminalId:     in.TerminalId,

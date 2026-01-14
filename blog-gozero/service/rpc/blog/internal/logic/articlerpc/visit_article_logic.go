@@ -27,7 +27,7 @@ func NewVisitArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Visi
 }
 
 // 访问文章
-func (l *VisitArticleLogic) VisitArticle(in *articlerpc.IdReq) (*articlerpc.VisitArticleResp, error) {
+func (l *VisitArticleLogic) VisitArticle(in *articlerpc.VisitArticleReq) (*articlerpc.VisitArticleResp, error) {
 	record, err := l.svcCtx.TArticleModel.FindById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err

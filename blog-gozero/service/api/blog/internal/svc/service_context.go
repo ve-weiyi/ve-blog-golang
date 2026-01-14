@@ -42,7 +42,7 @@ type ServiceContext struct {
 	SyslogRpc     syslogrpc.SyslogRpc
 
 	Redis       *redis.Redis
-	Uploader    oss.OSS
+	Uploader    oss.Uploader
 	TokenHolder tokenx.TokenHolder
 
 	StompHubServer *client.StompHubServer

@@ -26,19 +26,8 @@ func NewAddPageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPageLo
 }
 
 // 创建页面
-func (l *AddPageLogic) AddPage(in *resourcerpc.NewPageReq) (*resourcerpc.PageDetailsResp, error) {
-	entity := convertPageIn(in)
-
-	_, err := l.svcCtx.TPageModel.Insert(l.ctx, entity)
-	if err != nil {
-		return nil, err
-	}
-
-	return convertPageOut(entity), nil
-}
-
-func convertPageIn(in *resourcerpc.NewPageReq) (out *model.TPage) {
-	out = &model.TPage{
+func (l *AddPageLogic) AddPage(in *resourcerpc.AddPageReq) (*resourcerpc.AddPageResp, error) {
+	entity := &model.TPage{
 		Id:             in.Id,
 		PageName:       in.PageName,
 		PageLabel:      in.PageLabel,
@@ -47,12 +36,18 @@ func convertPageIn(in *resourcerpc.NewPageReq) (out *model.TPage) {
 		CarouselCovers: jsonconv.AnyToJsonNE(in.CarouselCovers),
 	}
 
-	return out
+	_, err := l.svcCtx.TPageModel.Insert(l.ctx, entity)
+	if err != nil {
+		return nil, err
+	}
 
+	return &resourcerpc.AddPageResp{
+		Page: convertPageOut(entity),
+	}, nil
 }
 
-func convertPageOut(in *model.TPage) (out *resourcerpc.PageDetailsResp) {
-	out = &resourcerpc.PageDetailsResp{
+func convertPageOut(in *model.TPage) (out *resourcerpc.Page) {
+	out = &resourcerpc.Page{
 		Id:             in.Id,
 		PageName:       in.PageName,
 		PageLabel:      in.PageLabel,

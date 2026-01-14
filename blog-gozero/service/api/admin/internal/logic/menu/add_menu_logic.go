@@ -28,25 +28,25 @@ func NewAddMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddMenuLo
 }
 
 func (l *AddMenuLogic) AddMenu(req *types.NewMenuReq) (resp *types.MenuBackVO, err error) {
-	in := ConvertMenuPb(req)
+	in := convertMenuPb(req)
 	out, err := l.svcCtx.PermissionRpc.AddMenu(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	resp = ConvertMenuTypes(out)
+	resp = convertMenuTypes(out.Menu)
 	return resp, nil
 }
 
-func ConvertMenuPb(in *types.NewMenuReq) (out *permissionrpc.NewMenuReq) {
-	var children []*permissionrpc.NewMenuReq
+func convertMenuPb(in *types.NewMenuReq) (out *permissionrpc.AddMenuReq) {
+	var children []*permissionrpc.AddMenuReq
 	if in.Children != nil {
 		for _, v := range in.Children {
-			children = append(children, ConvertMenuPb(v))
+			children = append(children, convertMenuPb(v))
 		}
 	}
 
-	out = &permissionrpc.NewMenuReq{
+	out = &permissionrpc.AddMenuReq{
 		Id:        in.Id,
 		ParentId:  in.ParentId,
 		Path:      in.Path,
@@ -71,11 +71,11 @@ func ConvertMenuPb(in *types.NewMenuReq) (out *permissionrpc.NewMenuReq) {
 	return
 }
 
-func ConvertMenuTypes(in *permissionrpc.MenuDetailsResp) (out *types.MenuBackVO) {
+func convertMenuTypes(in *permissionrpc.Menu) (out *types.MenuBackVO) {
 	var children []*types.MenuBackVO
 	if in.Children != nil {
 		for _, v := range in.Children {
-			children = append(children, ConvertMenuTypes(v))
+			children = append(children, convertMenuTypes(v))
 		}
 	}
 

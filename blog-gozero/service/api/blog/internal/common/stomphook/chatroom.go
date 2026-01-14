@@ -43,7 +43,7 @@ func (h *ChatRoomEventHook) OnConnect(server *client.StompHubServer, c *client.C
 	// 用户登录
 	if login != "" {
 		// 加载用户信息
-		userInfo, err := h.AccountRpc.GetUserInfo(context.Background(), &accountrpc.UserIdReq{
+		userInfo, err := h.AccountRpc.GetUserInfo(context.Background(), &accountrpc.GetUserInfoReq{
 			UserId: login,
 		})
 		if err == nil {
@@ -201,7 +201,7 @@ func (h *ChatRoomEventHook) OnSend(server *client.StompHubServer, c *client.Clie
 		// 获取用户信息
 		userInfo, ok := h.onlineUser.Load(clientId)
 		if ok {
-			user, okk := userInfo.(*accountrpc.UserInfoResp)
+			user, okk := userInfo.(*accountrpc.UserInfo)
 			if okk {
 				userId = user.UserId
 				nickname = user.Nickname
@@ -209,7 +209,7 @@ func (h *ChatRoomEventHook) OnSend(server *client.StompHubServer, c *client.Clie
 			}
 		}
 
-		msg, err := h.MessageRpc.AddChat(context.Background(), &messagerpc.AddChatReq{
+		out, err := h.MessageRpc.AddChat(context.Background(), &messagerpc.AddChatReq{
 			UserId:     userId,
 			TerminalId: clientId,
 			IpAddress:  ip,
@@ -230,18 +230,18 @@ func (h *ChatRoomEventHook) OnSend(server *client.StompHubServer, c *client.Clie
 			Type: MessageTypeMessage,
 			Data: jsonconv.AnyToJsonNE(
 				ChatMessageEvent{
-					Id:         msg.Id,
-					UserId:     msg.UserId,
-					TerminalId: msg.TerminalId,
-					Nickname:   msg.Nickname,
-					Avatar:     msg.Avatar,
-					IpAddress:  msg.IpAddress,
-					IpSource:   msg.IpSource,
-					Type:       msg.Type,
-					Content:    msg.Content,
-					Status:     msg.Status,
-					CreatedAt:  msg.CreatedAt,
-					UpdatedAt:  msg.UpdatedAt,
+					Id:         out.Chat.Id,
+					UserId:     out.Chat.UserId,
+					TerminalId: out.Chat.TerminalId,
+					Nickname:   out.Chat.Nickname,
+					Avatar:     out.Chat.Avatar,
+					IpAddress:  out.Chat.IpAddress,
+					IpSource:   out.Chat.IpSource,
+					Type:       out.Chat.Type,
+					Content:    out.Chat.Content,
+					Status:     out.Chat.Status,
+					CreatedAt:  out.Chat.CreatedAt,
+					UpdatedAt:  out.Chat.UpdatedAt,
 				}),
 			TimeStamp: time.Now().Unix(),
 		}))
@@ -252,7 +252,7 @@ func (h *ChatRoomEventHook) OnSend(server *client.StompHubServer, c *client.Clie
 		var edit EditMessageEvent
 		jsonconv.JsonToAny(event.Data, &edit)
 		// 2. 更新数据库
-		msg, err := h.MessageRpc.UpdateChat(context.Background(), &messagerpc.UpdateChatReq{
+		out, err := h.MessageRpc.UpdateChat(context.Background(), &messagerpc.UpdateChatReq{
 			Id:      edit.Id,
 			Type:    edit.Type,
 			Content: edit.Content,
@@ -267,11 +267,11 @@ func (h *ChatRoomEventHook) OnSend(server *client.StompHubServer, c *client.Clie
 			Type: MessageTypeEdit,
 			Data: jsonconv.AnyToJsonNE(
 				EditMessageEvent{
-					Id:        msg.Id,
-					Type:      msg.Type,
-					Content:   msg.Content,
-					Status:    msg.Status,
-					UpdatedAt: msg.UpdatedAt,
+					Id:        out.Chat.Id,
+					Type:      out.Chat.Type,
+					Content:   out.Chat.Content,
+					Status:    out.Chat.Status,
+					UpdatedAt: out.Chat.UpdatedAt,
 				}),
 			TimeStamp: time.Now().Unix(),
 		}))

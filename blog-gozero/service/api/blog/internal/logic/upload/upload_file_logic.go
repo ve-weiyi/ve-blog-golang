@@ -38,7 +38,7 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) 
 		return nil, err
 	}
 
-	in := &syslogrpc.NewFileLogReq{
+	in := &syslogrpc.AddFileLogReq{
 		FilePath: req.FilePath,
 		FileName: h.Filename,
 		FileType: filepath.Ext(h.Filename),
@@ -54,10 +54,10 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) 
 
 	return &types.FileInfoVO{
 		FilePath:  req.FilePath,
-		FileName:  out.FileName,
-		FileType:  out.FileType,
-		FileSize:  out.FileSize,
-		FileUrl:   out.FileUrl,
-		UpdatedAt: out.UpdatedAt,
+		FileName:  out.FileLog.FileName,
+		FileType:  out.FileLog.FileType,
+		FileSize:  out.FileLog.FileSize,
+		FileUrl:   out.FileLog.FileUrl,
+		UpdatedAt: out.FileLog.UpdatedAt,
 	}, nil
 }

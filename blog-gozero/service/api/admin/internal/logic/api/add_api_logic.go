@@ -26,7 +26,7 @@ func NewAddApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddApiLogi
 }
 
 func (l *AddApiLogic) AddApi(req *types.NewApiReq) (resp *types.ApiBackVO, err error) {
-	in := &permissionrpc.NewApiReq{
+	in := &permissionrpc.AddApiReq{
 		Id:        req.Id,
 		ParentId:  req.ParentId,
 		Path:      req.Path,
@@ -42,10 +42,10 @@ func (l *AddApiLogic) AddApi(req *types.NewApiReq) (resp *types.ApiBackVO, err e
 		return nil, err
 	}
 
-	return convertApiTypes(out), nil
+	return convertApiTypes(out.Api), nil
 }
 
-func convertApiTypes(req *permissionrpc.ApiDetailsResp) *types.ApiBackVO {
+func convertApiTypes(req *permissionrpc.Api) *types.ApiBackVO {
 
 	children := make([]*types.ApiBackVO, 0)
 	for _, v := range req.Children {

@@ -9,7 +9,7 @@ import (
 )
 
 type Local struct {
-	cfg *Config
+	dir string
 }
 
 func (s *Local) UploadFile(f io.Reader, prefix string, filename string) (filepath string, err error) {
@@ -35,11 +35,11 @@ func (s *Local) UploadFile(f io.Reader, prefix string, filename string) (filepat
 		return "", fmt.Errorf("Local.UploadHttpFile io.Copy() Filed, err:" + copyErr.Error())
 	}
 
-	return s.cfg.BucketUrl + "/" + key, nil
+	return s.dir + "/" + key, nil
 }
 
 func (s *Local) DeleteFile(filepath string) error {
-	p := s.cfg.BucketUrl + "/" + filepath
+	p := s.dir + "/" + filepath
 
 	if err := os.Remove(p); err != nil {
 		return fmt.Errorf("本地文件删除失败, err: %v" + err.Error())
@@ -61,7 +61,7 @@ func (s *Local) ListFiles(prefix string, limit int) (files []*FileInfo, err erro
 			FileName: info.Name(),
 			FileType: path.Ext(info.Name()),
 			FileSize: info.Size(),
-			FileUrl:  s.cfg.BucketUrl + "/" + filepath,
+			FileUrl:  s.dir + "/" + filepath,
 			UpTime:   info.ModTime().UnixMilli(),
 		}
 		files = append(files, f)
@@ -82,8 +82,8 @@ func (s *Local) ListFiles(prefix string, limit int) (files []*FileInfo, err erro
 	return files, nil
 }
 
-func NewLocal(cfg *Config) *Local {
+func NewLocal(dir string) *Local {
 	return &Local{
-		cfg: cfg,
+		dir: dir,
 	}
 }

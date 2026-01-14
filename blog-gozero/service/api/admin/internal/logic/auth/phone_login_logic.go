@@ -43,8 +43,8 @@ func (l *PhoneLoginLogic) PhoneLogin(req *types.PhoneLoginReq) (resp *types.Logi
 	}
 
 	// 登录日志
-	_, err = l.svcCtx.SyslogRpc.AddLoginLog(l.ctx, &syslogrpc.NewLoginLogReq{
-		UserId:    out.UserId,
+	_, err = l.svcCtx.SyslogRpc.AddLoginLog(l.ctx, &syslogrpc.AddLoginLogReq{
+		UserId:    out.User.UserId,
 		LoginType: out.LoginType,
 	})
 

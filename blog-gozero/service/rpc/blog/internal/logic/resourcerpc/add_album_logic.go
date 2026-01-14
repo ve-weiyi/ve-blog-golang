@@ -25,19 +25,8 @@ func NewAddAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddAlbum
 }
 
 // 创建相册
-func (l *AddAlbumLogic) AddAlbum(in *resourcerpc.NewAlbumReq) (*resourcerpc.AlbumDetailsResp, error) {
-	entity := convertAlbumIn(in)
-
-	_, err := l.svcCtx.TAlbumModel.Insert(l.ctx, entity)
-	if err != nil {
-		return nil, err
-	}
-
-	return convertAlbumOut(entity, nil), nil
-}
-
-func convertAlbumIn(in *resourcerpc.NewAlbumReq) (out *model.TAlbum) {
-	out = &model.TAlbum{
+func (l *AddAlbumLogic) AddAlbum(in *resourcerpc.AddAlbumReq) (*resourcerpc.AddAlbumResp, error) {
+	entity := &model.TAlbum{
 		Id:         in.Id,
 		AlbumName:  in.AlbumName,
 		AlbumDesc:  in.AlbumDesc,
@@ -46,16 +35,23 @@ func convertAlbumIn(in *resourcerpc.NewAlbumReq) (out *model.TAlbum) {
 		Status:     in.Status,
 	}
 
-	return out
+	_, err := l.svcCtx.TAlbumModel.Insert(l.ctx, entity)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resourcerpc.AddAlbumResp{
+		Album: convertAlbumOut(entity, nil),
+	}, nil
 }
 
-func convertAlbumOut(in *model.TAlbum, cm map[int64]int) (out *resourcerpc.AlbumDetailsResp) {
+func convertAlbumOut(in *model.TAlbum, cm map[int64]int) (out *resourcerpc.Album) {
 	var count int
 	if v, ok := cm[in.Id]; ok {
 		count = v
 	}
 
-	out = &resourcerpc.AlbumDetailsResp{
+	out = &resourcerpc.Album{
 		Id:         in.Id,
 		AlbumName:  in.AlbumName,
 		AlbumDesc:  in.AlbumDesc,

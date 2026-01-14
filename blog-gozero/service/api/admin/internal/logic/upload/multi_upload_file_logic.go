@@ -43,7 +43,7 @@ func (l *MultiUploadFileLogic) MultiUploadFile(req *types.MultiUploadFileReq, r 
 			return nil, err
 		}
 
-		in := &syslogrpc.NewFileLogReq{
+		in := &syslogrpc.AddFileLogReq{
 			FilePath: req.FilePath,
 			FileName: h.Filename,
 			FileType: filepath.Ext(h.Filename),
@@ -59,11 +59,11 @@ func (l *MultiUploadFileLogic) MultiUploadFile(req *types.MultiUploadFileReq, r 
 
 		resp = append(resp, &types.FileInfoVO{
 			FilePath:  req.FilePath,
-			FileName:  out.FileName,
-			FileType:  out.FileType,
-			FileSize:  out.FileSize,
-			FileUrl:   out.FileUrl,
-			UpdatedAt: out.UpdatedAt,
+			FileName:  out.FileLog.FileName,
+			FileType:  out.FileLog.FileType,
+			FileSize:  out.FileLog.FileSize,
+			FileUrl:   out.FileLog.FileUrl,
+			UpdatedAt: out.FileLog.UpdatedAt,
 		})
 	}
 

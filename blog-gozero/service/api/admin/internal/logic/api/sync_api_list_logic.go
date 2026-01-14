@@ -43,7 +43,7 @@ func (l *SyncApiListLogic) SyncApiList(req *types.SyncApiReq) (resp *types.Batch
 	routes := getRoutes(sp)
 
 	// 分组
-	groups := make(map[string][]*permissionrpc.NewApiReq)
+	groups := make(map[string][]*permissionrpc.AddApiReq)
 	for k, v := range routes {
 		for m, o := range v {
 			if o != nil {
@@ -61,7 +61,7 @@ func (l *SyncApiListLogic) SyncApiList(req *types.SyncApiReq) (resp *types.Batch
 				default:
 					break
 				}
-				child := &permissionrpc.NewApiReq{
+				child := &permissionrpc.AddApiReq{
 					Id:        0,
 					ParentId:  0,
 					Path:      k,
@@ -81,9 +81,9 @@ func (l *SyncApiListLogic) SyncApiList(req *types.SyncApiReq) (resp *types.Batch
 		}
 	}
 
-	var list []*permissionrpc.NewApiReq
+	var list []*permissionrpc.AddApiReq
 	for g, children := range groups {
-		root := &permissionrpc.NewApiReq{
+		root := &permissionrpc.AddApiReq{
 			Id:        0,
 			ParentId:  0,
 			Path:      g,

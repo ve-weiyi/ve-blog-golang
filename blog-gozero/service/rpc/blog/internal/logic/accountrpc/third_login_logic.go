@@ -127,7 +127,7 @@ func (l *ThirdLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 
 // 生成唯一UID
 func generateUID(ctx context.Context, svcCtx *svc.ServiceContext, tx *gorm.DB) string {
-	uid := random.GenerateQQNumber()
+	uid := randomx.GenerateQQNumber()
 	user, _ := svcCtx.TUserModel.FindOneByUsername(ctx, uid)
 	if user != nil {
 		return generateUID(ctx, svcCtx, tx) // 如果用户已存在，继续生成新的UID

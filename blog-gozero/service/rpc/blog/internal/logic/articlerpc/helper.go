@@ -27,7 +27,7 @@ func NewArticleHelperLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Art
 	}
 }
 
-func convertCategoryIn(in *articlerpc.NewCategoryReq) (out *model.TCategory) {
+func convertCategoryIn(in *articlerpc.AddCategoryReq) (out *model.TCategory) {
 	out = &model.TCategory{
 		Id:           in.Id,
 		CategoryName: in.CategoryName,
@@ -36,7 +36,7 @@ func convertCategoryIn(in *articlerpc.NewCategoryReq) (out *model.TCategory) {
 	return out
 }
 
-func convertTagIn(in *articlerpc.NewTagReq) (out *model.TTag) {
+func convertTagIn(in *articlerpc.AddTagReq) (out *model.TTag) {
 	out = &model.TTag{
 		Id:      in.Id,
 		TagName: in.TagName,
@@ -273,7 +273,7 @@ func (l *ArticleHelperLogic) convertArticlePreviewOut(record *model.TArticle) (o
 	return out
 }
 
-func (l *ArticleHelperLogic) convertArticleDetailsResp(records []*model.TArticle) (out []*articlerpc.ArticleDetailsResp, err error) {
+func (l *ArticleHelperLogic) convertArticle(records []*model.TArticle) (out []*articlerpc.ArticleDetails, err error) {
 	acm, err := l.findCategoryGroupArticle(records)
 	if err != nil {
 		return nil, err
@@ -284,9 +284,9 @@ func (l *ArticleHelperLogic) convertArticleDetailsResp(records []*model.TArticle
 		return nil, err
 	}
 
-	var list []*articlerpc.ArticleDetailsResp
+	var list []*articlerpc.ArticleDetails
 	for _, entity := range records {
-		m := &articlerpc.ArticleDetailsResp{
+		m := &articlerpc.ArticleDetails{
 			Id:             entity.Id,
 			UserId:         entity.UserId,
 			CategoryId:     entity.CategoryId,
@@ -330,16 +330,16 @@ func (l *ArticleHelperLogic) convertArticleDetailsResp(records []*model.TArticle
 	return list, nil
 }
 
-func (l *ArticleHelperLogic) convertCategoryDetailsResp(records []*model.TCategory) (out []*articlerpc.CategoryDetailsResp, err error) {
+func (l *ArticleHelperLogic) convertCategory(records []*model.TCategory) (out []*articlerpc.CategoryDetails, err error) {
 	acm, err := l.findArticleCountGroupCategory(records)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*articlerpc.CategoryDetailsResp
+	var list []*articlerpc.CategoryDetails
 	for _, entity := range records {
 
-		m := &articlerpc.CategoryDetailsResp{
+		m := &articlerpc.CategoryDetails{
 			Id:           entity.Id,
 			CategoryName: entity.CategoryName,
 			ArticleCount: 0,
@@ -357,15 +357,15 @@ func (l *ArticleHelperLogic) convertCategoryDetailsResp(records []*model.TCatego
 	return list, nil
 }
 
-func (l *ArticleHelperLogic) convertTagDetailsResp(records []*model.TTag) (out []*articlerpc.TagDetailsResp, err error) {
+func (l *ArticleHelperLogic) convertTag(records []*model.TTag) (out []*articlerpc.TagDetails, err error) {
 	acm, err := l.findArticleCountGroupTag(records)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*articlerpc.TagDetailsResp
+	var list []*articlerpc.TagDetails
 	for _, entity := range records {
-		m := &articlerpc.TagDetailsResp{
+		m := &articlerpc.TagDetails{
 			Id:           entity.Id,
 			TagName:      entity.TagName,
 			ArticleCount: 0,

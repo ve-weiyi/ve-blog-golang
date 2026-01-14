@@ -35,7 +35,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 // 注册
-func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.LoginResp, error) {
+func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.RegisterResp, error) {
 	// 校验邮箱格式
 	if !patternx.IsValidEmail(in.Username) {
 		return nil, bizerr.NewBizError(bizcode.CodeInvalidParam, "邮箱格式不正确")
@@ -67,12 +67,14 @@ func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.LoginR
 		return nil, err
 	}
 
-	resp := &accountrpc.LoginResp{
-		UserId:   user.UserId,
-		Username: user.Username,
-		Nickname: user.Nickname,
-		Avatar:   user.Avatar,
-		Info:     user.Info,
+	// 查找用户角色
+	rList, err := getUserRoles(l.ctx, l.svcCtx, user.UserId)
+	if err != nil {
+		return nil, err
+	}
+
+	resp := &accountrpc.RegisterResp{
+		User: convertUserInfoOut(user, rList),
 	}
 
 	return resp, nil
