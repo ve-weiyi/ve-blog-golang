@@ -55,8 +55,8 @@ func convertMenuIn(in *permissionrpc.AddMenuReq) (out *model.TMenu) {
 		Params:     in.Meta.Params,
 		KeepAlive:  in.Meta.KeepAlive,
 		AlwaysShow: in.Meta.AlwaysShow,
-		IsHidden:   in.Meta.IsHidden,
-		IsDisable:  in.Meta.IsDisable,
+		Visible:    in.Meta.Visible,
+		Status:     in.Meta.Status,
 		Extra:      jsonconv.AnyToJsonNE(in.Meta),
 	}
 
@@ -72,8 +72,8 @@ func convertMenuOut(in *model.TMenu) (out *permissionrpc.Menu) {
 		Name:      in.Name,
 		Component: in.Component,
 		Redirect:  in.Redirect,
-		CreatedAt: in.CreatedAt.Unix(),
-		UpdatedAt: in.UpdatedAt.Unix(),
+		CreatedAt: in.CreatedAt.UnixMilli(),
+		UpdatedAt: in.UpdatedAt.UnixMilli(),
 		Children:  nil,
 		Meta: &permissionrpc.MenuMeta{
 			Type:       in.Type,
@@ -84,8 +84,8 @@ func convertMenuOut(in *model.TMenu) (out *permissionrpc.Menu) {
 			Params:     in.Params,
 			KeepAlive:  in.KeepAlive,
 			AlwaysShow: in.AlwaysShow,
-			IsHidden:   in.IsHidden,
-			IsDisable:  in.IsDisable,
+			Visible:    in.Visible,
+			Status:     in.Status,
 		},
 	}
 	return out

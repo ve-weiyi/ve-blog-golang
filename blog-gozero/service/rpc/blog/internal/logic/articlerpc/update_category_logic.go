@@ -40,8 +40,8 @@ func (l *UpdateCategoryLogic) UpdateCategory(in *articlerpc.UpdateCategoryReq) (
 		Category: &articlerpc.Category{
 			Id:           entity.Id,
 			CategoryName: entity.CategoryName,
-			CreatedAt:    entity.CreatedAt.Unix(),
-			UpdatedAt:    entity.UpdatedAt.Unix(),
+			CreatedAt:    entity.CreatedAt.UnixMilli(),
+			UpdatedAt:    entity.UpdatedAt.UnixMilli(),
 		},
 	}, nil
 }

@@ -45,8 +45,8 @@ func (l *UpdateMenuLogic) UpdateMenu(in *permissionrpc.UpdateMenuReq) (*permissi
 		entity.Params = in.Meta.Params
 		entity.KeepAlive = in.Meta.KeepAlive
 		entity.AlwaysShow = in.Meta.AlwaysShow
-		entity.IsHidden = in.Meta.IsHidden
-		entity.IsDisable = in.Meta.IsDisable
+		entity.Visible = in.Meta.Visible
+		entity.Status = in.Meta.Status
 	}
 
 	_, err = l.svcCtx.TMenuModel.Save(l.ctx, entity)

@@ -53,8 +53,8 @@ func convertFriendOut(in *model.TFriend) (out *socialrpc.Friend) {
 		LinkAvatar:  in.LinkAvatar,
 		LinkAddress: in.LinkAddress,
 		LinkIntro:   in.LinkIntro,
-		CreatedAt:   in.CreatedAt.Unix(),
-		UpdatedAt:   in.UpdatedAt.Unix(),
+		CreatedAt:   in.CreatedAt.UnixMilli(),
+		UpdatedAt:   in.UpdatedAt.UnixMilli(),
 	}
 
 	return out

@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/constant"
@@ -87,7 +86,7 @@ func (l *ThirdLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 
 	// 用户账号
 	user := &model.TUser{
-		UserId:       uuid.NewString(),
+		UserId:       randomx.GenerateUID(32),
 		Username:     generateUID(l.ctx, l.svcCtx, tx),
 		Password:     cryptox.BcryptHash(info.EnName),
 		Nickname:     info.NickName,

@@ -35,8 +35,8 @@ func (l *AddTagLogic) AddTag(in *articlerpc.AddTagReq) (*articlerpc.AddTagResp, 
 		Tag: &articlerpc.Tag{
 			Id:        entity.Id,
 			TagName:   entity.TagName,
-			CreatedAt: entity.CreatedAt.Unix(),
-			UpdatedAt: entity.UpdatedAt.Unix(),
+			CreatedAt: entity.CreatedAt.UnixMilli(),
+			UpdatedAt: entity.UpdatedAt.UnixMilli(),
 		},
 	}, nil
 }

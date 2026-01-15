@@ -58,8 +58,8 @@ func convertAlbumOut(in *model.TAlbum, cm map[int64]int) (out *resourcerpc.Album
 		AlbumCover: in.AlbumCover,
 		IsDelete:   in.IsDelete,
 		Status:     in.Status,
-		CreatedAt:  in.CreatedAt.Unix(),
-		UpdatedAt:  in.UpdatedAt.Unix(),
+		CreatedAt:  in.CreatedAt.UnixMilli(),
+		UpdatedAt:  in.UpdatedAt.UnixMilli(),
 		PhotoCount: int64(count),
 	}
 

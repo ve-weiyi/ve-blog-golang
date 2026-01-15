@@ -80,8 +80,8 @@ func convertCommentOut(in *model.TComment) (out *messagerpc.Comment) {
 		CommentContent: in.CommentContent,
 		Type:           in.Type,
 		Status:         in.Status,
-		CreatedAt:      in.CreatedAt.Unix(),
-		UpdatedAt:      in.UpdatedAt.Unix(),
+		CreatedAt:      in.CreatedAt.UnixMilli(),
+		UpdatedAt:      in.UpdatedAt.UnixMilli(),
 		LikeCount:      in.LikeCount,
 	}
 

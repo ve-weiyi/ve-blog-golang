@@ -24,7 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	ArticleRpc_AnalysisArticle_FullMethodName        = "/articlerpc.ArticleRpc/AnalysisArticle"
-	ArticleRpc_VisitArticle_FullMethodName           = "/articlerpc.ArticleRpc/VisitArticle"
+	ArticleRpc_AddArticleVisits_FullMethodName       = "/articlerpc.ArticleRpc/AddArticleVisits"
 	ArticleRpc_AddArticle_FullMethodName             = "/articlerpc.ArticleRpc/AddArticle"
 	ArticleRpc_UpdateArticle_FullMethodName          = "/articlerpc.ArticleRpc/UpdateArticle"
 	ArticleRpc_UpdateArticleDelete_FullMethodName    = "/articlerpc.ArticleRpc/UpdateArticleDelete"
@@ -54,8 +54,8 @@ const (
 type ArticleRpcClient interface {
 	// 分析文章数量
 	AnalysisArticle(ctx context.Context, in *AnalysisArticleReq, opts ...grpc.CallOption) (*AnalysisArticleResp, error)
-	// 访问文章
-	VisitArticle(ctx context.Context, in *VisitArticleReq, opts ...grpc.CallOption) (*VisitArticleResp, error)
+	// 添加文章访问量
+	AddArticleVisits(ctx context.Context, in *AddArticleVisitsReq, opts ...grpc.CallOption) (*AddArticleVisitsResp, error)
 	// 创建文章
 	AddArticle(ctx context.Context, in *AddArticleReq, opts ...grpc.CallOption) (*AddArticleResp, error)
 	// 更新文章
@@ -117,9 +117,9 @@ func (c *articleRpcClient) AnalysisArticle(ctx context.Context, in *AnalysisArti
 	return out, nil
 }
 
-func (c *articleRpcClient) VisitArticle(ctx context.Context, in *VisitArticleReq, opts ...grpc.CallOption) (*VisitArticleResp, error) {
-	out := new(VisitArticleResp)
-	err := c.cc.Invoke(ctx, ArticleRpc_VisitArticle_FullMethodName, in, out, opts...)
+func (c *articleRpcClient) AddArticleVisits(ctx context.Context, in *AddArticleVisitsReq, opts ...grpc.CallOption) (*AddArticleVisitsResp, error) {
+	out := new(AddArticleVisitsResp)
+	err := c.cc.Invoke(ctx, ArticleRpc_AddArticleVisits_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -321,8 +321,8 @@ func (c *articleRpcClient) FindTagList(ctx context.Context, in *FindTagListReq, 
 type ArticleRpcServer interface {
 	// 分析文章数量
 	AnalysisArticle(context.Context, *AnalysisArticleReq) (*AnalysisArticleResp, error)
-	// 访问文章
-	VisitArticle(context.Context, *VisitArticleReq) (*VisitArticleResp, error)
+	// 添加文章访问量
+	AddArticleVisits(context.Context, *AddArticleVisitsReq) (*AddArticleVisitsResp, error)
 	// 创建文章
 	AddArticle(context.Context, *AddArticleReq) (*AddArticleResp, error)
 	// 更新文章
@@ -375,8 +375,8 @@ type UnimplementedArticleRpcServer struct {
 func (UnimplementedArticleRpcServer) AnalysisArticle(context.Context, *AnalysisArticleReq) (*AnalysisArticleResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AnalysisArticle not implemented")
 }
-func (UnimplementedArticleRpcServer) VisitArticle(context.Context, *VisitArticleReq) (*VisitArticleResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method VisitArticle not implemented")
+func (UnimplementedArticleRpcServer) AddArticleVisits(context.Context, *AddArticleVisitsReq) (*AddArticleVisitsResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddArticleVisits not implemented")
 }
 func (UnimplementedArticleRpcServer) AddArticle(context.Context, *AddArticleReq) (*AddArticleResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddArticle not implemented")
@@ -472,20 +472,20 @@ func _ArticleRpc_AnalysisArticle_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArticleRpc_VisitArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(VisitArticleReq)
+func _ArticleRpc_AddArticleVisits_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddArticleVisitsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArticleRpcServer).VisitArticle(ctx, in)
+		return srv.(ArticleRpcServer).AddArticleVisits(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ArticleRpc_VisitArticle_FullMethodName,
+		FullMethod: ArticleRpc_AddArticleVisits_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).VisitArticle(ctx, req.(*VisitArticleReq))
+		return srv.(ArticleRpcServer).AddArticleVisits(ctx, req.(*AddArticleVisitsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -880,8 +880,8 @@ var ArticleRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ArticleRpc_AnalysisArticle_Handler,
 		},
 		{
-			MethodName: "VisitArticle",
-			Handler:    _ArticleRpc_VisitArticle_Handler,
+			MethodName: "AddArticleVisits",
+			Handler:    _ArticleRpc_AddArticleVisits_Handler,
 		},
 		{
 			MethodName: "AddArticle",

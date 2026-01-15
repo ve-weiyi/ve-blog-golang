@@ -45,7 +45,7 @@ func convertApiIn(in *permissionrpc.AddApiReq) (out *model.TApi) {
 		Path:      in.Path,
 		Method:    in.Method,
 		Traceable: in.Traceable,
-		IsDisable: in.IsDisable,
+		Status:    in.Status,
 	}
 
 	return out
@@ -59,9 +59,9 @@ func convertApiOut(in *model.TApi) (out *permissionrpc.Api) {
 		Path:      in.Path,
 		Method:    in.Method,
 		Traceable: in.Traceable,
-		IsDisable: in.IsDisable,
-		CreatedAt: in.CreatedAt.Unix(),
-		UpdatedAt: in.UpdatedAt.Unix(),
+		Status:    in.Status,
+		CreatedAt: in.CreatedAt.UnixMilli(),
+		UpdatedAt: in.UpdatedAt.UnixMilli(),
 	}
 
 	return out

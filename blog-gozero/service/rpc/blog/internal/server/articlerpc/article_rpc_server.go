@@ -29,10 +29,10 @@ func (s *ArticleRpcServer) AnalysisArticle(ctx context.Context, in *articlerpc.A
 	return l.AnalysisArticle(in)
 }
 
-// 访问文章
-func (s *ArticleRpcServer) VisitArticle(ctx context.Context, in *articlerpc.VisitArticleReq) (*articlerpc.VisitArticleResp, error) {
-	l := articlerpclogic.NewVisitArticleLogic(ctx, s.svcCtx)
-	return l.VisitArticle(in)
+// 添加文章访问量
+func (s *ArticleRpcServer) AddArticleVisits(ctx context.Context, in *articlerpc.AddArticleVisitsReq) (*articlerpc.AddArticleVisitsResp, error) {
+	l := articlerpclogic.NewAddArticleVisitsLogic(ctx, s.svcCtx)
+	return l.AddArticleVisits(in)
 }
 
 // 创建文章

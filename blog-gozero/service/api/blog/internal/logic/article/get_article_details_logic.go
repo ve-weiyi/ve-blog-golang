@@ -29,7 +29,7 @@ func NewGetArticleDetailsLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 
 func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *types.ArticleDetails, err error) {
 	// 添加文章访问量
-	_, err = l.svcCtx.ArticleRpc.VisitArticle(l.ctx, &articlerpc.VisitArticleReq{
+	_, err = l.svcCtx.ArticleRpc.AddArticleVisits(l.ctx, &articlerpc.AddArticleVisitsReq{
 		Id: req.Id,
 	})
 	if err != nil {

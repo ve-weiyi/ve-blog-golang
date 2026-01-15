@@ -33,7 +33,7 @@ func (l *AddApiLogic) AddApi(req *types.NewApiReq) (resp *types.ApiBackVO, err e
 		Name:      req.Name,
 		Method:    req.Method,
 		Traceable: req.Traceable,
-		IsDisable: req.IsDisable,
+		Status:    req.Status,
 		Children:  nil,
 	}
 
@@ -60,7 +60,7 @@ func convertApiTypes(req *permissionrpc.Api) *types.ApiBackVO {
 		Path:      req.Path,
 		Method:    req.Method,
 		Traceable: req.Traceable,
-		IsDisable: req.IsDisable,
+		Status:    req.Status,
 		CreatedAt: req.CreatedAt,
 		UpdatedAt: req.UpdatedAt,
 		Children:  children,

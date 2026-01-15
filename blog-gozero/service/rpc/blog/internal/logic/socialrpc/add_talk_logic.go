@@ -61,8 +61,8 @@ func convertTalkOut(in *model.TTalk) (out *socialrpc.Talk) {
 		Status:       in.Status,
 		LikeCount:    in.LikeCount,
 		CommentCount: 0,
-		CreatedAt:    in.CreatedAt.Unix(),
-		UpdatedAt:    in.UpdatedAt.Unix(),
+		CreatedAt:    in.CreatedAt.UnixMilli(),
+		UpdatedAt:    in.UpdatedAt.UnixMilli(),
 	}
 
 	return out

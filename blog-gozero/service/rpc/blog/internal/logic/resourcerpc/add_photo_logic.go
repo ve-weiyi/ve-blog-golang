@@ -53,8 +53,8 @@ func convertPhotoOut(in *model.TPhoto) (out *resourcerpc.Photo) {
 		PhotoDesc: in.PhotoDesc,
 		PhotoSrc:  in.PhotoSrc,
 		IsDelete:  in.IsDelete,
-		CreatedAt: in.CreatedAt.Unix(),
-		UpdatedAt: in.UpdatedAt.Unix(),
+		CreatedAt: in.CreatedAt.UnixMilli(),
+		UpdatedAt: in.UpdatedAt.UnixMilli(),
 	}
 
 	return out

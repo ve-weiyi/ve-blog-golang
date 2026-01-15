@@ -35,7 +35,7 @@ func (l *UpdateApiLogic) UpdateApi(in *permissionrpc.UpdateApiReq) (*permissionr
 	entity.Name = in.Name
 	entity.Method = in.Method
 	entity.Traceable = in.Traceable
-	entity.IsDisable = in.IsDisable
+	entity.Status = in.Status
 
 	_, err = l.svcCtx.TApiModel.Save(l.ctx, entity)
 	if err != nil {

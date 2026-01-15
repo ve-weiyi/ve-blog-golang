@@ -16,6 +16,8 @@ import (
 type (
 	AddArticleReq              = articlerpc.AddArticleReq
 	AddArticleResp             = articlerpc.AddArticleResp
+	AddArticleVisitsReq        = articlerpc.AddArticleVisitsReq
+	AddArticleVisitsResp       = articlerpc.AddArticleVisitsResp
 	AddCategoryReq             = articlerpc.AddCategoryReq
 	AddCategoryResp            = articlerpc.AddCategoryResp
 	AddTagReq                  = articlerpc.AddTagReq
@@ -68,14 +70,12 @@ type (
 	UpdateCategoryResp         = articlerpc.UpdateCategoryResp
 	UpdateTagReq               = articlerpc.UpdateTagReq
 	UpdateTagResp              = articlerpc.UpdateTagResp
-	VisitArticleReq            = articlerpc.VisitArticleReq
-	VisitArticleResp           = articlerpc.VisitArticleResp
 
 	ArticleRpc interface {
 		// 分析文章数量
 		AnalysisArticle(ctx context.Context, in *AnalysisArticleReq, opts ...grpc.CallOption) (*AnalysisArticleResp, error)
-		// 访问文章
-		VisitArticle(ctx context.Context, in *VisitArticleReq, opts ...grpc.CallOption) (*VisitArticleResp, error)
+		// 添加文章访问量
+		AddArticleVisits(ctx context.Context, in *AddArticleVisitsReq, opts ...grpc.CallOption) (*AddArticleVisitsResp, error)
 		// 创建文章
 		AddArticle(ctx context.Context, in *AddArticleReq, opts ...grpc.CallOption) (*AddArticleResp, error)
 		// 更新文章
@@ -137,10 +137,10 @@ func (m *defaultArticleRpc) AnalysisArticle(ctx context.Context, in *AnalysisArt
 	return client.AnalysisArticle(ctx, in, opts...)
 }
 
-// 访问文章
-func (m *defaultArticleRpc) VisitArticle(ctx context.Context, in *VisitArticleReq, opts ...grpc.CallOption) (*VisitArticleResp, error) {
+// 添加文章访问量
+func (m *defaultArticleRpc) AddArticleVisits(ctx context.Context, in *AddArticleVisitsReq, opts ...grpc.CallOption) (*AddArticleVisitsResp, error) {
 	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
-	return client.VisitArticle(ctx, in, opts...)
+	return client.AddArticleVisits(ctx, in, opts...)
 }
 
 // 创建文章

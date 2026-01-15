@@ -68,7 +68,7 @@ func (l *SyncApiListLogic) SyncApiList(req *types.SyncApiReq) (resp *types.Batch
 					Name:      o.Summary,
 					Method:    m,
 					Traceable: traceable,
-					IsDisable: 0,
+					Status:    0,
 					Children:  nil,
 				}
 
@@ -90,7 +90,7 @@ func (l *SyncApiListLogic) SyncApiList(req *types.SyncApiReq) (resp *types.Batch
 			Name:      g,
 			Method:    "",
 			Traceable: 0,
-			IsDisable: 0,
+			Status:    0,
 			Children:  children,
 		}
 		list = append(list, root)

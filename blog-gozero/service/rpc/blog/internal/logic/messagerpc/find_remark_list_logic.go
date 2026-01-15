@@ -70,8 +70,8 @@ func convertRemarkOut(in *model.TRemark) (out *messagerpc.Remark) {
 		TerminalId:     in.TerminalId,
 		MessageContent: in.MessageContent,
 		Status:         in.Status,
-		CreatedAt:      in.CreatedAt.Unix(),
-		UpdatedAt:      in.UpdatedAt.Unix(),
+		CreatedAt:      in.CreatedAt.UnixMilli(),
+		UpdatedAt:      in.UpdatedAt.UnixMilli(),
 	}
 
 	return out

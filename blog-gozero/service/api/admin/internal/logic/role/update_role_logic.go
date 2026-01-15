@@ -32,7 +32,7 @@ func (l *UpdateRoleLogic) UpdateRole(req *types.NewRoleReq) (resp *types.RoleBac
 		RoleKey:     req.RoleKey,
 		RoleLabel:   req.RoleLabel,
 		RoleComment: req.RoleComment,
-		IsDisable:   req.IsDisable,
+		Status:      req.Status,
 		IsDefault:   req.IsDefault,
 	}
 

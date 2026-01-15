@@ -45,7 +45,7 @@ func convertRoleIn(in *permissionrpc.AddRoleReq) (out *model.TRole) {
 		RoleKey:     in.RoleKey,
 		RoleLabel:   in.RoleLabel,
 		RoleComment: in.RoleComment,
-		IsDisable:   in.IsDisable,
+		Status:      in.Status,
 		IsDefault:   in.IsDefault,
 	}
 
@@ -59,10 +59,10 @@ func convertRoleOut(in *model.TRole) (out *permissionrpc.Role) {
 		RoleKey:     in.RoleKey,
 		RoleLabel:   in.RoleLabel,
 		RoleComment: in.RoleComment,
-		IsDisable:   in.IsDisable,
+		Status:      in.Status,
 		IsDefault:   in.IsDefault,
-		CreatedAt:   in.CreatedAt.Unix(),
-		UpdatedAt:   in.UpdatedAt.Unix(),
+		CreatedAt:   in.CreatedAt.UnixMilli(),
+		UpdatedAt:   in.UpdatedAt.UnixMilli(),
 	}
 
 	return out

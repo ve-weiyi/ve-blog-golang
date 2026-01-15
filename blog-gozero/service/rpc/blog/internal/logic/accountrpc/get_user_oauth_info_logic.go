@@ -37,8 +37,8 @@ func (l *GetUserOauthInfoLogic) GetUserOauthInfo(in *accountrpc.GetUserOauthInfo
 			OpenId:    v.OpenId,
 			Nickname:  v.Nickname,
 			Avatar:    v.Avatar,
-			CreatedAt: v.CreatedAt.Unix(),
-			UpdatedAt: v.UpdatedAt.Unix(),
+			CreatedAt: v.CreatedAt.UnixMilli(),
+			UpdatedAt: v.UpdatedAt.UnixMilli(),
 		})
 	}
 

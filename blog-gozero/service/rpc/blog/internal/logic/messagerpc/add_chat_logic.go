@@ -63,8 +63,8 @@ func convertChatOut(in *model.TChat) (out *messagerpc.Chat) {
 		Type:       in.Type,
 		Content:    in.Content,
 		Status:     in.Status,
-		CreatedAt:  in.CreatedAt.Unix(),
-		UpdatedAt:  in.UpdatedAt.Unix(),
+		CreatedAt:  in.CreatedAt.UnixMilli(),
+		UpdatedAt:  in.UpdatedAt.UnixMilli(),
 	}
 
 	return out

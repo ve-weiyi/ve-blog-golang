@@ -54,8 +54,8 @@ func convertPageOut(in *model.TPage) (out *resourcerpc.Page) {
 		PageCover:      in.PageCover,
 		IsCarousel:     in.IsCarousel,
 		CarouselCovers: nil,
-		CreatedAt:      in.CreatedAt.Unix(),
-		UpdatedAt:      in.UpdatedAt.Unix(),
+		CreatedAt:      in.CreatedAt.UnixMilli(),
+		UpdatedAt:      in.UpdatedAt.UnixMilli(),
 	}
 
 	jsonconv.JsonToAny(in.CarouselCovers, &out.CarouselCovers)

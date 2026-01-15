@@ -77,8 +77,8 @@ func convertOperationLogOut(in *model.TOperationLog) (out *syslogrpc.OperationLo
 		ResponseData:   in.ResponseData,
 		ResponseStatus: in.ResponseStatus,
 		Cost:           in.Cost,
-		CreatedAt:      in.CreatedAt.Unix(),
-		UpdatedAt:      in.UpdatedAt.Unix(),
+		CreatedAt:      in.CreatedAt.UnixMilli(),
+		UpdatedAt:      in.UpdatedAt.UnixMilli(),
 	}
 
 	return out

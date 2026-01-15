@@ -92,8 +92,8 @@ func convertUserInfoOut(in *model.TUser, roles []*model.TRole) (out *accountrpc.
 		RegisterType: in.RegisterType,
 		IpAddress:    in.IpAddress,
 		IpSource:     in.IpSource,
-		CreatedAt:    in.CreatedAt.Unix(),
-		UpdatedAt:    in.UpdatedAt.Unix(),
+		CreatedAt:    in.CreatedAt.UnixMilli(),
+		UpdatedAt:    in.UpdatedAt.UnixMilli(),
 		Roles:        list,
 	}
 

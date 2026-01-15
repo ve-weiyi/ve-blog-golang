@@ -34,8 +34,8 @@ func (l *GetTagLogic) GetTag(in *articlerpc.GetTagReq) (*articlerpc.GetTagResp, 
 		Tag: &articlerpc.TagDetails{
 			Id:           entity.Id,
 			TagName:      entity.TagName,
-			CreatedAt:    entity.CreatedAt.Unix(),
-			UpdatedAt:    entity.UpdatedAt.Unix(),
+			CreatedAt:    entity.CreatedAt.UnixMilli(),
+			UpdatedAt:    entity.UpdatedAt.UnixMilli(),
 			ArticleCount: 0,
 		},
 	}, nil

@@ -83,8 +83,8 @@ func convertFileLogOut(in *model.TFileLog) (out *syslogrpc.FileLog) {
 		FileSize:   in.FileSize,
 		FileMd5:    in.FileMd5,
 		FileUrl:    in.FileUrl,
-		CreatedAt:  in.CreatedAt.Unix(),
-		UpdatedAt:  in.UpdatedAt.Unix(),
+		CreatedAt:  in.CreatedAt.UnixMilli(),
+		UpdatedAt:  in.UpdatedAt.UnixMilli(),
 	}
 
 	return out

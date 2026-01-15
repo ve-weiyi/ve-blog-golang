@@ -45,7 +45,7 @@ type ServiceContext struct {
 
 	Redis            *redis.Redis
 	Uploader         oss.Uploader
-	TokenHolder      tokenx.TokenHolder
+	TokenManager     tokenx.TokenManager
 	PermissionHolder permissionx.PermissionHolder
 
 	StompHubServer *client.StompHubServer
@@ -66,7 +66,13 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 	uploader := oss.NewQiniu(c.UploadConfig)
 
-	th := tokenx.NewJwtTokenHolder(c.Name, c.Name, rds)
+	th := tokenx.NewJwtTokenManager(
+		tokenx.NewRedisStore(rds, "admin:token:"),
+		c.Name,
+		c.Name,
+		2*3600,
+		7*24*3600,
+	)
 
 	doc, err := loads.Analyzed(json.RawMessage(docs.Docs), "")
 	if err != nil {
@@ -116,7 +122,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 		Redis:            rds,
 		Uploader:         uploader,
-		TokenHolder:      th,
+		TokenManager:     th,
 		PermissionHolder: ph,
 		StompHubServer:   hub,
 

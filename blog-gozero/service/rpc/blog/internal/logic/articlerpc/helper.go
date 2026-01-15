@@ -266,7 +266,7 @@ func (l *ArticleHelperLogic) convertArticlePreviewOut(record *model.TArticle) (o
 		Id:           record.Id,
 		ArticleCover: record.ArticleCover,
 		ArticleTitle: record.ArticleTitle,
-		CreatedAt:    record.CreatedAt.Unix(),
+		CreatedAt:    record.CreatedAt.UnixMilli(),
 		LikeCount:    record.LikeCount,
 		ViewCount:    l.GetArticleViewCount(record.Id),
 	}
@@ -298,8 +298,8 @@ func (l *ArticleHelperLogic) convertArticle(records []*model.TArticle) (out []*a
 			IsTop:          entity.IsTop,
 			IsDelete:       entity.IsDelete,
 			Status:         entity.Status,
-			CreatedAt:      entity.CreatedAt.Unix(),
-			UpdatedAt:      entity.UpdatedAt.Unix(),
+			CreatedAt:      entity.CreatedAt.UnixMilli(),
+			UpdatedAt:      entity.UpdatedAt.UnixMilli(),
 			LikeCount:      entity.LikeCount,
 			ViewCount:      l.GetArticleViewCount(entity.Id),
 			Category:       nil,
@@ -343,8 +343,8 @@ func (l *ArticleHelperLogic) convertCategory(records []*model.TCategory) (out []
 			Id:           entity.Id,
 			CategoryName: entity.CategoryName,
 			ArticleCount: 0,
-			CreatedAt:    entity.CreatedAt.Unix(),
-			UpdatedAt:    entity.UpdatedAt.Unix(),
+			CreatedAt:    entity.CreatedAt.UnixMilli(),
+			UpdatedAt:    entity.UpdatedAt.UnixMilli(),
 		}
 
 		if v, ok := acm[entity.Id]; ok {
@@ -369,8 +369,8 @@ func (l *ArticleHelperLogic) convertTag(records []*model.TTag) (out []*articlerp
 			Id:           entity.Id,
 			TagName:      entity.TagName,
 			ArticleCount: 0,
-			CreatedAt:    entity.CreatedAt.Unix(),
-			UpdatedAt:    entity.UpdatedAt.Unix(),
+			CreatedAt:    entity.CreatedAt.UnixMilli(),
+			UpdatedAt:    entity.UpdatedAt.UnixMilli(),
 		}
 
 		if v, ok := acm[entity.Id]; ok {

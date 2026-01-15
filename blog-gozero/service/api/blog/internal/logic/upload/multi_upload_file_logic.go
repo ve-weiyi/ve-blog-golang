@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"path/filepath"
+	"time"
 
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -30,13 +31,17 @@ func NewMultiUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *M
 }
 
 func (l *MultiUploadFileLogic) MultiUploadFile(req *types.MultiUploadFileReq, r *http.Request) (resp []*types.FileInfoVO, err error) {
-	// 获取文件切片
+	start := time.Now()
 	files := r.MultipartForm.File["files"]
-	for _, h := range files {
+
+	for i, h := range files {
+		fileStart := time.Now()
+
 		f, err := h.Open()
 		if err != nil {
 			return nil, err
 		}
+		defer f.Close()
 
 		up, err := l.svcCtx.Uploader.UploadFile(f, req.FilePath, oss.NewFileNameWithDateTime(h.Filename))
 		if err != nil {
@@ -52,7 +57,9 @@ func (l *MultiUploadFileLogic) MultiUploadFile(req *types.MultiUploadFileReq, r 
 			FileUrl:  up,
 		}
 
-		out, err := l.svcCtx.SyslogRpc.AddFileLog(l.ctx, in)
+		rpcCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		out, err := l.svcCtx.SyslogRpc.AddFileLog(rpcCtx, in)
+		cancel()
 		if err != nil {
 			return nil, err
 		}
@@ -65,7 +72,10 @@ func (l *MultiUploadFileLogic) MultiUploadFile(req *types.MultiUploadFileReq, r 
 			FileUrl:   out.FileLog.FileUrl,
 			UpdatedAt: out.FileLog.UpdatedAt,
 		})
+
+		l.Infof("[Upload] File %d/%d completed, cost=%dms", i+1, len(files), time.Since(fileStart).Milliseconds())
 	}
 
+	l.Infof("[Upload] All files uploaded, total=%d, cost=%dms", len(files), time.Since(start).Milliseconds())
 	return resp, nil
 }

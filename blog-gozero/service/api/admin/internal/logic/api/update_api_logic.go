@@ -33,7 +33,7 @@ func (l *UpdateApiLogic) UpdateApi(req *types.NewApiReq) (resp *types.ApiBackVO,
 		Name:      req.Name,
 		Method:    req.Method,
 		Traceable: req.Traceable,
-		IsDisable: req.IsDisable,
+		Status:    req.Status,
 		Children:  nil,
 	}
 

@@ -67,7 +67,7 @@ func convertUserMenuTypes(in *permissionrpc.Menu) (out *types.UserMenu) {
 		Meta: types.UserMenuMeta{
 			Title:      in.Meta.Title,
 			Icon:       in.Meta.Icon,
-			Hidden:     in.Meta.IsHidden == 1,
+			Hidden:     in.Meta.Visible == 1,
 			AlwaysShow: in.Meta.AlwaysShow == 1,
 			Affix:      false,
 			KeepAlive:  false,

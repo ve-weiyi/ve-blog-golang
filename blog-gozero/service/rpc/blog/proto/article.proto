@@ -188,11 +188,11 @@ message DeletesArticleResp {
   int64 success_count = 1;
 }
 
-message VisitArticleReq {
+message AddArticleVisitsReq {
   int64 id = 1;
 }
 
-message VisitArticleResp{
+message AddArticleVisitsResp{
 }
 
 message LikeArticleReq {
@@ -342,8 +342,8 @@ message AnalysisArticleResp{
 service ArticleRpc {
   // 分析文章数量
   rpc AnalysisArticle(AnalysisArticleReq) returns(AnalysisArticleResp);
-  // 访问文章
-  rpc VisitArticle(VisitArticleReq) returns(VisitArticleResp);
+  // 添加文章访问量
+  rpc AddArticleVisits(AddArticleVisitsReq) returns(AddArticleVisitsResp);
 
   // 创建文章
   rpc AddArticle(AddArticleReq) returns(AddArticleResp);

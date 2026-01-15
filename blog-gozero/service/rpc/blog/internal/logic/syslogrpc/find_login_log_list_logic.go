@@ -71,12 +71,12 @@ func convertLoginLogOut(in *model.TLoginLog) (out *syslogrpc.LoginLog) {
 		TerminalId: in.TerminalId,
 		LoginType:  in.LoginType,
 		AppName:    in.AppName,
-		LoginAt:    in.LoginAt.Unix(),
+		LoginAt:    in.LoginAt.UnixMilli(),
 		LogoutAt:   0,
 	}
 
 	if in.LogoutAt.Valid {
-		out.LogoutAt = in.LogoutAt.Time.Unix()
+		out.LogoutAt = in.LogoutAt.Time.UnixMilli()
 	}
 
 	return out

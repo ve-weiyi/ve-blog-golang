@@ -33,7 +33,7 @@ func (l *UpdateRoleLogic) UpdateRole(in *permissionrpc.UpdateRoleReq) (*permissi
 	entity.RoleKey = in.RoleKey
 	entity.RoleLabel = in.RoleLabel
 	entity.RoleComment = in.RoleComment
-	entity.IsDisable = in.IsDisable
+	entity.Status = in.Status
 	entity.IsDefault = in.IsDefault
 
 	_, err = l.svcCtx.TRoleModel.Save(l.ctx, entity)

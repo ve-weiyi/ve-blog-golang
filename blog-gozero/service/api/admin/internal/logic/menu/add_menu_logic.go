@@ -63,8 +63,8 @@ func convertMenuPb(in *types.NewMenuReq) (out *permissionrpc.AddMenuReq) {
 			Params:     jsonconv.AnyToJsonNE(in.Params),
 			KeepAlive:  in.KeepAlive,
 			AlwaysShow: in.AlwaysShow,
-			IsHidden:   in.IsHidden,
-			IsDisable:  in.IsDisable,
+			Visible:    in.Visible,
+			Status:     in.Status,
 		},
 	}
 
@@ -98,8 +98,8 @@ func convertMenuTypes(in *permissionrpc.Menu) (out *types.MenuBackVO) {
 			Params:     params,
 			KeepAlive:  in.Meta.KeepAlive,
 			AlwaysShow: in.Meta.AlwaysShow,
-			IsHidden:   in.Meta.IsHidden,
-			IsDisable:  in.Meta.IsDisable,
+			Visible:    in.Meta.Visible,
+			Status:     in.Meta.Status,
 		},
 		Children:  children,
 		CreatedAt: in.CreatedAt,

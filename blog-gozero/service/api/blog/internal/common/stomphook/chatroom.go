@@ -86,7 +86,7 @@ func (h *ChatRoomEventHook) OnSubscribe(server *client.StompHubServer, c *client
 				IpSource:  ipx.GetIpSourceByBaidu(ip),
 			},
 		),
-		TimeStamp: time.Now().Unix(),
+		TimeStamp: time.Now().UnixMilli(),
 	}))
 	// 私发
 	c.SendFrame(greeting)
@@ -101,15 +101,15 @@ func (h *ChatRoomEventHook) OnSubscribe(server *client.StompHubServer, c *client
 				Count:  count,
 				Tips:   fmt.Sprintf("👋 %s joined the chat channel", login),
 			}),
-		TimeStamp: time.Now().Unix(),
+		TimeStamp: time.Now().UnixMilli(),
 	}))
 	// 广播
 	server.RouteMessage(nil, online)
 
 	// 3. 私发历史消息
 	out, err := h.MessageRpc.FindChatList(context.Background(), &messagerpc.FindChatListReq{
-		After:   time.Now().Add(-365 * 24 * time.Hour).Unix(),
-		Before:  time.Now().Unix(),
+		After:   time.Now().Add(-365 * 24 * time.Hour).UnixMilli(),
+		Before:  time.Now().UnixMilli(),
 		Limit:   0,
 		UserId:  "",
 		Type:    "",
@@ -148,7 +148,7 @@ func (h *ChatRoomEventHook) OnSubscribe(server *client.StompHubServer, c *client
 			Size:  out.Pagination.PageSize,
 			Total: out.Pagination.Total,
 		}),
-		TimeStamp: time.Now().Unix(),
+		TimeStamp: time.Now().UnixMilli(),
 	}))
 	// 私发
 	c.SendFrame(history)
@@ -168,7 +168,7 @@ func (h *ChatRoomEventHook) OnUnsubscribe(server *client.StompHubServer, c *clie
 				Count:  count,
 				Tips:   fmt.Sprintf("👋 %s left the chat channel", login),
 			}),
-		TimeStamp: time.Now().Unix(),
+		TimeStamp: time.Now().UnixMilli(),
 	}))
 	// 广播
 	server.RouteMessage(nil, online)
@@ -243,7 +243,7 @@ func (h *ChatRoomEventHook) OnSend(server *client.StompHubServer, c *client.Clie
 					CreatedAt:  out.Chat.CreatedAt,
 					UpdatedAt:  out.Chat.UpdatedAt,
 				}),
-			TimeStamp: time.Now().Unix(),
+			TimeStamp: time.Now().UnixMilli(),
 		}))
 		server.RouteMessage(c, msgFrame)
 	case MessageTypeEdit:
@@ -273,7 +273,7 @@ func (h *ChatRoomEventHook) OnSend(server *client.StompHubServer, c *client.Clie
 					Status:    out.Chat.Status,
 					UpdatedAt: out.Chat.UpdatedAt,
 				}),
-			TimeStamp: time.Now().Unix(),
+			TimeStamp: time.Now().UnixMilli(),
 		}))
 		server.RouteMessage(c, msgFrame)
 	default:

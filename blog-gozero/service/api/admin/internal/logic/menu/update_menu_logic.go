@@ -43,8 +43,8 @@ func (l *UpdateMenuLogic) UpdateMenu(req *types.NewMenuReq) (resp *types.MenuBac
 			Params:     jsonconv.AnyToJsonNE(req.Params),
 			KeepAlive:  req.KeepAlive,
 			AlwaysShow: req.AlwaysShow,
-			IsHidden:   req.IsHidden,
-			IsDisable:  req.IsDisable,
+			Visible:    req.Visible,
+			Status:     req.Status,
 		},
 	}
 	out, err := l.svcCtx.PermissionRpc.UpdateMenu(l.ctx, in)

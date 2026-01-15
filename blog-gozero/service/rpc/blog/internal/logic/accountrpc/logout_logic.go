@@ -32,6 +32,6 @@ func (l *LogoutLogic) Logout(in *accountrpc.LogoutReq) (*accountrpc.LogoutResp, 
 	}
 
 	return &accountrpc.LogoutResp{
-		LogoutAt: time.Now().Unix(),
+		LogoutAt: time.Now().UnixMilli(),
 	}, nil
 }

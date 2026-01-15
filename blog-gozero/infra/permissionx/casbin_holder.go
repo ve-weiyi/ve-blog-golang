@@ -123,7 +123,7 @@ func (m *CasbinHolder) LoadPolicy() error {
 			return fmt.Errorf("role %d not found", roleId)
 		}
 
-		if role.IsDisable == 1 {
+		if role.Status == 1 {
 			continue
 		}
 
@@ -133,7 +133,7 @@ func (m *CasbinHolder) LoadPolicy() error {
 				return fmt.Errorf("api %d not found", apiId)
 			}
 
-			if api.IsDisable == 1 {
+			if api.Status == 1 {
 				continue
 			}
 
