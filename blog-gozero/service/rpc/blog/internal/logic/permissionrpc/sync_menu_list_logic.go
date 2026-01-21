@@ -51,7 +51,7 @@ func (l *SyncMenuListLogic) syncMenuList(in *permissionrpc.SyncMenuListReq) {
 
 func (l *SyncMenuListLogic) InsertMenu(ctx context.Context, item *permissionrpc.AddMenuReq) (err error) {
 	// 已存在则跳过
-	parent, _ := l.svcCtx.TMenuModel.FindOneByPath(ctx, item.Path)
+	parent, _ := l.svcCtx.TMenuModel.FindOneByPathPerm(ctx, item.Path, item.Meta.Perm)
 	if parent == nil {
 		// 插入数据
 		parent = convertMenuIn(item)

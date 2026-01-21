@@ -3,7 +3,7 @@ package accountrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizcode"
@@ -46,5 +46,5 @@ func (l *EmailLoginLogic) EmailLogin(in *accountrpc.EmailLoginReq) (*accountrpc.
 		return nil, bizerr.NewBizError(bizcode.CodeUserPasswordError, "密码不正确")
 	}
 
-	return onLogin(l.ctx, l.svcCtx, account, constant.LoginTypeEmail)
+	return onLogin(l.ctx, l.svcCtx, account, enums.LoginTypeEmail)
 }

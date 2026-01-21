@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
@@ -100,8 +101,8 @@ func (l *RegisterLogic) register(tx *gorm.DB, in *accountrpc.RegisterReq) (out *
 		Email:        in.Email,
 		Phone:        "",
 		Info:         "",
-		Status:       constant.UserStatusNormal,
-		RegisterType: constant.LoginTypeEmail,
+		Status:       enums.UserStatusNormal,
+		RegisterType: enums.LoginTypeEmail,
 		IpAddress:    ip,
 		IpSource:     is,
 	}

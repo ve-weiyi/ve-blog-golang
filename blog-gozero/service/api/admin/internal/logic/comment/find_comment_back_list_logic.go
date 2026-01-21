@@ -9,7 +9,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/messagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/newsrpc"
 )
 
 type FindCommentBackListLogic struct {
@@ -28,8 +28,8 @@ func NewFindCommentBackListLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *FindCommentBackListLogic) FindCommentBackList(req *types.QueryCommentReq) (resp *types.PageResp, err error) {
-	in := &messagerpc.FindCommentListReq{
-		Paginate: &messagerpc.PageReq{
+	in := &newsrpc.FindCommentListReq{
+		Paginate: &newsrpc.PageReq{
 			Page:     req.Page,
 			PageSize: req.PageSize,
 			Sorts:    req.Sorts,
@@ -40,7 +40,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.QueryCommentRe
 	}
 
 	// 查找评论列表
-	out, err := l.svcCtx.MessageRpc.FindCommentList(l.ctx, in)
+	out, err := l.svcCtx.NewsRpc.FindCommentList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.QueryCommentRe
 
 	// 查询用户信息
 	usm, err := apiutils.BatchQueryMulti(out.List,
-		func(v *messagerpc.Comment) []string {
+		func(v *newsrpc.Comment) []string {
 			return []string{v.UserId, v.ReplyUserId}
 		},
 		func(ids []string) (map[string]*types.UserInfoVO, error) {
@@ -63,7 +63,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.QueryCommentRe
 
 	// 查询访客信息
 	vsm, err := apiutils.BatchQuery(out.List,
-		func(v *messagerpc.Comment) string {
+		func(v *newsrpc.Comment) string {
 			return v.TerminalId
 		},
 		func(ids []string) (map[string]*types.ClientInfoVO, error) {

@@ -16,7 +16,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/configrpc"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/messagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/newsrpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/noticerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/resourcerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/socialrpc"
@@ -25,7 +26,8 @@ import (
 	accountrpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/accountrpc"
 	articlerpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/articlerpc"
 	configrpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/configrpc"
-	messagerpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/messagerpc"
+	newsrpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/newsrpc"
+	noticerpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/noticerpc"
 	permissionrpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/permissionrpc"
 	resourcerpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/resourcerpc"
 	socialrpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/socialrpc"
@@ -85,7 +87,8 @@ func main() {
 		accountrpc.RegisterAccountRpcServer(grpcServer, accountrpcServer.NewAccountRpcServer(ctx))
 		articlerpc.RegisterArticleRpcServer(grpcServer, articlerpcServer.NewArticleRpcServer(ctx))
 		permissionrpc.RegisterPermissionRpcServer(grpcServer, permissionrpcServer.NewPermissionRpcServer(ctx))
-		messagerpc.RegisterMessageRpcServer(grpcServer, messagerpcServer.NewMessageRpcServer(ctx))
+		newsrpc.RegisterNewsRpcServer(grpcServer, newsrpcServer.NewNewsRpcServer(ctx))
+		noticerpc.RegisterNoticeRpcServer(grpcServer, noticerpcServer.NewNoticeRpcServer(ctx))
 		socialrpc.RegisterSocialRpcServer(grpcServer, socialrpcServer.NewSocialRpcServer(ctx))
 		syslogrpc.RegisterSyslogRpcServer(grpcServer, syslogrpcServer.NewSyslogRpcServer(ctx))
 		websiterpc.RegisterWebsiteRpcServer(grpcServer, websiterpcServer.NewWebsiteRpcServer(ctx))

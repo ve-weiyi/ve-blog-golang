@@ -33,8 +33,8 @@ type (
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
 		FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TUserOauth, total int64, err error)
 		// add extra method in here
-		FindOneByOpenIdPlatform(ctx context.Context, open_id string, platform string) (out *TUserOauth, err error)
 		FindOneByUserIdPlatform(ctx context.Context, user_id string, platform string) (out *TUserOauth, err error)
+		FindOneByOpenIdPlatform(ctx context.Context, open_id string, platform string) (out *TUserOauth, err error)
 	}
 
 	// 表字段定义
@@ -261,20 +261,20 @@ func (m *defaultTUserOauthModel) FindListAndTotal(ctx context.Context, page int,
 }
 
 // add extra method in here
-func (m *defaultTUserOauthModel) FindOneByOpenIdPlatform(ctx context.Context, open_id string, platform string) (out *TUserOauth, err error) {
+func (m *defaultTUserOauthModel) FindOneByUserIdPlatform(ctx context.Context, user_id string, platform string) (out *TUserOauth, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	err = db.Where("`open_id` = ? and `platform` = ?", open_id, platform).First(&out).Error
+	err = db.Where("`user_id` = ? and `platform` = ?", user_id, platform).First(&out).Error
 	if err != nil {
 		return nil, err
 	}
 
 	return out, nil
 }
-func (m *defaultTUserOauthModel) FindOneByUserIdPlatform(ctx context.Context, user_id string, platform string) (out *TUserOauth, err error) {
+func (m *defaultTUserOauthModel) FindOneByOpenIdPlatform(ctx context.Context, open_id string, platform string) (out *TUserOauth, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	err = db.Where("`user_id` = ? and `platform` = ?", user_id, platform).First(&out).Error
+	err = db.Where("`open_id` = ? and `platform` = ?", open_id, platform).First(&out).Error
 	if err != nil {
 		return nil, err
 	}

@@ -10,7 +10,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/messagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/newsrpc"
 )
 
 type GetAdminHomeInfoLogic struct {
@@ -42,7 +42,7 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 	}
 
 	// 查询消息数量
-	messages, err := l.svcCtx.MessageRpc.AnalysisMessage(l.ctx, &messagerpc.AnalysisMessageReq{})
+	messages, err := l.svcCtx.NewsRpc.AnalysisMessage(l.ctx, &newsrpc.AnalysisMessageReq{})
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +108,7 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 	resp = &types.AdminHomeInfo{
 		UserCount:         users.UserCount,
 		ArticleCount:      articles.ArticleCount,
-		RemarkCount:       messages.RemarkCount,
+		MessageCount:      messages.MessageCount,
 		CategoryList:      cvs,
 		TagList:           tvs,
 		ArticleViewRanks:  ars,

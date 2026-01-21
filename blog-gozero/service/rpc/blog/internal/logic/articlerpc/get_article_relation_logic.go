@@ -3,7 +3,7 @@ package articlerpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -33,22 +33,22 @@ func (l *GetArticleRelationLogic) GetArticleRelation(in *articlerpc.GetArticleRe
 	}
 
 	// 查询上一篇文章
-	last, _, err := l.svcCtx.TArticleModel.FindListAndTotal(l.ctx, 1, 1, "id desc", "id < ? and status = ?", record.Id, constant.ArticleStatusPublic)
+	last, _, err := l.svcCtx.TArticleModel.FindListAndTotal(l.ctx, 1, 1, "id desc", "id < ? and status = ?", record.Id, enums.ArticleStatusPublic)
 	if err != nil {
 		return nil, err
 	}
 	// 查询下一篇文章
-	next, _, err := l.svcCtx.TArticleModel.FindListAndTotal(l.ctx, 1, 1, "id asc", "id > ? and status = ?", record.Id, constant.ArticleStatusPublic)
+	next, _, err := l.svcCtx.TArticleModel.FindListAndTotal(l.ctx, 1, 1, "id asc", "id > ? and status = ?", record.Id, enums.ArticleStatusPublic)
 	if err != nil {
 		return nil, err
 	}
 	// 查询推荐文章
-	recommend, _, err := l.svcCtx.TArticleModel.FindListAndTotal(l.ctx, 1, 5, "id asc", "id != ? and category_id = ? and status = ?", record.Id, record.CategoryId, constant.ArticleStatusPublic)
+	recommend, _, err := l.svcCtx.TArticleModel.FindListAndTotal(l.ctx, 1, 5, "id asc", "id != ? and category_id = ? and status = ?", record.Id, record.CategoryId, enums.ArticleStatusPublic)
 	if err != nil {
 		return nil, err
 	}
 	// 查询最新文章
-	newest, _, err := l.svcCtx.TArticleModel.FindListAndTotal(l.ctx, 1, 5, "id desc", "status = ?", constant.ArticleStatusPublic)
+	newest, _, err := l.svcCtx.TArticleModel.FindListAndTotal(l.ctx, 1, 5, "id desc", "status = ?", enums.ArticleStatusPublic)
 	if err != nil {
 		return nil, err
 	}

@@ -116,6 +116,26 @@ type IdsReq struct {
 	Ids []int64 `json:"ids"`
 }
 
+type Message struct {
+	Id             int64       `json:"id,optional"`     // 主键id
+	UserId         string      `json:"user_id"`         // 用户id
+	TerminalId     string      `json:"terminal_id"`     // 终端id
+	MessageContent string      `json:"message_content"` // 留言内容
+	Status         int64       `json:"status"`          // 状态
+	CreatedAt      int64       `json:"created_at"`      // 发布时间
+	UpdatedAt      int64       `json:"updated_at"`      // 更新时间
+	UserInfo       *UserInfoVO `json:"user_info"`       // 用户信息
+}
+
+type NoticeVO struct {
+	Id          int64  `json:"id,optional"`  // 主键ID
+	Title       string `json:"title"`        // 通知标题
+	Content     string `json:"content"`      // 通知内容
+	Type        string `json:"type"`         // 通知类型
+	Level       string `json:"level"`        // 通知等级
+	PublishTime int64  `json:"publish_time"` // 发布时间
+}
+
 type Page struct {
 	Id         int64  `json:"id"`                   // 页面id
 	PageName   string `json:"page_name"`            // 页面名
@@ -162,17 +182,6 @@ type PingResp struct {
 	Runtime     string   `json:"runtime"`
 	Description string   `json:"description"`
 	RpcStatus   []string `json:"rpc_status"`
-}
-
-type Remark struct {
-	Id             int64       `json:"id,optional"`     // 主键id
-	UserId         string      `json:"user_id"`         // 用户id
-	TerminalId     string      `json:"terminal_id"`     // 终端id
-	MessageContent string      `json:"message_content"` // 留言内容
-	Status         int64       `json:"status"`          // 状态
-	CreatedAt      int64       `json:"created_at"`      // 发布时间
-	UpdatedAt      int64       `json:"updated_at"`      // 更新时间
-	UserInfo       *UserInfoVO `json:"user_info"`       // 用户信息
 }
 
 type RewardQrCode struct {

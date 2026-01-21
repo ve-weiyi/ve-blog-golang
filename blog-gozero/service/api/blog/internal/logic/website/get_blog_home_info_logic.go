@@ -8,6 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/configrpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/noticerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/resourcerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/jsonconv"
@@ -63,6 +64,23 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		ps = append(ps, p)
 	}
 
+	not, err := l.svcCtx.NoticeRpc.FindUserNoticeList(l.ctx, &noticerpc.FindUserNoticeListReq{})
+	if err != nil {
+		return nil, err
+	}
+	ns := make([]*types.NoticeVO, 0)
+	for _, v := range not.List {
+		n := &types.NoticeVO{
+			Id:          v.Id,
+			Title:       v.Title,
+			Content:     v.Content,
+			Type:        v.Type,
+			Level:       v.Level,
+			PublishTime: v.PublishTime,
+		}
+		ns = append(ns, n)
+	}
+
 	conf, err := l.svcCtx.ConfigRpc.FindConfig(l.ctx, &configrpc.FindConfigReq{
 		ConfigKey: constant.ConfigKeyWebsite,
 	})
@@ -83,6 +101,7 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		TotalUserViewCount: visit.TotalUvCount,
 		TotalPageViewCount: visit.TotalPvCount,
 		WebsiteConfig:      config,
+		NoticeList:         ns,
 		PageList:           ps,
 	}
 

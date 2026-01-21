@@ -17,7 +17,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/configrpc"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/messagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/newsrpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/noticerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/resourcerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/socialrpc"
@@ -34,7 +35,8 @@ type ServiceContext struct {
 	AccountRpc    accountrpc.AccountRpc
 	PermissionRpc permissionrpc.PermissionRpc
 	ArticleRpc    articlerpc.ArticleRpc
-	MessageRpc    messagerpc.MessageRpc
+	NewsRpc       newsrpc.NewsRpc
+	NoticeRpc     noticerpc.NoticeRpc
 	ResourceRpc   resourcerpc.ResourceRpc
 	SocialRpc     socialrpc.SocialRpc
 	WebsiteRpc    websiterpc.WebsiteRpc
@@ -79,7 +81,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	accountRpc := accountrpc.NewAccountRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 	permissionRpc := permissionrpc.NewPermissionRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 	articleRpc := articlerpc.NewArticleRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
-	messageRpc := messagerpc.NewMessageRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
+	newsRpc := newsrpc.NewNewsRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
+	noticeRpc := noticerpc.NewNoticeRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 	resourceRpc := resourcerpc.NewResourceRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 	talkRpc := socialrpc.NewSocialRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 	websiteRpc := websiterpc.NewWebsiteRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
@@ -88,7 +91,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 	hub := client.NewStompHubServer(
 		client.WithEventHooks(
-			stomphook.NewChatRoomEventHook(accountRpc, messageRpc),
+			stomphook.NewChatRoomEventHook(accountRpc, newsRpc),
 			stomphook.NewOnlineEventHook(),
 		),
 		client.WithAuthenticator(stomphook.NewSignAuthenticator(th)),
@@ -100,7 +103,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		AccountRpc:    accountRpc,
 		PermissionRpc: permissionRpc,
 		ArticleRpc:    articleRpc,
-		MessageRpc:    messageRpc,
+		NewsRpc:       newsRpc,
+		NoticeRpc:     noticeRpc,
 		ResourceRpc:   resourceRpc,
 		SocialRpc:     talkRpc,
 		WebsiteRpc:    websiteRpc,

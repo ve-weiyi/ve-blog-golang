@@ -6,7 +6,7 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
@@ -94,7 +94,7 @@ func (l *ThirdLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 		Email:        info.Email,
 		Phone:        info.Mobile,
 		Info:         "",
-		Status:       constant.UserStatusNormal,
+		Status:       enums.UserStatusNormal,
 		RegisterType: platform,
 		IpAddress:    ip,
 		IpSource:     is,

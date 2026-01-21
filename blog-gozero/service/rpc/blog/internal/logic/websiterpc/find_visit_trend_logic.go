@@ -3,7 +3,7 @@ package websiterpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -26,12 +26,12 @@ func NewFindVisitTrendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 查询用户访问趋势
 func (l *FindVisitTrendLogic) FindVisitTrend(in *websiterpc.FindVisitTrendReq) (*websiterpc.FindVisitTrendResp, error) {
-	uvs, err := l.svcCtx.TVisitDailyStatsModel.FindALL(l.ctx, "date >= ? and date <= ? and visit_type = ?", in.StartDate, in.EndDate, constant.VisitTypeUv)
+	uvs, err := l.svcCtx.TVisitDailyStatsModel.FindALL(l.ctx, "date >= ? and date <= ? and visit_type = ?", in.StartDate, in.EndDate, enums.VisitTypeUv)
 	if err != nil {
 		return nil, err
 	}
 
-	pvs, err := l.svcCtx.TVisitDailyStatsModel.FindALL(l.ctx, "date >= ? and date <= ? and visit_type = ?", in.StartDate, in.EndDate, constant.VisitTypePv)
+	pvs, err := l.svcCtx.TVisitDailyStatsModel.FindALL(l.ctx, "date >= ? and date <= ? and visit_type = ?", in.StartDate, in.EndDate, enums.VisitTypePv)
 	if err != nil {
 		return nil, err
 	}

@@ -10,9 +10,9 @@ import (
 
 	"github.com/go-stomp/stomp/v3/frame"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/messagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/newsrpc"
 	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/stompws/server/client"
@@ -25,13 +25,13 @@ type ChatRoomEventHook struct {
 	onlineUser  sync.Map // key: clientId, value: userInfo
 
 	AccountRpc accountrpc.AccountRpc
-	MessageRpc messagerpc.MessageRpc
+	NewsRpc    newsrpc.NewsRpc
 }
 
-func NewChatRoomEventHook(accountRpc accountrpc.AccountRpc, messageRpc messagerpc.MessageRpc) *ChatRoomEventHook {
+func NewChatRoomEventHook(accountRpc accountrpc.AccountRpc, newsRpc newsrpc.NewsRpc) *ChatRoomEventHook {
 	return &ChatRoomEventHook{
 		AccountRpc: accountRpc,
-		MessageRpc: messageRpc,
+		NewsRpc:    newsRpc,
 	}
 }
 
@@ -107,7 +107,7 @@ func (h *ChatRoomEventHook) OnSubscribe(server *client.StompHubServer, c *client
 	server.RouteMessage(nil, online)
 
 	// 3. 私发历史消息
-	out, err := h.MessageRpc.FindChatList(context.Background(), &messagerpc.FindChatListReq{
+	out, err := h.NewsRpc.FindChatList(context.Background(), &newsrpc.FindChatListReq{
 		After:   time.Now().Add(-365 * 24 * time.Hour).UnixMilli(),
 		Before:  time.Now().UnixMilli(),
 		Limit:   0,
@@ -209,7 +209,7 @@ func (h *ChatRoomEventHook) OnSend(server *client.StompHubServer, c *client.Clie
 			}
 		}
 
-		out, err := h.MessageRpc.AddChat(context.Background(), &messagerpc.AddChatReq{
+		out, err := h.NewsRpc.AddChat(context.Background(), &newsrpc.AddChatReq{
 			UserId:     userId,
 			TerminalId: clientId,
 			IpAddress:  ip,
@@ -218,7 +218,7 @@ func (h *ChatRoomEventHook) OnSend(server *client.StompHubServer, c *client.Clie
 			Avatar:     avatar,
 			Type:       send.Type,
 			Content:    send.Content,
-			Status:     constant.ChatStatusNormal,
+			Status:     enums.ChatStatusNormal,
 		})
 		if err != nil {
 			return false
@@ -252,7 +252,7 @@ func (h *ChatRoomEventHook) OnSend(server *client.StompHubServer, c *client.Clie
 		var edit EditMessageEvent
 		jsonconv.JsonToAny(event.Data, &edit)
 		// 2. 更新数据库
-		out, err := h.MessageRpc.UpdateChat(context.Background(), &messagerpc.UpdateChatReq{
+		out, err := h.NewsRpc.UpdateChat(context.Background(), &newsrpc.UpdateChatReq{
 			Id:      edit.Id,
 			Type:    edit.Type,
 			Content: edit.Content,

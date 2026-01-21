@@ -41,10 +41,10 @@ func WithSorts(sorts ...string) Option {
 }
 
 // WithCondition 添加查询条件
-func WithCondition(condition string, value any) Option {
+func WithCondition(condition string, value ...any) Option {
 	return func(qb *QueryBuilder) {
 		qb.conditions = append(qb.conditions, condition)
-		qb.params = append(qb.params, value)
+		qb.params = append(qb.params, value...)
 	}
 }
 

@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/messagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/newsrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/socialrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -59,7 +59,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.QueryTalkReq) (resp *types.P
 	}
 
 	// 查询评论量
-	counts, err := l.svcCtx.MessageRpc.FindCommentReplyCounts(l.ctx, &messagerpc.FindCommentReplyCountsReq{
+	counts, err := l.svcCtx.NewsRpc.FindCommentReplyCounts(l.ctx, &newsrpc.FindCommentReplyCountsReq{
 		TopicIds: tids,
 	})
 	if err != nil {

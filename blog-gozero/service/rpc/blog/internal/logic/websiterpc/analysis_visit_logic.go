@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
@@ -62,7 +62,7 @@ func (l *AnalysisVisitLogic) getTodayUvCount(day string) int64 {
 	uvCount, err := l.svcCtx.Redis.ZScore(l.ctx, key, day).Result()
 	if err != nil {
 		l.Logger.Errorf("getTodayUvCount err: %v", err)
-		record, err := l.svcCtx.TVisitDailyStatsModel.FindOneByDateVisitType(l.ctx, day, constant.VisitTypeUv)
+		record, err := l.svcCtx.TVisitDailyStatsModel.FindOneByDateVisitType(l.ctx, day, enums.VisitTypeUv)
 		if err != nil {
 			return 0
 		}
@@ -82,7 +82,7 @@ func (l *AnalysisVisitLogic) getTodayPvCount(day string) int64 {
 	pvCount, err := l.svcCtx.Redis.ZScore(l.ctx, key, day).Result()
 	if err != nil {
 		l.Logger.Errorf("getTodayPvCount err: %v", err)
-		record, err := l.svcCtx.TVisitDailyStatsModel.FindOneByDateVisitType(l.ctx, day, constant.VisitTypePv)
+		record, err := l.svcCtx.TVisitDailyStatsModel.FindOneByDateVisitType(l.ctx, day, enums.VisitTypePv)
 		if err != nil {
 			return 0
 		}
@@ -103,7 +103,7 @@ func (l *AnalysisVisitLogic) getTotalUvCount() int64 {
 	uvCount, err := l.svcCtx.Redis.Get(l.ctx, key).Int64()
 	if err != nil {
 		l.Logger.Errorf("getTotalUvCount err: %v", err)
-		records, err := l.svcCtx.TVisitDailyStatsModel.FindALL(l.ctx, "visit_type = ?", constant.VisitTypeUv)
+		records, err := l.svcCtx.TVisitDailyStatsModel.FindALL(l.ctx, "visit_type = ?", enums.VisitTypeUv)
 		if err != nil {
 			return 0
 		}
@@ -123,7 +123,7 @@ func (l *AnalysisVisitLogic) getTotalPvCount() int64 {
 	pvCount, err := l.svcCtx.Redis.Get(l.ctx, key).Int64()
 	if err != nil {
 		l.Logger.Errorf("getTotalPvCount err: %v", err)
-		records, err := l.svcCtx.TVisitDailyStatsModel.FindALL(l.ctx, "visit_type = ?", constant.VisitTypePv)
+		records, err := l.svcCtx.TVisitDailyStatsModel.FindALL(l.ctx, "visit_type = ?", enums.VisitTypePv)
 		if err != nil {
 			return 0
 		}

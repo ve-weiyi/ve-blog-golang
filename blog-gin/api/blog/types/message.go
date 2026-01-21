@@ -1,0 +1,9 @@
+package types
+
+type NewMessageReq struct {
+	MessageContent string `json:"message_content"` // 留言内容
+}
+
+type QueryMessageReq struct {
+	PageQuery
+}

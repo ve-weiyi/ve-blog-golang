@@ -5,7 +5,7 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
@@ -38,8 +38,8 @@ func (l *AddArticleLogic) AddArticle(in *articlerpc.AddArticleReq) (*articlerpc.
 		ArticleContent: in.ArticleContent,
 		ArticleType:    in.ArticleType,
 		OriginalUrl:    in.OriginalUrl,
-		IsTop:          constant.ArticleIsTopNo,
-		IsDelete:       constant.ArticleIsDeleteNo,
+		IsTop:          enums.ArticleIsTopNo,
+		IsDelete:       enums.ArticleIsDeleteNo,
 		Status:         in.Status,
 		LikeCount:      0,
 	}

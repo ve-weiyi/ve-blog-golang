@@ -5,7 +5,7 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
@@ -41,12 +41,12 @@ func (l *LoginLogic) Login(in *accountrpc.LoginReq) (*accountrpc.LoginResp, erro
 		return nil, bizerr.NewBizError(bizcode.CodeUserPasswordError, "密码不正确")
 	}
 
-	return onLogin(l.ctx, l.svcCtx, account, constant.LoginTypeUsername)
+	return onLogin(l.ctx, l.svcCtx, account, enums.LoginTypeUsername)
 }
 
 func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser, loginType string) (resp *accountrpc.LoginResp, err error) {
 	// 判断用户是否被禁用
-	if user.Status == constant.UserStatusDisabled {
+	if user.Status == enums.UserStatusDisabled {
 		return nil, bizerr.NewBizError(bizcode.CodeUserDisabled, "用户已被禁用")
 	}
 

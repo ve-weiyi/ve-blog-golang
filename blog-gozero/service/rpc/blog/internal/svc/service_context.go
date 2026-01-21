@@ -52,9 +52,10 @@ type ServiceContext struct {
 	TArticleTagModel model.TArticleTagModel
 
 	// message models
-	TChatModel    model.TChatModel
-	TCommentModel model.TCommentModel
-	TRemarkModel  model.TRemarkModel
+	TChatModel          model.TChatModel
+	TCommentModel       model.TCommentModel
+	TMessageModel       model.TMessageModel
+	TSystemNoticeModel  model.TSystemNoticeModel
 
 	// website models
 	TWebsiteConfigModel   model.TWebsiteConfigModel
@@ -117,9 +118,10 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TTagModel:        model.NewTTagModel(db),
 		TArticleTagModel: model.NewTArticleTagModel(db),
 		// message models
-		TChatModel:    model.NewTChatModel(db),
-		TCommentModel: model.NewTCommentModel(db),
-		TRemarkModel:  model.NewTRemarkModel(db),
+		TChatModel:         model.NewTChatModel(db),
+		TCommentModel:      model.NewTCommentModel(db),
+		TMessageModel:      model.NewTMessageModel(db),
+		TSystemNoticeModel: model.NewTSystemNoticeModel(db),
 		// website models
 		TWebsiteConfigModel:   model.NewTWebsiteConfigModel(db),
 		TAlbumModel:           model.NewTAlbumModel(db),

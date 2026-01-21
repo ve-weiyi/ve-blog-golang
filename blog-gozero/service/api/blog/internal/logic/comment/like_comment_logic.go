@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/messagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/newsrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,9 +26,9 @@ func NewLikeCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LikeC
 }
 
 func (l *LikeCommentLogic) LikeComment(req *types.IdReq) (resp *types.EmptyResp, err error) {
-	in := &messagerpc.LikeCommentReq{Id: req.Id}
+	in := &newsrpc.LikeCommentReq{Id: req.Id}
 
-	_, err = l.svcCtx.MessageRpc.LikeComment(l.ctx, in)
+	_, err = l.svcCtx.NewsRpc.LikeComment(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

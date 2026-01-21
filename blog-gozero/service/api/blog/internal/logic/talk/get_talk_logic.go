@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/messagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/newsrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/socialrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 )
@@ -46,7 +46,7 @@ func (l *GetTalkLogic) GetTalk(req *types.IdReq) (resp *types.Talk, err error) {
 	}
 
 	// 查询评论量
-	counts, err := l.svcCtx.MessageRpc.FindCommentReplyCounts(l.ctx, &messagerpc.FindCommentReplyCountsReq{
+	counts, err := l.svcCtx.NewsRpc.FindCommentReplyCounts(l.ctx, &newsrpc.FindCommentReplyCountsReq{
 		TopicIds: []int64{out.Talk.Id},
 	})
 	if err != nil {

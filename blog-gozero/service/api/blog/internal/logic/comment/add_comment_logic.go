@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/messagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/newsrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,7 +26,7 @@ func NewAddCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCom
 }
 
 func (l *AddCommentLogic) AddComment(req *types.NewCommentReq) (resp *types.EmptyResp, err error) {
-	in := &messagerpc.AddCommentReq{
+	in := &newsrpc.AddCommentReq{
 		ParentId:       req.ParentId,
 		TopicId:        req.TopicId,
 		ReplyId:        req.ReplyId,
@@ -35,7 +35,7 @@ func (l *AddCommentLogic) AddComment(req *types.NewCommentReq) (resp *types.Empt
 		Type:           req.Type,
 		Status:         req.Status,
 	}
-	_, err = l.svcCtx.MessageRpc.AddComment(l.ctx, in)
+	_, err = l.svcCtx.NewsRpc.AddComment(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

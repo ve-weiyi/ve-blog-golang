@@ -11,7 +11,16 @@ type (
 		TotalUserViewCount int64           `json:"total_user_view_count"` // 总服务量
 		TotalPageViewCount int64           `json:"total_page_view_count"` // 总浏览量
 		PageList           []*PageVO       `json:"page_list"` // 页面列表
+		NoticeList         []*NoticeVO     `json:"notice_list"` // 通知列表
 		WebsiteConfig      WebsiteConfigVO `json:"website_config"` // 网站配置
+	}
+	NoticeVO {
+		Id          int64  `json:"id,optional"` // 主键ID
+		Title       string `json:"title"` // 通知标题
+		Content     string `json:"content"` // 通知内容
+		Type        string `json:"type"` // 通知类型
+		Level       string `json:"level"` // 通知等级
+		PublishTime int64  `json:"publish_time"` // 发布时间
 	}
 	PageVO {
 		Id         int64  `json:"id"` // 页面ID

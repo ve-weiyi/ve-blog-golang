@@ -12,8 +12,8 @@ import (
 	category "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/handler/category"
 	comment "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/handler/comment"
 	friend "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/handler/friend"
+	message "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/handler/message"
 	page "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/handler/page"
-	remark "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/handler/remark"
 	tag "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/handler/tag"
 	talk "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/handler/talk"
 	upload "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/handler/upload"
@@ -296,22 +296,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				// 分页获取页面列表
-				Method:  http.MethodPost,
-				Path:    "/page/find_page_list",
-				Handler: page.FindPageListHandler(serverCtx),
-			},
-		},
-		rest.WithPrefix("/blog-api/v1"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
 				// 分页获取留言列表
 				Method:  http.MethodPost,
-				Path:    "/remark/find_remark_list",
-				Handler: remark.FindRemarkListHandler(serverCtx),
+				Path:    "/message/find_message_list",
+				Handler: message.FindMessageListHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/blog-api/v1"),
@@ -322,8 +310,20 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				// 创建留言
 				Method:  http.MethodPost,
-				Path:    "/remark/add_remark",
-				Handler: remark.AddRemarkHandler(serverCtx),
+				Path:    "/message/add_message",
+				Handler: message.AddMessageHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/blog-api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 分页获取页面列表
+				Method:  http.MethodPost,
+				Path:    "/page/find_page_list",
+				Handler: page.FindPageListHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/blog-api/v1"),

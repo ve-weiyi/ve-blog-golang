@@ -3105,6 +3105,503 @@
         }
       }
     },
+    "/admin-api/v1/message/deletes_message": {
+      "delete": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "留言管理"
+        ],
+        "summary": "删除留言",
+        "operationId": "messageDeletesMessage",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "$ref": "#/definitions/BatchResp"
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/message/find_message_list": {
+      "post": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "留言管理"
+        ],
+        "summary": "分页获取留言列表",
+        "operationId": "messageFindMessageList",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QueryMessageReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "$ref": "#/definitions/PageResp"
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/message/update_message_status": {
+      "put": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "留言管理"
+        ],
+        "summary": "更新留言状态",
+        "operationId": "messageUpdateMessageStatus",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "$ref": "#/definitions/BatchResp"
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/notice/add_notice": {
+      "post": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "通知管理"
+        ],
+        "summary": "创建通知",
+        "operationId": "noticeAddNotice",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddNoticeReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "$ref": "#/definitions/NoticeBackVO"
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/notice/deletes_notice": {
+      "delete": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "通知管理"
+        ],
+        "summary": "删除通知",
+        "operationId": "noticeDeletesNotice",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "$ref": "#/definitions/BatchResp"
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/notice/find_notice_list": {
+      "post": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "通知管理"
+        ],
+        "summary": "分页获取通知列表",
+        "operationId": "noticeFindNoticeList",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QueryNoticeReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "$ref": "#/definitions/PageResp"
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/notice/find_user_notice_list": {
+      "post": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "通知管理"
+        ],
+        "summary": "查询用户通知列表",
+        "operationId": "noticeFindUserNoticeList",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QueryUserNoticeReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "$ref": "#/definitions/PageResp"
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/notice/get_notice": {
+      "get": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "通知管理"
+        ],
+        "summary": "查询通知详情",
+        "operationId": "noticeGetNotice",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "$ref": "#/definitions/NoticeBackVO"
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/notice/update_notice": {
+      "put": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "通知管理"
+        ],
+        "summary": "更新通知",
+        "operationId": "noticeUpdateNotice",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "$ref": "#/definitions/NoticeBackVO"
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-api/v1/notice/update_notice_status": {
+      "put": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "通知管理"
+        ],
+        "summary": "更新通知状态",
+        "operationId": "noticeUpdateNoticeStatus",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
+                  "type": "integer",
+                  "example": 0
+                },
+                "data": {
+                  "$ref": "#/definitions/NoticeBackVO"
+                },
+                "msg": {
+                  "description": "business message",
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin-api/v1/operation_log/deletes_operation_log": {
       "delete": {
         "security": [
@@ -3837,154 +4334,6 @@
                 },
                 "data": {
                   "$ref": "#/definitions/EmptyResp"
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/remark/deletes_remark": {
-      "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "留言管理"
-        ],
-        "summary": "删除留言",
-        "operationId": "remarkDeletesRemark",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "$ref": "#/definitions/BatchResp"
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/remark/find_remark_list": {
-      "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "留言管理"
-        ],
-        "summary": "分页获取留言列表",
-        "operationId": "remarkFindRemarkList",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/QueryRemarkReq"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "$ref": "#/definitions/PageResp"
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/remark/update_remark_status": {
-      "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "留言管理"
-        ],
-        "summary": "更新留言状态",
-        "operationId": "remarkUpdateRemarkStatus",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "$ref": "#/definitions/BatchResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -6031,12 +6380,43 @@
         }
       }
     },
+    "AddNoticeReq": {
+      "type": "object",
+      "required": [
+        "title",
+        "content",
+        "type",
+        "level"
+      ],
+      "properties": {
+        "app_name": {
+          "description": "目标应用名称",
+          "type": "string"
+        },
+        "content": {
+          "description": "通知内容",
+          "type": "string"
+        },
+        "level": {
+          "description": "通知等级",
+          "type": "string"
+        },
+        "title": {
+          "description": "通知标题",
+          "type": "string"
+        },
+        "type": {
+          "description": "通知类型",
+          "type": "string"
+        }
+      }
+    },
     "AdminHomeInfo": {
       "type": "object",
       "required": [
         "user_count",
         "article_count",
-        "remark_count",
+        "message_count",
         "category_list",
         "tag_list",
         "article_view_ranks",
@@ -6068,7 +6448,7 @@
             "$ref": "#/definitions/CategoryVO"
           }
         },
-        "remark_count": {
+        "message_count": {
           "description": "留言量",
           "type": "integer"
         },
@@ -7422,6 +7802,120 @@
         }
       }
     },
+    "MessageBackVO": {
+      "type": "object",
+      "required": [
+        "user_id",
+        "terminal_id",
+        "message_content",
+        "status",
+        "created_at",
+        "updated_at",
+        "user_info",
+        "client_info"
+      ],
+      "properties": {
+        "client_info": {
+          "description": "客户端信息",
+          "type": "object",
+          "required": [
+            "terminal_id",
+            "os",
+            "browser",
+            "ip_address",
+            "ip_source"
+          ],
+          "properties": {
+            "browser": {
+              "description": "浏览器",
+              "type": "string"
+            },
+            "ip_address": {
+              "description": "IP地址",
+              "type": "string"
+            },
+            "ip_source": {
+              "description": "IP归属地",
+              "type": "string"
+            },
+            "os": {
+              "description": "操作系统",
+              "type": "string"
+            },
+            "terminal_id": {
+              "description": "终端ID",
+              "type": "string"
+            }
+          },
+          "$ref": "#/definitions/ClientInfoVO"
+        },
+        "created_at": {
+          "description": "发布时间",
+          "type": "integer"
+        },
+        "id": {
+          "description": "主键id",
+          "type": "integer"
+        },
+        "message_content": {
+          "description": "留言内容",
+          "type": "string"
+        },
+        "status": {
+          "description": "状态",
+          "type": "integer"
+        },
+        "terminal_id": {
+          "description": "终端id",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "更新时间",
+          "type": "integer"
+        },
+        "user_id": {
+          "description": "用户ID",
+          "type": "string"
+        },
+        "user_info": {
+          "description": "用户信息",
+          "type": "object",
+          "required": [
+            "user_id",
+            "username",
+            "avatar",
+            "nickname"
+          ],
+          "properties": {
+            "avatar": {
+              "type": "string"
+            },
+            "gender": {
+              "description": "性别 0未知 1男 2女",
+              "type": "integer"
+            },
+            "intro": {
+              "description": "简介",
+              "type": "string"
+            },
+            "nickname": {
+              "type": "string"
+            },
+            "user_id": {
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
+            },
+            "website": {
+              "description": "网站",
+              "type": "string"
+            }
+          },
+          "$ref": "#/definitions/UserInfoVO"
+        }
+      }
+    },
     "MultiUploadFileReq": {
       "type": "object"
     },
@@ -7840,6 +8334,72 @@
         },
         "status": {
           "description": "状态 1.公开 2.私密",
+          "type": "integer"
+        }
+      }
+    },
+    "NoticeBackVO": {
+      "type": "object",
+      "required": [
+        "title",
+        "content",
+        "type",
+        "level",
+        "app_name",
+        "publisher_id",
+        "publish_status",
+        "publish_time",
+        "revoke_time",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "app_name": {
+          "description": "目标应用名称",
+          "type": "string"
+        },
+        "content": {
+          "description": "通知内容",
+          "type": "string"
+        },
+        "created_at": {
+          "description": "创建时间",
+          "type": "integer"
+        },
+        "id": {
+          "description": "主键ID",
+          "type": "integer"
+        },
+        "level": {
+          "description": "通知等级",
+          "type": "string"
+        },
+        "publish_status": {
+          "description": "发布状态",
+          "type": "integer"
+        },
+        "publish_time": {
+          "description": "发布时间",
+          "type": "integer"
+        },
+        "publisher_id": {
+          "description": "发布人ID",
+          "type": "string"
+        },
+        "revoke_time": {
+          "description": "撤回时间",
+          "type": "integer"
+        },
+        "title": {
+          "description": "通知标题",
+          "type": "string"
+        },
+        "type": {
+          "description": "通知类型",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "更新时间",
           "type": "integer"
         }
       }
@@ -8507,6 +9067,74 @@
         }
       }
     },
+    "QueryMessageReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "description": "当前页码",
+          "type": "integer"
+        },
+        "page_size": {
+          "description": "每页数量",
+          "type": "integer"
+        },
+        "sorts": {
+          "description": "排序",
+          "type": "array",
+          "default": "[]",
+          "items": {
+            "type": "string"
+          },
+          "example": "[]"
+        },
+        "status": {
+          "description": "状态",
+          "type": "integer"
+        },
+        "user_id": {
+          "description": "用户ID",
+          "type": "string"
+        }
+      }
+    },
+    "QueryNoticeReq": {
+      "type": "object",
+      "properties": {
+        "app_name": {
+          "description": "目标应用名称",
+          "type": "string"
+        },
+        "level": {
+          "description": "通知等级",
+          "type": "string"
+        },
+        "page": {
+          "description": "当前页码",
+          "type": "integer"
+        },
+        "page_size": {
+          "description": "每页数量",
+          "type": "integer"
+        },
+        "publish_status": {
+          "description": "发布状态",
+          "type": "integer"
+        },
+        "sorts": {
+          "description": "排序",
+          "type": "array",
+          "default": "[]",
+          "items": {
+            "type": "string"
+          },
+          "example": "[]"
+        },
+        "type": {
+          "description": "通知类型",
+          "type": "string"
+        }
+      }
+    },
     "QueryOperationLogReq": {
       "type": "object",
       "properties": {
@@ -8582,36 +9210,6 @@
             "type": "string"
           },
           "example": "[]"
-        }
-      }
-    },
-    "QueryRemarkReq": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "description": "当前页码",
-          "type": "integer"
-        },
-        "page_size": {
-          "description": "每页数量",
-          "type": "integer"
-        },
-        "sorts": {
-          "description": "排序",
-          "type": "array",
-          "default": "[]",
-          "items": {
-            "type": "string"
-          },
-          "example": "[]"
-        },
-        "status": {
-          "description": "状态",
-          "type": "integer"
-        },
-        "user_id": {
-          "description": "用户ID",
-          "type": "string"
         }
       }
     },
@@ -8702,6 +9300,28 @@
       }
     },
     "QueryUserLoginHistoryReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "description": "当前页码",
+          "type": "integer"
+        },
+        "page_size": {
+          "description": "每页数量",
+          "type": "integer"
+        },
+        "sorts": {
+          "description": "排序",
+          "type": "array",
+          "default": "[]",
+          "items": {
+            "type": "string"
+          },
+          "example": "[]"
+        }
+      }
+    },
+    "QueryUserNoticeReq": {
       "type": "object",
       "properties": {
         "page": {
@@ -8836,120 +9456,6 @@
         "verify_code": {
           "description": "验证码",
           "type": "string"
-        }
-      }
-    },
-    "RemarkBackVO": {
-      "type": "object",
-      "required": [
-        "user_id",
-        "terminal_id",
-        "message_content",
-        "status",
-        "created_at",
-        "updated_at",
-        "user_info",
-        "client_info"
-      ],
-      "properties": {
-        "client_info": {
-          "description": "客户端信息",
-          "type": "object",
-          "required": [
-            "terminal_id",
-            "os",
-            "browser",
-            "ip_address",
-            "ip_source"
-          ],
-          "properties": {
-            "browser": {
-              "description": "浏览器",
-              "type": "string"
-            },
-            "ip_address": {
-              "description": "IP地址",
-              "type": "string"
-            },
-            "ip_source": {
-              "description": "IP归属地",
-              "type": "string"
-            },
-            "os": {
-              "description": "操作系统",
-              "type": "string"
-            },
-            "terminal_id": {
-              "description": "终端ID",
-              "type": "string"
-            }
-          },
-          "$ref": "#/definitions/ClientInfoVO"
-        },
-        "created_at": {
-          "description": "发布时间",
-          "type": "integer"
-        },
-        "id": {
-          "description": "主键id",
-          "type": "integer"
-        },
-        "message_content": {
-          "description": "留言内容",
-          "type": "string"
-        },
-        "status": {
-          "description": "状态",
-          "type": "integer"
-        },
-        "terminal_id": {
-          "description": "终端id",
-          "type": "string"
-        },
-        "updated_at": {
-          "description": "更新时间",
-          "type": "integer"
-        },
-        "user_id": {
-          "description": "用户ID",
-          "type": "string"
-        },
-        "user_info": {
-          "description": "用户信息",
-          "type": "object",
-          "required": [
-            "user_id",
-            "username",
-            "avatar",
-            "nickname"
-          ],
-          "properties": {
-            "avatar": {
-              "type": "string"
-            },
-            "gender": {
-              "description": "性别 0未知 1男 2女",
-              "type": "integer"
-            },
-            "intro": {
-              "description": "简介",
-              "type": "string"
-            },
-            "nickname": {
-              "type": "string"
-            },
-            "user_id": {
-              "type": "string"
-            },
-            "username": {
-              "type": "string"
-            },
-            "website": {
-              "description": "网站",
-              "type": "string"
-            }
-          },
-          "$ref": "#/definitions/UserInfoVO"
         }
       }
     },
@@ -9512,6 +10018,77 @@
         }
       }
     },
+    "UpdateMessageStatusReq": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "status": {
+          "description": "状态",
+          "type": "integer"
+        }
+      }
+    },
+    "UpdateNoticeReq": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "content",
+        "type",
+        "level"
+      ],
+      "properties": {
+        "app_name": {
+          "description": "目标应用名称",
+          "type": "string"
+        },
+        "content": {
+          "description": "通知内容",
+          "type": "string"
+        },
+        "id": {
+          "description": "主键ID",
+          "type": "integer"
+        },
+        "level": {
+          "description": "通知等级",
+          "type": "string"
+        },
+        "title": {
+          "description": "通知标题",
+          "type": "string"
+        },
+        "type": {
+          "description": "通知类型",
+          "type": "string"
+        }
+      }
+    },
+    "UpdateNoticeStatusReq": {
+      "type": "object",
+      "required": [
+        "id",
+        "publish_status"
+      ],
+      "properties": {
+        "id": {
+          "description": "主键ID",
+          "type": "integer"
+        },
+        "publish_status": {
+          "description": "发布状态",
+          "type": "integer"
+        }
+      }
+    },
     "UpdatePhotoDeleteReq": {
       "type": "object",
       "required": [
@@ -9528,24 +10105,6 @@
         },
         "is_delete": {
           "description": "是否删除",
-          "type": "integer"
-        }
-      }
-    },
-    "UpdateRemarkStatusReq": {
-      "type": "object",
-      "required": [
-        "status"
-      ],
-      "properties": {
-        "ids": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          }
-        },
-        "status": {
-          "description": "状态",
           "type": "integer"
         }
       }
@@ -10693,7 +11252,7 @@
       "in": "header"
     }
   },
-  "x-date": "2026-01-19 03:05:37",
+  "x-date": "2026-01-22 19:33:39",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

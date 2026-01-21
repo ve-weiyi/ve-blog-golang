@@ -48,21 +48,17 @@ func (l *GetUserInfoLogic) GetUserInfo(req *types.EmptyReq) (resp *types.UserInf
 		return nil, err
 	}
 
-	ur, err := l.svcCtx.PermissionRpc.FindUserRoles(l.ctx, &permissionrpc.FindUserRolesReq{
+	um, err := l.svcCtx.PermissionRpc.FindUserMenus(l.ctx, &permissionrpc.FindUserMenusReq{
 		UserId: userId,
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	up, err := l.svcCtx.PermissionRpc.FindUserApis(l.ctx, &permissionrpc.FindUserApisReq{
-		UserId: userId,
-	})
-
-	return convertUserInfoTypes(info.User, thp, ur, up), nil
+	return convertUserInfoTypes(info.User, thp, um), nil
 }
 
-func convertUserInfoTypes(in *accountrpc.UserInfo, thp *accountrpc.GetUserOauthInfoResp, ur *permissionrpc.FindUserRolesResp, up *permissionrpc.FindUserApisResp) (out *types.UserInfoResp) {
+func convertUserInfoTypes(in *accountrpc.UserInfo, thp *accountrpc.GetUserOauthInfoResp, um *permissionrpc.FindUserMenusResp) (out *types.UserInfoResp) {
 	var info types.UserInfoExt
 	jsonconv.JsonToAny(in.Info, &info)
 
@@ -82,10 +78,7 @@ func convertUserInfoTypes(in *accountrpc.UserInfo, thp *accountrpc.GetUserOauthI
 		roles = append(roles, v.RoleKey)
 	}
 
-	perms := make([]string, 0)
-	for _, v := range up.List {
-		perms = append(perms, v.Path)
-	}
+	perms := extractMenuPerms(um.List)
 
 	out = &types.UserInfoResp{
 		UserId:       in.UserId,
@@ -103,4 +96,15 @@ func convertUserInfoTypes(in *accountrpc.UserInfo, thp *accountrpc.GetUserOauthI
 	}
 
 	return out
+}
+
+func extractMenuPerms(menus []*permissionrpc.Menu) []string {
+	perms := make([]string, 0)
+	for _, menu := range menus {
+		if menu.Meta.Perm != "" {
+			perms = append(perms, menu.Meta.Perm)
+		}
+		perms = append(perms, extractMenuPerms(menu.Children)...)
+	}
+	return perms
 }

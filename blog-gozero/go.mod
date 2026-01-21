@@ -15,7 +15,6 @@ require (
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/go-stomp/stomp/v3 v3.1.5
 	github.com/golang-jwt/jwt/v5 v5.3.0
-	github.com/google/uuid v1.6.0
 	github.com/mssola/useragent v1.0.0
 	github.com/openai/openai-go/v3 v3.15.0
 	github.com/redis/go-redis/v9 v9.17.2
@@ -101,6 +100,7 @@ require (
 	github.com/google/gnostic-models v0.6.8 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/grafana/pyroscope-go v1.2.7 // indirect
 	github.com/grafana/pyroscope-go/godeltaprof v0.1.9 // indirect

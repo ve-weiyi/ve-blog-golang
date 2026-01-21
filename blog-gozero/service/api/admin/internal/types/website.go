@@ -10,7 +10,7 @@ type AboutMeVO struct {
 type AdminHomeInfo struct {
 	UserCount         int64                  `json:"user_count"`         // 用户量
 	ArticleCount      int64                  `json:"article_count"`      // 文章量
-	RemarkCount       int64                  `json:"remark_count"`       // 留言量
+	MessageCount      int64                  `json:"message_count"`      // 留言量
 	CategoryList      []*CategoryVO          `json:"category_list"`      // 分类列表
 	TagList           []*TagVO               `json:"tag_list"`           // 标签列表
 	ArticleViewRanks  []*ArticleViewVO       `json:"article_view_ranks"` // 文章浏览量排行

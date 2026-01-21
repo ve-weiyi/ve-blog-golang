@@ -107,6 +107,18 @@ type MenuMetaParams struct {
 	Value string `json:"value,optional"`
 }
 
+type MessageBackVO struct {
+	Id             int64         `json:"id,optional"`     // 主键id
+	UserId         string        `json:"user_id"`         // 用户ID
+	TerminalId     string        `json:"terminal_id"`     // 终端id
+	MessageContent string        `json:"message_content"` // 留言内容
+	Status         int64         `json:"status"`          // 状态
+	CreatedAt      int64         `json:"created_at"`      // 发布时间
+	UpdatedAt      int64         `json:"updated_at"`      // 更新时间
+	UserInfo       *UserInfoVO   `json:"user_info"`       // 用户信息
+	ClientInfo     *ClientInfoVO `json:"client_info"`     // 客户端信息
+}
+
 type OperationLogBackVO struct {
 	Id             int64         `json:"id,optional"`     // 主键id
 	UserId         string        `json:"user_id"`         // 用户id
@@ -147,18 +159,6 @@ type PingResp struct {
 	Version     string `json:"version"`
 	Description string `json:"description"`
 	Runtime     string `json:"runtime"`
-}
-
-type RemarkBackVO struct {
-	Id             int64         `json:"id,optional"`     // 主键id
-	UserId         string        `json:"user_id"`         // 用户ID
-	TerminalId     string        `json:"terminal_id"`     // 终端id
-	MessageContent string        `json:"message_content"` // 留言内容
-	Status         int64         `json:"status"`          // 状态
-	CreatedAt      int64         `json:"created_at"`      // 发布时间
-	UpdatedAt      int64         `json:"updated_at"`      // 更新时间
-	UserInfo       *UserInfoVO   `json:"user_info"`       // 用户信息
-	ClientInfo     *ClientInfoVO `json:"client_info"`     // 客户端信息
 }
 
 type RewardQrCode struct {

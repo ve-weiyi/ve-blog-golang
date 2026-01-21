@@ -3,7 +3,7 @@ package article
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
@@ -34,9 +34,9 @@ func (l *FindArticleHomeListLogic) FindArticleHomeList(req *types.QueryArticleHo
 			Sorts:    req.Sorts,
 		},
 		ArticleTitle: req.ArticleTitle,
-		IsTop:        constant.ArticleIsTopALL,
-		IsDelete:     constant.ArticleIsDeleteNo,
-		Status:       constant.ArticleStatusPublic,
+		IsTop:        enums.ArticleIsTopALL,
+		IsDelete:     enums.ArticleIsDeleteNo,
+		Status:       enums.ArticleStatusPublic,
 	}
 
 	out, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, in)

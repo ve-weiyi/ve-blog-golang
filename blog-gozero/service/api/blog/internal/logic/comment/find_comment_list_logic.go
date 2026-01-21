@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/messagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/newsrpc"
 )
 
 type FindCommentListLogic struct {
@@ -27,8 +27,8 @@ func NewFindCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 }
 
 func (l *FindCommentListLogic) FindCommentList(req *types.QueryCommentReq) (resp *types.PageResp, err error) {
-	in := &messagerpc.FindCommentReplyListReq{
-		Paginate: &messagerpc.PageReq{
+	in := &newsrpc.FindCommentReplyListReq{
+		Paginate: &newsrpc.PageReq{
 			Page:     req.Page,
 			PageSize: req.PageSize,
 			Sorts:    req.Sorts,
@@ -40,14 +40,14 @@ func (l *FindCommentListLogic) FindCommentList(req *types.QueryCommentReq) (resp
 	}
 
 	// 查找评论列表
-	out, err := l.svcCtx.MessageRpc.FindCommentReplyList(l.ctx, in)
+	out, err := l.svcCtx.NewsRpc.FindCommentReplyList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询用户信息
 	usm, err := apiutils.BatchQueryMulti(out.List,
-		func(v *messagerpc.Comment) []string {
+		func(v *newsrpc.Comment) []string {
 			return []string{v.UserId, v.ReplyUserId}
 		},
 		func(ids []string) (map[string]*types.UserInfoVO, error) {
@@ -60,7 +60,7 @@ func (l *FindCommentListLogic) FindCommentList(req *types.QueryCommentReq) (resp
 
 	// 查询访客信息
 	vsm, err := apiutils.BatchQuery(out.List,
-		func(v *messagerpc.Comment) string {
+		func(v *newsrpc.Comment) string {
 			return v.TerminalId
 		},
 		func(ids []string) (map[string]*types.ClientInfoVO, error) {
@@ -94,8 +94,8 @@ func (l *FindCommentListLogic) FindCommentList(req *types.QueryCommentReq) (resp
 		}
 
 		// 查询回复评论
-		reply, _ := l.svcCtx.MessageRpc.FindCommentReplyList(l.ctx, &messagerpc.FindCommentReplyListReq{
-			Paginate: &messagerpc.PageReq{
+		reply, _ := l.svcCtx.NewsRpc.FindCommentReplyList(l.ctx, &newsrpc.FindCommentReplyListReq{
+			Paginate: &newsrpc.PageReq{
 				Page:     1,
 				PageSize: 3,
 				Sorts:    []string{"created_at desc"},

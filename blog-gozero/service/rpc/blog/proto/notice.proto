@@ -1,0 +1,132 @@
+// 声明 proto 语法版本，固定值
+syntax = "proto3";
+
+// proto 包名
+package noticerpc;
+
+// 生成 golang 代码后的包名
+option go_package = "./noticerpc";
+
+/************** 通用消息 **************/
+// 分页请求参数
+message PageReq {
+  int64 page = 1;      // 页码
+  int64 page_size = 2; // 每页大小
+  repeated string sorts = 3; // 排序字段
+}
+
+// 分页响应参数
+message PageResp {
+  int64 page = 1;      // 页码
+  int64 page_size = 2; // 每页大小
+  int64 total = 3;     // 总数
+}
+
+/************** 基础消息 **************/
+// 系统通知信息
+message Notice {
+  int64 id = 1;// 主键ID
+  string title = 2;// 通知标题
+  string content = 3;// 通知内容
+  string type = 4;// 通知类型 system-系统公告 maintenance-维护通知 update-功能更新 remind-重要提醒
+  string level = 5;// 通知等级 info-普通 notice-提醒 warning-警告 error-紧急
+  string app_name = 6;// 目标应用名称（如：blog-前台、admin-后台）
+  string publisher_id = 7;// 发布人ID
+  int64 publish_status = 8;// 发布状态 1-草稿 2-已发布 3-已撤回
+  int64 publish_time = 9;// 发布时间
+  int64 revoke_time = 10;// 撤回时间
+  int64 created_at = 11;// 创建时间
+  int64 updated_at = 12;// 更新时间
+}
+
+/************** 系统通知 **************/
+message AddNoticeReq {
+  int64 id = 1;// 主键ID
+  string title = 2;// 通知标题
+  string content = 3;// 通知内容
+  string type = 4;// 通知类型
+  string level = 5;// 通知等级
+  string app_name = 6;// 目标应用名称
+}
+
+message AddNoticeResp {
+  Notice notice = 1;
+}
+
+message UpdateNoticeReq {
+  int64 id = 1;// 主键ID
+  string title = 2;// 通知标题
+  string content = 3;// 通知内容
+  string type = 4;// 通知类型
+  string level = 5;// 通知等级
+  string app_name = 6;// 目标应用名称
+}
+
+message UpdateNoticeResp {
+  Notice notice = 1;
+}
+
+message GetNoticeReq {
+  int64 id = 1; // 主键ID
+}
+
+message GetNoticeResp {
+  Notice notice = 1;
+}
+
+message DeletesNoticeReq {
+  repeated int64 ids = 1; // id列表
+}
+
+message DeletesNoticeResp {
+  int64 success_count = 1; // 成功数量
+}
+
+message FindNoticeListReq {
+  PageReq paginate = 1;    // 分页参数
+  string type = 2;// 通知类型
+  string level = 3;// 通知等级
+  int64 publish_status = 4;// 发布状态
+  string app_name = 5;// 目标应用名称
+}
+
+message FindNoticeListResp {
+  PageResp pagination = 1; // 分页信息
+  repeated Notice list = 2;
+}
+
+message UpdateNoticeStatusReq {
+  int64 id = 1; // 主键ID
+  int64 publish_status = 2; // 发布状态
+}
+
+message UpdateNoticeStatusResp {
+  Notice notice = 1;
+}
+
+message FindUserNoticeListReq {
+  PageReq paginate = 1;    // 分页参数
+}
+
+message FindUserNoticeListResp {
+  PageResp pagination = 1; // 分页信息
+  repeated Notice list = 2;
+}
+
+// 系统通知服务
+service NoticeRpc {
+  // 创建通知
+  rpc AddNotice(AddNoticeReq) returns(AddNoticeResp);
+  // 更新通知
+  rpc UpdateNotice(UpdateNoticeReq) returns(UpdateNoticeResp);
+  // 查询通知
+  rpc GetNotice(GetNoticeReq) returns(GetNoticeResp);
+  // 删除通知
+  rpc DeletesNotice(DeletesNoticeReq) returns(DeletesNoticeResp);
+  // 查询通知列表
+  rpc FindNoticeList(FindNoticeListReq) returns(FindNoticeListResp);
+  // 更新通知状态
+  rpc UpdateNoticeStatus(UpdateNoticeStatusReq) returns(UpdateNoticeStatusResp);
+  // 查询用户可见通知列表
+  rpc FindUserNoticeList(FindUserNoticeListReq) returns(FindUserNoticeListResp);
+}

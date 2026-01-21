@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
@@ -47,5 +48,5 @@ func (l *PhoneLoginLogic) PhoneLogin(in *accountrpc.PhoneLoginReq) (*accountrpc.
 		return nil, bizerr.NewBizError(bizcode.CodeCaptchaVerify, "验证码错误")
 	}
 
-	return onLogin(l.ctx, l.svcCtx, account, constant.LoginTypePhone)
+	return onLogin(l.ctx, l.svcCtx, account, enums.LoginTypePhone)
 }

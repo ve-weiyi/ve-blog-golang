@@ -1,0 +1,87 @@
+syntax = "v1"
+
+import "base.api"
+
+type (
+	NoticeBackVO {
+		Id            int64  `json:"id,optional"` // 主键ID
+		Title         string `json:"title"` // 通知标题
+		Content       string `json:"content"` // 通知内容
+		Type          string `json:"type"` // 通知类型
+		Level         string `json:"level"` // 通知等级
+		AppName       string `json:"app_name"` // 目标应用名称
+		PublisherId   string `json:"publisher_id"` // 发布人ID
+		PublishStatus int64  `json:"publish_status"` // 发布状态
+		PublishTime   int64  `json:"publish_time"` // 发布时间
+		RevokeTime    int64  `json:"revoke_time"` // 撤回时间
+		CreatedAt     int64  `json:"created_at"` // 创建时间
+		UpdatedAt     int64  `json:"updated_at"` // 更新时间
+	}
+	AddNoticeReq {
+		Title   string `json:"title"` // 通知标题
+		Content string `json:"content"` // 通知内容
+		Type    string `json:"type"` // 通知类型
+		Level   string `json:"level"` // 通知等级
+		AppName string `json:"app_name,optional"` // 目标应用名称
+	}
+	UpdateNoticeReq {
+		Id      int64  `json:"id"` // 主键ID
+		Title   string `json:"title"` // 通知标题
+		Content string `json:"content"` // 通知内容
+		Type    string `json:"type"` // 通知类型
+		Level   string `json:"level"` // 通知等级
+		AppName string `json:"app_name,optional"` // 目标应用名称
+	}
+	UpdateNoticeStatusReq {
+		Id            int64 `json:"id"` // 主键ID
+		PublishStatus int64 `json:"publish_status"` // 发布状态
+	}
+	QueryNoticeReq {
+		PageQuery
+		Type          string `json:"type,optional"` // 通知类型
+		Level         string `json:"level,optional"` // 通知等级
+		PublishStatus int64  `json:"publish_status,optional"` // 发布状态
+		AppName       string `json:"app_name,optional"` // 目标应用名称
+	}
+	QueryUserNoticeReq {
+		PageQuery
+	}
+)
+
+@server (
+	tags:       "通知管理"
+	prefix:     /admin-api/v1
+	group:      notice
+	authType:   apiKey
+	middleware: AdminToken,Permission,OperationLog
+)
+service admin-api {
+	@doc "创建通知"
+	@handler AddNotice
+	post /notice/add_notice (AddNoticeReq) returns (NoticeBackVO)
+
+	@doc "更新通知"
+	@handler UpdateNotice
+	put /notice/update_notice (UpdateNoticeReq) returns (NoticeBackVO)
+
+	@doc "删除通知"
+	@handler DeletesNotice
+	delete /notice/deletes_notice (IdsReq) returns (BatchResp)
+
+	@doc "查询通知详情"
+	@handler GetNotice
+	get /notice/get_notice (IdReq) returns (NoticeBackVO)
+
+	@doc "分页获取通知列表"
+	@handler FindNoticeList
+	post /notice/find_notice_list (QueryNoticeReq) returns (PageResp)
+
+	@doc "更新通知状态"
+	@handler UpdateNoticeStatus
+	put /notice/update_notice_status (UpdateNoticeStatusReq) returns (NoticeBackVO)
+
+	@doc "查询用户通知列表"
+	@handler FindUserNoticeList
+	post /notice/find_user_notice_list (QueryUserNoticeReq) returns (PageResp)
+}
+

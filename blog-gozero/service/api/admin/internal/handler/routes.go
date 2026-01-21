@@ -17,10 +17,11 @@ import (
 	friend "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/friend"
 	login_log "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/login_log"
 	menu "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/menu"
+	message "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/message"
+	notice "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/notice"
 	operation_log "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/operation_log"
 	page "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/page"
 	photo "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/photo"
-	remark "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/remark"
 	role "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/role"
 	tag "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/tag"
 	talk "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/talk"
@@ -524,6 +525,84 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
+					// 删除留言
+					Method:  http.MethodDelete,
+					Path:    "/message/deletes_message",
+					Handler: message.DeletesMessageHandler(serverCtx),
+				},
+				{
+					// 分页获取留言列表
+					Method:  http.MethodPost,
+					Path:    "/message/find_message_list",
+					Handler: message.FindMessageListHandler(serverCtx),
+				},
+				{
+					// 更新留言状态
+					Method:  http.MethodPut,
+					Path:    "/message/update_message_status",
+					Handler: message.UpdateMessageStatusHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/admin-api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Route{
+				{
+					// 创建通知
+					Method:  http.MethodPost,
+					Path:    "/notice/add_notice",
+					Handler: notice.AddNoticeHandler(serverCtx),
+				},
+				{
+					// 删除通知
+					Method:  http.MethodDelete,
+					Path:    "/notice/deletes_notice",
+					Handler: notice.DeletesNoticeHandler(serverCtx),
+				},
+				{
+					// 分页获取通知列表
+					Method:  http.MethodPost,
+					Path:    "/notice/find_notice_list",
+					Handler: notice.FindNoticeListHandler(serverCtx),
+				},
+				{
+					// 查询用户通知列表
+					Method:  http.MethodPost,
+					Path:    "/notice/find_user_notice_list",
+					Handler: notice.FindUserNoticeListHandler(serverCtx),
+				},
+				{
+					// 查询通知详情
+					Method:  http.MethodGet,
+					Path:    "/notice/get_notice",
+					Handler: notice.GetNoticeHandler(serverCtx),
+				},
+				{
+					// 更新通知
+					Method:  http.MethodPut,
+					Path:    "/notice/update_notice",
+					Handler: notice.UpdateNoticeHandler(serverCtx),
+				},
+				{
+					// 更新通知状态
+					Method:  http.MethodPut,
+					Path:    "/notice/update_notice_status",
+					Handler: notice.UpdateNoticeStatusHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/admin-api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Route{
+				{
 					// 删除操作记录
 					Method:  http.MethodDelete,
 					Path:    "/operation_log/deletes_operation_log",
@@ -606,33 +685,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPut,
 					Path:    "/photo/update_photo_delete",
 					Handler: photo.UpdatePhotoDeleteHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin-api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
-			[]rest.Route{
-				{
-					// 删除留言
-					Method:  http.MethodDelete,
-					Path:    "/remark/deletes_remark",
-					Handler: remark.DeletesRemarkHandler(serverCtx),
-				},
-				{
-					// 分页获取留言列表
-					Method:  http.MethodPost,
-					Path:    "/remark/find_remark_list",
-					Handler: remark.FindRemarkListHandler(serverCtx),
-				},
-				{
-					// 更新留言状态
-					Method:  http.MethodPut,
-					Path:    "/remark/update_remark_status",
-					Handler: remark.UpdateRemarkStatusHandler(serverCtx),
 				},
 			}...,
 		),

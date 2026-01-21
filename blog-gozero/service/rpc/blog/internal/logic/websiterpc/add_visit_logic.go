@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
@@ -57,13 +57,13 @@ func (l *AddVisitLogic) addUserVisit(day string, visitor string) (any, error) {
 
 	if !ok {
 		// 添加当天的用户访问量+1 mysql
-		result := l.svcCtx.Gorm.Exec("UPDATE t_visit_daily_stats SET view_count = view_count + 1 WHERE date = ? and visit_type = ?", day, constant.VisitTypeUv)
+		result := l.svcCtx.Gorm.Exec("UPDATE t_visit_daily_stats SET view_count = view_count + 1 WHERE date = ? and visit_type = ?", day, enums.VisitTypeUv)
 		if result.RowsAffected == 0 {
 			_, err := l.svcCtx.TVisitDailyStatsModel.Insert(l.ctx, &model.TVisitDailyStats{
 				Id:        0,
 				Date:      day,
 				ViewCount: 1,
-				VisitType: constant.VisitTypeUv,
+				VisitType: enums.VisitTypeUv,
 			})
 			if err != nil {
 				return nil, err
@@ -97,13 +97,13 @@ func (l *AddVisitLogic) addUserVisit(day string, visitor string) (any, error) {
 // 添加页面浏览量
 func (l *AddVisitLogic) addPageView(day string) (any, error) {
 	// 添加当天的用户访问量+1
-	result := l.svcCtx.Gorm.Exec("UPDATE t_visit_daily_stats SET view_count = view_count + 1 WHERE date = ? and visit_type = ?", day, constant.VisitTypePv)
+	result := l.svcCtx.Gorm.Exec("UPDATE t_visit_daily_stats SET view_count = view_count + 1 WHERE date = ? and visit_type = ?", day, enums.VisitTypePv)
 	if result.RowsAffected == 0 {
 		_, err := l.svcCtx.TVisitDailyStatsModel.Insert(l.ctx, &model.TVisitDailyStats{
 			Id:        0,
 			Date:      day,
 			ViewCount: 1,
-			VisitType: constant.VisitTypePv,
+			VisitType: enums.VisitTypePv,
 		})
 		if err != nil {
 			return nil, err

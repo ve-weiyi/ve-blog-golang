@@ -33,7 +33,7 @@ type (
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
 		FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TMenu, total int64, err error)
 		// add extra method in here
-		FindOneByPath(ctx context.Context, path string) (out *TMenu, err error)
+		FindOneByPathPerm(ctx context.Context, path string, perm string) (out *TMenu, err error)
 	}
 
 	// 表字段定义
@@ -271,10 +271,10 @@ func (m *defaultTMenuModel) FindListAndTotal(ctx context.Context, page int, size
 }
 
 // add extra method in here
-func (m *defaultTMenuModel) FindOneByPath(ctx context.Context, path string) (out *TMenu, err error) {
+func (m *defaultTMenuModel) FindOneByPathPerm(ctx context.Context, path string, perm string) (out *TMenu, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	err = db.Where("`path` = ?", path).First(&out).Error
+	err = db.Where("`path` = ? and `perm` = ?", path, perm).First(&out).Error
 	if err != nil {
 		return nil, err
 	}

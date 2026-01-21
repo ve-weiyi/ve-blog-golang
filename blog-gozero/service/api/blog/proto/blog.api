@@ -11,7 +11,7 @@ import "blog/talk.api"
 import "blog/friend.api"
 import "blog/comment.api"
 import "blog/page.api"
-import "blog/remark.api"
+import "blog/message.api"
 import "blog/upload.api"
 import "blog/websocket.api"
 

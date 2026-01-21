@@ -20,5 +20,6 @@ type GetBlogHomeInfoResp struct {
 	TotalUserViewCount int64           `json:"total_user_view_count"` // 总服务量
 	TotalPageViewCount int64           `json:"total_page_view_count"` // 总浏览量
 	PageList           []*PageVO       `json:"page_list"`             // 页面列表
+	NoticeList         []*NoticeVO     `json:"notice_list"`           // 通知列表
 	WebsiteConfig      WebsiteConfigVO `json:"website_config"`        // 网站配置
 }
