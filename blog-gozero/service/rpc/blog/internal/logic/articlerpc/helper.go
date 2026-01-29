@@ -7,8 +7,8 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/rediskey"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/queryx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 )
@@ -206,41 +206,41 @@ func (l *ArticleHelperLogic) findOrAddTag(name string) (int64, error) {
 }
 
 func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListReq) (page int, size int, sorts string, conditions string, params []any) {
-	var opts []query.Option
+	var opts []queryx.Option
 	if in.Paginate != nil {
-		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
-		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
-		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+		opts = append(opts, queryx.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, queryx.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, queryx.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if len(in.Ids) > 0 {
-		opts = append(opts, query.WithCondition("id in (?)", in.Ids))
+		opts = append(opts, queryx.WithCondition("id in (?)", in.Ids))
 	}
 
 	if in.IsTop >= 0 {
-		opts = append(opts, query.WithCondition("is_top = ?", in.IsTop))
+		opts = append(opts, queryx.WithCondition("is_top = ?", in.IsTop))
 	}
 
 	if in.IsDelete >= 0 {
-		opts = append(opts, query.WithCondition("is_delete = ?", in.IsDelete))
+		opts = append(opts, queryx.WithCondition("is_delete = ?", in.IsDelete))
 	}
 
 	if in.Status != 0 {
-		opts = append(opts, query.WithCondition("status = ?", in.Status))
+		opts = append(opts, queryx.WithCondition("status = ?", in.Status))
 	}
 
 	if in.ArticleType != 0 {
-		opts = append(opts, query.WithCondition("article_type = ?", in.ArticleType))
+		opts = append(opts, queryx.WithCondition("article_type = ?", in.ArticleType))
 	}
 
 	if in.ArticleTitle != "" {
-		opts = append(opts, query.WithCondition("article_title like ?", "%"+in.ArticleTitle+"%"))
+		opts = append(opts, queryx.WithCondition("article_title like ?", "%"+in.ArticleTitle+"%"))
 	}
 
 	if in.CategoryName != "" {
 		category, err := l.svcCtx.TCategoryModel.FindOneByCategoryName(l.ctx, in.CategoryName)
 		if err == nil {
-			opts = append(opts, query.WithCondition("category_id = ?", category.Id))
+			opts = append(opts, queryx.WithCondition("category_id = ?", category.Id))
 		}
 	}
 
@@ -253,12 +253,12 @@ func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListR
 				for _, v := range ats {
 					articleIds = append(articleIds, v.ArticleId)
 				}
-				opts = append(opts, query.WithCondition("id in (?)", articleIds))
+				opts = append(opts, queryx.WithCondition("id in (?)", articleIds))
 			}
 		}
 	}
 
-	return query.NewQueryBuilder(opts...).Build()
+	return queryx.NewQueryBuilder(opts...).Build()
 }
 
 func (l *ArticleHelperLogic) convertArticlePreviewOut(record *model.TArticle) (out *articlerpc.ArticlePreview) {

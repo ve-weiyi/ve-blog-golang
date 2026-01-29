@@ -7,8 +7,8 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizcode"
@@ -37,7 +37,7 @@ func NewThirdLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ThirdL
 
 // 第三方登录
 func (l *ThirdLoginLogic) ThirdLogin(in *accountrpc.ThirdLoginReq) (*accountrpc.LoginResp, error) {
-	app, err := rpcutils.GetAppNameFromCtx(l.ctx)
+	app, err := metax.GetAppNameFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +81,7 @@ func (l *ThirdLoginLogic) ThirdLogin(in *accountrpc.ThirdLoginReq) (*accountrpc.
 
 func (l *ThirdLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oauth.UserResult) (out *model.TUserOauth, err error) {
 	// 用户未注册,先注册用户
-	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)
+	ip, _ := metax.GetRemoteIPFromCtx(l.ctx)
 	is := ipx.GetIpSourceByBaidu(ip)
 
 	// 用户账号

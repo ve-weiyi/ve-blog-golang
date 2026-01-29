@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -28,7 +28,7 @@ func NewAddLogoutLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddL
 
 // 更新登录记录
 func (l *AddLogoutLogLogic) AddLogoutLog(in *syslogrpc.AddLogoutLogReq) (*syslogrpc.AddLogoutLogResp, error) {
-	app, err := rpcutils.GetAppNameFromCtx(l.ctx)
+	app, err := metax.GetAppNameFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -28,7 +28,7 @@ func NewUnbindUserOauthLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 // 解绑第三方账号
 func (l *UnbindUserOauthLogic) UnbindUserOauth(in *accountrpc.UnbindUserOauthReq) (*accountrpc.UnbindUserOauthResp, error) {
 	// 查找当前用户是否存在
-	userId, err := rpcutils.GetUserIdFromCtx(l.ctx)
+	userId, err := metax.GetUserIdFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}

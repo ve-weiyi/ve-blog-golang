@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/queryx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/noticerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -29,22 +29,22 @@ func NewFindUserNoticeListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 
 // 查询用户可见通知列表
 func (l *FindUserNoticeListLogic) FindUserNoticeList(in *noticerpc.FindUserNoticeListReq) (*noticerpc.FindUserNoticeListResp, error) {
-	appName, _ := rpcutils.GetAppNameFromCtx(l.ctx)
+	appName, _ := metax.GetAppNameFromCtx(l.ctx)
 
-	var opts []query.Option
+	var opts []queryx.Option
 	if in.Paginate != nil {
-		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
-		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
-		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+		opts = append(opts, queryx.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, queryx.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, queryx.WithSorts(in.Paginate.Sorts...))
 	}
 
-	opts = append(opts, query.WithCondition("publish_status = ?", enums.NoticeStatusPublished))
+	opts = append(opts, queryx.WithCondition("publish_status = ?", enums.NoticeStatusPublished))
 
 	if appName != "" {
-		opts = append(opts, query.WithCondition("app_name = ?", appName))
+		opts = append(opts, queryx.WithCondition("app_name = ?", appName))
 	}
 
-	page, size, sorts, conditions, params := query.NewQueryBuilder(opts...).Build()
+	page, size, sorts, conditions, params := queryx.NewQueryBuilder(opts...).Build()
 
 	records, total, err := l.svcCtx.TSystemNoticeModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {

@@ -48,10 +48,9 @@ func Test_Knife4j(t *testing.T) {
 		},
 	)
 
-	// 注册 WebDAV 路由
-	http.Handle(prefix, http.StripPrefix(prefix, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		Knife4jSwagHandler(prefix).ServeHTTP(w, r)
-	})))
+	// 注册 Knife4j 路由
+	plugin := NewKnife4jPlugin(string(f))
+	http.Handle(prefix, http.StripPrefix(prefix, plugin.Handler(prefix)))
 
 	// 启动 HTTP 服务器
 	log.Println("接口文档地址:http://localhost:8088/api/v1/swagger/index.html")
@@ -61,8 +60,8 @@ func Test_Knife4j(t *testing.T) {
 }
 
 func Test_Embed(t *testing.T) {
-	// 读取 static 目录中的 index.html 文件
-	data, err := content.ReadFile("resource/doc.html")
+	// 读取 static 目录中的 doc.html 文件
+	data, err := content.ReadFile("static/doc.html")
 	if err != nil {
 		log.Fatalf("读取文件失败: %v", err)
 	}

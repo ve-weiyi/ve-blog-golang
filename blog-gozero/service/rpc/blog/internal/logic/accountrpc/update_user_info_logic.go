@@ -3,7 +3,7 @@ package accountrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -26,7 +26,7 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 
 // 修改用户信息
 func (l *UpdateUserInfoLogic) UpdateUserInfo(in *accountrpc.UpdateUserInfoReq) (*accountrpc.UpdateUserInfoResp, error) {
-	userId, err := rpcutils.GetUserIdFromCtx(l.ctx)
+	userId, err := metax.GetUserIdFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}

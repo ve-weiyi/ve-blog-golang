@@ -62,9 +62,9 @@ func runTypescriptApi(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	if err = generateTypesTs(sv, typescriptApiFlags.TplPath, typescriptApiFlags.OutPath, typescriptApiFlags.NameAs); err != nil {
-		return err
-	}
+	//if err = generateTypesTs(sv, typescriptApiFlags.TplPath, typescriptApiFlags.OutPath, typescriptApiFlags.NameAs); err != nil {
+	//	return err
+	//}
 
 	fmt.Println("TypeScript code generated successfully")
 	return nil

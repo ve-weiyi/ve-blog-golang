@@ -3,7 +3,7 @@ package socialrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/queryx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/socialrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -49,16 +49,16 @@ func (l *FindFriendListLogic) FindFriendList(in *socialrpc.FindFriendListReq) (*
 }
 
 func convertFriendQuery(in *socialrpc.FindFriendListReq) (page int, size int, sorts string, conditions string, params []any) {
-	var opts []query.Option
+	var opts []queryx.Option
 	if in.Paginate != nil {
-		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
-		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
-		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+		opts = append(opts, queryx.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, queryx.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, queryx.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.LinkName != "" {
-		opts = append(opts, query.WithCondition("link_name like ?", "%"+in.LinkName+"%"))
+		opts = append(opts, queryx.WithCondition("link_name like ?", "%"+in.LinkName+"%"))
 	}
 
-	return query.NewQueryBuilder(opts...).Build()
+	return queryx.NewQueryBuilder(opts...).Build()
 }

@@ -3,8 +3,8 @@ package accountrpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/queryx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -32,13 +32,13 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 		return nil, err
 	}
 
-	var opts []query.Option
+	var opts []queryx.Option
 	if in.Paginate != nil {
-		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
-		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
-		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+		opts = append(opts, queryx.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, queryx.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, queryx.WithSorts(in.Paginate.Sorts...))
 	}
-	page, size, _, _, _ := query.NewQueryBuilder(opts...).Build()
+	page, size, _, _, _ := queryx.NewQueryBuilder(opts...).Build()
 	// 查找在线用户
 	uids, err := l.svcCtx.OnlineUserService.GetOnlineUsers(l.ctx, in.Paginate.Page, in.Paginate.PageSize)
 	if err != nil {

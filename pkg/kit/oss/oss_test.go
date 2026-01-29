@@ -8,9 +8,7 @@ import (
 )
 
 func Test_Local(t *testing.T) {
-	uploader := NewLocal(&Config{
-		BucketUrl: "http://localhost:9999",
-	})
+	uploader := NewLocal("http://localhost:9999")
 
 	files, err := uploader.ListFiles("./", 10)
 	assert.NoError(t, err) // 验证错误是否为 nil

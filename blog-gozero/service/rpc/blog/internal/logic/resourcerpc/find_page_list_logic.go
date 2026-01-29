@@ -3,7 +3,7 @@ package resourcerpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/queryx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/resourcerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -49,16 +49,16 @@ func (l *FindPageListLogic) FindPageList(in *resourcerpc.FindPageListReq) (*reso
 }
 
 func convertPageQuery(in *resourcerpc.FindPageListReq) (page int, size int, sorts string, conditions string, params []any) {
-	var opts []query.Option
+	var opts []queryx.Option
 	if in.Paginate != nil {
-		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
-		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
-		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+		opts = append(opts, queryx.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, queryx.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, queryx.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.PageName != "" {
-		opts = append(opts, query.WithCondition("page_name like ?", "%"+in.PageName+"%"))
+		opts = append(opts, queryx.WithCondition("page_name like ?", "%"+in.PageName+"%"))
 	}
 
-	return query.NewQueryBuilder(opts...).Build()
+	return queryx.NewQueryBuilder(opts...).Build()
 }

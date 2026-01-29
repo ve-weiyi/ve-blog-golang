@@ -2,24 +2,31 @@ package captcha
 
 import (
 	"context"
-	"log"
 	"time"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/logz"
 )
 
-// 验证码存储
+// RedisStore 验证码存储
 type RedisStore struct {
-	Redis      *redis.Client   // 缓存 15分钟
-	Expiration time.Duration   // 过期时间
-	Context    context.Context
+	Redis      *redis.Client   // Redis 客户端
+	Expiration time.Duration   // 过期时间，默认 15 分钟
+	Context    context.Context // 上下文
+	Logger     logz.Logger     // 日志接口
 }
 
-func NewRedisStore(rd *redis.Client) *RedisStore {
+// NewRedisStore 创建 Redis 存储实例
+func NewRedisStore(rd *redis.Client, logger logz.Logger) *RedisStore {
+	if logger == nil {
+		logger = logz.NewDefaultLogger() // 如果未提供 logger，使用默认实现
+	}
 	return &RedisStore{
 		Expiration: 15 * 60 * time.Second,
 		Redis:      rd,
 		Context:    context.Background(),
+		Logger:     logger,
 	}
 }
 
@@ -46,11 +53,14 @@ func (rs *RedisStore) Get(key string, clear bool) string {
 	return val
 }
 
+// Verify 验证验证码
 func (rs *RedisStore) Verify(key, answer string, clear bool) bool {
 	v := rs.Get(key, clear)
 	if v == "" {
 		return false
 	}
-	log.Printf("RedisStore Verify. key:%v,answer:%v,v:%v,clear:%v", key, answer, v, clear)
+	if rs.Logger != nil {
+		rs.Logger.Debugf("RedisStore Verify. key:%v, answer:%v, v:%v, clear:%v", key, answer, v, clear)
+	}
 	return v == answer
 }

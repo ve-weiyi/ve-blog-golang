@@ -5,8 +5,8 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/queryx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 )
@@ -51,34 +51,34 @@ func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accou
 }
 
 func convertUserQuery(in *accountrpc.FindUserListReq) (page int, size int, sorts string, conditions string, params []interface{}) {
-	var opts []query.Option
+	var opts []queryx.Option
 	if in.Paginate != nil {
-		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
-		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
-		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+		opts = append(opts, queryx.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, queryx.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, queryx.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.Username != "" {
-		opts = append(opts, query.WithCondition("username like ?", "%"+in.Username+"%"))
+		opts = append(opts, queryx.WithCondition("username like ?", "%"+in.Username+"%"))
 	}
 
 	if in.Nickname != "" {
-		opts = append(opts, query.WithCondition("nickname like ?", "%"+in.Nickname+"%"))
+		opts = append(opts, queryx.WithCondition("nickname like ?", "%"+in.Nickname+"%"))
 	}
 
 	if in.Email != "" {
-		opts = append(opts, query.WithCondition("email like ?", "%"+in.Email+"%"))
+		opts = append(opts, queryx.WithCondition("email like ?", "%"+in.Email+"%"))
 	}
 
 	if in.Status != 0 {
-		opts = append(opts, query.WithCondition("status = ?", in.Status))
+		opts = append(opts, queryx.WithCondition("status = ?", in.Status))
 	}
 
 	if len(in.UserIds) != 0 {
-		opts = append(opts, query.WithCondition("user_id in (?)", in.UserIds))
+		opts = append(opts, queryx.WithCondition("user_id in (?)", in.UserIds))
 	}
 
-	return query.NewQueryBuilder(opts...).Build()
+	return queryx.NewQueryBuilder(opts...).Build()
 }
 
 func convertUserOut(in *model.TUser) (out *accountrpc.User) {

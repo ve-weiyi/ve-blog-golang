@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/rediskey"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizcode"
@@ -36,7 +36,7 @@ func (l *BindUserEmailLogic) BindUserEmail(in *accountrpc.BindUserEmailReq) (*ac
 		return nil, bizerr.NewBizError(bizcode.CodeInvalidParam, "邮箱格式不正确")
 	}
 
-	userId, err := rpcutils.GetUserIdFromCtx(l.ctx)
+	userId, err := metax.GetUserIdFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}

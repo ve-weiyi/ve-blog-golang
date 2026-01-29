@@ -3,8 +3,8 @@ package syslogrpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/queryx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -50,26 +50,26 @@ func (l *FindFileLogListLogic) FindFileLogList(in *syslogrpc.FindFileLogListReq)
 }
 
 func convertFileLogQuery(in *syslogrpc.FindFileLogListReq) (page int, size int, sorts string, conditions string, params []any) {
-	var opts []query.Option
+	var opts []queryx.Option
 	if in.Paginate != nil {
-		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
-		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
-		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+		opts = append(opts, queryx.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, queryx.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, queryx.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.FilePath != "" {
-		opts = append(opts, query.WithCondition("file_path like ?", in.FilePath+"%"))
+		opts = append(opts, queryx.WithCondition("file_path like ?", in.FilePath+"%"))
 	}
 
 	if in.FileName != "" {
-		opts = append(opts, query.WithCondition("file_name like ?", in.FileName+"%"))
+		opts = append(opts, queryx.WithCondition("file_name like ?", in.FileName+"%"))
 	}
 
 	if in.FileType != "" {
-		opts = append(opts, query.WithCondition("file_type = ?", in.FileType))
+		opts = append(opts, queryx.WithCondition("file_type = ?", in.FileType))
 	}
 
-	return query.NewQueryBuilder(opts...).Build()
+	return queryx.NewQueryBuilder(opts...).Build()
 }
 
 func convertFileLogOut(in *model.TFileLog) (out *syslogrpc.FileLog) {

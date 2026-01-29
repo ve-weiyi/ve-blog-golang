@@ -7,8 +7,8 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 )
@@ -29,8 +29,8 @@ func NewAddLoginLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddLo
 
 // 创建登录记录
 func (l *AddLoginLogLogic) AddLoginLog(in *syslogrpc.AddLoginLogReq) (*syslogrpc.AddLoginLogResp, error) {
-	app, _ := rpcutils.GetAppNameFromCtx(l.ctx)
-	tid, _ := rpcutils.GetTerminalIdFromCtx(l.ctx)
+	app, _ := metax.GetAppNameFromCtx(l.ctx)
+	tid, _ := metax.GetTerminalIdFromCtx(l.ctx)
 
 	now := time.Now()
 	entity := &model.TLoginLog{

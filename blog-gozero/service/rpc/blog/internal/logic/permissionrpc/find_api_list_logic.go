@@ -5,8 +5,8 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/queryx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 )
@@ -27,21 +27,21 @@ func NewFindApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 
 // 分页获取接口列表
 func (l *FindApiListLogic) FindApiList(in *permissionrpc.FindApiListReq) (*permissionrpc.FindApiListResp, error) {
-	var opts []query.Option
+	var opts []queryx.Option
 
 	if in.Name != "" {
-		opts = append(opts, query.WithCondition("name like ?", "%"+in.Name+"%"))
+		opts = append(opts, queryx.WithCondition("name like ?", "%"+in.Name+"%"))
 	}
 
 	if in.Path != "" {
-		opts = append(opts, query.WithCondition("path like ?", "%"+in.Path+"%"))
+		opts = append(opts, queryx.WithCondition("path like ?", "%"+in.Path+"%"))
 	}
 
 	if in.Method != "" {
-		opts = append(opts, query.WithCondition("method like ?", "%"+in.Method+"%"))
+		opts = append(opts, queryx.WithCondition("method like ?", "%"+in.Method+"%"))
 	}
 
-	_, _, _, conditions, params := query.NewQueryBuilder(opts...).Build()
+	_, _, _, conditions, params := queryx.NewQueryBuilder(opts...).Build()
 	result, err := l.svcCtx.TApiModel.FindALL(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err

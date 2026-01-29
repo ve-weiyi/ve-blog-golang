@@ -1,15 +1,17 @@
 name: Cleanup Feature Branches Packages
 
-on:
-  schedule:
-    - cron: '0 0 * * 0'  # 每周日 00:00 UTC 运行
-  workflow_dispatch:      # 支持手动触发
-
-
 #on:
 #  push:
 #    branches:
-#      - feature/**  # 监听feature 分支
+#      - main
+#      - master
+#      - feature/**  # 监听 master 和所有 feature 分支
+
+on: workflow_dispatch  # 仅保留手动触发，避免误操作
+
+permissions:
+  actions: write
+  contents: read
 
 jobs:
   cleanup:
@@ -34,7 +36,7 @@ jobs:
           package-type: 'container'
 
           # 关键配置：仅清理 feature* 标签，保留最新的 5 个版本
-          ignore-versions: '^(?!feature).*'  # 跳过非 feature 开头的标签
+#          ignore-versions: '^(?!feature).*'  # 跳过非 feature 开头的标签
           min-versions-to-keep: 5            # 保留最新的 5 个 feature 版本
 
           # 认证（推荐使用 PAT 避免权限问题）

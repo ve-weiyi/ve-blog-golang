@@ -3,7 +3,7 @@ package noticerpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/queryx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/noticerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -26,30 +26,30 @@ func NewFindNoticeListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 查询通知列表
 func (l *FindNoticeListLogic) FindNoticeList(in *noticerpc.FindNoticeListReq) (*noticerpc.FindNoticeListResp, error) {
-	var opts []query.Option
+	var opts []queryx.Option
 	if in.Paginate != nil {
-		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
-		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
-		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+		opts = append(opts, queryx.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, queryx.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, queryx.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.Type != "" {
-		opts = append(opts, query.WithCondition("type = ?", in.Type))
+		opts = append(opts, queryx.WithCondition("type = ?", in.Type))
 	}
 
 	if in.Level != "" {
-		opts = append(opts, query.WithCondition("level = ?", in.Level))
+		opts = append(opts, queryx.WithCondition("level = ?", in.Level))
 	}
 
 	if in.PublishStatus != 0 {
-		opts = append(opts, query.WithCondition("publish_status = ?", in.PublishStatus))
+		opts = append(opts, queryx.WithCondition("publish_status = ?", in.PublishStatus))
 	}
 
 	if in.AppName != "" {
-		opts = append(opts, query.WithCondition("app_name = ?", in.AppName))
+		opts = append(opts, queryx.WithCondition("app_name = ?", in.AppName))
 	}
 
-	page, size, sorts, conditions, params := query.NewQueryBuilder(opts...).Build()
+	page, size, sorts, conditions, params := queryx.NewQueryBuilder(opts...).Build()
 
 	records, total, err := l.svcCtx.TSystemNoticeModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {

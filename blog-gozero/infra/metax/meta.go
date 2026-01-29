@@ -1,4 +1,4 @@
-package rpcutils
+package metax
 
 import (
 	"context"

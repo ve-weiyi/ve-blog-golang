@@ -32,7 +32,7 @@ type Option func(*CaptchaHolder)
 
 func WithRedisStore(rdb *redis.Client) Option {
 	return func(o *CaptchaHolder) {
-		o.store = NewRedisStore(rdb)
+		o.store = NewRedisStore(rdb, nil)
 	}
 }
 

@@ -6,8 +6,8 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/newsrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 )
@@ -28,8 +28,8 @@ func NewAddCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCom
 
 // 创建评论
 func (l *AddCommentLogic) AddComment(in *newsrpc.AddCommentReq) (*newsrpc.AddCommentResp, error) {
-	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
-	tid, _ := rpcutils.GetTerminalIdFromCtx(l.ctx)
+	uid, _ := metax.GetUserIdFromCtx(l.ctx)
+	tid, _ := metax.GetTerminalIdFromCtx(l.ctx)
 
 	entity := &model.TComment{
 		Id:             0,

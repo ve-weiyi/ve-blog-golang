@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/newsrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -28,8 +28,8 @@ func NewAddMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddMes
 
 // 创建留言
 func (l *AddMessageLogic) AddMessage(in *newsrpc.AddMessageReq) (*newsrpc.AddMessageResp, error) {
-	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
-	tid, _ := rpcutils.GetTerminalIdFromCtx(l.ctx)
+	uid, _ := metax.GetUserIdFromCtx(l.ctx)
+	tid, _ := metax.GetTerminalIdFromCtx(l.ctx)
 
 	entity := &model.TMessage{
 		Id:             0,

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/oauth"
@@ -33,7 +33,7 @@ func NewGetOauthAuthorizeUrlLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 // 获取授权地址
 func (l *GetOauthAuthorizeUrlLogic) GetOauthAuthorizeUrl(in *accountrpc.GetOauthAuthorizeUrlReq) (*accountrpc.GetOauthAuthorizeUrlResp, error) {
-	app, err := rpcutils.GetAppNameFromCtx(l.ctx)
+	app, err := metax.GetAppNameFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}

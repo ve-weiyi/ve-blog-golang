@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/noticerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -28,7 +28,7 @@ func NewAddNoticeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddNoti
 
 // 创建通知
 func (l *AddNoticeLogic) AddNotice(in *noticerpc.AddNoticeReq) (*noticerpc.AddNoticeResp, error) {
-	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
+	uid, _ := metax.GetUserIdFromCtx(l.ctx)
 
 	entity := &model.TSystemNotice{
 		Title:         in.Title,

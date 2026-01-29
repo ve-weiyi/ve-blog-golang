@@ -5,8 +5,8 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 )
@@ -27,8 +27,8 @@ func NewAddVisitLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddVi
 
 // 创建访问记录
 func (l *AddVisitLogLogic) AddVisitLog(in *syslogrpc.AddVisitLogReq) (*syslogrpc.AddVisitLogResp, error) {
-	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
-	tid, _ := rpcutils.GetTerminalIdFromCtx(l.ctx)
+	uid, _ := metax.GetUserIdFromCtx(l.ctx)
+	tid, _ := metax.GetTerminalIdFromCtx(l.ctx)
 
 	entity := &model.TVisitLog{
 		Id:         0,

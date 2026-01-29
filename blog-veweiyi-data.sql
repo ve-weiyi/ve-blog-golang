@@ -2,16 +2,17 @@
 -- Records of t_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_role` (`id`, `parent_id`, `role_key`, `role_label`, `role_comment`, `status`, `is_default`,
-                      `created_at`, `updated_at`)
-VALUES (1, 0, 'super-admin', '超级管理员', '', 0, 0, '2021-03-22 14:10:21', '2024-11-15 17:44:02');
-
 INSERT INTO `t_user` (`id`, `user_id`, `username`, `password`, `nickname`, `avatar`, `email`, `phone`, `info`, `status`,
                       `register_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`)
 VALUES (1, 'root', 'root', '$2a$10$2FQhHyejaB998v1GBVUQYu8MiLPdrgnDP1ozltfa1.LsWD6.P.A/.', '超级管理员',
         'https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG', 'root@qq.com', '',
         '{\"gender\":0,\"intro\":\"hello!\",\"website\":\"https://blog.veweiyi.cn\"}', 0, 'email', '127.0.0.1',
         '广西壮族自治区梧州市 移动', '2024-07-10 16:24:50', '2025-05-06 00:35:54');
+
+INSERT INTO `t_role` (`id`, `parent_id`, `role_key`, `role_label`, `role_comment`, `status`, `is_default`,
+                      `created_at`, `updated_at`)
+VALUES (1, 0, 'super-admin', '超级管理员', '', 0, 0, '2021-03-22 14:10:21', '2024-11-15 17:44:02');
+
 
 INSERT INTO `t_user_role` (`id`, `user_id`, `role_id`)
 VALUES (1, '1', 1);

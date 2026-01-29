@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/rediskey"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -29,7 +29,7 @@ func NewLikeArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LikeA
 
 // 点赞文章
 func (l *LikeArticleLogic) LikeArticle(in *articlerpc.LikeArticleReq) (*articlerpc.LikeArticleResp, error) {
-	uid, err := rpcutils.GetUserIdFromCtx(l.ctx)
+	uid, err := metax.GetUserIdFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}

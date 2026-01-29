@@ -63,3 +63,23 @@ var commonMysqlDataTypeMapString = map[string]string{
 func ConvertMysqlToGoType(name string) string {
 	return commonMysqlDataTypeMapString[name]
 }
+
+// convertNullTypeToPointer 将 sql.Null* 类型转换为对应的指针类型
+func convertNullTypeToPointer(dataType string) string {
+	switch dataType {
+	case "sql.NullString":
+		return "*string"
+	case "sql.NullInt64":
+		return "*int64"
+	case "sql.NullInt32":
+		return "*int32"
+	case "sql.NullFloat64":
+		return "*float64"
+	case "sql.NullBool":
+		return "*bool"
+	case "sql.NullTime":
+		return "*time.Time"
+	default:
+		return dataType
+	}
+}

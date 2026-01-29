@@ -1,0 +1,71 @@
+name: Clean Failed GitHub Actions Runs
+
+# 触发方式：
+# 1. 手动触发（推荐）：在 Actions 页面点 "Run workflow"
+# 2. 可选：定时触发（比如每周日凌晨），取消下面注释即可
+# on:
+#   workflow_dispatch:  # 手动触发
+#   schedule:
+#     - cron: '0 0 * * 0'  # 每周日 0 点执行
+
+on: workflow_dispatch  # 仅保留手动触发，避免误操作
+
+permissions:
+  # 必须授予足够的权限才能删除 Actions 记录
+  actions: write
+  contents: read
+
+jobs:
+  clean-failed-runs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete only failed GitHub Actions runs
+        env:
+          # 使用 GitHub 内置令牌，无需手动配置
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 自动获取仓库所有者和仓库名，无需手动修改
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+        run: |
+          # 安装 jq 用于 JSON 解析
+          sudo apt-get update && sudo apt-get install -y jq
+
+          # 分页获取所有运行记录，只筛选失败的
+          page=1
+          deleted_count=0
+          while true; do
+            echo "📄 获取第 $page 页的运行记录..."
+            # 调用 API 获取当前页记录（每页 100 条，最大分页量）
+            runs=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+              "https://api.github.com/repos/$OWNER/$REPO/actions/runs?page=$page&per_page=100")
+          
+            # 提取「已完成且执行失败」的记录 ID
+            # 状态说明：
+            # - status: completed = 运行已结束（排除 running/queued 状态）
+            # - conclusion: failure = 执行失败（其他值：success/cancelled/skipped 等）
+            failed_run_ids=$(echo "$runs" | jq -r '
+              .workflow_runs[] | 
+              select(.status == "completed" and .conclusion == "failure") | 
+              .id
+            ')
+
+            # 如果当前页无失败记录，退出循环
+            if [ -z "$failed_run_ids" ] || [ "$failed_run_ids" = "null" ]; then
+              echo "✅ 第 $page 页无失败记录，结束分页查询"
+              break
+            fi
+
+            # 循环删除每条失败记录
+            for id in $failed_run_ids; do
+              echo "🗑️ 正在删除失败记录 ID: $id"
+              # 发送删除请求，忽略单个失败（避免影响整体）
+              curl -s -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
+                "https://api.github.com/repos/$OWNER/$REPO/actions/runs/$id"
+              deleted_count=$((deleted_count + 1))
+              sleep 0.5  # 降低 API 调用频率
+            done
+
+            page=$((page + 1))
+          done
+
+          echo "🎉 清理完成！共删除 $deleted_count 条失败的 Actions 运行记录"

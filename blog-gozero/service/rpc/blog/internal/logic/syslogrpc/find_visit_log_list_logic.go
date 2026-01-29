@@ -3,8 +3,8 @@ package syslogrpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/queryx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -50,26 +50,26 @@ func (l *FindVisitLogListLogic) FindVisitLogList(in *syslogrpc.FindVisitLogListR
 }
 
 func convertVisitLogQuery(in *syslogrpc.FindVisitLogListReq) (page int, size int, sorts string, conditions string, params []any) {
-	var opts []query.Option
+	var opts []queryx.Option
 	if in.Paginate != nil {
-		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
-		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
-		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+		opts = append(opts, queryx.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, queryx.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, queryx.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.UserId != "" {
-		opts = append(opts, query.WithCondition("user_id = ?", in.UserId))
+		opts = append(opts, queryx.WithCondition("user_id = ?", in.UserId))
 	}
 
 	if in.TerminalId != "" {
-		opts = append(opts, query.WithCondition("terminal_id = ?", in.TerminalId))
+		opts = append(opts, queryx.WithCondition("terminal_id = ?", in.TerminalId))
 	}
 
 	if in.PageName != "" {
-		opts = append(opts, query.WithCondition("page like ?", "%"+in.PageName+"%"))
+		opts = append(opts, queryx.WithCondition("page like ?", "%"+in.PageName+"%"))
 	}
 
-	return query.NewQueryBuilder(opts...).Build()
+	return queryx.NewQueryBuilder(opts...).Build()
 }
 
 func convertVisitLogOut(in *model.TVisitLog) (out *syslogrpc.VisitLog) {

@@ -3,8 +3,8 @@ package syslogrpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -27,8 +27,8 @@ func NewAddFileLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddFil
 
 // 创建文件记录
 func (l *AddFileLogLogic) AddFileLog(in *syslogrpc.AddFileLogReq) (*syslogrpc.AddFileLogResp, error) {
-	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
-	tid, _ := rpcutils.GetTerminalIdFromCtx(l.ctx)
+	uid, _ := metax.GetUserIdFromCtx(l.ctx)
+	tid, _ := metax.GetTerminalIdFromCtx(l.ctx)
 
 	entity := &model.TFileLog{
 		Id:         0,

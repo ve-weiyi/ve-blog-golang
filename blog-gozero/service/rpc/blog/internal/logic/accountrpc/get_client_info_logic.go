@@ -6,8 +6,8 @@ import (
 
 	"github.com/mssola/useragent"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/cryptox"
@@ -32,12 +32,12 @@ func NewGetClientInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Get
 
 // 获取客户端信息
 func (l *GetClientInfoLogic) GetClientInfo(in *accountrpc.GetClientInfoReq) (*accountrpc.GetClientInfoResp, error) {
-	ip, err := rpcutils.GetRemoteIPFromCtx(l.ctx)
+	ip, err := metax.GetRemoteIPFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	ua, err := rpcutils.GetRemoteAgentFromCtx(l.ctx)
+	ua, err := metax.GetRemoteAgentFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}

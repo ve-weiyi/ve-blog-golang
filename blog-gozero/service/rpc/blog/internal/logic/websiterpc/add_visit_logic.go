@@ -6,8 +6,8 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/rediskey"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -30,7 +30,7 @@ func NewAddVisitLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddVisit
 
 // 添加用户访问记录
 func (l *AddVisitLogic) AddVisit(in *websiterpc.AddVisitReq) (*websiterpc.AddVisitResp, error) {
-	visitor, _ := rpcutils.GetTerminalIdFromCtx(l.ctx)
+	visitor, _ := metax.GetTerminalIdFromCtx(l.ctx)
 
 	day := time.Now().Format("2006-01-02")
 	_, err := l.addUserVisit(day, visitor)

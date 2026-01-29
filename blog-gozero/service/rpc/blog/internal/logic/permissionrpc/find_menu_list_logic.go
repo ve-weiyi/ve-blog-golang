@@ -5,8 +5,8 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/queryx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 )
@@ -27,17 +27,17 @@ func NewFindMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 分页获取菜单列表
 func (l *FindMenuListLogic) FindMenuList(in *permissionrpc.FindMenuListReq) (*permissionrpc.FindMenuListResp, error) {
-	var opts []query.Option
+	var opts []queryx.Option
 
 	if in.Name != "" {
-		opts = append(opts, query.WithCondition("name like ?", "%"+in.Name+"%"))
+		opts = append(opts, queryx.WithCondition("name like ?", "%"+in.Name+"%"))
 	}
 
 	if in.Title != "" {
-		opts = append(opts, query.WithCondition("title like ?", "%"+in.Title+"%"))
+		opts = append(opts, queryx.WithCondition("title like ?", "%"+in.Title+"%"))
 	}
 
-	_, _, _, conditions, params := query.NewQueryBuilder(opts...).Build()
+	_, _, _, conditions, params := queryx.NewQueryBuilder(opts...).Build()
 
 	result, err := l.svcCtx.TMenuModel.FindALL(l.ctx, conditions, params...)
 	if err != nil {

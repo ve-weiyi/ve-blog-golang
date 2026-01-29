@@ -9,8 +9,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/enums"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/rediskey"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizcode"
@@ -88,7 +88,7 @@ func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.Regist
 }
 
 func (l *RegisterLogic) register(tx *gorm.DB, in *accountrpc.RegisterReq) (out *model.TUser, err error) {
-	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)
+	ip, _ := metax.GetRemoteIPFromCtx(l.ctx)
 	is := ipx.GetIpSourceByBaidu(ip)
 
 	// 邮箱注册

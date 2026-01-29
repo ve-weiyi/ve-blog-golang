@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/jsonconv"
@@ -16,8 +17,19 @@ func ConvertTableToData(table *dbparser.Table) *ModelData {
 	}
 
 	var ufs [][]*ModelField
-	for _, es := range table.UniqueIndex {
-		var u []*ModelField
+	// 先收集所有 key
+	keys := make([]string, 0, len(table.UniqueIndex))
+	for k := range table.UniqueIndex {
+		keys = append(keys, k)
+	}
+
+	// 排序 key
+	sort.Strings(keys)
+
+	// 遍历排序后的 key，直接构建 ufs
+	for _, k := range keys {
+		es := table.UniqueIndex[k]
+		u := make([]*ModelField, 0, len(es))
 		for _, e := range es {
 			u = append(u, ConvertField(e))
 		}

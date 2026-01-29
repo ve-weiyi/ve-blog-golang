@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/queryx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/newsrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -48,31 +48,31 @@ func (l *FindChatListLogic) FindChatList(in *newsrpc.FindChatListReq) (*newsrpc.
 }
 
 func convertChatQuery(in *newsrpc.FindChatListReq) (page int, size int, sorts string, conditions string, params []any) {
-	opts := []query.Option{
-		query.WithPage(1),
-		query.WithSize(int(in.Limit)),
-		query.WithSorts("created_at desc"),
+	opts := []queryx.Option{
+		queryx.WithPage(1),
+		queryx.WithSize(int(in.Limit)),
+		queryx.WithSorts("created_at desc"),
 	}
 
 	if in.After != 0 {
-		opts = append(opts, query.WithCondition("created_at >= ?", time.UnixMilli(in.After)))
+		opts = append(opts, queryx.WithCondition("created_at >= ?", time.UnixMilli(in.After)))
 	}
 
 	if in.Before != 0 {
-		opts = append(opts, query.WithCondition("created_at <= ?", time.UnixMilli(in.Before)))
+		opts = append(opts, queryx.WithCondition("created_at <= ?", time.UnixMilli(in.Before)))
 	}
 
 	if in.UserId != "" {
-		opts = append(opts, query.WithCondition("user_id = ?", in.UserId))
+		opts = append(opts, queryx.WithCondition("user_id = ?", in.UserId))
 	}
 
 	if in.Type != "" {
-		opts = append(opts, query.WithCondition("type = ?", in.Type))
+		opts = append(opts, queryx.WithCondition("type = ?", in.Type))
 	}
 
 	if in.Status != 0 {
-		opts = append(opts, query.WithCondition("status = ?", in.Status))
+		opts = append(opts, queryx.WithCondition("status = ?", in.Status))
 	}
 
-	return query.NewQueryBuilder(opts...).Build()
+	return queryx.NewQueryBuilder(opts...).Build()
 }

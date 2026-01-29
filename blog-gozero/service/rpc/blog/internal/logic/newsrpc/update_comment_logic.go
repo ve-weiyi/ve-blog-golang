@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/newsrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -27,7 +27,7 @@ func NewUpdateCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 
 // 更新评论
 func (l *UpdateCommentLogic) UpdateComment(in *newsrpc.UpdateCommentReq) (*newsrpc.UpdateCommentResp, error) {
-	uid, err := rpcutils.GetUserIdFromCtx(l.ctx)
+	uid, err := metax.GetUserIdFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}

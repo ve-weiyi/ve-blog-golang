@@ -21,8 +21,9 @@ type (
 	}
 
 	ModelField struct {
-		Name    string // 属性名称  Name
-		Type    string // 属性类型  string、int、bool、float、{UpperStartCamelName}
+		Name string // 属性名称  Name
+		Type string // 属性类型  string、int、bool、float、{UpperStartCamelName}
+
 		Tag     string // json tag
 		Comment string // 行尾注释
 	}
@@ -57,7 +58,7 @@ func generateModel(models []*ModelData, tplPath string, outPath string, nameAs s
 						if name != "" {
 							name += ", "
 						}
-						name += fmt.Sprintf("%s %s", v, tp)
+						name += fmt.Sprintf("%s %s", v, extractBaseType(tp))
 					}
 					return name
 				},
@@ -97,4 +98,28 @@ func generateModel(models []*ModelData, tplPath string, outPath string, nameAs s
 	}
 
 	return nil
+}
+
+// extractBaseType 提取基础类型原型
+// sql.NullString -> string
+// sql.NullInt64 -> int64
+// sql.NullTime -> time.Time
+// string -> string (保持不变)
+func extractBaseType(dataType string) string {
+	switch dataType {
+	case "sql.NullString":
+		return "string"
+	case "sql.NullInt64":
+		return "int64"
+	case "sql.NullInt32":
+		return "int32"
+	case "sql.NullFloat64":
+		return "float64"
+	case "sql.NullBool":
+		return "bool"
+	case "sql.NullTime":
+		return "time.Time"
+	default:
+		return dataType
+	}
 }

@@ -3,7 +3,7 @@ package accountrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizcode"
@@ -29,7 +29,7 @@ func NewUpdateUserPasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 
 // 修改用户密码
 func (l *UpdateUserPasswordLogic) UpdateUserPassword(in *accountrpc.UpdateUserPasswordReq) (*accountrpc.UpdateUserPasswordResp, error) {
-	userId, err := rpcutils.GetUserIdFromCtx(l.ctx)
+	userId, err := metax.GetUserIdFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}

@@ -3,8 +3,8 @@ package resourcerpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/queryx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/resourcerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -55,22 +55,22 @@ func (l *FindAlbumListLogic) FindAlbumList(in *resourcerpc.FindAlbumListReq) (*r
 }
 
 func convertAlbumQuery(in *resourcerpc.FindAlbumListReq) (page int, size int, sorts string, conditions string, params []any) {
-	var opts []query.Option
+	var opts []queryx.Option
 	if in.Paginate != nil {
-		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
-		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
-		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+		opts = append(opts, queryx.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, queryx.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, queryx.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.IsDelete >= 0 {
-		opts = append(opts, query.WithCondition("is_delete = ?", in.IsDelete))
+		opts = append(opts, queryx.WithCondition("is_delete = ?", in.IsDelete))
 	}
 
 	if in.AlbumName != "" {
-		opts = append(opts, query.WithCondition("album_name like ?", "%"+in.AlbumName+"%"))
+		opts = append(opts, queryx.WithCondition("album_name like ?", "%"+in.AlbumName+"%"))
 	}
 
-	return query.NewQueryBuilder(opts...).Build()
+	return queryx.NewQueryBuilder(opts...).Build()
 }
 
 func findPhotoCountGroupAlbum(ctx context.Context, svcCtx *svc.ServiceContext, list []*model.TAlbum, isDelete int64) (acm map[int64]int, err error) {

@@ -3,8 +3,8 @@ package newsrpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/queryx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/query"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/newsrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -27,22 +27,22 @@ func NewFindMessageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 
 // 查询留言列表
 func (l *FindMessageListLogic) FindMessageList(in *newsrpc.FindMessageListReq) (*newsrpc.FindMessageListResp, error) {
-	var opts []query.Option
+	var opts []queryx.Option
 	if in.Paginate != nil {
-		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
-		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
-		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+		opts = append(opts, queryx.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, queryx.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, queryx.WithSorts(in.Paginate.Sorts...))
 	}
 
 	if in.UserId != "" {
-		opts = append(opts, query.WithCondition("user_id = ?", in.UserId))
+		opts = append(opts, queryx.WithCondition("user_id = ?", in.UserId))
 	}
 
 	if in.Status >= 0 {
-		opts = append(opts, query.WithCondition("status = ?", in.Status))
+		opts = append(opts, queryx.WithCondition("status = ?", in.Status))
 	}
 
-	page, size, sorts, conditions, params := query.NewQueryBuilder(opts...).Build()
+	page, size, sorts, conditions, params := queryx.NewQueryBuilder(opts...).Build()
 	records, total, err := l.svcCtx.TMessageModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err

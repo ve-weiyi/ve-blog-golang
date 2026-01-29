@@ -13,17 +13,17 @@ type (
 	{{.UpperStartCamelName}}Model interface {
 		TableName() string
 		// 在事务中操作
-		WithTransaction(tx *gorm.DB) (out {{.UpperStartCamelName}}Model)
+		WithTx(tx *gorm.DB) (out {{.UpperStartCamelName}}Model)
 		// 插入
 		Insert(ctx context.Context, in *{{.UpperStartCamelName}}) (rows int64, err error)
-		Inserts(ctx context.Context, in ...*{{.UpperStartCamelName}}) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*{{.UpperStartCamelName}}) (rows int64, err error)
         // 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
-		Deletes(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
+		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
         // 更新
         Update(ctx context.Context, in *{{.UpperStartCamelName}}) (rows int64, err error)
-        Updates(ctx context.Context, columns map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error)
-        // 保存
+        UpdateFields(ctx context.Context, fields map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error)
+        // 保存或更新（更新零值）
         Save(ctx context.Context, in *{{.UpperStartCamelName}}) (rows int64, err error)
 		// 查询
 		FindById(ctx context.Context, id int64) (out *{{.UpperStartCamelName}}, err error)
@@ -63,7 +63,7 @@ func (m *default{{.UpperStartCamelName}}Model) TableName() string {
 }
 
 // 在事务中操作
-func (m *default{{.UpperStartCamelName}}Model) WithTransaction(tx *gorm.DB) (out {{.UpperStartCamelName}}Model) {
+func (m *default{{.UpperStartCamelName}}Model) WithTx(tx *gorm.DB) (out {{.UpperStartCamelName}}Model) {
 	return New{{.UpperStartCamelName}}Model(tx)
 }
 
@@ -80,7 +80,7 @@ func (m *default{{.UpperStartCamelName}}Model) Insert(ctx context.Context, in *{
 }
 
 // 插入记录（批量操作）
-func (m *default{{.UpperStartCamelName}}Model) Inserts(ctx context.Context, in ...*{{.UpperStartCamelName}}) (rows int64, err error) {
+func (m *default{{.UpperStartCamelName}}Model) InsertBatch(ctx context.Context, in ...*{{.UpperStartCamelName}}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -106,7 +106,7 @@ func (m *default{{.UpperStartCamelName}}Model) Delete(ctx context.Context, id in
 }
 
 // 删除记录（批量操作）
-func (m *default{{.UpperStartCamelName}}Model) Deletes(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *default{{.UpperStartCamelName}}Model) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -135,10 +135,10 @@ func (m *default{{.UpperStartCamelName}}Model) Update(ctx context.Context, in *{
 }
 
 // 更新记录（批量操作）
-func (m *default{{.UpperStartCamelName}}Model) Updates(ctx context.Context, columns map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error){
+func (m *default{{.UpperStartCamelName}}Model) UpdateFields(ctx context.Context, feilds map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error){
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	result := db.Where(conditions, args...).Updates(columns)
+	result := db.Where(conditions, args...).Updates(feilds)
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -146,7 +146,7 @@ func (m *default{{.UpperStartCamelName}}Model) Updates(ctx context.Context, colu
 	return result.RowsAffected, err
 }
 
-// 保存记录（更新零值）
+// 保存或更新（更新零值）
 func (m *default{{.UpperStartCamelName}}Model) Save(ctx context.Context, in *{{.UpperStartCamelName}}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 

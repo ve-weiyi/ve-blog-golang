@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/metax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -29,12 +29,12 @@ func NewBindUserOauthLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Bin
 // 修改用户第三方账号
 func (l *BindUserOauthLogic) BindUserOauth(in *accountrpc.BindUserOauthReq) (*accountrpc.BindUserOauthResp, error) {
 	// 查找当前用户是否存在
-	userId, err := rpcutils.GetUserIdFromCtx(l.ctx)
+	userId, err := metax.GetUserIdFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	app, err := rpcutils.GetAppNameFromCtx(l.ctx)
+	app, err := metax.GetAppNameFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}

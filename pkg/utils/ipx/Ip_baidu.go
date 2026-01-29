@@ -37,7 +37,7 @@ type BaiduLocation struct {
 // GetIpSource 获取ip对应的城市地区
 func GetIpInfoByBaidu(ip string) (*BaiduLocation, error) {
 
-	resp, err := http.Get(fmt.Sprintf("http://opendata.baidu.com/api.php?query=" + ip + "&co=&resource_id=6006&oe=utf8"))
+	resp, err := http.Get(fmt.Sprintf("http://opendata.baidu.com/api.php?query=%s&co=&resource_id=6006&oe=utf8", ip))
 	if err != nil {
 		return nil, err
 	}
