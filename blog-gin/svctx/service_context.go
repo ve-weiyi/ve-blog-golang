@@ -11,7 +11,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/config"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/infra/middleware"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/initialize"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/jwtx"
+	"github.com/ve-weiyi/pkg/utils/jwtx"
 )
 
 // 注册需要用到的gorm、redis、model

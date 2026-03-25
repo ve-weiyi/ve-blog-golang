@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/jsonconv"
+	"github.com/ve-weiyi/pkg/utils/jsonconv"
 )
 
 // 把请求参数转换为小写

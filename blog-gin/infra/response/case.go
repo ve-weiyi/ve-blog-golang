@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin/render"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/jsonconv"
+	"github.com/ve-weiyi/pkg/utils/jsonconv"
 )
 
 // json解析忽略大小写

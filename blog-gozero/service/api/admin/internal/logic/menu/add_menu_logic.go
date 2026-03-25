@@ -3,7 +3,7 @@ package menu
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/jsonconv"
+	"github.com/ve-weiyi/pkg/utils/jsonconv"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"

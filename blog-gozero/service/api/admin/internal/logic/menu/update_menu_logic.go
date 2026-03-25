@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/jsonconv"
+	"github.com/ve-weiyi/pkg/utils/jsonconv"
 )
 
 type UpdateMenuLogic struct {

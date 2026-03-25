@@ -4,7 +4,7 @@ import (
 	"log"
 	"testing"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/mail"
+	"github.com/ve-weiyi/pkg/kit/mail"
 )
 
 func Test_Captcha(t *testing.T) {

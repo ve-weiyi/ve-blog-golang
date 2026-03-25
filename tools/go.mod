@@ -1,8 +1,8 @@
 module github.com/ve-weiyi/ve-blog-golang/tools
 
-go 1.24.0
+go 1.25.0
 
-//replace github.com/ve-weiyi/ve-blog-golang/pkg => ../pkg
+//replace github.com/ve-weiyi/pkg => ../pkg
 
 require (
 	github.com/fatih/structtag v1.2.0
@@ -11,7 +11,7 @@ require (
 	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.6
-	github.com/ve-weiyi/ve-blog-golang/pkg v0.0.0-20260109022526-89f14e5d40a2
+	github.com/ve-weiyi/pkg v0.0.0-20260109022526-89f14e5d40a2
 	github.com/zeromicro/go-zero v1.9.4
 	github.com/zeromicro/go-zero/tools/goctl v1.9.2
 	gorm.io/driver/mysql v1.6.0

@@ -5,7 +5,7 @@ import (
 	"path"
 	"time"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/quickstart/gotplgen"
+	"github.com/ve-weiyi/pkg/kit/quickstart/gotplgen"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"

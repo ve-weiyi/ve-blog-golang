@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizheader"
+	"github.com/ve-weiyi/pkg/infra/biz/bizheader"
 
 	"github.com/zeromicro/go-zero/core/logx"
 

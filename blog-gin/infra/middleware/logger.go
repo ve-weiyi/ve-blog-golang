@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/logz"
+	"github.com/ve-weiyi/pkg/kit/logz"
 )
 
 // 接收gin框架默认的日志

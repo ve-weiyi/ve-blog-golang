@@ -7,8 +7,8 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizcode"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizerr"
+	"github.com/ve-weiyi/pkg/infra/biz/bizcode"
+	"github.com/ve-weiyi/pkg/infra/biz/bizerr"
 )
 
 type Body struct {

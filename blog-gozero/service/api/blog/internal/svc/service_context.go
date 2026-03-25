@@ -24,7 +24,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/socialrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/websiterpc"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/oss"
+	"github.com/ve-weiyi/pkg/kit/oss"
 	"github.com/ve-weiyi/ve-blog-golang/stompws/logws"
 	"github.com/ve-weiyi/ve-blog-golang/stompws/server/client"
 )

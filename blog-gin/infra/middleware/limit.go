@@ -8,8 +8,8 @@ import (
 	"github.com/redis/go-redis/v9"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/infra/response"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizcode"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizerr"
+	"github.com/ve-weiyi/pkg/infra/biz/bizcode"
+	"github.com/ve-weiyi/pkg/infra/biz/bizerr"
 )
 
 // 限频

@@ -3,7 +3,7 @@ package socialrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/jsonconv"
+	"github.com/ve-weiyi/pkg/utils/jsonconv"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/socialrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"

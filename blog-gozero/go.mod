@@ -1,9 +1,9 @@
 module github.com/ve-weiyi/ve-blog-golang/blog-gozero
 
-go 1.24.0
+go 1.25.0
 
 //replace (
-//	github.com/ve-weiyi/ve-blog-golang/pkg => ../pkg
+//	github.com/ve-weiyi/pkg => ../pkg
 //	github.com/ve-weiyi/ve-blog-golang/stompws => ../stompws
 //)
 
@@ -20,7 +20,7 @@ require (
 	github.com/redis/go-redis/v9 v9.17.2
 	github.com/spf13/cast v1.10.0
 	github.com/stretchr/testify v1.11.1
-	github.com/ve-weiyi/ve-blog-golang/pkg v0.0.0-20260109022526-89f14e5d40a2
+	github.com/ve-weiyi/pkg v0.0.0-20260109022526-89f14e5d40a2
 	github.com/ve-weiyi/ve-blog-golang/stompws v0.0.0-20260109022526-89f14e5d40a2
 	github.com/zeromicro/go-zero v1.9.4
 	go.opentelemetry.io/otel/sdk v1.39.0

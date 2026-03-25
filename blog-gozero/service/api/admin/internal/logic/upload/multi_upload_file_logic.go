@@ -11,8 +11,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/oss"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/cryptox"
+	"github.com/ve-weiyi/pkg/kit/oss"
+	"github.com/ve-weiyi/pkg/utils/cryptox"
 )
 
 type MultiUploadFileLogic struct {

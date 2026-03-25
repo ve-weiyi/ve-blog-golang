@@ -7,7 +7,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/jwtx"
+	"github.com/ve-weiyi/pkg/utils/jwtx"
 )
 
 // JwtTokenManager JWT Token 管理器实现，支持单设备登录

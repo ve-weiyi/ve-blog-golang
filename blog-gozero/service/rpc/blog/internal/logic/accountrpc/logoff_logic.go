@@ -7,8 +7,8 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizcode"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizerr"
+	"github.com/ve-weiyi/pkg/infra/biz/bizcode"
+	"github.com/ve-weiyi/pkg/infra/biz/bizerr"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

@@ -12,9 +12,9 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/infra/response"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizcode"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizerr"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/logz"
+	"github.com/ve-weiyi/pkg/infra/biz/bizcode"
+	"github.com/ve-weiyi/pkg/infra/biz/bizerr"
+	"github.com/ve-weiyi/pkg/kit/logz"
 )
 
 // GinRecovery recover掉项目可能出现的panic，并使用zap记录相关日志

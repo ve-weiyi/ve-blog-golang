@@ -20,9 +20,9 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/online"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/config"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/captcha"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/mail"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/mq/rabbitmqx"
+	"github.com/ve-weiyi/pkg/kit/captcha"
+	"github.com/ve-weiyi/pkg/kit/mail"
+	"github.com/ve-weiyi/pkg/kit/mq/rabbitmqx"
 )
 
 type ServiceContext struct {
@@ -52,10 +52,10 @@ type ServiceContext struct {
 	TArticleTagModel model.TArticleTagModel
 
 	// message models
-	TChatModel          model.TChatModel
-	TCommentModel       model.TCommentModel
-	TMessageModel       model.TMessageModel
-	TSystemNoticeModel  model.TSystemNoticeModel
+	TChatModel         model.TChatModel
+	TCommentModel      model.TCommentModel
+	TMessageModel      model.TMessageModel
+	TSystemNoticeModel model.TSystemNoticeModel
 
 	// website models
 	TWebsiteConfigModel   model.TWebsiteConfigModel

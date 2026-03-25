@@ -6,7 +6,7 @@ import (
 
 	"google.golang.org/grpc/metadata"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizheader"
+	"github.com/ve-weiyi/pkg/infra/biz/bizheader"
 )
 
 // 用户id

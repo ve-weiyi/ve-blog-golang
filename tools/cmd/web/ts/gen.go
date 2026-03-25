@@ -7,8 +7,8 @@ import (
 	"path"
 	"strings"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/quickstart/gotplgen"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/jsonconv"
+	"github.com/ve-weiyi/pkg/kit/quickstart/gotplgen"
+	"github.com/ve-weiyi/pkg/utils/jsonconv"
 )
 
 type TsApiService struct {

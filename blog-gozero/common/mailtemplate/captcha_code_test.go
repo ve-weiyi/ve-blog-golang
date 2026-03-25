@@ -4,7 +4,7 @@ import (
 	_ "embed"
 	"testing"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/quickstart/gotplgen"
+	"github.com/ve-weiyi/pkg/kit/quickstart/gotplgen"
 )
 
 func Test_Mail(t *testing.T) {

@@ -9,7 +9,7 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizheader"
+	"github.com/ve-weiyi/pkg/infra/biz/bizheader"
 )
 
 type CtxMetaMiddleware struct {

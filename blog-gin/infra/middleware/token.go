@@ -9,11 +9,11 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/infra/response"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizcode"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizerr"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizheader"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/cryptox"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/jwtx"
+	"github.com/ve-weiyi/pkg/infra/biz/bizcode"
+	"github.com/ve-weiyi/pkg/infra/biz/bizerr"
+	"github.com/ve-weiyi/pkg/infra/biz/bizheader"
+	"github.com/ve-weiyi/pkg/utils/cryptox"
+	"github.com/ve-weiyi/pkg/utils/jwtx"
 )
 
 // 未登录token

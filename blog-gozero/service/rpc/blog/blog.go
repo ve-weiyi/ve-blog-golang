@@ -34,7 +34,7 @@ import (
 	syslogrpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/syslogrpc"
 	websiterpcServer "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/server/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/nacos"
+	"github.com/ve-weiyi/pkg/kit/nacos"
 )
 
 var (

@@ -9,7 +9,7 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizerr"
+	"github.com/ve-weiyi/pkg/infra/biz/bizerr"
 )
 
 type Body struct {

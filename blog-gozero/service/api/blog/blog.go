@@ -7,7 +7,7 @@ import (
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/nacos"
+	"github.com/ve-weiyi/pkg/kit/nacos"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/config"

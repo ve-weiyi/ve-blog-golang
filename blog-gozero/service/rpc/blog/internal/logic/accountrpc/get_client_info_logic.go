@@ -10,8 +10,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/cryptox"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/ipx"
+	"github.com/ve-weiyi/pkg/utils/cryptox"
+	"github.com/ve-weiyi/pkg/utils/ipx"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

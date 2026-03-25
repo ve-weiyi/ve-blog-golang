@@ -5,9 +5,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizcode"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizerr"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizheader"
+	"github.com/ve-weiyi/pkg/infra/biz/bizcode"
+	"github.com/ve-weiyi/pkg/infra/biz/bizerr"
+	"github.com/ve-weiyi/pkg/infra/biz/bizheader"
 )
 
 // 请求上下文,一般存放请求头参数

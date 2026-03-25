@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/staticx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/docs"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/plugins/knife4j"
+	"github.com/ve-weiyi/pkg/plugins/knife4j"
 )
 
 func RegisterPluginHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {

@@ -10,9 +10,9 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/staticx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/docs"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/plugins/ai"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/plugins/music"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/plugins/swagger"
+	"github.com/ve-weiyi/pkg/plugins/ai"
+	"github.com/ve-weiyi/pkg/plugins/music"
+	"github.com/ve-weiyi/pkg/plugins/swagger"
 )
 
 func RegisterPluginHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {

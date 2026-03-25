@@ -8,11 +8,11 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizcode"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/infra/biz/bizerr"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/mail"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/patternx"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/tempx"
+	"github.com/ve-weiyi/pkg/infra/biz/bizcode"
+	"github.com/ve-weiyi/pkg/infra/biz/bizerr"
+	"github.com/ve-weiyi/pkg/kit/mail"
+	"github.com/ve-weiyi/pkg/utils/patternx"
+	"github.com/ve-weiyi/pkg/utils/tempx"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

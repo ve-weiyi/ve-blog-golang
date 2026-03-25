@@ -12,8 +12,8 @@ import (
 
 	"github.com/zeromicro/go-zero/tools/goctl/pkg/golang"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/quickstart/gotplgen"
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/jsonconv"
+	"github.com/ve-weiyi/pkg/kit/quickstart/gotplgen"
+	"github.com/ve-weiyi/pkg/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/tools/parserx/apiparser/aspec"
 )
 
