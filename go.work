@@ -4,8 +4,6 @@ use (
 	./tools
 	blog-gin
 	blog-gozero
-	pkg
-	stompws
 )
 
 // 初始化工作区

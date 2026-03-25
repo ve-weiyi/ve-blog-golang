@@ -4,7 +4,7 @@ go 1.25.0
 
 //replace (
 //	github.com/ve-weiyi/pkg => ../pkg
-//	github.com/ve-weiyi/ve-blog-golang/stompws => ../stompws
+//	github.com/ve-weiyi/stompws => ../stompws
 //)
 
 require (
@@ -21,7 +21,7 @@ require (
 	github.com/spf13/cast v1.10.0
 	github.com/stretchr/testify v1.11.1
 	github.com/ve-weiyi/pkg v0.0.0-20260109022526-89f14e5d40a2
-	github.com/ve-weiyi/ve-blog-golang/stompws v0.0.0-20260109022526-89f14e5d40a2
+	github.com/ve-weiyi/stompws v0.0.0-20260109022526-89f14e5d40a2
 	github.com/zeromicro/go-zero v1.9.4
 	go.opentelemetry.io/otel/sdk v1.39.0
 	go.opentelemetry.io/otel/trace v1.39.0

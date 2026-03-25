@@ -6,7 +6,7 @@ import (
 	"github.com/go-stomp/stomp/v3/frame"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/infra/tokenx"
-	"github.com/ve-weiyi/ve-blog-golang/stompws/server/client"
+	"github.com/ve-weiyi/stompws/server/client"
 )
 
 type JwtAuthenticator struct {

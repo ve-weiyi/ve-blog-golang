@@ -15,7 +15,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/newsrpc"
 	"github.com/ve-weiyi/pkg/utils/ipx"
 	"github.com/ve-weiyi/pkg/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/stompws/server/client"
+	"github.com/ve-weiyi/stompws/server/client"
 )
 
 type ChatRoomEventHook struct {
