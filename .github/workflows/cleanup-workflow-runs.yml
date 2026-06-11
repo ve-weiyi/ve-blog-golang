@@ -1,0 +1,54 @@
+name: Cleanup Workflow Runs
+
+on:
+  workflow_dispatch:
+    inputs:
+      status:
+        description: 'Status to clean (failure, cancelled, skipped, or all)'
+        required: false
+        default: 'failure'
+        type: choice
+        options:
+          - failure
+          - cancelled
+          - skipped
+          - all
+      days:
+        description: 'Delete runs older than (days, 0 = all)'
+        required: false
+        default: '0'
+        type: string
+      keep_minimum_runs:
+        description: 'Minimum number of runs to keep'
+        required: false
+        default: '0'
+        type: string
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  cleanup:
+    name: Cleanup ${{ github.event.inputs.status || 'failure' }} Runs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cleanup workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          retain_days: ${{ github.event.inputs.days || '0' }}
+          keep_minimum_runs: ${{ github.event.inputs.keep_minimum_runs || '0' }}
+          delete_workflow_by_state_pattern: ${{ github.event.inputs.status == 'all' && '' || github.event.inputs.status || 'failure' }}
+
+      - name: Generate summary
+        run: |
+          echo "## Cleanup Summary :broom:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Status Filter:** \`${{ github.event.inputs.status || 'failure' }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Retention Days:** \`${{ github.event.inputs.days || '0' }} days\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Minimum Kept:** \`${{ github.event.inputs.keep_minimum_runs || '0' }} runs\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Cleanup completed successfully" >> $GITHUB_STEP_SUMMARY

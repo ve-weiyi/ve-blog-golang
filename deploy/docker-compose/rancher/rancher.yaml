@@ -1,0 +1,57 @@
+# 定义网络（避免和k8s网络冲突）
+networks:
+  rancher-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16  # 避开k8s默认的10.96.0.0/12和10.244.0.0/16网段
+
+# 定义数据卷（持久化Rancher数据，防止重启丢失）
+volumes:
+  rancher-data:
+    driver: local
+
+services:
+  rancher:
+    # 使用资源占用低且稳定的v2.9.2版本
+    image: rancher/rancher:v2.9.2
+    container_name: rancher
+    restart: unless-stopped  # 异常退出自动重启
+    networks:
+      - rancher-net
+    volumes:
+      # 持久化Rancher核心数据
+      - rancher-data:/var/lib/rancher
+      # 挂载宿主机Docker套接字（可选，用于管理宿主机Docker）
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      # 80端口转发到443（Rancher自动重定向HTTP到HTTPS）
+      - "10080:80"
+      # Rancher核心HTTPS端口（避免和k8s冲突，k8s默认6443，这里用443）
+      - "10443:443"
+    # 资源限制（适配单服务器跑Docker+k8s的场景，低资源占用）
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'    # 限制最多使用0.5核CPU
+          memory: 1024M  # 限制最多使用1GB内存
+        reservations:
+          cpus: '0.2'    # 预留0.2核CPU
+          memory: 512M   # 预留512MB内存（最低运行要求）
+    # 环境变量配置（优化Rancher运行）
+    environment:
+      # 初始密码
+      - CATTLE_BOOTSTRAP_PASSWORD=rancher
+      # 禁用自动更新（避免版本冲突）
+      - CATTLE_SYSTEM_UPDATE_AVAILABLE=false
+      # 时区和宿主机一致（避免日志时间错乱）
+      - TZ=Asia/Shanghai
+      # 降低日志级别，减少资源消耗
+      - LOG_LEVEL=info
+    # 健康检查（自动检测Rancher是否正常运行）
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://localhost/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s  # 启动后60秒再开始健康检查

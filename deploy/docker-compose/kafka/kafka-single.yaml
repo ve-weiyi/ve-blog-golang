@@ -1,0 +1,73 @@
+volumes:
+  kafka_single_data:
+    driver: local
+
+networks:
+  kafka-network:
+    driver: bridge
+    name: kafka-network
+
+services:
+  # 单节点 Kafka (KRaft 模式，最小资源)
+  kafka-single:
+    image: bitnami/kafka:3.8.1
+    container_name: kafka-single
+    ports:
+      - "9092:9092"  # 仅暴露外部访问端口，精简多余端口
+    environment:
+      # KRaft 核心配置（单节点无需集群投票）
+      - KAFKA_ENABLE_KRAFT=yes
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka-single:9093  # 仅自身节点
+      - KAFKA_KRAFT_CLUSTER_ID=7VIMbIghSXClDAAA5EMuHg  # 集群ID可复用，也可自行生成
+      # Listeners 精简：仅保留必要的监听（内部通信+外部访问）
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      # 集群相关配置（单节点适配）
+      - KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR=1  # 单节点只能设为1
+      - KAFKA_CFG_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+      - KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR=1
+      # 最小资源配置：JVM堆内存降到256M（测试环境极限值）
+      - KAFKA_HEAP_OPTS=-Xms256m -Xmx256m
+      # 基础配置
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+    volumes:
+      - kafka_single_data:/bitnami/kafka
+    networks:
+      - kafka-network
+    # 资源限制：CPU/内存硬限制，避免占用过多主机资源
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'    # 限制最多使用0.5核CPU
+          memory: 512M   # 容器总内存限制512M（包含JVM+系统缓存）
+
+  # 可选：轻量 Kafka-UI（方便可视化管理，也可移除）
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    ports:
+      - "9080:8080"
+    restart: always
+    environment:
+      - DYNAMIC_CONFIG_ENABLED=true
+      # 关闭认证（简化使用，测试环境无需密码）
+      - AUTH_TYPE=NONE
+      # 集群配置
+      - KAFKA_CLUSTERS_0_NAME=kafka-single
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka-single:9092
+      # 移除不必要的 connect/schema registry 配置
+    depends_on:
+      - kafka-single
+    networks:
+      - kafka-network
+    # UI 资源限制
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 256M

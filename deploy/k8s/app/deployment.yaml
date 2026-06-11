@@ -1,0 +1,340 @@
+# ============================================================
+# GitHub Container Registry Secret
+# ============================================================
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ghcr-secret
+  namespace: blog
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: eyJhdXRocyI6eyJnaGNyLmlvIjp7InVzZXJuYW1lIjoidmUtd2VpeWkiLCJwYXNzd29yZCI6ImdocF9ZbWI5Z0dnQTNUUDlHenVXRUhsOGhjbkJRMWgwNloxS1kzUlgiLCJlbWFpbCI6InZlLXdlaXlpQGV4YW1wbGUuY29tIiwiYXV0aCI6ImRtVXRkMlZwZVdrNloyaHdYMWx0WWpsblIyZEJNMVJRT1VkNmRWZEZTR3c0YUdOdVFsRXhhREEyV2pGTFdUTlNXQT09In1fQ==
+---
+# ============================================================
+# Nacos Configuration
+# ============================================================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nacos-config
+  namespace: blog
+data:
+  NACOS_HOST: "veweiyi.cn"
+  NACOS_PORT: "8848"
+  NACOS_USERNAME: "nacos"
+  NACOS_PASSWORD: "nacos"
+  NACOS_NAMESPACE: "prod"
+  NACOS_GROUP: "veweiyi"
+---
+
+# ============================================================
+# blog-app-rpc
+# ============================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-app-rpc
+  namespace: blog
+  labels:
+    app: blog-app-rpc
+spec:
+  replicas: 1 # Pod 副本数
+  revisionHistoryLimit: 5 # 保留的历史版本数，用于回滚
+  selector:
+    matchLabels:
+      app: blog-app-rpc
+  template:
+    metadata:
+      labels:
+        app: blog-app-rpc
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: blog-app-rpc
+          image: ghcr.io/ve-weiyi/blog-app-rpc:latest
+          ports:
+            - containerPort: 9120
+          envFrom:
+            - configMapRef:
+                name: nacos-config
+          command: ["./server"]
+          args:
+            - "-nacos-host=$(NACOS_HOST)"
+            - "-nacos-port=$(NACOS_PORT)"
+            - "-nacos-username=$(NACOS_USERNAME)"
+            - "-nacos-password=$(NACOS_PASSWORD)"
+            - "-nacos-namespace=$(NACOS_NAMESPACE)"
+            - "-nacos-group=$(NACOS_GROUP)"
+            - "-nacos-data-id=blog-app-rpc"
+          # 就绪探针：Pod 就绪后才接收流量
+          readinessProbe:
+            tcpSocket:
+              port: 9120
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          # 存活探针：探测失败则重启容器
+          livenessProbe:
+            tcpSocket:
+              port: 9120
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          # 资源限制：requests 用于调度，limits 防止资源滥用
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: runtime
+              mountPath: /app/runtime
+            - name: timezone
+              mountPath: /etc/localtime
+      volumes:
+        - name: runtime
+          emptyDir: {}
+        - name: timezone
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Shanghai
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-app-rpc
+  namespace: blog
+spec:
+  selector:
+    app: blog-app-rpc
+  ports:
+    - port: 9120
+      targetPort: 9120
+---
+# ============================================================
+# blog-admin-api
+# ============================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-admin-api
+  namespace: blog
+  labels:
+    app: blog-admin-api
+spec:
+  replicas: 1 # Pod 副本数
+  revisionHistoryLimit: 5 # 保留的历史版本数，用于回滚
+  selector:
+    matchLabels:
+      app: blog-admin-api
+  template:
+    metadata:
+      labels:
+        app: blog-admin-api
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: blog-admin-api
+          image: ghcr.io/ve-weiyi/blog-admin-api:latest
+          ports:
+            - containerPort: 9421
+              hostPort: 9421
+          envFrom:
+            - configMapRef:
+                name: nacos-config
+          command: ["./server"]
+          args:
+            - "-nacos-host=$(NACOS_HOST)"
+            - "-nacos-port=$(NACOS_PORT)"
+            - "-nacos-username=$(NACOS_USERNAME)"
+            - "-nacos-password=$(NACOS_PASSWORD)"
+            - "-nacos-namespace=$(NACOS_NAMESPACE)"
+            - "-nacos-group=$(NACOS_GROUP)"
+            - "-nacos-data-id=blog-admin-api"
+          # 就绪探针：Pod 就绪后才接收流量
+          readinessProbe:
+            tcpSocket:
+              port: 9421
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          # 存活探针：探测失败则重启容器
+          livenessProbe:
+            tcpSocket:
+              port: 9421
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          # 资源限制：requests 用于调度，limits 防止资源滥用
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+          volumeMounts:
+            - name: runtime
+              mountPath: /app/runtime
+            - name: timezone
+              mountPath: /etc/localtime
+      volumes:
+        - name: runtime
+          emptyDir: {}
+        - name: timezone
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Shanghai
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-admin-api
+  namespace: blog
+spec:
+  selector:
+    app: blog-admin-api
+  ports:
+    - port: 9421
+      targetPort: 9421
+---
+# HPA：根据 CPU 和内存负载自动扩缩容
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: blog-admin-api-hpa
+  namespace: blog
+  labels:
+    app: blog-admin-api-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: blog-admin-api
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+---
+# ============================================================
+# blog-app-api
+# ============================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-app-api
+  namespace: blog
+  labels:
+    app: blog-app-api
+spec:
+  replicas: 1 # Pod 副本数
+  revisionHistoryLimit: 5 # 保留的历史版本数，用于回滚
+  selector:
+    matchLabels:
+      app: blog-app-api
+  template:
+    metadata:
+      labels:
+        app: blog-app-api
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: blog-app-api
+          image: ghcr.io/ve-weiyi/blog-app-api:latest
+          ports:
+            - containerPort: 9420
+              hostPort: 9420
+          envFrom:
+            - configMapRef:
+                name: nacos-config
+          command: ["./server"]
+          args:
+            - "-nacos-host=$(NACOS_HOST)"
+            - "-nacos-port=$(NACOS_PORT)"
+            - "-nacos-username=$(NACOS_USERNAME)"
+            - "-nacos-password=$(NACOS_PASSWORD)"
+            - "-nacos-namespace=$(NACOS_NAMESPACE)"
+            - "-nacos-group=$(NACOS_GROUP)"
+            - "-nacos-data-id=blog-app-api"
+          # 就绪探针：Pod 就绪后才接收流量
+          readinessProbe:
+            tcpSocket:
+              port: 9420
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          # 存活探针：探测失败则重启容器
+          livenessProbe:
+            tcpSocket:
+              port: 9420
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          # 资源限制：requests 用于调度，limits 防止资源滥用
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+          volumeMounts:
+            - name: runtime
+              mountPath: /app/runtime
+            - name: timezone
+              mountPath: /etc/localtime
+      volumes:
+        - name: runtime
+          emptyDir: {}
+        - name: timezone
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Shanghai
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-app-api
+  namespace: blog
+spec:
+  selector:
+    app: blog-app-api
+  ports:
+    - port: 9420
+      targetPort: 9420
+---
+# HPA：根据 CPU 和内存负载自动扩缩容
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: blog-app-api-hpa
+  namespace: blog
+  labels:
+    app: blog-app-api-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: blog-app-api
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80

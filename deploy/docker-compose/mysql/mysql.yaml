@@ -1,0 +1,20 @@
+volumes:
+  mysql:
+
+services:
+  mysql:
+    image: mysql:8.0.34       # 如果您是 arm64 架构：如 MacOS 的 M1，请修改镜像为 image: mysql/mysql-server:8.0.21
+    container_name: mysql-server
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 'mysql7914'
+      MYSQL_USER: 'veweiyi'
+      MYSQL_PASSWORD: 'mysql7914'
+      TZ: 'Asia/Shanghai'
+    volumes:
+      - mysql:/var/lib/mysql
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci

@@ -1,0 +1,78 @@
+# ============================================================
+# Ingress：app.veweiyi.cn
+#   /api  → blog-app-api:9420
+#   /     → blog-app-web:80
+# ============================================================
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: blog-app-ingress
+  namespace: blog
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - app.veweiyi.cn
+    secretName: blog-app-tls
+  rules:
+  - host: app.veweiyi.cn
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: blog-app-api
+            port:
+              number: 9420
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: blog-app-web
+            port:
+              number: 80
+---
+# ============================================================
+# Ingress：admin.veweiyi.cn
+#   /api  → blog-admin-api:9421
+#   /     → blog-admin-web:80
+# ============================================================
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: blog-admin-ingress
+  namespace: blog
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - admin.veweiyi.cn
+    secretName: blog-admin-tls
+  rules:
+  - host: admin.veweiyi.cn
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: blog-admin-api
+            port:
+              number: 9421
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: blog-admin-web
+            port:
+              number: 80

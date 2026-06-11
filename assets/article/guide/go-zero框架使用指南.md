@@ -79,7 +79,7 @@ goctl api validate -api blog.api
 goctl api ts -api blog.api -dir ../ts
 
 # 生成 Dockerfile
-goctl docker --go service/rpc/blog/blog.go --exe blog
+goctl docker --go service/app/rpc/blog.go --exe blog
 ```
 
 ## API 文件语法

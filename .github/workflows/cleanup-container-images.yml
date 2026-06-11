@@ -1,0 +1,73 @@
+name: Cleanup Container Images
+
+on:
+  workflow_dispatch:
+    inputs:
+      packages:
+        description: 'Packages to clean (comma-separated or "all")'
+        required: false
+        default: 'all'
+        type: string
+      keep_count:
+        description: 'Number of recent versions to keep'
+        required: false
+        default: '5'
+        type: string
+      dry_run:
+        description: 'Dry run (preview only, no deletion)'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  packages: write
+  contents: read
+
+jobs:
+  prepare:
+    name: Prepare Package List
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+    steps:
+      - name: Set package matrix
+        id: set-matrix
+        run: |
+          INPUT="${{ github.event.inputs.packages }}"
+          if [ "$INPUT" = "all" ] || [ -z "$INPUT" ]; then
+            MATRIX_JSON='[{"package":"blog-app-rpc"},{"package":"blog-app-api"},{"package":"blog-admin-api"}]'
+          else
+            MATRIX_JSON=$(echo "$INPUT" | jq -R -c 'split(",") | map(select(length > 0) | {package: .})')
+          fi
+          echo "matrix=${MATRIX_JSON}" >> $GITHUB_OUTPUT
+          echo "Package matrix: ${MATRIX_JSON}"
+
+  cleanup:
+    name: Cleanup ${{ matrix.package }}
+    runs-on: ubuntu-latest
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.prepare.outputs.matrix) }}
+
+    steps:
+      - name: Delete old container images
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ matrix.package }}
+          package-type: 'container'
+          min-versions-to-keep: ${{ github.event.inputs.keep_count || '5' }}
+          delete-only-untagged-versions: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate summary
+        run: |
+          echo "## Cleanup Summary - ${{ matrix.package }} :package:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Package:** \`${{ matrix.package }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Versions Kept:** \`${{ github.event.inputs.keep_count || '5' }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Dry Run:** \`${{ github.event.inputs.dry_run || 'false' }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Cleanup completed successfully" >> $GITHUB_STEP_SUMMARY

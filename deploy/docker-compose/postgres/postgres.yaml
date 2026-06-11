@@ -1,0 +1,17 @@
+volumes:
+  postgres:
+
+services:
+  postgres:
+    # 关键：使用官方带 pgvector 的镜像，自动支持向量功能
+    image: pgvector/pgvector:pg17
+    container_name: postgres-server
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+      TZ: 'Asia/Shanghai'
+    volumes:
+      - postgres:/var/lib/postgresql/data

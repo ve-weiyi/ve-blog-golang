@@ -1,0 +1,20 @@
+---
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: local-path-storage
+
+---
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: logging
+
+---
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: blog

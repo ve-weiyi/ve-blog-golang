@@ -1,0 +1,79 @@
+services:
+  app-rpc:
+    build:
+      context: ../../..
+      dockerfile: deploy/docker/Dockerfile
+      args:
+        SERVICE_TYPE: rpc
+        SERVICE_NAME: app
+    env_file:
+      - .env      # 应用配置
+    environment:
+      - TZ=Asia/Shanghai
+    restart: unless-stopped
+    volumes:
+      - ./runtime:/app/rpc/runtime
+    command: [
+      "./server",
+      "-nacos-host", "${NACOS_HOST}",
+      "-nacos-port", "${NACOS_PORT}",
+      "-nacos-username", "${NACOS_USERNAME}",
+      "-nacos-password", "${NACOS_PASSWORD}",
+      "-nacos-namespace", "${NACOS_NAMESPACE}",
+      "-nacos-group", "${NACOS_GROUP}",
+      "-nacos-data-id", "app-rpc"
+    ]
+
+  app-api:
+    build:
+      context: ../../..
+      dockerfile: deploy/docker/Dockerfile
+      args:
+        SERVICE_TYPE: api
+        SERVICE_NAME: app
+    env_file:
+      - .env      # 应用配置
+    ports:
+      - "9420:9420"
+    environment:
+      - TZ=Asia/Shanghai
+    restart: unless-stopped
+    volumes:
+      - ./runtime:/app/api/runtime
+    command: [
+      "./server",
+      "-nacos-host", "${NACOS_HOST}",
+      "-nacos-port", "${NACOS_PORT}",
+      "-nacos-username", "${NACOS_USERNAME}",
+      "-nacos-password", "${NACOS_PASSWORD}",
+      "-nacos-namespace", "${NACOS_NAMESPACE}",
+      "-nacos-group", "${NACOS_GROUP}",
+      "-nacos-data-id", "app-api"
+    ]
+
+  admin-api:
+    build:
+      context: ../../..
+      dockerfile: deploy/docker/Dockerfile
+      args:
+        SERVICE_TYPE: api
+        SERVICE_NAME: admin
+    env_file:
+      - .env      # 应用配置
+    ports:
+      - "9421:9421"
+    environment:
+      - TZ=Asia/Shanghai
+    restart: unless-stopped
+    volumes:
+      - ./runtime:/app/runtime
+    command: [
+      "./server",
+      "-nacos-host", "${NACOS_HOST}",
+      "-nacos-port", "${NACOS_PORT}",
+      "-nacos-username", "${NACOS_USERNAME}",
+      "-nacos-password", "${NACOS_PASSWORD}",
+      "-nacos-namespace", "${NACOS_NAMESPACE}",
+      "-nacos-group", "${NACOS_GROUP}",
+      "-nacos-data-id", "admin-api"
+    ]

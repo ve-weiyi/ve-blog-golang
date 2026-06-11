@@ -1,0 +1,16 @@
+volumes:
+  rabbitmq:
+
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq-server
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=veweiyi
+      - RABBITMQ_DEFAULT_PASS=rabbitmq7914
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq

@@ -1,0 +1,26 @@
+
+# 5. Ingress（nacos.veweiyi.cn 访问Nacos控制台）
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nacos-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - nacos.veweiyi.cn
+      secretName: blog-tls
+  rules:
+    - host: nacos.veweiyi.cn
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nacos
+                port:
+                  number: 8080
